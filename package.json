@@ -1,0 +1,79 @@
+{
+  "name": "svg-eslint-parser",
+  "type": "module",
+  "version": "0.0.0",
+  "packageManager": "pnpm@9.15.2",
+  "description": "An SVG parser that produces output compatible with ESLint.",
+  "keywords": [
+    "eslint-parser",
+    "parser",
+    "svg"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "ntnyq",
+    "email": "ntnyq13@gmail.com"
+  },
+  "homepage": "https://github.com/ntnyq/svg-eslint-parser#readme",
+  "repository": "ntnyq/svg-eslint-parser",
+  "bugs": {
+    "url": "https://github.com/ntnyq/svg-eslint-parser/issues"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "coverage": "vitest --coverage",
+    "dev": "tsup --watch src",
+    "lint": "eslint .",
+    "prepare": "husky",
+    "prepublishOnly": "pnpm run build",
+    "release": "run-s release:check release:publish",
+    "release:check": "run-s lint typecheck test",
+    "release:publish": "bumpp && pnpm publish",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ntnyq/utils": "^0.4.2",
+    "eslint-visitor-keys": "^4.2.0"
+  },
+  "devDependencies": {
+    "@ntnyq/eslint-config": "^3.10.4",
+    "@ntnyq/prettier-config": "^1.22.0",
+    "@vitest/coverage-v8": "^3.0.0-beta.3",
+    "bumpp": "^9.9.2",
+    "eslint": "^9.17.0",
+    "husky": "^9.1.7",
+    "nano-staged": "^0.8.0",
+    "npm-run-all2": "^7.0.2",
+    "prettier": "^3.4.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^3.0.0-beta.3"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "nano-staged": {
+    "*.{js,ts,mjs,cjs,json,md,yml,yaml}": "eslint --fix"
+  }
+}
