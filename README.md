@@ -6,10 +6,11 @@
 [![CODECOV](https://codecov.io/github/ntnyq/svg-eslint-parser/branch/main/graph/badge.svg)](https://codecov.io/github/ntnyq/svg-eslint-parser)
 [![LICENSE](https://img.shields.io/github/license/ntnyq/svg-eslint-parser.svg)](https://github.com/ntnyq/svg-eslint-parser/blob/main/LICENSE)
 
-> An SVG parser that produces output compatible with ESLint.
+> :package: An SVG parser that produces output compatible with ESLint.
 
 > [!IMPORTANT]
 > Status: Work In Progress, not ready for production.
+>
 > Api may change every release, Use at your own risk.
 
 ## Install
@@ -32,7 +33,7 @@ pnpm add svg-eslint-parser -D
 
 ## Credits
 
-- Forked from [yeonjuan/es-html-parser](https://github.com/yeonjuan/es-html-parser).
+- Based on [yeonjuan/es-html-parser](https://github.com/yeonjuan/es-html-parser).
 
 ## License
 
