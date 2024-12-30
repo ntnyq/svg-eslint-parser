@@ -28,10 +28,14 @@
     "lcov",
     "mpath",
     "pnpm",
+    "shikijs",
     "tspan",
+    "unplugin",
     "vite",
+    "vitepress",
     "vitest",
     "vkern",
+    "vueuse",
     "yeonjuan"
   ],
   "cSpell.allowCompoundWords": true

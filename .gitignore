@@ -9,4 +9,6 @@ dist
 coverage
 lib-cov
 
+**/.vitepress/cache
+
 *.tsbuildinfo

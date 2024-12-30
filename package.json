@@ -42,7 +42,10 @@
   "scripts": {
     "build": "tsup",
     "coverage": "vitest --coverage",
+    "deploy": "run-s build docs:build",
     "dev": "tsup --watch src",
+    "docs:build": "pnpm -C docs run build",
+    "docs:dev": "pnpm -C docs run dev",
     "lint": "eslint .",
     "prepare": "husky",
     "prepublishOnly": "pnpm run build",
@@ -74,6 +77,6 @@
     "node": ">=18.18.0"
   },
   "nano-staged": {
-    "*.{js,ts,mjs,cjs,json,md,yml,yaml}": "eslint --fix"
+    "*.{js,ts,mjs,cjs,vue,json,md,yml,yaml}": "eslint --fix"
   }
 }

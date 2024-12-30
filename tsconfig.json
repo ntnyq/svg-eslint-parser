@@ -9,5 +9,14 @@
     "esModuleInterop": true,
     "strict": true,
     "skipLibCheck": true
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "docs/**/*.ts",
+    "docs/**/*.vue",
+    "tests/**/*.ts",
+    "scripts/**/*.ts",
+    "./*.config.ts",
+    "./*.config.mjs"
+  ]
 }
