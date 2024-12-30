@@ -1,4 +1,4 @@
-import { TokenizerContextTypes, TokenTypes } from '../../constants'
+import { SPECIAL_CHAR, TokenizerContextTypes, TokenTypes } from '../../constants'
 import { calculateTokenPosition, isWhitespace } from '../../utils'
 import type { AnyToken, TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
@@ -10,7 +10,7 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
     return parseWhitespace(state)
   }
 
-  if (value === '>') {
+  if (value === SPECIAL_CHAR.closingCorner) {
     return parseClosingCornerBrace(state)
   }
 

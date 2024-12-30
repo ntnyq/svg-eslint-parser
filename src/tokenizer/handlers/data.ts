@@ -1,6 +1,7 @@
 import {
   COMMENT_START,
   RE_OPEN_TAG_START,
+  SPECIAL_CHAR,
   TokenizerContextTypes,
   TokenTypes,
 } from '../../constants'
@@ -19,7 +20,7 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
     return parseOpeningCornerBraceWithSlash(state)
   }
 
-  if (value === '<' || value === '<!' || value === '<!-') {
+  if (value === SPECIAL_CHAR.openingCorner || value === '<!' || value === '<!-') {
     return state.sourceCode.next()
   }
 

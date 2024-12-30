@@ -1,14 +1,16 @@
-import { TokenizerContextTypes, TokenTypes } from '../../constants'
+import { SPECIAL_CHAR, TokenizerContextTypes, TokenTypes } from '../../constants'
 import { calculateTokenPosition, isWhitespace, parseOpenTagName } from '../../utils'
 import type { TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
 export function parse(chars: CharsBuffer, state: TokenizerState) {
-  if (chars.value() === '>' || chars.value() === '/') {
+  const value = chars.value()
+
+  if (value === SPECIAL_CHAR.closingCorner || value === SPECIAL_CHAR.slash) {
     return parseTagEnd(state)
   }
 
-  if (isWhitespace(chars.value())) {
+  if (isWhitespace(value)) {
     return parseWhitespace(state)
   }
 

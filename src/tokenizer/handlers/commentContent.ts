@@ -1,4 +1,4 @@
-import { COMMENT_END, TokenizerContextTypes, TokenTypes } from '../../constants'
+import { COMMENT_END, SPECIAL_CHAR, TokenizerContextTypes, TokenTypes } from '../../constants'
 import { calculateTokenPosition } from '../../utils'
 import type { Range, TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
@@ -6,7 +6,7 @@ import type { CharsBuffer } from '../charsBuffer'
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
 
-  if (value === '-' || value === '--') {
+  if (value === SPECIAL_CHAR.hyphen || value === '--') {
     return state.sourceCode.next()
   }
 

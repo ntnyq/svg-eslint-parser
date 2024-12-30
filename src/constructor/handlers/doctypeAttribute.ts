@@ -1,5 +1,5 @@
 import { TokenTypes } from '../../constants'
-import { cloneRange, createNodeFrom, last, updateNodeEnd } from '../../utils'
+import { cloneRange, createNodeFrom, getLastAttribute, updateNodeEnd } from '../../utils'
 import type {
   AnyToken,
   ConstructTreeState,
@@ -29,11 +29,6 @@ export function construct(token: AnyToken, state: ConstructTreeState<ContextualD
   state.caretPosition++
 
   return state
-}
-
-function getLastAttribute(state: ConstructTreeState<ContextualDoctypeNode>) {
-  const attributes = state.currentNode.attributes
-  return last(attributes)
 }
 
 function handleDoctypeClose(state: ConstructTreeState<ContextualDoctypeNode>) {

@@ -1,0 +1,17 @@
+export const SPECIAL_CHAR = {
+  closingCorner: `>`,
+  colon: `:`,
+  comma: `,`,
+  doubleQuote: `"`,
+  equal: `=`,
+  exclamation: `!`,
+  hyphen: `-`,
+  newline: `\n`,
+  openingCorner: `<`,
+  question: `?`,
+  return: `\r`,
+  singleQuote: `'`,
+  slash: `/`,
+  space: ` `,
+  tab: `\t`,
+}

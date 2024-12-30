@@ -1,5 +1,11 @@
 import { TokenTypes } from '../../constants'
-import { cloneLocation, cloneRange, createNodeFrom, last, updateNodeEnd } from '../../utils'
+import {
+  cloneLocation,
+  cloneRange,
+  createNodeFrom,
+  getLastAttribute,
+  updateNodeEnd,
+} from '../../utils'
 import type {
   AnyToken,
   AttributeValueNode,
@@ -36,11 +42,6 @@ export function construct(token: AnyToken, state: ConstructTreeState<ContextualT
   state.caretPosition++
 
   return state
-}
-
-function getLastAttribute(state: ConstructTreeState<ContextualTagNode>) {
-  const attributes = state.currentNode.attributes
-  return last(attributes)
 }
 
 function handleValueEnd(state: ConstructTreeState<ContextualTagNode>) {
