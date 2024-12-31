@@ -3,34 +3,28 @@
 }
 
 .panel {
-  display: flex;
-  flex-direction: row;
-  font-size: 2rem;
+  --at-apply: "flex flex-row text-2rem";
 }
 
 .panel-row,
 .panel-column {
-  display: flex;
+  --at-apply: "flex";
 }
 
 .panel-row {
-  flex-direction: row;
+  --at-apply: "flex-row";
 }
 
 .panel-column {
-  flex-direction: column;
+  --at-apply: "flex-col";
 }
 
 .panel-resize-handle {
-  --resize-border-color: #fff;
+  --resize-border-color: var(--vp-c-bg);
   --resize-background-color: var(--vp-c-divider);
 
   flex: 0 0 11px;
   background-clip: padding-box;
-  display: flex;
-  justify-content: stretch;
-  align-items: stretch;
-  outline: none;
   transition:
     border-color 0.2s linear,
     background-color 0.2s linear;
@@ -38,6 +32,8 @@
   border-color: var(--resize-border-color);
   border-style: solid;
   border-width: 0 5px;
+
+  --at-apply: "flex outline-none justify-stretch items-stretch";
 }
 
 .panel-resize-handle[data-panel-group-direction="vertical"] {

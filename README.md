@@ -11,7 +11,7 @@
 > [!IMPORTANT]
 > Status: Work In Progress, not ready for production.
 >
-> Api may change every release, Use at your own risk.
+> API is not stale now, Use at your own risk.
 
 ## Install
 
@@ -26,6 +26,12 @@ yarn add svg-eslint-parser -D
 ```bash
 pnpm add svg-eslint-parser -D
 ```
+
+## Playground
+
+You can try the parser in [playground](https://svg-eslint-parser.ntnyq.com/play).
+
+Feel free to open an issue if you have any suggestions or find any bugs.
 
 ## Links
 

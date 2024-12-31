@@ -5,7 +5,7 @@ import { Panel, PanelGroup, PanelResizeHandle } from 'vue-resizable-panels'
 </script>
 
 <template>
-  <div class="page-playground-core relative p-4">
+  <div class="page-playground-core relative px-4">
     <ClientOnly>
       <PanelGroup
         direction="horizontal"

@@ -1,24 +1,25 @@
 #package_status {
-  position: relative;
+  --at-apply: "relative";
 }
 
 #package_status p {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 0;
+  --at-apply: "mb-0 flex relative flex-wrap gap-2";
 }
 
+/* reset max-width in playground page */
 .page-playground .VPNavBar.top .container {
-  max-width: unset;
+  --at-apply: "max-w-unset";
 }
 
+/* hide search in playground page */
+.page-playground .VPNavBarSearch {
+  --at-apply: "hidden";
+}
+
+/* set height for playground core */
 @media screen and (min-width: 960px) {
   .page-playground .page-playground-core {
-    height: calc(100vh - var(--vp-nav-height));
-    /* max-width: calc(var(--vp-layout-max-width) - 64px);
-    margin: 0 auto; */
+    --at-apply: "h-[calc(100vh-var(--vp-nav-height))]";
   }
 }
 

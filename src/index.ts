@@ -11,8 +11,13 @@ export function parseSVG(code: string, options: Options = {}) {
 export const name = meta.name
 export const VisitorKeys = visitorKeys
 
+export const parse = parseSVG
+
 export { meta }
 export { ParseError }
 export { parseForESLint }
 
 export type { AST }
+
+export * from './types'
+export * from './constants'
