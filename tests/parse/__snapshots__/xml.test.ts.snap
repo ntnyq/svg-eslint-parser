@@ -1,0 +1,81 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`should parse 1`] = `
+{
+  "body": [
+    {
+      "children": [
+        {
+          "loc": {
+            "end": {
+              "column": 54,
+              "line": 1,
+            },
+            "start": {
+              "column": 0,
+              "line": 1,
+            },
+          },
+          "range": [
+            0,
+            54,
+          ],
+          "type": "Text",
+          "value": "<?xml version="1.0" encoding="UTF-8" standalone="no"?>",
+        },
+      ],
+      "loc": {
+        "end": {
+          "column": 54,
+          "line": 1,
+        },
+        "start": {
+          "column": 0,
+          "line": 1,
+        },
+      },
+      "range": [
+        0,
+        54,
+      ],
+      "type": "Document",
+    },
+  ],
+  "comments": [],
+  "loc": {
+    "end": {
+      "column": 54,
+      "line": 1,
+    },
+    "start": {
+      "column": 0,
+      "line": 1,
+    },
+  },
+  "range": [
+    0,
+    54,
+  ],
+  "tokens": [
+    {
+      "loc": {
+        "end": {
+          "column": 54,
+          "line": 1,
+        },
+        "start": {
+          "column": 0,
+          "line": 1,
+        },
+      },
+      "range": [
+        0,
+        54,
+      ],
+      "type": "Text",
+      "value": "<?xml version="1.0" encoding="UTF-8" standalone="no"?>",
+    },
+  ],
+  "type": "Program",
+}
+`;

@@ -3,11 +3,12 @@ export enum NodeTypes {
   Document = 'Document',
   Text = 'Text',
 
+  XMLDeclaration = 'XMLDeclaration',
+
   Doctype = 'Doctype',
   DoctypeOpen = 'DoctypeOpen',
   DoctypeClose = 'DoctypeClose',
   DoctypeAttribute = 'DoctypeAttribute',
-  DoctypeAttributeKey = 'DoctypeAttributeKey',
   DoctypeAttributeValue = 'DoctypeAttributeValue',
   DoctypeAttributeWrapperEnd = 'DoctypeAttributeWrapperEnd',
   DoctypeAttributeWrapperStart = 'DoctypeAttributeWrapperStart',

@@ -8,11 +8,12 @@ const keys: {
   Program: ['body'],
   Document: ['children'],
 
+  XMLDeclaration: [],
+
   Doctype: ['open', 'close', 'attributes'],
   DoctypeOpen: [],
   DoctypeClose: [],
   DoctypeAttribute: ['key'],
-  DoctypeAttributeKey: [],
   DoctypeAttributeValue: [],
   DoctypeAttributeWrapperEnd: [],
   DoctypeAttributeWrapperStart: [],

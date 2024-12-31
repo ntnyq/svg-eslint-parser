@@ -42,9 +42,7 @@ export type CommentOpenNode = SimpleNode<NodeTypes.CommentOpen>
 /**
  * doctype
  */
-export type DoctypeAttributeKeyNode = SimpleNode<NodeTypes.DoctypeAttributeKey>
 export interface DoctypeAttributeNode extends BaseNode {
-  key: DoctypeAttributeKeyNode
   type: NodeTypes.DoctypeAttribute
   endWrapper?: DoctypeAttributeWrapperEndNode
   startWrapper?: DoctypeAttributeWrapperStartNode
@@ -67,6 +65,14 @@ export interface DocumentNode extends BaseNode {
   type: NodeTypes.Document
 }
 export type TextNode = SimpleNode<NodeTypes.Text>
+
+export interface XMLDeclarationNode extends BaseNode {
+  /**
+   * TODO: create XMLDeclarationAttributeNode
+   */
+  attributes: AttributeNode[]
+  type: NodeTypes.XMLDeclaration
+}
 
 /**
  * tag
@@ -98,7 +104,7 @@ export interface Program extends BaseNode {
 /**
  * nestable node
  */
-export type NestableNode = CommentNode | TagNode | TextNode
+export type NestableNode = CommentNode | TagNode | TextNode | XMLDeclarationNode
 
 /**
  * any node
@@ -114,7 +120,6 @@ export type AnyNode =
   | CommentContentNode
   | CommentNode
   | CommentOpenNode
-  | DoctypeAttributeKeyNode
   | DoctypeAttributeNode
   | DoctypeAttributeValueNode
   | DoctypeAttributeWrapperEndNode
@@ -128,3 +133,4 @@ export type AnyNode =
   | Program
   | TagNode
   | TextNode
+  | XMLDeclarationNode

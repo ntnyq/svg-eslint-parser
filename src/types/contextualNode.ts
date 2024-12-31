@@ -20,7 +20,7 @@ export type ContextualAttributeNode = ContextualNode<AttributeNode, 'key' | 'val
 
 export type ContextualCommentNode = ContextualNode<CommentNode, 'close' | 'open' | 'value'>
 
-export type ContextualDoctypeAttributeNode = ContextualNode<DoctypeAttributeNode, 'key' | 'value'>
+export type ContextualDoctypeAttributeNode = ContextualNode<DoctypeAttributeNode, 'value'>
 
 export type ContextualDoctypeNode = ContextualNode<DoctypeNode, 'close' | 'open'> & {
   attributes: ContextualDoctypeAttributeNode[]
