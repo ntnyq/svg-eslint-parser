@@ -1,7 +1,7 @@
 {
   "name": "svg-eslint-parser",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "packageManager": "pnpm@9.15.2",
   "description": "An SVG parser that produces output compatible with ESLint.",
   "keywords": [
