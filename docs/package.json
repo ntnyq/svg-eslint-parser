@@ -6,7 +6,22 @@
     "build": "vitepress build .",
     "dev": "vitepress dev ."
   },
+  "dependencies": {
+    "@codemirror/lang-xml": "^6.1.0",
+    "@codemirror/language": "^6.10.8",
+    "@codemirror/state": "^6.5.0",
+    "@codemirror/view": "^6.36.1",
+    "@lezer/highlight": "^1.2.1",
+    "@ntnyq/utils": "^0.4.2",
+    "@uiw/codemirror-themes": "^4.23.7",
+    "@vueuse/core": "^12.2.0",
+    "codemirror": "^6.0.1",
+    "svg-eslint-parser": "workspace:*",
+    "vue-codemirror": "^6.1.1",
+    "vue-resizable-panels": "^0.0.1"
+  },
   "devDependencies": {
+    "@codemirror/lang-json": "^6.0.1",
     "@shikijs/transformers": "^1.24.4",
     "@shikijs/vitepress-twoslash": "^1.24.4",
     "twoslash": "^0.2.12",

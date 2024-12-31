@@ -10,6 +10,18 @@
   margin-bottom: 0;
 }
 
+.page-playground .VPNavBar.top .container {
+  max-width: unset;
+}
+
+@media screen and (min-width: 960px) {
+  .page-playground .page-playground-core {
+    height: calc(100vh - var(--vp-nav-height));
+    /* max-width: calc(var(--vp-layout-max-width) - 64px);
+    margin: 0 auto; */
+  }
+}
+
 /* dark/light radial transition */
 ::view-transition-old(root),
 ::view-transition-new(root) {

@@ -76,6 +76,11 @@
   "engines": {
     "node": ">=18.18.0"
   },
+  "pnpm": {
+    "patchedDependencies": {
+      "vue-resizable-panels": "patches/vue-resizable-panels.patch"
+    }
+  },
   "nano-staged": {
     "*.{js,ts,mjs,cjs,vue,json,md,yml,yaml}": "eslint --fix"
   }

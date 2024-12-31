@@ -26,6 +26,7 @@
     "codecov",
     "hkern",
     "lcov",
+    "lezer",
     "mpath",
     "pnpm",
     "shikijs",
