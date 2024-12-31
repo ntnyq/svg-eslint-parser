@@ -18,6 +18,10 @@ export function usePlaygroundState() {
     }
   })
 
+  function setCode(newCode: string) {
+    code.value = newCode
+  }
+
   watchEffect(() => {
     ast.value = parseForESLint(code.value)
   })
@@ -26,6 +30,7 @@ export function usePlaygroundState() {
     code,
     ast,
     astJson,
+    setCode,
   }
 }
 

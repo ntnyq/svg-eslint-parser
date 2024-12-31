@@ -1,3 +1,10 @@
+.v-codemirror {
+  --at-apply: "h-full block!";
+}
+.v-codemirror .cm-editor {
+  --at-apply: "h-full";
+}
+
 .panel-group {
   border-top: 1px solid var(--vp-c-divider);
 }

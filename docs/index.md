@@ -11,6 +11,9 @@ hero:
     - theme: brand
       text: Get Started
       link: /guide/
+    - theme: alt
+      text: Playground
+      link: /play/
 ---
 
 <div id="package_status">
@@ -27,7 +30,11 @@ hero:
 
 See [Guide](./guide/index.md).
 
-## :book: Release Note
+## :recycle: Playground
+
+See [Playground](./play/index.md).
+
+## :paperclip: Releases
 
 See [Releases](https://github.com/ntnyq/svg-eslint-parser/releases).
 

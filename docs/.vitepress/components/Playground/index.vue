@@ -25,6 +25,8 @@ import { Panel, PanelGroup, PanelResizeHandle } from 'vue-resizable-panels'
           <OutputContainer />
         </Panel>
       </PanelGroup>
+
+      <DropZone />
     </ClientOnly>
   </div>
 </template>

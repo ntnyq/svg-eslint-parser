@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AstContainer: typeof import('./.vitepress/components/Playground/AstContainer.vue')['default']
     CodeContainer: typeof import('./.vitepress/components/Playground/CodeContainer.vue')['default']
+    DropZone: typeof import('./.vitepress/components/DropZone.vue')['default']
     Editor: typeof import('./.vitepress/components/Editor/index.vue')['default']
     InputContainer: typeof import('./.vitepress/components/Playground/InputContainer.vue')['default']
     OutputContainer: typeof import('./.vitepress/components/Playground/OutputContainer.vue')['default']

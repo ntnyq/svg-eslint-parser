@@ -47,7 +47,7 @@ const resolvedExtensions = computed(() => {
 </script>
 
 <template>
-  <div class="relative editor-container of-y-auto h-full min-w-0 flex-1">
+  <div class="relative h-full min-w-0 flex-1">
     <Codemirror
       v-model="code"
       :extensions="resolvedExtensions"
