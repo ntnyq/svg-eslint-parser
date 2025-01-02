@@ -35,6 +35,7 @@ export function parseForESLint(source: string, options: Options = {}): ParseForE
   return {
     ast: programNode,
     visitorKeys,
+    scopeManager: null,
     services: {
       isSVG: true,
     },
