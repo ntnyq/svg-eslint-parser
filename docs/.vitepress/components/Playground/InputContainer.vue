@@ -1,7 +1,37 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { shallowRef } from 'vue'
+import { useSharedPlaygroundState } from '../../composables/playground'
+import { InputTab } from '../../constants'
+import { ITabItem } from '../ui/tabs'
+
+const { activeInputTab, setActiveInputTab } = useSharedPlaygroundState()
+
+const inputTabOptions = shallowRef<ITabItem[]>([
+  {
+    name: InputTab.Code,
+    title: 'Code',
+  },
+  {
+    name: InputTab.Preview,
+    title: 'Preview',
+  },
+])
+
+function handleTabsChanage(tabName: string) {
+  setActiveInputTab(tabName as InputTab)
+}
+</script>
 
 <template>
-  <div class="w-full h-full relative">
-    <CodeContainer />
+  <div class="w-full h-full flex gap-2 flex-col relative">
+    <Tabs
+      @change="handleTabsChanage"
+      class="flex-none"
+      :options="inputTabOptions"
+    />
+    <div class="h-[calc(100%-60px)]">
+      <CodeContainer v-if="activeInputTab === InputTab.Code" />
+      <PreviewContainer v-else-if="activeInputTab === InputTab.Preview" />
+    </div>
   </div>
 </template>

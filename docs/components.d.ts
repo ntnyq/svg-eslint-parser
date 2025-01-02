@@ -7,12 +7,18 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ActionContainer: typeof import('./.vitepress/components/Playground/ActionContainer.vue')['default']
     AstContainer: typeof import('./.vitepress/components/Playground/AstContainer.vue')['default']
     CodeContainer: typeof import('./.vitepress/components/Playground/CodeContainer.vue')['default']
     DropZone: typeof import('./.vitepress/components/DropZone.vue')['default']
     Editor: typeof import('./.vitepress/components/Editor/index.vue')['default']
     InputContainer: typeof import('./.vitepress/components/Playground/InputContainer.vue')['default']
+    JsonContainer: typeof import('./.vitepress/components/Playground/JsonContainer.vue')['default']
     OutputContainer: typeof import('./.vitepress/components/Playground/OutputContainer.vue')['default']
     Playground: typeof import('./.vitepress/components/Playground/index.vue')['default']
+    PreviewContainer: typeof import('./.vitepress/components/Playground/PreviewContainer.vue')['default']
+    TabItem: typeof import('./.vitepress/components/ui/TabItem.vue')['default']
+    Tabs: typeof import('./.vitepress/components/ui/Tabs.vue')['default']
+    TreeContainer: typeof import('./.vitepress/components/Playground/TreeContainer.vue')['default']
   }
 }

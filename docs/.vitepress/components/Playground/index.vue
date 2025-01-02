@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import './style.css'
-import OutputContainer from './OutputContainer.vue'
 import { Panel, PanelGroup, PanelResizeHandle } from 'vue-resizable-panels'
 </script>
 
@@ -23,6 +22,16 @@ import { Panel, PanelGroup, PanelResizeHandle } from 'vue-resizable-panels'
           class="panel-column"
         >
           <OutputContainer />
+        </Panel>
+        <PanelResizeHandle class="panel-resize-handle" />
+        <Panel
+          collapsible
+          :min-size="12"
+          :max-size="24"
+          :default-size="18"
+          class="panel-column"
+        >
+          <ActionContainer />
         </Panel>
       </PanelGroup>
 
