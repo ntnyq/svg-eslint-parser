@@ -16,10 +16,10 @@ export function getThemeConfig() {
       },
     },
 
-    // logo: {
-    //   light: '/logo-light.svg',
-    //   dark: '/logo-dark.svg',
-    // },
+    logo: {
+      light: '/logo.svg',
+      dark: '/logo.svg',
+    },
 
     editLink: {
       text: 'Suggest changes to this page',
@@ -35,6 +35,7 @@ export function getThemeConfig() {
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide/' },
+      { text: 'API', link: '/api/' },
       { text: 'Playground', link: '/play/' },
       {
         text: `v${version}`,
@@ -50,6 +51,12 @@ export function getThemeConfig() {
             { text: 'Home', link: '/' },
             { text: 'Guide', link: '/guide/' },
           ],
+        },
+      ],
+      '/api/': [
+        {
+          text: 'API',
+          items: [{ text: 'AST', link: '/api/ast' }],
         },
       ],
     },
