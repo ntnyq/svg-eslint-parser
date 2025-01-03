@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import { useFileDialog } from '@vueuse/core'
 import { VPButton } from 'vitepress/theme'
 import { useSharedPlaygroundState } from '../../composables/playground'
-import { useFileDialog } from '@vueuse/core'
 
 const {
   open: openFileDialog,

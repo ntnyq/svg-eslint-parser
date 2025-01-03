@@ -2,8 +2,8 @@
 import { shallowRef } from 'vue'
 import { useSharedPlaygroundState } from '../../composables/playground'
 import { OutputTab } from '../../constants'
-import { ITabItem } from '../ui/tabs'
 import JsonContainer from './JsonContainer.vue'
+import type { ITabItem } from '../ui/tabs'
 
 const { activeOutputTab, setActiveOutputTab } = useSharedPlaygroundState()
 
@@ -27,8 +27,9 @@ function handleTabsChanage(tabName: string) {
   <div class="w-full h-full flex gap-2 flex-col relative">
     <Tabs
       @change="handleTabsChanage"
-      class="flex-none"
+      v-model="activeOutputTab"
       :options="outputTabOptions"
+      class="flex-none"
     />
     <div class="h-[calc(100%-60px)]">
       <JsonContainer v-if="activeOutputTab === OutputTab.Json" />

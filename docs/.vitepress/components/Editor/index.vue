@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import { useData } from 'vitepress/client'
 import { computed } from 'vue'
 import { Codemirror } from 'vue-codemirror'
-import { useData } from 'vitepress/client'
-import { githubDark, githubLight } from './theme'
 import { languages, type SupportLanguage } from './language'
+import { githubDark, githubLight } from './theme'
 import type { Extension } from '@codemirror/state'
 
 const props = withDefaults(

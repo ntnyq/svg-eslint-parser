@@ -22,7 +22,7 @@ export function usePlaygroundState() {
       return ''
     }
   })
-  const astTree = computed(() => ({}))
+  const astTree = computed(() => ast.value?.ast)
 
   function setCode(newCode: string | null) {
     code.value = newCode

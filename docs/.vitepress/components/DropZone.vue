@@ -45,7 +45,7 @@ async function onImportFile(files?: FileList | null) {
   const fileContent = await file.text()
 
   if (fileExt !== 'svg') {
-    return console.log('Expected SVG file, but got ' + fileExt)
+    return console.log(`Expected SVG file, but got ${fileExt}`)
   }
 
   if (!fileContent.trim().length) {

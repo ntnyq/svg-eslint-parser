@@ -11,25 +11,25 @@ import { Panel, PanelGroup, PanelResizeHandle } from 'vue-resizable-panels'
         class="panel-group"
       >
         <Panel
-          collapsible
           class="panel-column"
+          collapsible
         >
           <InputContainer />
         </Panel>
         <PanelResizeHandle class="panel-resize-handle" />
         <Panel
-          collapsible
           class="panel-column"
+          collapsible
         >
           <OutputContainer />
         </Panel>
         <PanelResizeHandle class="panel-resize-handle" />
         <Panel
-          collapsible
           :min-size="12"
           :max-size="24"
           :default-size="18"
           class="panel-column"
+          collapsible
         >
           <ActionContainer />
         </Panel>

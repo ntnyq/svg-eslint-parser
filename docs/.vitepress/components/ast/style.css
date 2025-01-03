@@ -1,0 +1,136 @@
+:root {
+  --ast-token-color: #393a34;
+  --ast-token-background: #f6f8fa;
+  --ast-token-border: var(--vp-c-divider);
+  --ast-token-color-comment: #008000;
+  --ast-token-color-doctype: #008000;
+  --ast-token-color-string: #a31515;
+  --ast-token-color-operator: #393a34;
+  --ast-token-color-symbol: #277c7b;
+  --ast-token-color-number: #098658;
+  --ast-token-color-keyword: #00f;
+  --ast-token-color-function: #2b74b1;
+  --ast-token-color-function-variable: #000;
+  --ast-token-color-important: #e90;
+  --ast-token-color-class-name: #237690;
+  --ast-token-color-selector: #800000;
+  --ast-token-color-regexp: #800000;
+  --ast-token-color-property: #c70000;
+  --ast-token-color-builtin: #00f;
+  --ast-token-color-boolean: #00f;
+  --ast-token-color-inserted: #247e81;
+  --ast-token-color-deleted: #d73a49;
+  --ast-token-color-unchanged: #727272;
+  --ast-token-color-highlight: rgb(193 222 241 / 20%);
+}
+
+.dark {
+  --ast-token-color: #f8f8f2;
+  --ast-token-background: var(--vp-c-bg-alt);
+  --ast-token-border: #414458;
+  --ast-token-color-comment: #9e9e9e;
+  --ast-token-color-doctype: #6a9955;
+  --ast-token-color-string: #78a861;
+  --ast-token-color-operator: #d4d4d4;
+  --ast-token-color-symbol: #b5cea8;
+  --ast-token-color-number: #b5cea8;
+  --ast-token-color-keyword: #569cd6;
+  --ast-token-color-function: #98b6ce;
+  --ast-token-color-function-variable: #f8f8f2;
+  --ast-token-color-important: #569cd6;
+  --ast-token-color-class-name: #4ec9b0;
+  --ast-token-color-selector: #d7ba7d;
+  --ast-token-color-regexp: #d7ba7d;
+  --ast-token-color-property: #ce9178;
+  --ast-token-color-builtin: #569cd6;
+  --ast-token-color-boolean: #569cd6;
+  --ast-token-color-inserted: #50fa7b;
+  --ast-token-color-deleted: #f55;
+  --ast-token-color-unchanged: #a6a6a6;
+  --ast-token-color-highlight: rgb(247 235 198 / 20%);
+}
+
+.ast-list {
+  --at-apply: "bg-transparent border-none text-16px p-0 lh-24px font-mono [&_*]:align-top min-w-full";
+}
+
+.ast-list,
+.ast-sub-list {
+  --at-apply: "box-border m-0 pl-6 w-max";
+}
+
+.ast-node,
+.ast-node-expandable {
+  --at-apply: "w-max border-0 border-l border-dashed border-$ast-token-border";
+}
+
+.ast-node.ast-node-expandable::before {
+  content: "+";
+}
+
+.ast-node::before {
+  content: "-";
+  --at-apply: "-ml-4 w-4 inline-block";
+}
+
+.ast-node-selected {
+  --at-apply: "bg-$ast-token-background";
+}
+
+.ast-label {
+  --at-apply: "";
+}
+
+.ast-prop-number,
+.ast-prop-empty,
+.ast-prop-regexp,
+.ast-prop-class,
+.ast-prop-boolean,
+.ast-prop-error,
+.ast-prop-string {
+  --at-apply: "inline-block max-w-600px break-all pre-wrap break-word";
+}
+
+.ast-prop-name {
+  --at-apply: "text-$ast-token-color-property";
+}
+
+.ast-prop-number {
+  --at-apply: "text-$ast-token-color-number";
+}
+
+.ast-prop-empty {
+  --at-apply: "text-$ast-token-color-comment";
+}
+
+.ast-prop-regexp {
+  --at-apply: "text-$ast-token-color-regexp";
+}
+
+.ast-prop-class {
+  --at-apply: "text-$ast-token-color-class-name";
+}
+
+.ast-prop-error {
+  --at-apply: "text-$ast-token-color-error";
+}
+
+.ast-prop-string {
+  --at-apply: "text-$ast-token-color-string";
+}
+
+.ast-token-name {
+  --at-apply: "text-$ast-token-color-class-name";
+}
+
+.ast-value-body {
+  --at-apply: "max-w-300px w-fit";
+}
+
+.ast-prop-ellipsis {
+  --at-apply: "";
+}
+
+.ast-hidden {
+  --at-apply: "text-$ast-token-color-comment max-w-200px of-hidden inline-block truncate align-bottom";
+}

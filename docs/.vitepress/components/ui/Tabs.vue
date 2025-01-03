@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onMounted } from 'vue'
-import { ITabItem } from './tabs'
+import type { ITabItem } from './tabs'
 
 const props = withDefaults(
   defineProps<{
@@ -22,6 +22,9 @@ function handleItemClick(item: ITabItem) {
 }
 
 onMounted(() => {
+  if (activeItem.value) {
+    return
+  }
   if (props.options.length) {
     activeItem.value = props.options[0].name
   }
@@ -38,8 +41,8 @@ onMounted(() => {
       v-for="item in options"
       :key="item.name"
       :item="item"
-      role="tab"
       :is-active="activeItem === item.name"
+      role="tab"
     />
   </div>
 </template>
