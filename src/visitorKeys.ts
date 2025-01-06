@@ -9,18 +9,19 @@ const keys: {
   Document: ['children'],
 
   XMLDeclaration: [],
+  XMLDeclarationAttribute: ['key', 'value'],
 
   Doctype: ['open', 'close', 'attributes'],
   DoctypeOpen: [],
   DoctypeClose: [],
-  DoctypeAttribute: ['key'],
-  DoctypeAttributeValue: [],
+  DoctypeAttribute: ['key', 'value'],
+  DoctypeAttributeValue: ['value'],
   DoctypeAttributeWrapperEnd: [],
   DoctypeAttributeWrapperStart: [],
 
   Attribute: ['key', 'value'],
-  AttributeKey: [],
-  AttributeValue: [],
+  AttributeKey: ['value'],
+  AttributeValue: ['value'],
   AttributeValueWrapperEnd: [],
   AttributeValueWrapperStart: [],
 
@@ -34,6 +35,7 @@ const keys: {
   CommentClose: [],
   CommentContent: [],
 
+  Literal: [],
   Text: [],
 }
 

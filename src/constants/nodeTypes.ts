@@ -2,8 +2,10 @@ export enum NodeTypes {
   Program = 'Program',
   Document = 'Document',
   Text = 'Text',
+  Literal = 'Literal',
 
   XMLDeclaration = 'XMLDeclaration',
+  XMLDeclarationAttribute = 'XMLDeclarationAttribute',
 
   Doctype = 'Doctype',
   DoctypeOpen = 'DoctypeOpen',
