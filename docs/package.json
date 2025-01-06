@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.2.5",
-    "@iconify-json/lucide": "^1.2.20",
+    "@iconify-json/lucide": "^1.2.21",
     "@shikijs/transformers": "^1.26.1",
     "@shikijs/vitepress-twoslash": "^1.26.1",
     "twoslash": "^0.2.12",

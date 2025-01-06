@@ -12,15 +12,37 @@ export interface SimpleNode<T extends NodeTypes> extends BaseNode {
 }
 
 /**
+ * literal node
+ */
+export type LiteralNode = SimpleNode<NodeTypes.Literal> & {
+  raw: string
+}
+
+/**
+ * XML declaration
+ */
+export interface XMLDeclarationAttributeNode extends BaseNode {
+  key: LiteralNode
+  type: NodeTypes.XMLDeclarationAttribute
+  value: LiteralNode
+}
+export interface XMLDeclarationNode extends BaseNode {
+  attributes: XMLDeclarationAttributeNode[]
+  close: LiteralNode
+  open: LiteralNode
+  type: NodeTypes.XMLDeclaration
+}
+
+/**
  * attribute
  */
 export type AttributeKeyNode = SimpleNode<NodeTypes.AttributeKey>
 export interface AttributeNode extends BaseNode {
   key: AttributeKeyNode
   type: NodeTypes.Attribute
+  value: AttributeValueNode
   endWrapper?: AttributeValueWrapperEndNode
   startWrapper?: AttributeValueWrapperStartNode
-  value?: AttributeValueNode
 }
 export type AttributeValueNode = SimpleNode<NodeTypes.AttributeValue>
 export type AttributeValueWrapperEndNode = SimpleNode<NodeTypes.AttributeValueWrapperEnd>
@@ -65,14 +87,6 @@ export interface DocumentNode extends BaseNode {
   type: NodeTypes.Document
 }
 export type TextNode = SimpleNode<NodeTypes.Text>
-
-export interface XMLDeclarationNode extends BaseNode {
-  /**
-   * TODO: create XMLDeclarationAttributeNode
-   */
-  attributes: AttributeNode[]
-  type: NodeTypes.XMLDeclaration
-}
 
 /**
  * tag
@@ -128,9 +142,11 @@ export type AnyNode =
   | DoctypeNode
   | DoctypeOpenNode
   | DocumentNode
+  | LiteralNode
   | OpenTagEndNode
   | OpenTagStartNode
   | Program
   | TagNode
   | TextNode
+  | XMLDeclarationAttributeNode
   | XMLDeclarationNode
