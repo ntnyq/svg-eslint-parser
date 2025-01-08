@@ -12,26 +12,29 @@ export interface SimpleNode<T extends NodeTypes> extends BaseNode {
 }
 
 /**
- * literal node
+ * xml declaration
  */
-export type LiteralNode = SimpleNode<NodeTypes.Literal> & {
-  raw: string
-}
-
-/**
- * XML declaration
- */
+export type XMLDeclarationAttributeKeyNode = SimpleNode<NodeTypes.XMLDeclarationAttributeKey>
 export interface XMLDeclarationAttributeNode extends BaseNode {
-  key: LiteralNode
+  key: XMLDeclarationAttributeKeyNode
   type: NodeTypes.XMLDeclarationAttribute
-  value: LiteralNode
+  value: XMLDeclarationAttributeValueNode
+  endWrapper?: XMLDeclarationAttributeValueWrapperEndNode
+  startWrapper?: XMLDeclarationAttributeValueWrapperStartNode
 }
+export type XMLDeclarationAttributeValueNode = SimpleNode<NodeTypes.XMLDeclarationAttributeValue>
+export type XMLDeclarationAttributeValueWrapperEndNode =
+  SimpleNode<NodeTypes.XMLDeclarationAttributeValueWrapperEnd>
+export type XMLDeclarationAttributeValueWrapperStartNode =
+  SimpleNode<NodeTypes.XMLDeclarationAttributeValueWrapperStart>
+export type XMLDeclarationCloseNode = SimpleNode<NodeTypes.XMLDeclarationClose>
 export interface XMLDeclarationNode extends BaseNode {
   attributes: XMLDeclarationAttributeNode[]
-  close: LiteralNode
-  open: LiteralNode
+  close: XMLDeclarationCloseNode
+  open: XMLDeclarationOpenNode
   type: NodeTypes.XMLDeclaration
 }
+export type XMLDeclarationOpenNode = SimpleNode<NodeTypes.XMLDeclarationOpen>
 
 /**
  * attribute
@@ -142,11 +145,16 @@ export type AnyNode =
   | DoctypeNode
   | DoctypeOpenNode
   | DocumentNode
-  | LiteralNode
   | OpenTagEndNode
   | OpenTagStartNode
   | Program
   | TagNode
   | TextNode
+  | XMLDeclarationAttributeKeyNode
   | XMLDeclarationAttributeNode
+  | XMLDeclarationAttributeValueNode
+  | XMLDeclarationAttributeValueWrapperEndNode
+  | XMLDeclarationAttributeValueWrapperStartNode
+  | XMLDeclarationCloseNode
   | XMLDeclarationNode
+  | XMLDeclarationOpenNode

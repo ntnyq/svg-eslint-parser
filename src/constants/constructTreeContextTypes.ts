@@ -11,5 +11,10 @@ export enum ConstructTreeContextTypes {
   DoctypeAttribute = 'DoctypeAttribute',
   DoctypeAttributes = 'DoctypeAttributes',
 
+  XMLDeclaration = 'XMLDeclaration',
+  XMLDeclarationAttribute = 'XMLDeclarationAttribute',
+  XMLDeclarationAttributes = 'XMLDeclarationAttributes',
+  XMLDeclarationAttributeValue = 'XMLDeclarationAttributeValue',
+
   Comment = 'Comment',
 }
