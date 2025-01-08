@@ -4,6 +4,13 @@ export enum NodeTypes {
   Text = 'Text',
 
   XMLDeclaration = 'XMLDeclaration',
+  XMLDeclarationOpen = 'XMLDeclarationOpen',
+  XMLDeclarationClose = 'XMLDeclarationClose',
+  XMLDeclarationAttribute = 'XMLDeclarationAttribute',
+  XMLDeclarationAttributeKey = 'XMLDeclarationAttributeKey',
+  XMLDeclarationAttributeValue = 'XMLDeclarationAttributeValue',
+  XMLDeclarationAttributeValueWrapperStart = 'XMLDeclarationAttributeValueWrapperStart',
+  XMLDeclarationAttributeValueWrapperEnd = 'XMLDeclarationAttributeValueWrapperEnd',
 
   Doctype = 'Doctype',
   DoctypeOpen = 'DoctypeOpen',

@@ -12,15 +12,40 @@ export interface SimpleNode<T extends NodeTypes> extends BaseNode {
 }
 
 /**
+ * xml declaration
+ */
+export type XMLDeclarationAttributeKeyNode = SimpleNode<NodeTypes.XMLDeclarationAttributeKey>
+export interface XMLDeclarationAttributeNode extends BaseNode {
+  key: XMLDeclarationAttributeKeyNode
+  type: NodeTypes.XMLDeclarationAttribute
+  value: XMLDeclarationAttributeValueNode
+  endWrapper?: XMLDeclarationAttributeValueWrapperEndNode
+  startWrapper?: XMLDeclarationAttributeValueWrapperStartNode
+}
+export type XMLDeclarationAttributeValueNode = SimpleNode<NodeTypes.XMLDeclarationAttributeValue>
+export type XMLDeclarationAttributeValueWrapperEndNode =
+  SimpleNode<NodeTypes.XMLDeclarationAttributeValueWrapperEnd>
+export type XMLDeclarationAttributeValueWrapperStartNode =
+  SimpleNode<NodeTypes.XMLDeclarationAttributeValueWrapperStart>
+export type XMLDeclarationCloseNode = SimpleNode<NodeTypes.XMLDeclarationClose>
+export interface XMLDeclarationNode extends BaseNode {
+  attributes: XMLDeclarationAttributeNode[]
+  close: XMLDeclarationCloseNode
+  open: XMLDeclarationOpenNode
+  type: NodeTypes.XMLDeclaration
+}
+export type XMLDeclarationOpenNode = SimpleNode<NodeTypes.XMLDeclarationOpen>
+
+/**
  * attribute
  */
 export type AttributeKeyNode = SimpleNode<NodeTypes.AttributeKey>
 export interface AttributeNode extends BaseNode {
   key: AttributeKeyNode
   type: NodeTypes.Attribute
+  value: AttributeValueNode
   endWrapper?: AttributeValueWrapperEndNode
   startWrapper?: AttributeValueWrapperStartNode
-  value?: AttributeValueNode
 }
 export type AttributeValueNode = SimpleNode<NodeTypes.AttributeValue>
 export type AttributeValueWrapperEndNode = SimpleNode<NodeTypes.AttributeValueWrapperEnd>
@@ -65,14 +90,6 @@ export interface DocumentNode extends BaseNode {
   type: NodeTypes.Document
 }
 export type TextNode = SimpleNode<NodeTypes.Text>
-
-export interface XMLDeclarationNode extends BaseNode {
-  /**
-   * TODO: create XMLDeclarationAttributeNode
-   */
-  attributes: AttributeNode[]
-  type: NodeTypes.XMLDeclaration
-}
 
 /**
  * tag
@@ -133,4 +150,11 @@ export type AnyNode =
   | Program
   | TagNode
   | TextNode
+  | XMLDeclarationAttributeKeyNode
+  | XMLDeclarationAttributeNode
+  | XMLDeclarationAttributeValueNode
+  | XMLDeclarationAttributeValueWrapperEndNode
+  | XMLDeclarationAttributeValueWrapperStartNode
+  | XMLDeclarationCloseNode
   | XMLDeclarationNode
+  | XMLDeclarationOpenNode
