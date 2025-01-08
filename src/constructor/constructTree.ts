@@ -11,6 +11,10 @@ import {
   tag,
   tagContent,
   tagName,
+  xmlDeclaration,
+  xmlDeclarationAttribute,
+  xmlDeclarationAttributes,
+  xmlDeclarationAttributeValue,
 } from './handlers'
 import type {
   AnyToken,
@@ -45,6 +49,13 @@ const contextHandlers: Record<ConstructTreeContextTypes, ConstructTreeHandler> =
     [ConstructTreeContextTypes.DoctypeAttribute]: doctypeAttribute,
     [ConstructTreeContextTypes.DoctypeAttributes]: doctypeAttributes,
     [ConstructTreeContextTypes.Comment]: comment,
+    [ConstructTreeContextTypes.XMLDeclaration]: xmlDeclaration,
+    [ConstructTreeContextTypes.XMLDeclarationAttribute]:
+      xmlDeclarationAttribute,
+    [ConstructTreeContextTypes.XMLDeclarationAttributes]:
+      xmlDeclarationAttributes,
+    [ConstructTreeContextTypes.XMLDeclarationAttributeValue]:
+      xmlDeclarationAttributeValue,
   }
 
 export function constructTree(tokens: AnyToken[]) {
