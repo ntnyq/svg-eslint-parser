@@ -29,7 +29,7 @@
     "@shikijs/vitepress-twoslash": "^1.26.1",
     "twoslash": "^0.2.12",
     "unocss": "^65.4.3",
-    "unplugin-vue-components": "^0.28.0",
+    "unplugin-vue-components": "^28.0.0",
     "vite": "^6.0.7",
     "vitepress": "^1.5.0",
     "vitepress-plugin-group-icons": "^1.3.2",
