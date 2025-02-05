@@ -2,6 +2,7 @@
  * @copyright {@link https://github.com/davidohlin/svg-elements}
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Element}
  */
+
 export const SVG_ELEMENTS = new Set<string>([
   'a',
   'animate',

@@ -24,8 +24,8 @@ pnpm add svg-eslint-parser -D
 
 ```ts [eslint.config.mjs] twoslash
 // @noErrors
-import * as parserSVG from 'svg-eslint-parser'
 import pluginSVG from 'eslint-plugin-svg'
+import * as parserSVG from 'svg-eslint-parser'
 
 /**
  * @type {import('eslint').Linter.Config[]}
