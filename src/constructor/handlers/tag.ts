@@ -1,4 +1,8 @@
-import { ConstructTreeContextTypes, SELF_CLOSING_ELEMENTS, TokenTypes } from '../../constants'
+import {
+  ConstructTreeContextTypes,
+  SELF_CLOSING_ELEMENTS,
+  TokenTypes,
+} from '../../constants'
 import { createNodeFrom, updateNodeEnd } from '../../utils'
 import type {
   AnyToken,
@@ -10,9 +14,15 @@ import type {
   Token,
 } from '../../types'
 
-const ATTRIBUTE_START_TOKENS = new Set([TokenTypes.AttributeKey, TokenTypes.AttributeAssignment])
+const ATTRIBUTE_START_TOKENS = new Set([
+  TokenTypes.AttributeKey,
+  TokenTypes.AttributeAssignment,
+])
 
-export function construct(token: AnyToken, state: ConstructTreeState<ContextualTagNode>) {
+export function construct(
+  token: AnyToken,
+  state: ConstructTreeState<ContextualTagNode>,
+) {
   if (token.type === TokenTypes.OpenTagStart) {
     return handleOpenTagStart(state, token)
   }
@@ -66,7 +76,11 @@ function handleOpenTagEnd(
 
   updateNodeEnd(state.currentNode, token)
 
-  if (tagName && SELF_CLOSING_ELEMENTS.has(tagName) && state.currentNode.openEnd.value === '/>') {
+  if (
+    tagName
+    && SELF_CLOSING_ELEMENTS.has(tagName)
+    && state.currentNode.openEnd.value === '/>'
+  ) {
     state.currentNode.selfClosing = true
     state.currentNode = state.currentNode.parentRef
     state.currentContext = state.currentContext.parentRef

@@ -14,7 +14,7 @@ async function handleClick() {
 </script>
 
 <template>
-  <div class="absolute top-2 right-2 box-border text-md text-center font-sans">
+  <div class="text-md absolute right-2 top-2 box-border text-center font-sans">
     <Tooltip
       :triggers="['click']"
       :hide-triggers="['hover']"
@@ -25,7 +25,7 @@ async function handleClick() {
         :disabled="copied"
         type="button"
         role="button"
-        class="flex-center select-none p-2 rounded-md border border-solid border-$vp-c-border hover:(border-$vp-c-border bg-$vp-c-gray-soft)"
+        class="flex-center select-none border border-$vp-c-border rounded-md border-solid p-2 hover:(border-$vp-c-border bg-$vp-c-gray-soft)"
       >
         <div
           :class="copied ? 'i-lucide:copy-check' : 'i-lucide:copy'"

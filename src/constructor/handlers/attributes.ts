@@ -1,12 +1,26 @@
-import { ConstructTreeContextTypes, NodeTypes, TokenTypes } from '../../constants'
+import {
+  ConstructTreeContextTypes,
+  NodeTypes,
+  TokenTypes,
+} from '../../constants'
 import { cloneLocation, cloneRange, initAttributesIfNone } from '../../utils'
-import type { AnyToken, ConstructTreeState, ContextualTagNode } from '../../types'
+import type {
+  AnyToken,
+  ConstructTreeState,
+  ContextualTagNode,
+} from '../../types'
 
-const ATTRIBUTE_START_TOKENS = new Set([TokenTypes.AttributeKey, TokenTypes.AttributeAssignment])
+const ATTRIBUTE_START_TOKENS = new Set([
+  TokenTypes.AttributeKey,
+  TokenTypes.AttributeAssignment,
+])
 
 const ATTRIBUTE_END_TOKENS = new Set([TokenTypes.OpenTagEnd])
 
-export function construct(token: AnyToken, state: ConstructTreeState<ContextualTagNode>) {
+export function construct(
+  token: AnyToken,
+  state: ConstructTreeState<ContextualTagNode>,
+) {
   if (ATTRIBUTE_START_TOKENS.has(token.type)) {
     return handleAttributeStart(state, token)
   }
@@ -20,7 +34,10 @@ export function construct(token: AnyToken, state: ConstructTreeState<ContextualT
   return state
 }
 
-function handleAttributeStart(state: ConstructTreeState<ContextualTagNode>, token: AnyToken) {
+function handleAttributeStart(
+  state: ConstructTreeState<ContextualTagNode>,
+  token: AnyToken,
+) {
   initAttributesIfNone(state.currentNode)
 
   // mew empty attributes

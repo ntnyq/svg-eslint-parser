@@ -33,7 +33,7 @@ onMounted(() => {
 
 <template>
   <div
-    class="relative flex h-50px flex-wrap gap-1 px-1 items-center"
+    class="relative h-50px flex flex-wrap items-center gap-1 px-1"
     role="tablist"
   >
     <TabItem

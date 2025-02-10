@@ -24,7 +24,9 @@ const lastIndex = props.data.length - 1
 const [isExpanded, setIsExpanded] = useToggle(
   props.level === 'ast' || !!props.selectedPath?.startsWith(props.level),
 )
-const isActive = computed(() => props.level !== 'ast' && props.selectedPath === props.level)
+const isActive = computed(
+  () => props.level !== 'ast' && props.selectedPath === props.level,
+)
 
 function handleHoverItem(isHovering: boolean) {
   if (isNil(props.onHover) || !isFunction(props.onHover)) return

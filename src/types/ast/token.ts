@@ -2,20 +2,6 @@ import type { TokenTypes } from '../../constants'
 import type { Locations } from './common'
 
 /**
- * token
- */
-export interface Token<T extends TokenTypes> extends Locations {
-  /**
-   * node type
-   */
-  type: T
-  /**
-   * token value
-   */
-  value: string
-}
-
-/**
  * any token
  */
 export type AnyToken =
@@ -42,3 +28,17 @@ export type AnyToken =
   | Token<TokenTypes.Program>
   | Token<TokenTypes.Tag>
   | Token<TokenTypes.Text>
+
+/**
+ * token
+ */
+export interface Token<T extends TokenTypes> extends Locations {
+  /**
+   * node type
+   */
+  type: T
+  /**
+   * token value
+   */
+  value: string
+}

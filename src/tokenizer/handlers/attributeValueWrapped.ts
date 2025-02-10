@@ -4,7 +4,8 @@ import type { Range, TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
 export function parse(chars: CharsBuffer, state: TokenizerState) {
-  const wrapperChar = state.contextParams[TokenizerContextTypes.AttributeValueWrapped]?.wrapper
+  const wrapperChar =
+    state.contextParams[TokenizerContextTypes.AttributeValueWrapped]?.wrapper
 
   if (chars.value() === wrapperChar) {
     return parseWrapper(state)

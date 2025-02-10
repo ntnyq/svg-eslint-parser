@@ -4,7 +4,10 @@ import { parse } from './parse'
 import { traverse } from './traverse'
 import type { Options, ParseForESLintResult, Program } from '../types'
 
-export function parseForESLint(source: string, options: Options = {}): ParseForESLintResult {
+export function parseForESLint(
+  source: string,
+  options: Options = {},
+): ParseForESLintResult {
   const { ast, tokens } = parse(source, options)
 
   const programNode: Program = {
@@ -13,9 +16,9 @@ export function parseForESLint(source: string, options: Options = {}): ParseForE
     comments: [],
     tokens: tokens.filter(
       token =>
-        token.type !== TokenTypes.CommentOpen &&
-        token.type !== TokenTypes.CommentClose &&
-        token.type !== TokenTypes.CommentContent,
+        token.type !== TokenTypes.CommentOpen
+        && token.type !== TokenTypes.CommentClose
+        && token.type !== TokenTypes.CommentContent,
     ),
     range: ast.range,
     loc: ast.loc,

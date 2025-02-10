@@ -20,7 +20,11 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
     return parseOpeningCornerBraceWithSlash(state)
   }
 
-  if (value === SPECIAL_CHAR.openingCorner || value === '<!' || value === '<!-') {
+  if (
+    value === SPECIAL_CHAR.openingCorner
+    || value === '<!'
+    || value === '<!-'
+  ) {
     return state.sourceCode.next()
   }
 
@@ -42,7 +46,8 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
 }
 
 export function handleContentEnd(state: TokenizerState) {
-  const textContent = state.accumulatedContent.value() + state.decisionBuffer.value()
+  const textContent =
+    state.accumulatedContent.value() + state.decisionBuffer.value()
 
   if (textContent.length !== 0) {
     const position = calculateTokenPosition(state, { keepBuffer: false })
@@ -70,15 +75,15 @@ function isIncompleteDoctype(chars: string) {
   const charsUpperCase = chars.toUpperCase()
 
   return (
-    charsUpperCase === '<!' ||
-    charsUpperCase === '<!D' ||
-    charsUpperCase === '<!DO' ||
-    charsUpperCase === '<!DOC' ||
+    charsUpperCase === '<!'
+    || charsUpperCase === '<!D'
+    || charsUpperCase === '<!DO'
+    || charsUpperCase === '<!DOC'
     // cSpell: disable-next-line
-    charsUpperCase === '<!DOCT' ||
+    || charsUpperCase === '<!DOCT'
     // cSpell: disable-next-line
-    charsUpperCase === '<!DOCTY' ||
-    charsUpperCase === '<!DOCTYP'
+    || charsUpperCase === '<!DOCTY'
+    || charsUpperCase === '<!DOCTYP'
   )
 }
 

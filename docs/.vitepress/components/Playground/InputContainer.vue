@@ -23,7 +23,7 @@ function handleTabsChanage(tabName: string) {
 </script>
 
 <template>
-  <div class="w-full h-full flex gap-2 flex-col relative">
+  <div class="relative h-full w-full flex flex-col gap-2">
     <Tabs
       @change="handleTabsChanage"
       v-model="activeInputTab"

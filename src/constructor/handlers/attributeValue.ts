@@ -22,7 +22,10 @@ const VALUE_END_TOKENS = new Set([
   TokenTypes.AttributeAssignment,
 ])
 
-export function construct(token: AnyToken, state: ConstructTreeState<ContextualTagNode>) {
+export function construct(
+  token: AnyToken,
+  state: ConstructTreeState<ContextualTagNode>,
+) {
   if (VALUE_END_TOKENS.has(token.type)) {
     return handleValueEnd(state)
   }
@@ -50,7 +53,10 @@ function handleValueEnd(state: ConstructTreeState<ContextualTagNode>) {
   return state
 }
 
-function handleAttributeValue(state: ConstructTreeState<ContextualTagNode>, token: AnyToken) {
+function handleAttributeValue(
+  state: ConstructTreeState<ContextualTagNode>,
+  token: AnyToken,
+) {
   const attribute = getLastAttribute(state)
 
   attribute.value = createNodeFrom(token) as AttributeValueNode
@@ -68,7 +74,9 @@ function handleAttributeValueWrapperStart(
 ) {
   const attribute = getLastAttribute(state)
 
-  attribute.startWrapper = createNodeFrom(token) as AttributeValueWrapperStartNode
+  attribute.startWrapper = createNodeFrom(
+    token,
+  ) as AttributeValueWrapperStartNode
 
   if (!attribute.key) {
     attribute.range = cloneRange(token.range)

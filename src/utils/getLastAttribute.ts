@@ -7,7 +7,9 @@ import type {
   DoctypeAttributeNode,
 } from '../types'
 
-export function getLastAttribute(state: ConstructTreeState<ContextualTagNode>): AttributeNode
+export function getLastAttribute(
+  state: ConstructTreeState<ContextualTagNode>,
+): AttributeNode
 export function getLastAttribute(
   state: ConstructTreeState<ContextualDoctypeNode>,
 ): DoctypeAttributeNode

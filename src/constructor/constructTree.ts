@@ -33,18 +33,19 @@ const EMPTY_LOC: SourceLocation = {
   },
 }
 
-const contextHandlers: Record<ConstructTreeContextTypes, ConstructTreeHandler> = {
-  [ConstructTreeContextTypes.Tag]: tag,
-  [ConstructTreeContextTypes.TagName]: tagName,
-  [ConstructTreeContextTypes.TagContent]: tagContent,
-  [ConstructTreeContextTypes.Attributes]: attributes,
-  [ConstructTreeContextTypes.Attribute]: attribute,
-  [ConstructTreeContextTypes.AttributeValue]: attributeValue,
-  [ConstructTreeContextTypes.Doctype]: doctype,
-  [ConstructTreeContextTypes.DoctypeAttribute]: doctypeAttribute,
-  [ConstructTreeContextTypes.DoctypeAttributes]: doctypeAttributes,
-  [ConstructTreeContextTypes.Comment]: comment,
-}
+const contextHandlers: Record<ConstructTreeContextTypes, ConstructTreeHandler> =
+  {
+    [ConstructTreeContextTypes.Tag]: tag,
+    [ConstructTreeContextTypes.TagName]: tagName,
+    [ConstructTreeContextTypes.TagContent]: tagContent,
+    [ConstructTreeContextTypes.Attributes]: attributes,
+    [ConstructTreeContextTypes.Attribute]: attribute,
+    [ConstructTreeContextTypes.AttributeValue]: attributeValue,
+    [ConstructTreeContextTypes.Doctype]: doctype,
+    [ConstructTreeContextTypes.DoctypeAttribute]: doctypeAttribute,
+    [ConstructTreeContextTypes.DoctypeAttributes]: doctypeAttributes,
+    [ConstructTreeContextTypes.Comment]: comment,
+  }
 
 export function constructTree(tokens: AnyToken[]) {
   const rootContext: ConstructTreeState<any>['currentContext'] = {
@@ -89,7 +90,11 @@ export function constructTree(tokens: AnyToken[]) {
   }
 }
 
-function processTokens(tokens: AnyToken[], state: ConstructTreeState<any>, positionOffset: number) {
+function processTokens(
+  tokens: AnyToken[],
+  state: ConstructTreeState<any>,
+  positionOffset: number,
+) {
   let tokenIndex = state.caretPosition - positionOffset
 
   while (tokenIndex < tokens.length) {

@@ -1,5 +1,13 @@
-import { SPECIAL_CHAR, TokenizerContextTypes, TokenTypes } from '../../constants'
-import { calculateTokenPosition, isWhitespace, parseOpenTagName } from '../../utils'
+import {
+  SPECIAL_CHAR,
+  TokenizerContextTypes,
+  TokenTypes,
+} from '../../constants'
+import {
+  calculateTokenPosition,
+  isWhitespace,
+  parseOpenTagName,
+} from '../../utils'
 import type { TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 

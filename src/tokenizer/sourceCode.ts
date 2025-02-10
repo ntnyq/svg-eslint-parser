@@ -44,7 +44,9 @@ export class SourceCode {
     let sourceIndex = 0
 
     while (sourceIndex < this.source.length) {
-      charsList.push(new Chars(this.source[sourceIndex], [sourceIndex, sourceIndex + 1]))
+      charsList.push(
+        new Chars(this.source[sourceIndex], [sourceIndex, sourceIndex + 1]),
+      )
       sourceIndex++
     }
 

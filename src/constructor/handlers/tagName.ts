@@ -1,8 +1,16 @@
 import { TokenTypes } from '../../constants'
 import { parseOpenTagName } from '../../utils'
-import type { AnyToken, ConstructTreeState, ContextualTagNode, Token } from '../../types'
+import type {
+  AnyToken,
+  ConstructTreeState,
+  ContextualTagNode,
+  Token,
+} from '../../types'
 
-export function construct(token: AnyToken, state: ConstructTreeState<ContextualTagNode>) {
+export function construct(
+  token: AnyToken,
+  state: ConstructTreeState<ContextualTagNode>,
+) {
   if (token.type === TokenTypes.OpenTagStart) {
     handleTagOpenStart(state, token)
   }

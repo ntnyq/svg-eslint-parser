@@ -10,7 +10,7 @@ defineProps<{
     :href="href"
     :aria-label="label"
     role="button"
-    class="hover:(underline text-$vp-c-brand underline-$vp-c-brand) underline-offset-3 cursor-pointer"
+    class="cursor-pointer underline-offset-3 hover:(text-$vp-c-brand underline underline-$vp-c-brand)"
   >
     <slot>
       {{ label }}

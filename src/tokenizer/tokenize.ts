@@ -61,7 +61,10 @@ function tokenizeChars(state: TokenizerState) {
   }
 }
 
-export function tokenize(source: string): { state: TokenizerState; tokens: AnyToken[] } {
+export function tokenize(source: string): {
+  state: TokenizerState
+  tokens: AnyToken[]
+} {
   const tokens: AnyToken[] = []
   const state: TokenizerState = {
     contextParams: {},

@@ -5,9 +5,9 @@ export function calculateTokenCharactersRange(
   options: { keepBuffer: boolean },
 ): Range {
   const startPosition =
-    state.sourceCode.index() -
-    (state.accumulatedContent.length() - 1) -
-    state.decisionBuffer.length()
+    state.sourceCode.index()
+    - (state.accumulatedContent.length() - 1)
+    - state.decisionBuffer.length()
 
   let endPosition
 

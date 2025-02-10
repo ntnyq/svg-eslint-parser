@@ -5,7 +5,7 @@ const { astJson } = useSharedPlaygroundState()
 </script>
 
 <template>
-  <div class="relative w-full h-full">
+  <div class="relative h-full w-full">
     <Editor
       :model-value="astJson"
       language="json"

@@ -1,4 +1,8 @@
-import { ConstructTreeContextTypes, NodeTypes, TokenTypes } from '../../constants'
+import {
+  ConstructTreeContextTypes,
+  NodeTypes,
+  TokenTypes,
+} from '../../constants'
 import {
   cloneLocation,
   cloneRange,
@@ -17,7 +21,10 @@ import type {
   Token,
 } from '../../types'
 
-export function construct(token: AnyToken, state: ConstructTreeState<ContextualTagNode>) {
+export function construct(
+  token: AnyToken,
+  state: ConstructTreeState<ContextualTagNode>,
+) {
   if (token.type === TokenTypes.OpenTagStart) {
     return handleOpenTagStart(state, token)
   }
@@ -43,7 +50,10 @@ export function construct(token: AnyToken, state: ConstructTreeState<ContextualT
   return state
 }
 
-function handleOpenTagStart(state: ConstructTreeState<ContextualTagNode>, token: AnyToken) {
+function handleOpenTagStart(
+  state: ConstructTreeState<ContextualTagNode>,
+  token: AnyToken,
+) {
   initChildrenIfNone(state.currentNode)
 
   const tagNode: ContextualTagNode = {
@@ -80,7 +90,10 @@ function handleText(
   return state
 }
 
-function handleCloseTag(state: ConstructTreeState<ContextualTagNode>, token: AnyToken) {
+function handleCloseTag(
+  state: ConstructTreeState<ContextualTagNode>,
+  token: AnyToken,
+) {
   const closeTagName = parseCloseTagName(token.value)
 
   if (closeTagName !== state.currentNode.name) {
@@ -94,7 +107,10 @@ function handleCloseTag(state: ConstructTreeState<ContextualTagNode>, token: Any
   return state
 }
 
-function handleCommentOpen(state: ConstructTreeState<ContextualTagNode>, token: AnyToken) {
+function handleCommentOpen(
+  state: ConstructTreeState<ContextualTagNode>,
+  token: AnyToken,
+) {
   initChildrenIfNone(state.currentNode)
 
   const commentNode: ContextualCommentNode = {

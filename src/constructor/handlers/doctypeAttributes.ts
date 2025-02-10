@@ -1,13 +1,24 @@
-import { ConstructTreeContextTypes, NodeTypes, TokenTypes } from '../../constants'
+import {
+  ConstructTreeContextTypes,
+  NodeTypes,
+  TokenTypes,
+} from '../../constants'
 import { cloneLocation, cloneRange, initAttributesIfNone } from '../../utils'
-import type { AnyToken, ConstructTreeState, ContextualDoctypeNode } from '../../types'
+import type {
+  AnyToken,
+  ConstructTreeState,
+  ContextualDoctypeNode,
+} from '../../types'
 
 const ATTRIBUTE_START_TOKENS = new Set([
   TokenTypes.DoctypeAttributeWrapperStart,
   TokenTypes.DoctypeAttributeValue,
 ])
 
-export function construct(token: AnyToken, state: ConstructTreeState<ContextualDoctypeNode>) {
+export function construct(
+  token: AnyToken,
+  state: ConstructTreeState<ContextualDoctypeNode>,
+) {
   if (token.type === TokenTypes.DoctypeClose) {
     return handleDoctypeClose(state)
   }
@@ -27,7 +38,10 @@ function handleDoctypeClose(state: ConstructTreeState<ContextualDoctypeNode>) {
   return state
 }
 
-function handleAttribute(state: ConstructTreeState<ContextualDoctypeNode>, token: AnyToken) {
+function handleAttribute(
+  state: ConstructTreeState<ContextualDoctypeNode>,
+  token: AnyToken,
+) {
   initAttributesIfNone(state.currentNode)
 
   // mew empty attributes

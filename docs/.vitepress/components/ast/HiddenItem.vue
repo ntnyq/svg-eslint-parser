@@ -34,7 +34,9 @@ const model = computed<{ isComplex: boolean; length: number }>(() => {
       :key="idx"
       class="ast-hidden-item-complex-item"
     >
-      <span class="ast-hidden-item-complex-item-content">{{ idx > 0 ? ', ' : '' }}</span>
+      <span class="ast-hidden-item-complex-item-content">{{
+        idx > 0 ? ', ' : ''
+      }}</span>
       <PropertyValue :value="item[1]" />
     </span>
   </span>

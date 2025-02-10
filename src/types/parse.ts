@@ -3,20 +3,20 @@ import type { AnyToken, DocumentNode, Program } from './ast'
 
 export interface Options {
   comment?: boolean
-  filePath?: string
-  tokens?: boolean
-
-  /**
-   * required for eslint parse
-   */
-  loc?: boolean
-  range?: boolean
-
   /**
    * eslint features
    */
   eslintScopeManager?: boolean
   eslintVisitorKeys?: boolean
+
+  filePath?: string
+  /**
+   * required for eslint parse
+   */
+  loc?: boolean
+
+  range?: boolean
+  tokens?: boolean
 }
 
 /**

@@ -95,7 +95,9 @@ function handleClick(evt: MouseEvent) {
     :class="[model.className]"
     class="property-value"
   >
-    <span class="mr-1">{{ isExpanded ? model.value : `${model.shortValue}...` }}</span>
+    <span class="mr-1">
+      {{ isExpanded ? model.value : `${model.shortValue}...` }}
+    </span>
     <PropertyLink
       @click="handleClick"
       href="#read-more"
@@ -107,6 +109,7 @@ function handleClick(evt: MouseEvent) {
   <span
     v-else
     :class="model.className"
-    >{{ model.value }}</span
   >
+    {{ model.value }}
+  </span>
 </template>

@@ -1,5 +1,10 @@
 import { TokenTypes } from '../../constants'
-import { cloneRange, createNodeFrom, getLastAttribute, updateNodeEnd } from '../../utils'
+import {
+  cloneRange,
+  createNodeFrom,
+  getLastAttribute,
+  updateNodeEnd,
+} from '../../utils'
 import type {
   AnyToken,
   ConstructTreeState,
@@ -9,7 +14,10 @@ import type {
   DoctypeAttributeWrapperStartNode,
 } from '../../types'
 
-export function construct(token: AnyToken, state: ConstructTreeState<ContextualDoctypeNode>) {
+export function construct(
+  token: AnyToken,
+  state: ConstructTreeState<ContextualDoctypeNode>,
+) {
   if (token.type === TokenTypes.DoctypeClose) {
     return handleDoctypeClose(state)
   }
@@ -49,7 +57,9 @@ function handleDoctypeAttributeWrapperStart(
     return state
   }
 
-  attribute.startWrapper = createNodeFrom(token) as DoctypeAttributeWrapperStartNode
+  attribute.startWrapper = createNodeFrom(
+    token,
+  ) as DoctypeAttributeWrapperStartNode
   attribute.range = cloneRange(token.range)
 
   state.caretPosition++

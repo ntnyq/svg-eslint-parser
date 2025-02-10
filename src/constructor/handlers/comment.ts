@@ -9,7 +9,10 @@ import type {
   ContextualCommentNode,
 } from '../../types'
 
-export function construct(token: AnyToken, state: ConstructTreeState<ContextualCommentNode>) {
+export function construct(
+  token: AnyToken,
+  state: ConstructTreeState<ContextualCommentNode>,
+) {
   if (token.type === TokenTypes.CommentOpen) {
     return handleCommentOpen(state, token)
   }
@@ -25,7 +28,10 @@ export function construct(token: AnyToken, state: ConstructTreeState<ContextualC
   return state
 }
 
-function handleCommentOpen(state: ConstructTreeState<ContextualCommentNode>, token: AnyToken) {
+function handleCommentOpen(
+  state: ConstructTreeState<ContextualCommentNode>,
+  token: AnyToken,
+) {
   state.currentNode.open = createNodeFrom(token) as CommentOpenNode
 
   state.caretPosition++
@@ -33,7 +39,10 @@ function handleCommentOpen(state: ConstructTreeState<ContextualCommentNode>, tok
   return state
 }
 
-function handleCommentContent(state: ConstructTreeState<ContextualCommentNode>, token: AnyToken) {
+function handleCommentContent(
+  state: ConstructTreeState<ContextualCommentNode>,
+  token: AnyToken,
+) {
   state.currentNode.value = createNodeFrom(token) as CommentContentNode
 
   state.caretPosition++
@@ -41,7 +50,10 @@ function handleCommentContent(state: ConstructTreeState<ContextualCommentNode>, 
   return state
 }
 
-function handleCommentClose(state: ConstructTreeState<ContextualCommentNode>, token: AnyToken) {
+function handleCommentClose(
+  state: ConstructTreeState<ContextualCommentNode>,
+  token: AnyToken,
+) {
   state.currentNode.close = createNodeFrom(token) as CommentCloseNode
 
   updateNodeEnd(state.currentNode, token)

@@ -11,7 +11,9 @@ function nextLineBreak(code: string, from: number, end = code.length) {
     }
 
     if (isNewLine(next)) {
-      return i < end - 1 && next === 13 && code.codePointAt(i + 1) === 10 ? i + 2 : i + 1
+      return i < end - 1 && next === 13 && code.codePointAt(i + 1) === 10
+        ? i + 2
+        : i + 1
     }
   }
   return -1

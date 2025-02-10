@@ -2,9 +2,10 @@
 import { useData } from 'vitepress/client'
 import { computed } from 'vue'
 import { Codemirror } from 'vue-codemirror'
-import { languages, type SupportLanguage } from './language'
+import { languages } from './language'
 import { githubDark, githubLight } from './theme'
 import type { Extension } from '@codemirror/state'
+import type { SupportLanguage } from './language'
 
 const props = withDefaults(
   defineProps<{

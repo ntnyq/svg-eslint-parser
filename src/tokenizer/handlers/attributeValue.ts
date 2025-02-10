@@ -1,4 +1,8 @@
-import { SPECIAL_CHAR, TokenizerContextTypes, TokenTypes } from '../../constants'
+import {
+  SPECIAL_CHAR,
+  TokenizerContextTypes,
+  TokenTypes,
+} from '../../constants'
 import { isWhitespace } from '../../utils'
 import type { Range, TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
@@ -6,7 +10,10 @@ import type { CharsBuffer } from '../charsBuffer'
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
 
-  if (value === SPECIAL_CHAR.doubleQuote || value === SPECIAL_CHAR.singleQuote) {
+  if (
+    value === SPECIAL_CHAR.doubleQuote
+    || value === SPECIAL_CHAR.singleQuote
+  ) {
     return parseWrapper(state)
   }
 

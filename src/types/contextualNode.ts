@@ -16,23 +16,42 @@ export type AnyContextualNode =
   | ContextualDocumentNode
   | ContextualTagNode
 
-export type ContextualAttributeNode = ContextualNode<AttributeNode, 'key' | 'value'>
+export type ContextualAttributeNode = ContextualNode<
+  AttributeNode,
+  'key' | 'value'
+>
 
-export type ContextualCommentNode = ContextualNode<CommentNode, 'close' | 'open' | 'value'>
+export type ContextualCommentNode = ContextualNode<
+  CommentNode,
+  'close' | 'open' | 'value'
+>
 
-export type ContextualDoctypeAttributeNode = ContextualNode<DoctypeAttributeNode, 'value'>
+export type ContextualDoctypeAttributeNode = ContextualNode<
+  DoctypeAttributeNode,
+  'value'
+>
 
-export type ContextualDoctypeNode = ContextualNode<DoctypeNode, 'close' | 'open'> & {
+export type ContextualDoctypeNode = ContextualNode<
+  DoctypeNode,
+  'close' | 'open'
+> & {
   attributes: ContextualDoctypeAttributeNode[]
 }
 
-export type ContextualDocumentNode = Omit<ContextualNode<DocumentNode, never>, 'children'> & {
+export type ContextualDocumentNode = Omit<
+  ContextualNode<DocumentNode, never>,
+  'children'
+> & {
   children: Array<
-    DocumentNode['children'][number] | Exclude<AnyContextualNode, ContextualDoctypeNode>
+    | DocumentNode['children'][number]
+    | Exclude<AnyContextualNode, ContextualDoctypeNode>
   >
 }
 
-export type ContextualNode<T extends AnyNode, K extends keyof T> = PartialBy<T, K> & {
+export type ContextualNode<T extends AnyNode, K extends keyof T> = PartialBy<
+  T,
+  K
+> & {
   parentRef?: any
 }
 
@@ -42,7 +61,10 @@ export type ContextualTagNode = ContextualNode<
 > & {
   attributes: ContextualAttributeNode[]
   children: Array<
-    ContextualCommentNode | ContextualDoctypeNode | ContextualTagNode | TagNode['children'][number]
+    | ContextualCommentNode
+    | ContextualDoctypeNode
+    | ContextualTagNode
+    | TagNode['children'][number]
   >
 }
 

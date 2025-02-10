@@ -19,7 +19,9 @@ export class CharsBuffer {
   }
 
   public length(): number {
-    return this.charsBuffer.map(chars => chars.length()).reduce((a, b) => a + b, 0)
+    return this.charsBuffer
+      .map(chars => chars.length())
+      .reduce((a, b) => a + b, 0)
   }
 
   public clear() {

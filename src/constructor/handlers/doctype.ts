@@ -13,7 +13,10 @@ const ATTRIBUTES_START_TOKENS = new Set([
   TokenTypes.DoctypeAttributeValue,
 ])
 
-export function construct(token: AnyToken, state: ConstructTreeState<ContextualDoctypeNode>) {
+export function construct(
+  token: AnyToken,
+  state: ConstructTreeState<ContextualDoctypeNode>,
+) {
   if (token.type === TokenTypes.DoctypeOpen) {
     return handleDoctypeOpen(state, token)
   }
@@ -31,7 +34,10 @@ export function construct(token: AnyToken, state: ConstructTreeState<ContextualD
   return state
 }
 
-function handleDoctypeOpen(state: ConstructTreeState<ContextualDoctypeNode>, token: AnyToken) {
+function handleDoctypeOpen(
+  state: ConstructTreeState<ContextualDoctypeNode>,
+  token: AnyToken,
+) {
   state.currentNode.open = createNodeFrom(token) as DoctypeOpenNode
 
   state.caretPosition++
@@ -39,7 +45,10 @@ function handleDoctypeOpen(state: ConstructTreeState<ContextualDoctypeNode>, tok
   return state
 }
 
-function handleDoctypeClose(state: ConstructTreeState<ContextualDoctypeNode>, token: AnyToken) {
+function handleDoctypeClose(
+  state: ConstructTreeState<ContextualDoctypeNode>,
+  token: AnyToken,
+) {
   state.currentNode.close = createNodeFrom(token) as DoctypeCloseNode
 
   updateNodeEnd(state.currentNode, token)
@@ -52,7 +61,9 @@ function handleDoctypeClose(state: ConstructTreeState<ContextualDoctypeNode>, to
   return state
 }
 
-function handleDoctypeAttributes(state: ConstructTreeState<ContextualDoctypeNode>) {
+function handleDoctypeAttributes(
+  state: ConstructTreeState<ContextualDoctypeNode>,
+) {
   state.currentContext = {
     parentRef: state.currentContext,
     type: ConstructTreeContextTypes.DoctypeAttributes,

@@ -1,4 +1,9 @@
-import { COMMENT_END, SPECIAL_CHAR, TokenizerContextTypes, TokenTypes } from '../../constants'
+import {
+  COMMENT_END,
+  SPECIAL_CHAR,
+  TokenizerContextTypes,
+  TokenTypes,
+} from '../../constants'
 import { calculateTokenPosition } from '../../utils'
 import type { Range, TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
@@ -21,7 +26,10 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
 
 function parseCommentClose(state: TokenizerState) {
   const position = calculateTokenPosition(state, { keepBuffer: false })
-  const endRange: Range = [position.range[1], position.range[1] + COMMENT_END.length]
+  const endRange: Range = [
+    position.range[1],
+    position.range[1] + COMMENT_END.length,
+  ]
 
   state.tokens.push({
     type: TokenTypes.CommentContent,

@@ -36,14 +36,14 @@ function tryLoadFile(file: File) {
 </script>
 
 <template>
-  <div class="relative h-full w-full flex flex-col py-4 justify-between">
-    <div class="relative p-4 w-full">
-      <p class="text-lg font-medium flex items-center justify-between">
+  <div class="relative h-full w-full flex flex-col justify-between py-4">
+    <div class="relative w-full p-4">
+      <p class="flex items-center justify-between text-lg font-medium">
         <span>ParseCostTime:</span>
         <span>{{ +parseCost.toFixed(2) }} ms</span>
       </p>
     </div>
-    <div class="relative p-4 flex gap-4 flex-wrap justify-around items-center">
+    <div class="relative flex flex-wrap items-center justify-around gap-4 p-4">
       <VPButton
         @click="openFileDialog"
         theme="brand"

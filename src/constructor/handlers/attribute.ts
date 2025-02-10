@@ -1,10 +1,18 @@
 import { ConstructTreeContextTypes, TokenTypes } from '../../constants'
 import { createNodeFrom, getLastAttribute } from '../../utils'
-import type { AnyToken, AttributeKeyNode, ConstructTreeState, ContextualTagNode } from '../../types'
+import type {
+  AnyToken,
+  AttributeKeyNode,
+  ConstructTreeState,
+  ContextualTagNode,
+} from '../../types'
 
 const OPEN_TAG_END_TOKENS = new Set([TokenTypes.OpenTagEnd])
 
-export function construct(token: AnyToken, state: ConstructTreeState<ContextualTagNode>) {
+export function construct(
+  token: AnyToken,
+  state: ConstructTreeState<ContextualTagNode>,
+) {
   if (OPEN_TAG_END_TOKENS.has(token.type)) {
     return handleOpenTagEnd(state)
   }
@@ -28,7 +36,10 @@ function handleOpenTagEnd(state: ConstructTreeState<ContextualTagNode>) {
   return state
 }
 
-function handleAttributeKey(state: ConstructTreeState<ContextualTagNode>, token: AnyToken) {
+function handleAttributeKey(
+  state: ConstructTreeState<ContextualTagNode>,
+  token: AnyToken,
+) {
   const attribute = getLastAttribute(state)
 
   if (attribute.key !== undefined || attribute.value !== undefined) {
@@ -44,7 +55,9 @@ function handleAttributeKey(state: ConstructTreeState<ContextualTagNode>, token:
   return state
 }
 
-function handleAttributeAssignment(state: ConstructTreeState<ContextualTagNode>) {
+function handleAttributeAssignment(
+  state: ConstructTreeState<ContextualTagNode>,
+) {
   const attribute = getLastAttribute(state)
 
   if (attribute.value !== undefined) {

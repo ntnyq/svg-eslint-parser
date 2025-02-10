@@ -16,7 +16,7 @@ defineProps<{
       'cursor-not-allow': item.disabled,
     }"
     :disabled="item.disabled"
-    class="relative flex-center h-44px px-4 border-1 border-gray-200 hover:bg-$vp-c-gray-soft focus:outline-none rounded-sm border-solid min-w-80px"
+    class="relative h-44px min-w-80px flex-center border-1 border-gray-200 rounded-sm border-solid px-4 hover:bg-$vp-c-gray-soft focus:outline-none"
     type="button"
   >
     <div

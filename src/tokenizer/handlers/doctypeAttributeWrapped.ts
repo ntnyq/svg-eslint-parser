@@ -5,7 +5,8 @@ import type { CharsBuffer } from '../charsBuffer'
 
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
-  const wrapperChar = state.contextParams[TokenizerContextTypes.DoctypeAttributeWrapped]?.wrapper
+  const wrapperChar =
+    state.contextParams[TokenizerContextTypes.DoctypeAttributeWrapped]?.wrapper
 
   if (value === wrapperChar) {
     return parseWrapper(state)

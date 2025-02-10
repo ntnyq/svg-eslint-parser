@@ -5,7 +5,7 @@ const { code } = useSharedPlaygroundState()
 </script>
 
 <template>
-  <div class="relative w-full h-full">
+  <div class="relative h-full w-full">
     <Editor
       v-model="code"
       language="xml"

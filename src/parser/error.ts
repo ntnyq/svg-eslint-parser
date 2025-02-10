@@ -6,7 +6,12 @@ export class ParseError extends SyntaxError {
   public lineNumber: number
   public column: number
 
-  public constructor(message: string, offset: number, line: number, column: number) {
+  public constructor(
+    message: string,
+    offset: number,
+    line: number,
+    column: number,
+  ) {
     super(message)
 
     this.name = 'ParseError'

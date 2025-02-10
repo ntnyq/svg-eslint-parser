@@ -77,10 +77,10 @@ onMounted(() => {
 <template>
   <div
     v-if="isDragging"
-    class="pointer-events-auto fixed inset-0 z-dropzone p-10 backdrop-blur-5"
+    class="z-dropzone pointer-events-auto fixed inset-0 p-10 backdrop-blur-5"
   >
     <div
-      class="border-dashed- h-full w-full flex justify-center items-center flex-col border-3 border-base rounded-2xl bg-white/50 dark:bg-black:50"
+      class="border-dashed- border-base h-full w-full flex flex-col items-center justify-center border-3 rounded-2xl bg-white/50 dark:bg-black:50"
     >
       <p class="text-xl">Drop SVG file here</p>
     </div>
