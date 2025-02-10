@@ -3,3 +3,6 @@
 #   git config blame.ignoreRevsFile .git-blame-ignore-revs
 # Requires Git > 2.23
 # See https://git-scm.com/docs/git-blame#Documentation/git-blame.txt---ignore-revs-fileltfilegt
+
+# chore: bump prettier-config to v2
+a3554b3e3239e06595c2f4cc57dfff891c5df457
