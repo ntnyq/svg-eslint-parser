@@ -28,6 +28,14 @@ export type AnyToken =
   | Token<TokenTypes.Program>
   | Token<TokenTypes.Tag>
   | Token<TokenTypes.Text>
+  | Token<TokenTypes.XMLDeclarationAttribute>
+  | Token<TokenTypes.XMLDeclarationAttributeAssignment>
+  | Token<TokenTypes.XMLDeclarationAttributeKey>
+  | Token<TokenTypes.XMLDeclarationAttributeValue>
+  | Token<TokenTypes.XMLDeclarationAttributeValueWrapperEnd>
+  | Token<TokenTypes.XMLDeclarationAttributeValueWrapperStart>
+  | Token<TokenTypes.XMLDeclarationClose>
+  | Token<TokenTypes.XMLDeclarationOpen>
 
 /**
  * token

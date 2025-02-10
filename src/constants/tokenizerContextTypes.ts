@@ -5,6 +5,13 @@ export enum TokenizerContextTypes {
   OpenTagEnd = 'OpenTagEnd',
   CloseTag = 'CloseTag',
 
+  XMLDeclarationOpen = 'XMLDeclarationOpen',
+  XMLDeclarationClose = 'XMLDeclarationClose',
+  XMLDeclarationAttributes = 'XMLDeclarationAttributes',
+  XMLDeclarationAttributeKey = 'XMLDeclarationAttributeKey',
+  XMLDeclarationAttributeValue = 'XMLDeclarationAttributeValue',
+  XMLDeclarationAttributeValueWrapped = 'XMLDeclarationAttributeValueWrapped',
+
   Attributes = 'Attributes',
   AttributeKey = 'AttributeKey',
   AttributeValue = 'AttributeValue',

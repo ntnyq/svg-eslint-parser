@@ -3,6 +3,15 @@ export enum TokenTypes {
   Document = 'Document',
   Text = 'Text',
 
+  XMLDeclarationOpen = 'XMLDeclarationOpen',
+  XMLDeclarationClose = 'XMLDeclarationClose',
+  XMLDeclarationAttribute = 'XMLDeclarationAttribute',
+  XMLDeclarationAttributeKey = 'XMLDeclarationAttributeKey',
+  XMLDeclarationAttributeValue = 'XMLDeclarationAttributeValue',
+  XMLDeclarationAttributeAssignment = 'XMLDeclarationAttributeAssignment',
+  XMLDeclarationAttributeValueWrapperStart = 'XMLDeclarationAttributeValueWrapperStart',
+  XMLDeclarationAttributeValueWrapperEnd = 'XMLDeclarationAttributeValueWrapperEnd',
+
   Doctype = 'Doctype',
   DoctypeOpen = 'DoctypeOpen',
   DoctypeClose = 'DoctypeClose',
