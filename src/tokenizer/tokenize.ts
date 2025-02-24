@@ -17,12 +17,28 @@ import {
   noop,
   openTagEnd,
   openTagStart,
+  xmlDeclarationAttributeKey,
+  xmlDeclarationAttributes,
+  xmlDeclarationAttributeValue,
+  xmlDeclarationAttributeValueWrapped,
+  xmlDeclarationClose,
+  xmlDeclarationOpen,
 } from './handlers'
 import { SourceCode } from './sourceCode'
 import type { AnyToken, TokenizeHandler, TokenizerState } from '../types'
 
 const contextHandlers: Record<TokenizerContextTypes, TokenizeHandler> = {
   [TokenizerContextTypes.Data]: data,
+
+  [TokenizerContextTypes.XMLDeclarationOpen]: xmlDeclarationOpen,
+  [TokenizerContextTypes.XMLDeclarationClose]: xmlDeclarationClose,
+  [TokenizerContextTypes.XMLDeclarationAttributes]: xmlDeclarationAttributes,
+  [TokenizerContextTypes.XMLDeclarationAttributeKey]:
+    xmlDeclarationAttributeKey,
+  [TokenizerContextTypes.XMLDeclarationAttributeValue]:
+    xmlDeclarationAttributeValue,
+  [TokenizerContextTypes.XMLDeclarationAttributeValueWrapped]:
+    xmlDeclarationAttributeValueWrapped,
 
   [TokenizerContextTypes.Attributes]: attributes,
   [TokenizerContextTypes.AttributeKey]: attributeKey,
@@ -40,9 +56,9 @@ const contextHandlers: Record<TokenizerContextTypes, TokenizeHandler> = {
   [TokenizerContextTypes.DoctypeAttributeBare]: doctypeAttributeBare,
   [TokenizerContextTypes.DoctypeAttributeWrapped]: doctypeAttributeWrapped,
 
+  [TokenizerContextTypes.CommentContent]: commentContent,
   [TokenizerContextTypes.CommentOpen]: noop,
   [TokenizerContextTypes.CommentClose]: noop,
-  [TokenizerContextTypes.CommentContent]: commentContent,
 }
 
 function tokenizeChars(state: TokenizerState) {
