@@ -9,6 +9,16 @@ export const COMMENT_START = '<!--'
 export const COMMENT_END = '-->'
 
 /**
+ * xml declaration start
+ */
+export const XML_DECLARATION_START = '<?xml'
+
+/**
+ * xml declaration end
+ */
+export const XML_DECLARATION_END = '?>'
+
+/**
  * regexp for open tag start
  * @regex101 https://regex101.com/?regex=%5E%3C%5Cw&flavor=javascript
  */

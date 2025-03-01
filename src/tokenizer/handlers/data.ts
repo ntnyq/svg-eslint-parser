@@ -4,13 +4,30 @@ import {
   SPECIAL_CHAR,
   TokenizerContextTypes,
   TokenTypes,
+  XML_DECLARATION_START,
 } from '../../constants'
 import { calculateTokenPosition } from '../../utils'
-import type { Range, TokenizerState } from '../../types'
+import type { Range, Token, TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
+
+const INCOMPLETE_DOCTYPE_CHARS = new Set([
+  '<!',
+  '<!D',
+  '<!DO',
+  '<!DOC',
+  // cSpell: disable
+  '<!DOCT',
+  '<!DOCTY',
+  // cSpell: enable
+  '<!DOCTYP',
+])
 
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
+
+  if (value === XML_DECLARATION_START) {
+    return parseXMLDeclarationOpen(state)
+  }
 
   if (RE_OPEN_TAG_START.test(value)) {
     return parseOpeningCornerBraceWithText(state)
@@ -61,7 +78,7 @@ export function handleContentEnd(state: TokenizerState) {
   }
 }
 
-function generateTextToken(state: TokenizerState) {
+function generateTextToken(state: TokenizerState): Token<TokenTypes.Text> {
   const position = calculateTokenPosition(state, { keepBuffer: false })
   return {
     type: TokenTypes.Text,
@@ -72,19 +89,7 @@ function generateTextToken(state: TokenizerState) {
 }
 
 function isIncompleteDoctype(chars: string) {
-  const charsUpperCase = chars.toUpperCase()
-
-  return (
-    charsUpperCase === '<!'
-    || charsUpperCase === '<!D'
-    || charsUpperCase === '<!DO'
-    || charsUpperCase === '<!DOC'
-    // cSpell: disable-next-line
-    || charsUpperCase === '<!DOCT'
-    // cSpell: disable-next-line
-    || charsUpperCase === '<!DOCTY'
-    || charsUpperCase === '<!DOCTYP'
-  )
+  return INCOMPLETE_DOCTYPE_CHARS.has(chars.toUpperCase())
 }
 
 function parseOpeningCornerBraceWithText(state: TokenizerState) {
@@ -138,5 +143,16 @@ function parseDoctypeOpen(state: TokenizerState) {
   state.accumulatedContent.replace(state.decisionBuffer)
   state.decisionBuffer.clear()
   state.currentContext = TokenizerContextTypes.DoctypeOpen
+  state.sourceCode.next()
+}
+
+function parseXMLDeclarationOpen(state: TokenizerState) {
+  if (state.accumulatedContent.length() !== 0) {
+    state.tokens.push(generateTextToken(state))
+  }
+
+  state.accumulatedContent.clear()
+  state.decisionBuffer.clear()
+  state.currentContext = TokenizerContextTypes.XMLDeclarationAttributes
   state.sourceCode.next()
 }
