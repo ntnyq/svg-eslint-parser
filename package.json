@@ -2,7 +2,7 @@
   "name": "svg-eslint-parser",
   "type": "module",
   "version": "0.0.2",
-  "packageManager": "pnpm@10.2.1",
+  "packageManager": "pnpm@10.5.2",
   "description": "An SVG parser that produces output compatible with ESLint.",
   "keywords": [
     "eslint-parser",
@@ -46,7 +46,7 @@
     "dev": "tsup --watch src",
     "docs:build": "pnpm -C docs run build",
     "docs:dev": "pnpm -C docs run dev",
-    "lint": "eslint .",
+    "lint": "eslint",
     "prepare": "husky",
     "prepublishOnly": "pnpm run build",
     "release": "run-s release:check release:publish",
@@ -60,19 +60,19 @@
     "eslint-visitor-keys": "^4.2.0"
   },
   "devDependencies": {
-    "@ntnyq/eslint-config": "^4.0.0-beta.3",
-    "@ntnyq/prettier-config": "^2.0.0-beta.2",
-    "@types/node": "^22.13.1",
-    "@vitest/coverage-v8": "^3.0.5",
-    "bumpp": "^10.0.2",
-    "eslint": "^9.20.0",
+    "@ntnyq/eslint-config": "^4.0.0-beta.10",
+    "@ntnyq/prettier-config": "^2.0.0",
+    "@types/node": "^22.13.9",
+    "@vitest/coverage-v8": "^3.0.7",
+    "bumpp": "^10.0.3",
+    "eslint": "^9.21.0",
     "husky": "^9.1.7",
     "nano-staged": "^0.8.0",
     "npm-run-all2": "^7.0.2",
-    "prettier": "^3.5.0",
-    "tsup": "^8.3.6",
-    "typescript": "^5.7.3",
-    "vitest": "^3.0.5"
+    "prettier": "^3.5.3",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.7"
   },
   "engines": {
     "node": ">=18.18.0"
@@ -86,7 +86,7 @@
     }
   },
   "nano-staged": {
-    "*.{js,ts,mjs,cjs,vue,json,md,yml,yaml}": "eslint --fix",
+    "*.{js,ts,mjs,cjs,vue,md,yml,yaml,json}": "eslint --fix",
     "*.{css,scss,html}": "prettier -uw"
   }
 }

@@ -9,7 +9,13 @@ const keys: {
   Document: ['children'],
 
   XMLDeclaration: [],
+  XMLDeclarationOpen: [],
+  XMLDeclarationClose: [],
   XMLDeclarationAttribute: ['key', 'value'],
+  XMLDeclarationAttributeKey: [],
+  XMLDeclarationAttributeValue: [],
+  XMLDeclarationAttributeValueWrapperStart: [],
+  XMLDeclarationAttributeValueWrapperEnd: [],
 
   Doctype: ['open', 'close', 'attributes'],
   DoctypeOpen: [],
@@ -35,7 +41,6 @@ const keys: {
   CommentClose: [],
   CommentContent: [],
 
-  Literal: [],
   Text: [],
 }
 

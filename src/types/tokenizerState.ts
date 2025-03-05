@@ -27,4 +27,7 @@ type ContextParams = {
   [TokenizerContextTypes.OpenTagEnd]?: {
     tagName: string
   }
+  [TokenizerContextTypes.XMLDeclarationAttributeValueWrapped]?: {
+    wrapper: string
+  }
 }

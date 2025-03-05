@@ -6,6 +6,8 @@ import type {
   DoctypeNode,
   DocumentNode,
   TagNode,
+  XMLDeclarationAttributeNode,
+  XMLDeclarationNode,
 } from './ast'
 
 export type AnyContextualNode =
@@ -15,6 +17,8 @@ export type AnyContextualNode =
   | ContextualDoctypeNode
   | ContextualDocumentNode
   | ContextualTagNode
+  | ContextualXMLDeclarationAttributeNode
+  | ContextuaLXMLDeclarationNode
 
 export type ContextualAttributeNode = ContextualNode<
   AttributeNode,
@@ -66,6 +70,17 @@ export type ContextualTagNode = ContextualNode<
     | ContextualTagNode
     | TagNode['children'][number]
   >
+}
+
+export type ContextualXMLDeclarationAttributeNode = ContextualNode<
+  XMLDeclarationAttributeNode,
+  'key' | 'value'
+>
+export type ContextuaLXMLDeclarationNode = ContextualNode<
+  XMLDeclarationNode,
+  'close' | 'open'
+> & {
+  attributes: ContextualXMLDeclarationAttributeNode[]
 }
 
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>

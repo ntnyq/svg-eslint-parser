@@ -1,23 +1,30 @@
 export enum TokenizerContextTypes {
-  Data = 'Data',
-
-  OpenTagStart = 'OpenTagStart',
-  OpenTagEnd = 'OpenTagEnd',
-  CloseTag = 'CloseTag',
+  AttributeKey = 'AttributeKey',
 
   Attributes = 'Attributes',
-  AttributeKey = 'AttributeKey',
   AttributeValue = 'AttributeValue',
   AttributeValueBare = 'AttributeValueBare',
-  AttributeValueWrapped = 'AttributeValueWrapped',
 
+  AttributeValueWrapped = 'AttributeValueWrapped',
+  CloseTag = 'CloseTag',
+  CommentClose = 'CommentClose',
   CommentContent = 'CommentContent',
   CommentOpen = 'CommentOpen',
-  CommentClose = 'CommentClose',
+  Data = 'Data',
 
-  DoctypeOpen = 'DoctypeOpen',
-  DoctypeClose = 'DoctypeClose',
-  DoctypeAttributes = 'DoctypeAttributes',
   DoctypeAttributeBare = 'DoctypeAttributeBare',
+  DoctypeAttributes = 'DoctypeAttributes',
   DoctypeAttributeWrapped = 'DoctypeAttributeWrapped',
+  DoctypeClose = 'DoctypeClose',
+  DoctypeOpen = 'DoctypeOpen',
+
+  OpenTagEnd = 'OpenTagEnd',
+  OpenTagStart = 'OpenTagStart',
+  XMLDeclarationAttributeKey = 'XMLDeclarationAttributeKey',
+
+  XMLDeclarationAttributes = 'XMLDeclarationAttributes',
+  XMLDeclarationAttributeValue = 'XMLDeclarationAttributeValue',
+  XMLDeclarationAttributeValueWrapped = 'XMLDeclarationAttributeValueWrapped',
+  XMLDeclarationClose = 'XMLDeclarationClose',
+  XMLDeclarationOpen = 'XMLDeclarationOpen',
 }
