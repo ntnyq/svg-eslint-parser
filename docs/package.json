@@ -15,7 +15,7 @@
     "@lezer/highlight": "^1.2.1",
     "@ntnyq/utils": "catalog:",
     "@uiw/codemirror-themes": "^4.23.10",
-    "@vueuse/core": "^12.8.2",
+    "@vueuse/core": "^13.0.0",
     "codemirror": "^6.0.1",
     "floating-vue": "^5.2.2",
     "svg-eslint-parser": "workspace:*",
