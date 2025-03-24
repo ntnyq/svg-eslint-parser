@@ -24,15 +24,15 @@
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.2.8",
-    "@iconify-json/lucide": "^1.2.30",
+    "@iconify-json/lucide": "^1.2.32",
     "@shikijs/transformers": "^3.2.1",
     "@shikijs/vitepress-twoslash": "^3.2.1",
     "twoslash": "^0.3.1",
-    "unocss": "^66.1.0-beta.5",
+    "unocss": "^66.1.0-beta.6",
     "unplugin-vue-components": "^28.4.1",
     "vite": "^6.2.2",
     "vitepress": "^1.6.3",
-    "vitepress-plugin-group-icons": "^1.3.7",
+    "vitepress-plugin-group-icons": "^1.3.8",
     "vue": "^3.5.13"
   }
 }
