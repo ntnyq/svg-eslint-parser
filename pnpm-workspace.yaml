@@ -1,4 +1,4 @@
 packages:
   - docs
 catalog:
-  '@ntnyq/utils': ^0.6.1
+  '@ntnyq/utils': ^0.6.2
