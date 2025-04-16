@@ -15,7 +15,9 @@ export function usePlaygroundState() {
   const error = shallowRef<unknown>()
 
   const astJson = computed(() => {
-    if (!ast.value) return ''
+    if (!ast.value) {
+      return ''
+    }
     try {
       return JSON.stringify(ast.value, null, 2)
     } catch {

@@ -5,11 +5,11 @@ import { Codemirror } from 'vue-codemirror'
 import { languages } from './language'
 import { githubDark, githubLight } from './theme'
 import type { Extension } from '@codemirror/state'
-import type { SupportLanguage } from './language'
+import type { SupportedLanguage } from './language'
 
 const props = withDefaults(
   defineProps<{
-    language?: SupportLanguage
+    language?: SupportedLanguage
     extensions?: Extension[]
     placeholder?: string
     disabled?: boolean
@@ -32,7 +32,6 @@ const resolvedExtensions = computed(() => {
   const extentions: Extension[] = [
     // External extension
     ...props.extensions,
-
     // Theme extension
     isDark.value ? githubDark : githubLight,
   ]

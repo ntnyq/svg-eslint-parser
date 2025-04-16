@@ -9,7 +9,7 @@ export interface Language {
   extension: () => LanguageSupport | Extension[]
 }
 
-export type SupportLanguage = 'xml' | 'json'
+export type SupportedLanguage = 'xml' | 'json'
 
 export const languages: Language[] = [
   {

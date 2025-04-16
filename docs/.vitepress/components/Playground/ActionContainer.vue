@@ -15,7 +15,9 @@ const {
 const { parseCost, setCode, resetPlayground } = useSharedPlaygroundState()
 
 handleFileDialogChange(files => {
-  if (!files?.length) return
+  if (!files?.length) {
+    return
+  }
   tryLoadFile(files[0])
 })
 
@@ -25,7 +27,9 @@ function tryLoadFile(file: File) {
   reader.addEventListener('load', (event: ProgressEvent<FileReader>) => {
     const content = event.target?.result ?? ''
 
-    if (typeof content !== 'string') return
+    if (typeof content !== 'string') {
+      return
+    }
 
     setCode(content)
     resetSelectedFiles()

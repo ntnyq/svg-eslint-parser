@@ -1,40 +1,27 @@
 <script lang="ts" setup>
 import './style.css'
-import { Panel, PanelGroup, PanelResizeHandle } from 'vue-resizable-panels'
+import 'splitpanes/dist/splitpanes.css'
+import { Pane, Splitpanes } from 'splitpanes'
 </script>
 
 <template>
   <div class="page-playground-core relative px-4">
     <ClientOnly>
-      <PanelGroup
-        direction="horizontal"
-        class="panel-group"
-      >
-        <Panel
-          class="panel-column"
-          collapsible
-        >
+      <Splitpanes class="default-theme">
+        <Pane :min-size="30">
           <InputContainer />
-        </Panel>
-        <PanelResizeHandle class="panel-resize-handle" />
-        <Panel
-          class="panel-column"
-          collapsible
-        >
+        </Pane>
+        <Pane :min-size="30">
           <OutputContainer />
-        </Panel>
-        <PanelResizeHandle class="panel-resize-handle" />
-        <Panel
+        </Pane>
+        <Pane
           :min-size="12"
           :max-size="24"
-          :default-size="18"
-          class="panel-column"
-          collapsible
+          :size="18"
         >
           <ActionContainer />
-        </Panel>
-      </PanelGroup>
-
+        </Pane>
+      </Splitpanes>
       <DropZone />
     </ClientOnly>
   </div>

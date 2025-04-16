@@ -29,7 +29,9 @@ const isActive = computed(
 )
 
 function handleHoverItem(isHovering: boolean) {
-  if (isNil(props.onHover) || !isFunction(props.onHover)) return
+  if (isNil(props.onHover) || !isFunction(props.onHover)) {
+    return
+  }
 
   if (isHovering) {
     props.onHover?.()

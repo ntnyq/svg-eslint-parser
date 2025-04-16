@@ -38,7 +38,9 @@ function onDragOver(evt: DragEvent) {
   evt.preventDefault()
 }
 async function onImportFile(files?: FileList | null) {
-  if (!files) return
+  if (!files) {
+    return
+  }
 
   const file = files[0]
   const fileExt = file.name.split('.').pop()?.toLowerCase()
@@ -56,6 +58,7 @@ async function onImportFile(files?: FileList | null) {
 }
 async function onDrop(evt: DragEvent) {
   evt.preventDefault()
+
   if (!isFileDrag(evt)) {
     return
   }

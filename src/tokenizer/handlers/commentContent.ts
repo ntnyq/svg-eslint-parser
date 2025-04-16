@@ -38,7 +38,7 @@ function parseCommentClose(state: TokenizerState) {
     loc: position.loc,
   })
 
-  // eslint-disable-next-line unicorn/no-array-push-push
+  // eslint-disable-next-line unicorn/prefer-single-call
   state.tokens.push({
     type: TokenTypes.CommentClose,
     value: state.decisionBuffer.value(),
