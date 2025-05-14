@@ -16,6 +16,21 @@
   --at-apply: "hidden";
 }
 
+/* Overrides splitpane default theme */
+.page-playground .splitpanes.default-theme .splitpanes__pane {
+  background-color: transparent;
+}
+.page-playground .splitpanes.default-theme .splitpanes__splitter {
+  background-color: var(--vp-c-gutter);
+}
+
+.v-codemirror {
+  --at-apply: "h-full block!";
+}
+.v-codemirror .cm-editor {
+  --at-apply: "h-full";
+}
+
 /* set height for playground core */
 @media screen and (min-width: 960px) {
   .page-playground .page-playground-core {

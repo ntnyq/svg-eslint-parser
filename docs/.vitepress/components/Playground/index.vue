@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import './style.css'
 import 'splitpanes/dist/splitpanes.css'
 import { Pane, Splitpanes } from 'splitpanes'
 </script>
@@ -17,7 +16,6 @@ import { Pane, Splitpanes } from 'splitpanes'
         <Pane
           :min-size="12"
           :max-size="24"
-          :size="18"
         >
           <ActionContainer />
         </Pane>
