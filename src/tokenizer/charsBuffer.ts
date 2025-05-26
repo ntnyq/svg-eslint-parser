@@ -7,10 +7,10 @@ export class CharsBuffer {
   public concat(chars: Chars) {
     const last = this.last()
 
-    if (!last) {
-      this.charsBuffer.push(chars)
-    } else {
+    if (last) {
       last.concat(chars)
+    } else {
+      this.charsBuffer.push(chars)
     }
   }
 

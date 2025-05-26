@@ -22,7 +22,9 @@ function nextLineBreak(code: string, from: number, end = code.length) {
 export function getLineInfo(input: string, offset: number) {
   for (let line = 1, cur = 0; ; ) {
     const nextBreak = nextLineBreak(input, cur, offset)
-    if (nextBreak < 0) return { line, column: offset - cur }
+    if (nextBreak < 0) {
+      return { line, column: offset - cur }
+    }
     ++line
     cur = nextBreak
   }

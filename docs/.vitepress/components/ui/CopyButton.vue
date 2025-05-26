@@ -21,7 +21,7 @@ async function handleClick() {
     >
       <button
         @click="handleClick"
-        :aria-label="!copied ? 'Copy code to clipboard' : 'Copied'"
+        :aria-label="copied ? 'Copied' : 'Copy code to clipboard'"
         :disabled="copied"
         type="button"
         role="button"
