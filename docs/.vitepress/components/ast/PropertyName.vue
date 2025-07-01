@@ -17,7 +17,9 @@ function handleMouseLeave() {
   props.onHover?.(false)
 }
 function handleKeyDown(evt: KeyboardEvent) {
-  if (evt.code !== 'Space') return
+  if (evt.code !== 'Space') {
+    return
+  }
   evt.preventDefault?.()
   props.onClick?.()
 }
