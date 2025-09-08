@@ -89,18 +89,18 @@ watchEffect(() => {
         :key="dataElement[0]"
         :field="dataElement[0]"
         :last-element="idx === lastIndex"
-        :node-type="nodeType"
+        :node-type
         :level="`${level}.${dataElement[0]}`"
-        :on-hover="onHover"
-        :selected-path="selectedPath"
-        :show-tokens="showTokens"
+        :on-hover
+        :selected-path
+        :show-tokens
         :value="dataElement[1]"
       />
     </div>
     <HiddenItem
       v-else
       :is-array="openBracket === '['"
-      :level="level"
+      :level
       :value="data"
     />
 

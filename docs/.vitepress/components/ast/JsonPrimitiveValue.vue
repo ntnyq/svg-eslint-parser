@@ -39,14 +39,14 @@ const tooltip = computed(() => {
       :triggers="['hover']"
       placement="right"
     >
-      <PropertyValue :value="value" />
+      <PropertyValue :value />
       <template #popper>
         {{ tooltip }}
       </template>
     </Tooltip>
     <PropertyValue
       v-else
-      :value="value"
+      :value
     />
 
     <span
