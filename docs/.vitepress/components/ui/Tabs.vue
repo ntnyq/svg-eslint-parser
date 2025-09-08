@@ -40,7 +40,7 @@ onMounted(() => {
       @click="handleItemClick(item)"
       v-for="item in options"
       :key="item.name"
-      :item="item"
+      :item
       :is-active="activeItem === item.name"
       role="tab"
     />

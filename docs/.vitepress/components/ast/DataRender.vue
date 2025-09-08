@@ -25,28 +25,28 @@ const isTypeSet = computed(() => isSet(props.value))
   <JsonArray
     v-if="isTypeArray"
     v-bind="props"
-    :value="value"
+    :value
   />
   <JsonObject
     v-else-if="isTypeObject"
     v-bind="props"
-    :value="value"
+    :value
   />
   <JsonIterable
     v-else-if="isTypeMap"
     v-bind="props"
-    :value="value"
+    :value
     type-name="Map"
   />
   <JsonIterable
     v-else-if="isTypeSet"
     v-bind="props"
-    :value="value"
+    :value
     type-name="Set"
   />
   <JsonPrimitiveValue
     v-else
     v-bind="props"
-    :value="value"
+    :value
   />
 </template>
