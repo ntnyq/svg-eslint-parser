@@ -26,7 +26,7 @@
     "svg-eslint-parser": "workspace:*",
     "twoslash": "^0.3.4",
     "unocss": "^66.4.2",
-    "unplugin-vue-components": "^29.0.0",
+    "unplugin-vue-components": "^30.0.0",
     "vite": "^7.1.2",
     "vitepress": "^2.0.0-alpha.11",
     "vitepress-plugin-group-icons": "^1.6.3",
