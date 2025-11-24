@@ -27,7 +27,7 @@ const selectedPath = computed(() => {
   <div class="ast-list">
     <DataRender
       :value="model"
-      :selected-path="selectedPath"
+      :selected-path
       level="ast"
       last-element
     />
