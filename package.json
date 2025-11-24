@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@ntnyq/utils": "^0.9.1",
-    "eslint-visitor-keys": "^4.2.1"
+    "eslint-visitor-keys": "^5.0.0"
   },
   "devDependencies": {
     "@ntnyq/eslint-config": "^5.3.1",
