@@ -17,6 +17,7 @@
     "@lezer/highlight": "^1.2.3",
     "@ntnyq/utils": "^0.10.0",
     "@shikijs/transformers": "^3.20.0",
+    "@shikijs/types": "^3.20.0",
     "@shikijs/vitepress-twoslash": "^3.20.0",
     "@uiw/codemirror-themes": "^4.25.4",
     "@vueuse/core": "^14.1.0",
