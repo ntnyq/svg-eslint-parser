@@ -32,9 +32,9 @@ export const RE_OPEN_TAG_NAME = /^<(\S+)/
 
 /**
  * regexp for close tag name
- * @regex101 https://regex101.com/?regex=%5E%3C%5C%2F%28%28%3F%3A.%7C%5Cn%29*%29%3E%24&flavor=javascript
+ * @regex101 https://regex101.com/?regex=%5E%3C%5C%2F%28%28%3F%3A.%7C%5Cr%3F%5Cn%29*%29%3E%24&flavor=javascript
  */
-export const RE_CLOSE_TAG_NAME = /^<\/((?:.|\n)*)>$/
+export const RE_CLOSE_TAG_NAME = /^<\/((?:.|\r?\n)*)>$/
 
 /**
  * regexp for incomplete closing tag
