@@ -4,6 +4,7 @@ import {
   TokenTypes,
 } from '../../constants'
 import { cloneLocation, cloneRange, initAttributesIfNone } from '../../utils'
+import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
   ConstructTreeState,
@@ -17,46 +18,42 @@ const ATTRIBUTE_START_TOKENS = new Set([
 
 const ATTRIBUTE_END_TOKENS = new Set([TokenTypes.OpenTagEnd])
 
+const dispatch = createTokenDispatcher(
+  [
+    {
+      tokenType: ATTRIBUTE_START_TOKENS,
+      handler: (token, state) => {
+        initAttributesIfNone(state.currentNode)
+        // mew empty attributes
+        state.currentNode.attributes.push({
+          type: NodeTypes.Attribute,
+          range: cloneRange(token.range),
+          loc: cloneLocation(token.loc),
+        })
+        state.currentContext = {
+          parentRef: state.currentContext,
+          type: ConstructTreeContextTypes.Attribute,
+        }
+        return state
+      },
+    },
+    {
+      tokenType: ATTRIBUTE_END_TOKENS,
+      handler: (_, state) => {
+        state.currentContext = state.currentContext.parentRef
+        return state
+      },
+    },
+  ],
+  (_, state) => {
+    state.caretPosition++
+    return state
+  },
+)
+
 export function construct(
   token: AnyToken,
   state: ConstructTreeState<ContextualTagNode>,
 ) {
-  if (ATTRIBUTE_START_TOKENS.has(token.type)) {
-    return handleAttributeStart(state, token)
-  }
-
-  if (ATTRIBUTE_END_TOKENS.has(token.type)) {
-    return handleOpenTagEnd(state)
-  }
-
-  state.caretPosition++
-
-  return state
-}
-
-function handleAttributeStart(
-  state: ConstructTreeState<ContextualTagNode>,
-  token: AnyToken,
-) {
-  initAttributesIfNone(state.currentNode)
-
-  // mew empty attributes
-  state.currentNode.attributes.push({
-    type: NodeTypes.Attribute,
-    range: cloneRange(token.range),
-    loc: cloneLocation(token.loc),
-  })
-
-  state.currentContext = {
-    parentRef: state.currentContext,
-    type: ConstructTreeContextTypes.Attribute,
-  }
-
-  return state
-}
-
-function handleOpenTagEnd(state: ConstructTreeState<ContextualTagNode>) {
-  state.currentContext = state.currentContext.parentRef
-
-  return state
+  return dispatch(token, state)
 }

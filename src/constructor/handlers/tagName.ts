@@ -1,32 +1,33 @@
 import { TokenTypes } from '../../constants'
 import { parseOpenTagName } from '../../utils'
+import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
   ConstructTreeState,
   ContextualTagNode,
-  Token,
 } from '../../types'
+
+const dispatch = createTokenDispatcher(
+  [
+    {
+      tokenType: TokenTypes.OpenTagStart,
+      handler: (token, state) => {
+        state.currentNode.name = parseOpenTagName(token.value)
+        state.currentContext = state.currentContext.parentRef
+        state.caretPosition++
+        return state
+      },
+    },
+  ],
+  (_, state) => {
+    state.caretPosition++
+    return state
+  },
+)
 
 export function construct(
   token: AnyToken,
   state: ConstructTreeState<ContextualTagNode>,
 ) {
-  if (token.type === TokenTypes.OpenTagStart) {
-    handleTagOpenStart(state, token)
-  }
-
-  state.caretPosition++
-
-  return state
-}
-
-function handleTagOpenStart(
-  state: ConstructTreeState<ContextualTagNode>,
-  token: Token<TokenTypes.OpenTagStart>,
-) {
-  state.currentNode.name = parseOpenTagName(token.value)
-
-  state.currentContext = state.currentContext.parentRef
-
-  return state
+  return dispatch(token, state)
 }

@@ -1,32 +1,57 @@
-import { TokenTypes } from '../../constants'
-import { parseOpenTagName } from '../../utils'
+import {
+  ConstructTreeContextTypes,
+  NodeTypes,
+  TokenTypes,
+} from '../../constants'
+import { cloneLocation, cloneRange, initAttributesIfNone } from '../../utils'
+import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
   ConstructTreeState,
   ContextualTagNode,
-  Token,
 } from '../../types'
+
+const ATTRIBUTE_START_TOKENS = new Set([
+  TokenTypes.AttributeKey,
+  TokenTypes.AttributeAssignment,
+])
+
+const dispatch = createTokenDispatcher(
+  [
+    {
+      tokenType: TokenTypes.OpenTagEnd,
+      handler: (_, state) => {
+        state.currentContext = state.currentContext.parentRef
+        return state
+      },
+    },
+    {
+      tokenType: ATTRIBUTE_START_TOKENS,
+      handler: (token, state) => {
+        initAttributesIfNone(state.currentNode)
+        // mew empty attributes
+        state.currentNode.attributes.push({
+          type: NodeTypes.Attribute,
+          range: cloneRange(token.range),
+          loc: cloneLocation(token.loc),
+        })
+        state.currentContext = {
+          type: ConstructTreeContextTypes.XMLDeclarationAttribute,
+          parentRef: state.currentContext,
+        }
+        return state
+      },
+    },
+  ],
+  (_, state) => {
+    state.caretPosition++
+    return state
+  },
+)
 
 export function construct(
   token: AnyToken,
   state: ConstructTreeState<ContextualTagNode>,
 ) {
-  if (token.type === TokenTypes.OpenTagStart) {
-    handleTagOpenStart(state, token)
-  }
-
-  state.caretPosition++
-
-  return state
-}
-
-function handleTagOpenStart(
-  state: ConstructTreeState<ContextualTagNode>,
-  token: Token<TokenTypes.OpenTagStart>,
-) {
-  state.currentNode.name = parseOpenTagName(token.value)
-
-  state.currentContext = state.currentContext.parentRef
-
-  return state
+  return dispatch(token, state)
 }
