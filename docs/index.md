@@ -14,6 +14,29 @@ hero:
     - theme: alt
       text: Playground
       link: /play/
+    - theme: alt
+      text: API Reference
+      link: /api/
+
+features:
+  - icon: ✅
+    title: ESLint Compatible
+    details: Produces AST compatible with ESLint's parser interface for seamless integration with ESLint rules and plugins.
+  - icon: 🎯
+    title: Type Safe
+    details: Full TypeScript support with comprehensive type definitions for all AST nodes and utility functions.
+  - icon: 🔍
+    title: Rich Utilities
+    details: Built-in functions for searching, traversing, validating, and manipulating AST nodes with ease.
+  - icon: 📊
+    title: Detailed AST
+    details: 34 node types covering all SVG/XML constructs including tags, attributes, comments, DOCTYPE, and XML declarations.
+  - icon: 🚀
+    title: Zero Dependencies
+    details: Minimal runtime dependencies for fast installation and optimal bundle size.
+  - icon: 🎪
+    title: Interactive Playground
+    details: Try the parser online with live AST visualization and instant feedback.
 ---
 
 <div id="package_status">
@@ -26,18 +49,25 @@ hero:
 
 </div>
 
-## :book: Usage
+## Quick Start
 
-See [Guide](./guide/index.md).
+```bash
+npm install svg-eslint-parser -D
+```
 
-## :recycle: Playground
+```typescript
+import { parseForESLint, findNodeByType, NodeTypes } from 'svg-eslint-parser'
 
-See [Playground](./play/index.md).
+const { ast } = parseForESLint('<svg><circle cx="50" /></svg>')
+const tags = findNodeByType(ast.body[0], NodeTypes.Tag)
+console.log(`Found ${tags.length} tags`)
+```
 
-## :paperclip: Releases
+## Resources
 
-See [Releases](https://github.com/ntnyq/svg-eslint-parser/releases).
-
-## :lock: License
-
-[MIT](https://github.com/ntnyq/svg-eslint-parser/blob/main/LICENSE) License © 2024-PRESENT [ntnyq](https://github.com/ntnyq)
+- **[Guide](./guide/)** - Get started with the parser
+- **[API Reference](./api/)** - Complete API documentation
+- **[AST Structure](./api/ast)** - Learn about the AST node types
+- **[Utilities](./api/utilities)** - Explore helper functions
+- **[Migration Guide](./guide/migration)** - Upgrade from previous versions
+- **[Playground](./play/)** - Try it online with live visualization
