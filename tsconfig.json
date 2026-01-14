@@ -6,7 +6,6 @@
     "moduleResolution": "Bundler",
     "types": ["node"],
     "resolveJsonModule": true,
-    // TODO: enable
     "erasableSyntaxOnly": false,
     "libReplacement": false,
     "isolatedModules": true,
