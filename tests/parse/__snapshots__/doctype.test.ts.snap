@@ -78,24 +78,6 @@ exports[`should parse 1`] = `
               },
             },
             {
-              "endWrapper": {
-                "loc": {
-                  "end": {
-                    "column": 46,
-                    "line": 1,
-                  },
-                  "start": {
-                    "column": 45,
-                    "line": 1,
-                  },
-                },
-                "range": [
-                  45,
-                  46,
-                ],
-                "type": "DoctypeAttributeWrapperEnd",
-                "value": """,
-              },
               "loc": {
                 "end": {
                   "column": 46,
@@ -106,28 +88,11 @@ exports[`should parse 1`] = `
                   "line": 1,
                 },
               },
+              "quoteChar": """,
               "range": [
                 21,
                 46,
               ],
-              "startWrapper": {
-                "loc": {
-                  "end": {
-                    "column": 22,
-                    "line": 1,
-                  },
-                  "start": {
-                    "column": 21,
-                    "line": 1,
-                  },
-                },
-                "range": [
-                  21,
-                  22,
-                ],
-                "type": "DoctypeAttributeWrapperStart",
-                "value": """,
-              },
               "type": "DoctypeAttribute",
               "value": {
                 "loc": {

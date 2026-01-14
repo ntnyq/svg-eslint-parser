@@ -9,8 +9,6 @@ import {
 import type {
   AnyToken,
   AttributeValueNode,
-  AttributeValueWrapperEndNode,
-  AttributeValueWrapperStartNode,
   ConstructTreeState,
   ContextualTagNode,
   Token,
@@ -74,9 +72,7 @@ function handleAttributeValueWrapperStart(
 ) {
   const attribute = getLastAttribute(state)
 
-  attribute.startWrapper = createNodeFrom(
-    token,
-  ) as AttributeValueWrapperStartNode
+  attribute.quoteChar = token.value as any
 
   if (!attribute.key) {
     attribute.range = cloneRange(token.range)
@@ -93,8 +89,6 @@ function handleAttributeValueWrapperEnd(
   token: Token<TokenTypes.AttributeValueWrapperEnd>,
 ) {
   const attribute = getLastAttribute(state)
-
-  attribute.endWrapper = createNodeFrom(token) as AttributeValueWrapperEndNode
 
   updateNodeEnd(attribute, token)
 

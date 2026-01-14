@@ -10,8 +10,6 @@ import type {
   ConstructTreeState,
   ContextualDoctypeNode,
   DoctypeAttributeValueNode,
-  DoctypeAttributeWrapperEndNode,
-  DoctypeAttributeWrapperStartNode,
 } from '../../types'
 
 export function construct(
@@ -57,9 +55,7 @@ function handleDoctypeAttributeWrapperStart(
     return state
   }
 
-  attribute.startWrapper = createNodeFrom(
-    token,
-  ) as DoctypeAttributeWrapperStartNode
+  attribute.quoteChar = token.value as any
   attribute.range = cloneRange(token.range)
 
   state.caretPosition++
@@ -72,8 +68,6 @@ function handleDoctypeAttributeWrapperEnd(
   token: AnyToken,
 ) {
   const attribute = getLastAttribute(state)
-
-  attribute.endWrapper = createNodeFrom(token) as DoctypeAttributeWrapperEndNode
 
   updateNodeEnd(attribute, token)
 
@@ -98,7 +92,7 @@ function handleDoctypeAttributeValue(
 
   attribute.value = createNodeFrom(token) as DoctypeAttributeValueNode
 
-  if (!attribute.startWrapper) {
+  if (!attribute.quoteChar) {
     attribute.range = cloneRange(token.range)
   }
 

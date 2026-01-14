@@ -1,10 +1,7 @@
 import { TokenTypes } from '../../constants'
-import { createNodeFrom, updateNodeEnd } from '../../utils'
+import { updateNodeEnd } from '../../utils'
 import type {
   AnyToken,
-  CommentCloseNode,
-  CommentContentNode,
-  CommentOpenNode,
   ConstructTreeState,
   ContextualCommentNode,
 } from '../../types'
@@ -30,12 +27,9 @@ export function construct(
 
 function handleCommentOpen(
   state: ConstructTreeState<ContextualCommentNode>,
-  token: AnyToken,
+  _token: AnyToken,
 ) {
-  state.currentNode.open = createNodeFrom(token) as CommentOpenNode
-
   state.caretPosition++
-
   return state
 }
 
@@ -43,7 +37,7 @@ function handleCommentContent(
   state: ConstructTreeState<ContextualCommentNode>,
   token: AnyToken,
 ) {
-  state.currentNode.value = createNodeFrom(token) as CommentContentNode
+  state.currentNode.content = token.value
 
   state.caretPosition++
 
@@ -54,8 +48,6 @@ function handleCommentClose(
   state: ConstructTreeState<ContextualCommentNode>,
   token: AnyToken,
 ) {
-  state.currentNode.close = createNodeFrom(token) as CommentCloseNode
-
   updateNodeEnd(state.currentNode, token)
 
   state.currentNode = state.currentNode.parentRef

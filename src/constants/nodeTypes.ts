@@ -2,7 +2,6 @@ export enum NodeTypes {
   Attribute = 'Attribute',
   AttributeKey = 'AttributeKey',
   AttributeValue = 'AttributeValue',
-
   AttributeValueWrapperEnd = 'AttributeValueWrapperEnd',
   AttributeValueWrapperStart = 'AttributeValueWrapperStart',
   CloseTag = 'CloseTag',
@@ -11,7 +10,6 @@ export enum NodeTypes {
   CommentContent = 'CommentContent',
   CommentOpen = 'CommentOpen',
   Doctype = 'Doctype',
-
   DoctypeAttribute = 'DoctypeAttribute',
   DoctypeAttributeValue = 'DoctypeAttributeValue',
   DoctypeAttributeWrapperEnd = 'DoctypeAttributeWrapperEnd',
@@ -19,17 +17,15 @@ export enum NodeTypes {
   DoctypeClose = 'DoctypeClose',
   DoctypeOpen = 'DoctypeOpen',
   Document = 'Document',
-
+  Error = 'Error',
   OpenTagEnd = 'OpenTagEnd',
   OpenTagStart = 'OpenTagStart',
   Program = 'Program',
   Tag = 'Tag',
-
   Text = 'Text',
   XMLDeclaration = 'XMLDeclaration',
   XMLDeclarationAttribute = 'XMLDeclarationAttribute',
   XMLDeclarationAttributeKey = 'XMLDeclarationAttributeKey',
-
   XMLDeclarationAttributeValue = 'XMLDeclarationAttributeValue',
   XMLDeclarationAttributeValueWrapperEnd = 'XMLDeclarationAttributeValueWrapperEnd',
   XMLDeclarationAttributeValueWrapperStart = 'XMLDeclarationAttributeValueWrapperStart',

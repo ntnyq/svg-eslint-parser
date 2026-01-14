@@ -146,11 +146,9 @@ function handleDoctypeOpen(
     attributes: [],
   }
 
-  // @ts-expect-error doctype node not match
-  state.currentNode.children.push(doctypeNode)
+  state.currentNode.children.push(doctypeNode as any)
 
-  // @ts-expect-error doctype node not match
-  state.currentNode = doctypeNode
+  state.currentNode = doctypeNode as any
   state.currentContext = {
     parentRef: state.currentContext,
     type: ConstructTreeContextTypes.Doctype,
