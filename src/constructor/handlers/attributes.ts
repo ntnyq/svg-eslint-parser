@@ -24,7 +24,7 @@ const dispatch = createTokenDispatcher(
       tokenType: ATTRIBUTE_START_TOKENS,
       handler: (token, state) => {
         initAttributesIfNone(state.currentNode)
-        // mew empty attributes
+        // new empty attributes
         state.currentNode.attributes.push({
           type: NodeTypes.Attribute,
           range: cloneRange(token.range),

@@ -18,7 +18,7 @@ export type AnyContextualNode =
   | ContextualDocumentNode
   | ContextualTagNode
   | ContextualXMLDeclarationAttributeNode
-  | ContextuaLXMLDeclarationNode
+  | ContextualXMLDeclarationNode
 
 export type ContextualAttributeNode = ContextualNode<
   AttributeNode,
@@ -84,7 +84,7 @@ export type ContextualXMLDeclarationAttributeNode = ContextualNode<
   XMLDeclarationAttributeNode,
   'key' | 'value'
 >
-export type ContextuaLXMLDeclarationNode = ContextualNode<
+export type ContextualXMLDeclarationNode = ContextualNode<
   XMLDeclarationNode,
   'attributes'
 > & {
