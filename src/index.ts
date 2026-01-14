@@ -19,3 +19,21 @@ export type { AST }
 
 export * from './types'
 export * from './constants'
+
+// Utility functions
+export {
+  cloneNode,
+  cloneNodeWithParent,
+  countNodes,
+  filterNodes,
+  findFirstNodeByType,
+  findNodeByType,
+  getNodeDepth,
+  getParentChain,
+  isNodeType,
+  mapNodes,
+  traverseAST,
+  validateNode,
+  walkAST,
+} from './utils'
+export type { ASTVisitor } from './utils'
