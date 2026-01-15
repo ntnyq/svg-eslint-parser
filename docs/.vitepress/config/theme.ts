@@ -52,14 +52,44 @@ export function getThemeConfig() {
           text: 'Guide',
           items: [
             { text: 'Home', link: '/' },
-            { text: 'Guide', link: '/guide/' },
+            { text: 'Getting Started', link: '/guide/' },
+            { text: 'Migration Guide', link: '/guide/migration' },
+          ],
+        },
+        {
+          text: 'API',
+          items: [
+            { text: 'Overview', link: '/api/' },
+            { text: 'AST Structure', link: '/api/ast' },
+            { text: 'Utilities', link: '/api/utilities' },
           ],
         },
       ],
       '/api/': [
         {
+          text: 'API Reference',
+          items: [
+            { text: 'Overview', link: '/api/' },
+            { text: 'AST Structure', link: '/api/ast' },
+            { text: 'Utilities', link: '/api/utilities' },
+          ],
+        },
+      ],
+      '/guide/': [
+        {
+          text: 'Guide',
+          items: [
+            { text: 'Getting Started', link: '/guide/' },
+            { text: 'Migration Guide', link: '/guide/migration' },
+          ],
+        },
+        {
           text: 'API',
-          items: [{ text: 'AST', link: '/api/ast' }],
+          items: [
+            { text: 'Overview', link: '/api/' },
+            { text: 'AST Structure', link: '/api/ast' },
+            { text: 'Utilities', link: '/api/utilities' },
+          ],
         },
       ],
     },

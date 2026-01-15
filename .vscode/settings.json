@@ -23,9 +23,11 @@
     "typescriptreact"
   ],
   "cSpell.words": [
+    "apos",
     "bumpp",
     "changelogithub",
     "codecov",
+    "deduplicator",
     "esbuild",
     "hkern",
     "iconify",
@@ -43,6 +45,7 @@
     "vitest",
     "vkern",
     "vueuse",
+    "xlink",
     "yeonjuan"
   ],
   "cSpell.allowCompoundWords": true

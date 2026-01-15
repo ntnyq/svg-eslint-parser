@@ -10,10 +10,12 @@ export function parseForESLint(
 ): ParseForESLintResult {
   const { ast, tokens } = parse(source, options)
 
+  const comments: string[] = []
+
   const programNode: Program = {
     type: NodeTypes.Program,
     body: [ast],
-    comments: [],
+    comments,
     tokens: tokens.filter(
       token =>
         token.type !== TokenTypes.CommentOpen
@@ -25,13 +27,8 @@ export function parseForESLint(
   }
 
   traverse(programNode, node => {
-    if (node.type === NodeTypes.CommentContent) {
-      programNode.comments.push({
-        type: node.type,
-        range: node.range,
-        loc: node.loc,
-        value: node.value,
-      })
+    if (node.type === NodeTypes.Comment && 'content' in node) {
+      comments.push((node as any).content)
     }
   })
 

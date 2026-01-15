@@ -8,40 +8,42 @@ const keys: {
   Program: ['body'],
   Document: ['children'],
 
-  XMLDeclaration: [],
-  XMLDeclarationOpen: [],
-  XMLDeclarationClose: [],
+  XMLDeclaration: ['attributes'],
   XMLDeclarationAttribute: ['key', 'value'],
   XMLDeclarationAttributeKey: [],
   XMLDeclarationAttributeValue: [],
+  XMLDeclarationOpen: [],
+  XMLDeclarationClose: [],
   XMLDeclarationAttributeValueWrapperStart: [],
   XMLDeclarationAttributeValueWrapperEnd: [],
 
-  Doctype: ['open', 'close', 'attributes'],
+  Doctype: ['attributes'],
+  DoctypeAttribute: ['value'],
+  DoctypeAttributeValue: [],
   DoctypeOpen: [],
   DoctypeClose: [],
-  DoctypeAttribute: ['key', 'value'],
-  DoctypeAttributeValue: ['value'],
-  DoctypeAttributeWrapperEnd: [],
   DoctypeAttributeWrapperStart: [],
+  DoctypeAttributeWrapperEnd: [],
 
   Attribute: ['key', 'value'],
-  AttributeKey: ['value'],
-  AttributeValue: ['value'],
-  AttributeValueWrapperEnd: [],
+  AttributeKey: [],
+  AttributeValue: [],
   AttributeValueWrapperStart: [],
+  AttributeValueWrapperEnd: [],
 
-  Tag: ['children', 'attributes'],
-  OpenTagEnd: [],
+  Tag: ['attributes', 'children'],
   OpenTagStart: [],
+  OpenTagEnd: [],
   CloseTag: [],
 
-  Comment: ['open', 'close', 'value'],
+  Comment: [],
   CommentOpen: [],
   CommentClose: [],
   CommentContent: [],
 
   Text: [],
+
+  Error: [],
 }
 
 let vistorKeysCache: SourceCode.VisitorKeys | null = null

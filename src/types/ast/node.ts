@@ -14,112 +14,99 @@ export interface SimpleNode<T extends NodeTypes> extends BaseNode {
 export type TextNode = SimpleNode<NodeTypes.Text>
 
 /**
- * attribute
+ * attribute nodes
  * @pg
  */
 export type AttributeKeyNode = SimpleNode<NodeTypes.AttributeKey>
+export type AttributeValueNode = SimpleNode<NodeTypes.AttributeValue>
+
 export interface AttributeNode extends BaseNode {
   key: AttributeKeyNode
   type: NodeTypes.Attribute
   value: AttributeValueNode
-  endWrapper?: AttributeValueWrapperEndNode
-  startWrapper?: AttributeValueWrapperStartNode
+  quoteChar?: '"' | "'" | undefined
 }
-export type AttributeValueNode = SimpleNode<NodeTypes.AttributeValue>
-export type AttributeValueWrapperEndNode =
-  SimpleNode<NodeTypes.AttributeValueWrapperEnd>
-export type AttributeValueWrapperStartNode =
-  SimpleNode<NodeTypes.AttributeValueWrapperStart>
 
 /**
- * comment
+ * comment nodes
  * @pg
  */
-export type CommentCloseNode = SimpleNode<NodeTypes.CommentClose>
-export type CommentContentNode = SimpleNode<NodeTypes.CommentContent>
 export interface CommentNode extends BaseNode {
-  close: CommentCloseNode
-  open: CommentOpenNode
+  content: string
   type: NodeTypes.Comment
-  value: CommentContentNode
 }
-export type CommentOpenNode = SimpleNode<NodeTypes.CommentOpen>
 
 /**
- * doctype
+ * doctype nodes
  * @pg
  */
-export interface DoctypeAttributeNode extends BaseNode {
-  type: NodeTypes.DoctypeAttribute
-  endWrapper?: DoctypeAttributeWrapperEndNode
-  startWrapper?: DoctypeAttributeWrapperStartNode
-  value?: DoctypeAttributeValueNode
-}
 export type DoctypeAttributeValueNode =
   SimpleNode<NodeTypes.DoctypeAttributeValue>
-export type DoctypeAttributeWrapperEndNode =
-  SimpleNode<NodeTypes.DoctypeAttributeWrapperEnd>
-export type DoctypeAttributeWrapperStartNode =
-  SimpleNode<NodeTypes.DoctypeAttributeWrapperStart>
-export type DoctypeCloseNode = SimpleNode<NodeTypes.DoctypeClose>
+
+export interface DoctypeAttributeNode extends BaseNode {
+  type: NodeTypes.DoctypeAttribute
+  quoteChar?: '"' | "'" | undefined
+  value?: DoctypeAttributeValueNode
+}
+
 export interface DoctypeNode extends BaseNode {
   attributes: DoctypeAttributeNode[]
-  close: DoctypeCloseNode
-  open: DoctypeOpenNode
   type: NodeTypes.Doctype
 }
-export type DoctypeOpenNode = SimpleNode<NodeTypes.DoctypeOpen>
 
 /**
- * tag
+ * tag nodes
  * @pg
  */
-export type CloseTagNode = SimpleNode<NodeTypes.CloseTag>
-export type OpenTagEndNode = SimpleNode<NodeTypes.OpenTagEnd>
-export type OpenTagStartNode = SimpleNode<NodeTypes.OpenTagStart>
 export interface TagNode extends BaseNode {
   attributes: AttributeNode[]
   children: NestableNode[]
   name: string
-  openEnd: OpenTagEndNode
-  openStart: OpenTagStartNode
   selfClosing: boolean
   type: NodeTypes.Tag
-  close?: CloseTagNode
 }
 
 /**
- * XML declaration
+ * XML declaration nodes
  */
 export type XMLDeclarationAttributeKeyNode =
   SimpleNode<NodeTypes.XMLDeclarationAttributeKey>
+export type XMLDeclarationAttributeValueNode =
+  SimpleNode<NodeTypes.XMLDeclarationAttributeValue>
+
 export interface XMLDeclarationAttributeNode extends BaseNode {
   key: XMLDeclarationAttributeKeyNode
   type: NodeTypes.XMLDeclarationAttribute
   value: XMLDeclarationAttributeValueNode
-  endWrapper?: XMLDeclarationAttributeValueWrapperEndNode
-  startWrapper?: XMLDeclarationAttributeValueWrapperStartNode
+  quoteChar?: '"' | "'" | undefined
 }
-export type XMLDeclarationAttributeValueNode =
-  SimpleNode<NodeTypes.XMLDeclarationAttributeValue>
-export type XMLDeclarationAttributeValueWrapperEndNode =
-  SimpleNode<NodeTypes.XMLDeclarationAttributeValueWrapperEnd>
-export type XMLDeclarationAttributeValueWrapperStartNode =
-  SimpleNode<NodeTypes.XMLDeclarationAttributeValueWrapperStart>
-export type XMLDeclarationCloseNode = SimpleNode<NodeTypes.XMLDeclarationClose>
+
 export interface XMLDeclarationNode extends BaseNode {
   attributes: XMLDeclarationAttributeNode[]
-  close: XMLDeclarationCloseNode
-  open: XMLDeclarationOpenNode
   type: NodeTypes.XMLDeclaration
 }
-export type XMLDeclarationOpenNode = SimpleNode<NodeTypes.XMLDeclarationOpen>
+
+/**
+ * error nodes
+ * @pg
+ */
+export interface ErrorNode extends BaseNode {
+  code: string
+  message: string
+  type: NodeTypes.Error
+  recoveredNode?: AnyNode
+}
 
 /**
  * nestable node
  * @pg
  */
-export type NestableNode = CommentNode | TagNode | TextNode | XMLDeclarationNode
+export type NestableNode =
+  | CommentNode
+  | DoctypeNode
+  | TagNode
+  | TextNode
+  | XMLDeclarationNode
 
 /**
  * program
@@ -129,9 +116,10 @@ export interface DocumentNode extends BaseNode {
   children: NestableNode[]
   type: NodeTypes.Document
 }
+
 export interface Program extends BaseNode {
   body: DocumentNode[]
-  comments: CommentContentNode[]
+  comments: string[]
   tokens: AnyToken[]
   type: NodeTypes.Program
 }
@@ -159,6 +147,7 @@ export type AnyNode =
   | DoctypeNode
   | DoctypeOpenNode
   | DocumentNode
+  | ErrorNode
   | OpenTagEndNode
   | OpenTagStartNode
   | Program
@@ -172,3 +161,106 @@ export type AnyNode =
   | XMLDeclarationCloseNode
   | XMLDeclarationNode
   | XMLDeclarationOpenNode
+
+/**
+ * @deprecated Legacy wrapper nodes (internal use only)
+ */
+export type AttributeValueWrapperEndNode =
+  SimpleNode<NodeTypes.AttributeValueWrapperEnd>
+/**
+ * @deprecated Legacy wrapper nodes (internal use only)
+ */
+export type AttributeValueWrapperStartNode =
+  SimpleNode<NodeTypes.AttributeValueWrapperStart>
+/**
+ * @deprecated Legacy close tag nodes (internal use only)
+ */
+export type CloseTagNode = SimpleNode<NodeTypes.CloseTag>
+/**
+ * @deprecated Legacy comment nodes (internal use only)
+ */
+export type CommentCloseNode = SimpleNode<NodeTypes.CommentClose>
+/**
+ * @deprecated Legacy comment nodes (internal use only)
+ */
+export type CommentContentNode = SimpleNode<NodeTypes.CommentContent>
+/**
+ * @deprecated Legacy comment nodes (internal use only)
+ */
+export type CommentOpenNode = SimpleNode<NodeTypes.CommentOpen>
+/**
+ * @deprecated Legacy doctype wrapper nodes (internal use only)
+ */
+export type DoctypeAttributeWrapperEndNode =
+  SimpleNode<NodeTypes.DoctypeAttributeWrapperEnd>
+/**
+ * @deprecated Legacy doctype wrapper nodes (internal use only)
+ */
+export type DoctypeAttributeWrapperStartNode =
+  SimpleNode<NodeTypes.DoctypeAttributeWrapperStart>
+/**
+ * @deprecated Legacy doctype nodes (internal use only)
+ */
+export type DoctypeCloseNode = SimpleNode<NodeTypes.DoctypeClose>
+/**
+ * @deprecated Legacy doctype nodes (internal use only)
+ */
+export type DoctypeOpenNode = SimpleNode<NodeTypes.DoctypeOpen>
+/**
+ * @deprecated Legacy tag nodes (internal use only)
+ */
+export type OpenTagEndNode = SimpleNode<NodeTypes.OpenTagEnd>
+/**
+ * @deprecated Legacy tag nodes (internal use only)
+ */
+export type OpenTagStartNode = SimpleNode<NodeTypes.OpenTagStart>
+/**
+ * @deprecated Legacy XML declaration wrapper nodes (internal use only)
+ */
+export type XMLDeclarationAttributeValueWrapperEndNode =
+  SimpleNode<NodeTypes.XMLDeclarationAttributeValueWrapperEnd>
+/**
+ * @deprecated Legacy XML declaration wrapper nodes (internal use only)
+ */
+export type XMLDeclarationAttributeValueWrapperStartNode =
+  SimpleNode<NodeTypes.XMLDeclarationAttributeValueWrapperStart>
+/**
+ * @deprecated Legacy XML declaration nodes (internal use only)
+ */
+export type XMLDeclarationCloseNode = SimpleNode<NodeTypes.XMLDeclarationClose>
+/**
+ * @deprecated Legacy XML declaration nodes (internal use only)
+ */
+export type XMLDeclarationOpenNode = SimpleNode<NodeTypes.XMLDeclarationOpen>
+
+// Internal extensions for handler compatibility
+declare global {
+  namespace AST {
+    interface CommentNode {
+      close?: CommentCloseNode
+      open?: CommentOpenNode
+      value?: CommentContentNode
+    }
+    interface DoctypeNode {
+      close?: DoctypeCloseNode
+      open?: DoctypeOpenNode
+    }
+    interface TagNode {
+      close?: CloseTagNode
+      openEnd?: OpenTagEndNode
+      openStart?: OpenTagStartNode
+    }
+    interface AttributeNode {
+      endWrapper?: AttributeValueWrapperEndNode
+      startWrapper?: AttributeValueWrapperStartNode
+    }
+    interface DoctypeAttributeNode {
+      endWrapper?: DoctypeAttributeWrapperEndNode
+      startWrapper?: DoctypeAttributeWrapperStartNode
+    }
+    interface XMLDeclarationAttributeNode {
+      endWrapper?: XMLDeclarationAttributeValueWrapperEndNode
+      startWrapper?: XMLDeclarationAttributeValueWrapperStartNode
+    }
+  }
+}

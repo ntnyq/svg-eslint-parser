@@ -24,7 +24,6 @@ export interface Options {
  */
 export interface ParseForESLintResult {
   ast: Program
-  // TODO: implement this
   scopeManager: any
   services: { isSVG: boolean }
   visitorKeys: SourceCode.VisitorKeys

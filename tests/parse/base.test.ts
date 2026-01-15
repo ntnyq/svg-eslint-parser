@@ -21,24 +21,6 @@ it('should parse', () => {
           {
             "attributes": [
               {
-                "endWrapper": {
-                  "loc": {
-                    "end": {
-                      "column": 39,
-                      "line": 1,
-                    },
-                    "start": {
-                      "column": 38,
-                      "line": 1,
-                    },
-                  },
-                  "range": [
-                    38,
-                    39,
-                  ],
-                  "type": "AttributeValueWrapperEnd",
-                  "value": """,
-                },
                 "key": {
                   "loc": {
                     "end": {
@@ -67,28 +49,11 @@ it('should parse', () => {
                     "line": 1,
                   },
                 },
+                "quoteChar": """,
                 "range": [
                   5,
                   39,
                 ],
-                "startWrapper": {
-                  "loc": {
-                    "end": {
-                      "column": 12,
-                      "line": 1,
-                    },
-                    "start": {
-                      "column": 11,
-                      "line": 1,
-                    },
-                  },
-                  "range": [
-                    11,
-                    12,
-                  ],
-                  "type": "AttributeValueWrapperStart",
-                  "value": """,
-                },
                 "type": "Attribute",
                 "value": {
                   "loc": {
@@ -110,24 +75,6 @@ it('should parse', () => {
                 },
               },
               {
-                "endWrapper": {
-                  "loc": {
-                    "end": {
-                      "column": 50,
-                      "line": 1,
-                    },
-                    "start": {
-                      "column": 49,
-                      "line": 1,
-                    },
-                  },
-                  "range": [
-                    49,
-                    50,
-                  ],
-                  "type": "AttributeValueWrapperEnd",
-                  "value": """,
-                },
                 "key": {
                   "loc": {
                     "end": {
@@ -156,28 +103,11 @@ it('should parse', () => {
                     "line": 1,
                   },
                 },
+                "quoteChar": """,
                 "range": [
                   40,
                   50,
                 ],
-                "startWrapper": {
-                  "loc": {
-                    "end": {
-                      "column": 47,
-                      "line": 1,
-                    },
-                    "start": {
-                      "column": 46,
-                      "line": 1,
-                    },
-                  },
-                  "range": [
-                    46,
-                    47,
-                  ],
-                  "type": "AttributeValueWrapperStart",
-                  "value": """,
-                },
                 "type": "Attribute",
                 "value": {
                   "loc": {
@@ -199,24 +129,6 @@ it('should parse', () => {
                 },
               },
               {
-                "endWrapper": {
-                  "loc": {
-                    "end": {
-                      "column": 62,
-                      "line": 1,
-                    },
-                    "start": {
-                      "column": 61,
-                      "line": 1,
-                    },
-                  },
-                  "range": [
-                    61,
-                    62,
-                  ],
-                  "type": "AttributeValueWrapperEnd",
-                  "value": """,
-                },
                 "key": {
                   "loc": {
                     "end": {
@@ -245,28 +157,11 @@ it('should parse', () => {
                     "line": 1,
                   },
                 },
+                "quoteChar": """,
                 "range": [
                   51,
                   62,
                 ],
-                "startWrapper": {
-                  "loc": {
-                    "end": {
-                      "column": 59,
-                      "line": 1,
-                    },
-                    "start": {
-                      "column": 58,
-                      "line": 1,
-                    },
-                  },
-                  "range": [
-                    58,
-                    59,
-                  ],
-                  "type": "AttributeValueWrapperStart",
-                  "value": """,
-                },
                 "type": "Attribute",
                 "value": {
                   "loc": {
@@ -288,24 +183,6 @@ it('should parse', () => {
                 },
               },
               {
-                "endWrapper": {
-                  "loc": {
-                    "end": {
-                      "column": 82,
-                      "line": 1,
-                    },
-                    "start": {
-                      "column": 81,
-                      "line": 1,
-                    },
-                  },
-                  "range": [
-                    81,
-                    82,
-                  ],
-                  "type": "AttributeValueWrapperEnd",
-                  "value": """,
-                },
                 "key": {
                   "loc": {
                     "end": {
@@ -334,28 +211,11 @@ it('should parse', () => {
                     "line": 1,
                   },
                 },
+                "quoteChar": """,
                 "range": [
                   63,
                   82,
                 ],
-                "startWrapper": {
-                  "loc": {
-                    "end": {
-                      "column": 72,
-                      "line": 1,
-                    },
-                    "start": {
-                      "column": 71,
-                      "line": 1,
-                    },
-                  },
-                  "range": [
-                    71,
-                    72,
-                  ],
-                  "type": "AttributeValueWrapperStart",
-                  "value": """,
-                },
                 "type": "Attribute",
                 "value": {
                   "loc": {
@@ -398,24 +258,7 @@ it('should parse', () => {
       ",
               },
               {
-                "close": {
-                  "loc": {
-                    "end": {
-                      "column": 49,
-                      "line": 2,
-                    },
-                    "start": {
-                      "column": 46,
-                      "line": 2,
-                    },
-                  },
-                  "range": [
-                    130,
-                    133,
-                  ],
-                  "type": "CommentClose",
-                  "value": "-->",
-                },
+                "content": " eslint logo from https://icones.js.org ",
                 "loc": {
                   "end": {
                     "column": 49,
@@ -426,47 +269,11 @@ it('should parse', () => {
                     "line": 2,
                   },
                 },
-                "open": {
-                  "loc": {
-                    "end": {
-                      "column": 6,
-                      "line": 2,
-                    },
-                    "start": {
-                      "column": 2,
-                      "line": 2,
-                    },
-                  },
-                  "range": [
-                    86,
-                    90,
-                  ],
-                  "type": "CommentOpen",
-                  "value": "<!--",
-                },
                 "range": [
                   86,
                   133,
                 ],
                 "type": "Comment",
-                "value": {
-                  "loc": {
-                    "end": {
-                      "column": 46,
-                      "line": 2,
-                    },
-                    "start": {
-                      "column": 6,
-                      "line": 2,
-                    },
-                  },
-                  "range": [
-                    90,
-                    130,
-                  ],
-                  "type": "CommentContent",
-                  "value": " eslint logo from https://icones.js.org ",
-                },
               },
               {
                 "loc": {
@@ -490,24 +297,6 @@ it('should parse', () => {
               {
                 "attributes": [
                   {
-                    "endWrapper": {
-                      "loc": {
-                        "end": {
-                          "column": 22,
-                          "line": 3,
-                        },
-                        "start": {
-                          "column": 21,
-                          "line": 3,
-                        },
-                      },
-                      "range": [
-                        155,
-                        156,
-                      ],
-                      "type": "AttributeValueWrapperEnd",
-                      "value": """,
-                    },
                     "key": {
                       "loc": {
                         "end": {
@@ -536,28 +325,11 @@ it('should parse', () => {
                         "line": 3,
                       },
                     },
+                    "quoteChar": """,
                     "range": [
                       142,
                       156,
                     ],
-                    "startWrapper": {
-                      "loc": {
-                        "end": {
-                          "column": 14,
-                          "line": 3,
-                        },
-                        "start": {
-                          "column": 13,
-                          "line": 3,
-                        },
-                      },
-                      "range": [
-                        147,
-                        148,
-                      ],
-                      "type": "AttributeValueWrapperStart",
-                      "value": """,
-                    },
                     "type": "Attribute",
                     "value": {
                       "loc": {
@@ -579,24 +351,6 @@ it('should parse', () => {
                     },
                   },
                   {
-                    "endWrapper": {
-                      "loc": {
-                        "end": {
-                          "column": 305,
-                          "line": 3,
-                        },
-                        "start": {
-                          "column": 304,
-                          "line": 3,
-                        },
-                      },
-                      "range": [
-                        438,
-                        439,
-                      ],
-                      "type": "AttributeValueWrapperEnd",
-                      "value": """,
-                    },
                     "key": {
                       "loc": {
                         "end": {
@@ -625,28 +379,11 @@ it('should parse', () => {
                         "line": 3,
                       },
                     },
+                    "quoteChar": """,
                     "range": [
                       157,
                       439,
                     ],
-                    "startWrapper": {
-                      "loc": {
-                        "end": {
-                          "column": 26,
-                          "line": 3,
-                        },
-                        "start": {
-                          "column": 25,
-                          "line": 3,
-                        },
-                      },
-                      "range": [
-                        159,
-                        160,
-                      ],
-                      "type": "AttributeValueWrapperStart",
-                      "value": """,
-                    },
                     "type": "Attribute",
                     "value": {
                       "loc": {
@@ -745,24 +482,6 @@ it('should parse', () => {
               {
                 "attributes": [
                   {
-                    "endWrapper": {
-                      "loc": {
-                        "end": {
-                          "column": 22,
-                          "line": 4,
-                        },
-                        "start": {
-                          "column": 21,
-                          "line": 4,
-                        },
-                      },
-                      "range": [
-                        463,
-                        464,
-                      ],
-                      "type": "AttributeValueWrapperEnd",
-                      "value": """,
-                    },
                     "key": {
                       "loc": {
                         "end": {
@@ -791,28 +510,11 @@ it('should parse', () => {
                         "line": 4,
                       },
                     },
+                    "quoteChar": """,
                     "range": [
                       450,
                       464,
                     ],
-                    "startWrapper": {
-                      "loc": {
-                        "end": {
-                          "column": 14,
-                          "line": 4,
-                        },
-                        "start": {
-                          "column": 13,
-                          "line": 4,
-                        },
-                      },
-                      "range": [
-                        455,
-                        456,
-                      ],
-                      "type": "AttributeValueWrapperStart",
-                      "value": """,
-                    },
                     "type": "Attribute",
                     "value": {
                       "loc": {
@@ -834,24 +536,6 @@ it('should parse', () => {
                     },
                   },
                   {
-                    "endWrapper": {
-                      "loc": {
-                        "end": {
-                          "column": 98,
-                          "line": 4,
-                        },
-                        "start": {
-                          "column": 97,
-                          "line": 4,
-                        },
-                      },
-                      "range": [
-                        539,
-                        540,
-                      ],
-                      "type": "AttributeValueWrapperEnd",
-                      "value": """,
-                    },
                     "key": {
                       "loc": {
                         "end": {
@@ -880,28 +564,11 @@ it('should parse', () => {
                         "line": 4,
                       },
                     },
+                    "quoteChar": """,
                     "range": [
                       465,
                       540,
                     ],
-                    "startWrapper": {
-                      "loc": {
-                        "end": {
-                          "column": 26,
-                          "line": 4,
-                        },
-                        "start": {
-                          "column": 25,
-                          "line": 4,
-                        },
-                      },
-                      "range": [
-                        467,
-                        468,
-                      ],
-                      "type": "AttributeValueWrapperStart",
-                      "value": """,
-                    },
                     "type": "Attribute",
                     "value": {
                       "loc": {
