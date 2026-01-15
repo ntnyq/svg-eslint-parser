@@ -42,7 +42,7 @@ SVG Source → Tokenizer → Constructor → AST
 ### Core Node Types
 
 - **Document**: Root node containing children (tags, comments, text)
-- **Program**: ESLin, contains children (tags, comments, text)
+- **Program**: ESLint, contains children (tags, comments, text)
 - **Program**: ESLint-required wrapper with `body`, `tokens`, `comments` arrays
 - **Tag**: Element node with `attributes`, `children`, `openStart`, `openEnd`, `closeStart`, `closeEnd`
 - **Attribute**: Key-value pair node (quotes stored in `quoteChar`)
@@ -82,10 +82,6 @@ it('should parse svg', () => {
 ```
 
 Use `unindent` utility for readable multi-line test inputs.
-
-## Project-Specific Patterns
-
-& Conventions
 
 ### Handler Pattern (Critical)
 

@@ -4,7 +4,7 @@ The SVG ESLint Parser generates an Abstract Syntax Tree (AST) that is compatible
 
 ## Node Types
 
-The parser defines **18 node types** organized into the following categories:
+The parser defines **16 node types** organized into the following categories:
 
 ### Document Structure
 

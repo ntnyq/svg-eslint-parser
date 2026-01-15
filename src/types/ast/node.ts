@@ -140,8 +140,3 @@ export type AnyNode =
   | XMLDeclarationAttributeNode
   | XMLDeclarationAttributeValueNode
   | XMLDeclarationNode
-
-// Internal extensions for handler compatibility
-declare global {
-  namespace AST {}
-}
