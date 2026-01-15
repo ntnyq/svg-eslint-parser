@@ -8,6 +8,12 @@ import type {
   XMLDeclarationAttributeNode,
 } from '../types'
 
+/**
+ * Get the last attribute from a node's attributes array
+ * Supports multiple node types with overloads for type safety
+ * @param state - Constructor state containing the current node
+ * @returns The last attribute in the node's attributes array
+ */
 export function getLastAttribute(
   state: ConstructTreeState<ContextualTagNode>,
 ): AttributeNode
