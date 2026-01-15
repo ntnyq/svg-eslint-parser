@@ -7,11 +7,8 @@ import { createNodeFrom, updateNodeEnd } from '../../utils'
 import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
-  CloseTagNode,
   ConstructTreeState,
   ContextualTagNode,
-  OpenTagEndNode,
-  OpenTagStartNode,
 } from '../../types'
 
 const ATTRIBUTE_START_TOKENS = new Set([
@@ -24,7 +21,7 @@ const dispatch = createTokenDispatcher(
     {
       tokenType: TokenTypes.OpenTagStart,
       handler: (token, state) => {
-        state.currentNode.openStart = createNodeFrom(token) as OpenTagStartNode
+        state.currentNode.openStart = createNodeFrom(token)
         state.currentContext = {
           parentRef: state.currentContext,
           type: ConstructTreeContextTypes.TagName,
@@ -46,7 +43,7 @@ const dispatch = createTokenDispatcher(
       tokenType: TokenTypes.OpenTagEnd,
       handler: (token, state) => {
         const tagName = state.currentNode.name
-        state.currentNode.openEnd = createNodeFrom(token) as OpenTagEndNode
+        state.currentNode.openEnd = createNodeFrom(token)
         updateNodeEnd(state.currentNode, token)
 
         if (
@@ -73,7 +70,7 @@ const dispatch = createTokenDispatcher(
     {
       tokenType: TokenTypes.CloseTag,
       handler: (token, state) => {
-        state.currentNode.close = createNodeFrom(token) as CloseTagNode
+        state.currentNode.close = createNodeFrom(token)
         updateNodeEnd(state.currentNode, token)
         state.currentNode = state.currentNode.parentRef
         state.currentContext = state.currentContext.parentRef

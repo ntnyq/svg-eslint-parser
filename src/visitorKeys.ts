@@ -12,34 +12,18 @@ const keys: {
   XMLDeclarationAttribute: ['key', 'value'],
   XMLDeclarationAttributeKey: [],
   XMLDeclarationAttributeValue: [],
-  XMLDeclarationOpen: [],
-  XMLDeclarationClose: [],
-  XMLDeclarationAttributeValueWrapperStart: [],
-  XMLDeclarationAttributeValueWrapperEnd: [],
 
   Doctype: ['attributes'],
   DoctypeAttribute: ['value'],
   DoctypeAttributeValue: [],
-  DoctypeOpen: [],
-  DoctypeClose: [],
-  DoctypeAttributeWrapperStart: [],
-  DoctypeAttributeWrapperEnd: [],
 
   Attribute: ['key', 'value'],
   AttributeKey: [],
   AttributeValue: [],
-  AttributeValueWrapperStart: [],
-  AttributeValueWrapperEnd: [],
 
   Tag: ['attributes', 'children'],
-  OpenTagStart: [],
-  OpenTagEnd: [],
-  CloseTag: [],
 
   Comment: [],
-  CommentOpen: [],
-  CommentClose: [],
-  CommentContent: [],
 
   Text: [],
 
