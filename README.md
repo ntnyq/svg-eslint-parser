@@ -17,7 +17,7 @@
 - ✅ **ESLint Compatible**: Produces AST compatible with ESLint's parser interface
 - 🎯 **Type Safe**: Full TypeScript support with comprehensive type definitions
 - 🔍 **Rich Utilities**: Built-in functions for searching, traversing, and manipulating AST
-- 📊 **Detailed AST**: 34 node types covering all SVG/XML constructs
+- 📊 **Detailed AST**: 16 node types covering all SVG/XML constructs
 - 🚀 **Zero Dependencies**: Minimal runtime dependencies for fast installation
 - 🎪 **Interactive Playground**: Try it online at [svg-eslint-parser.ntnyq.com](https://svg-eslint-parser.ntnyq.com/play)
 

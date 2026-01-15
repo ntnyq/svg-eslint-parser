@@ -30,7 +30,7 @@ features:
     details: Built-in functions for searching, traversing, validating, and manipulating AST nodes with ease.
   - icon: 📊
     title: Detailed AST
-    details: 34 node types covering all SVG/XML constructs including tags, attributes, comments, DOCTYPE, and XML declarations.
+    details: 16 node types covering all SVG/XML constructs including tags, attributes, comments, DOCTYPE, and XML declarations.
   - icon: 🚀
     title: Zero Dependencies
     details: Minimal runtime dependencies for fast installation and optimal bundle size.

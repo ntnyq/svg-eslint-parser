@@ -1,34 +1,45 @@
 export enum TokenTypes {
-  Attribute = 'Attribute',
+  /**
+   * @pg Content tokens
+   */
+  Text = 'Text',
+
+  /**
+   * @pg Attribute tokens
+   */
   AttributeAssignment = 'AttributeAssignment',
   AttributeKey = 'AttributeKey',
-
   AttributeValue = 'AttributeValue',
   AttributeValueWrapperEnd = 'AttributeValueWrapperEnd',
   AttributeValueWrapperStart = 'AttributeValueWrapperStart',
-  CloseTag = 'CloseTag',
-  Comment = 'Comment',
-  CommentClose = 'CommentClose',
-  CommentContent = 'CommentContent',
-  CommentOpen = 'CommentOpen',
 
-  Doctype = 'Doctype',
+  /**
+   * @pg Doctype tokens
+   */
   DoctypeAttributeValue = 'DoctypeAttributeValue',
   DoctypeAttributeWrapperEnd = 'DoctypeAttributeWrapperEnd',
   DoctypeAttributeWrapperStart = 'DoctypeAttributeWrapperStart',
   DoctypeClose = 'DoctypeClose',
   DoctypeOpen = 'DoctypeOpen',
 
-  Document = 'Document',
+  /**
+   * @pg Tag tokens
+   */
+  CloseTag = 'CloseTag',
   OpenTagEnd = 'OpenTagEnd',
   OpenTagStart = 'OpenTagStart',
-  Program = 'Program',
 
-  Tag = 'Tag',
-  Text = 'Text',
-  XMLDeclarationAttribute = 'XMLDeclarationAttribute',
+  /**
+   * @pg Comment tokens
+   */
+  CommentClose = 'CommentClose',
+  CommentContent = 'CommentContent',
+  CommentOpen = 'CommentOpen',
+
+  /**
+   * @pg XML Declaration tokens
+   */
   XMLDeclarationAttributeAssignment = 'XMLDeclarationAttributeAssignment',
-
   XMLDeclarationAttributeKey = 'XMLDeclarationAttributeKey',
   XMLDeclarationAttributeValue = 'XMLDeclarationAttributeValue',
   XMLDeclarationAttributeValueWrapperEnd = 'XMLDeclarationAttributeValueWrapperEnd',

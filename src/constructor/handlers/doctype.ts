@@ -5,8 +5,6 @@ import type {
   AnyToken,
   ConstructTreeState,
   ContextualDoctypeNode,
-  DoctypeCloseNode,
-  DoctypeOpenNode,
 } from '../../types'
 
 const ATTRIBUTES_START_TOKENS = new Set([
@@ -19,7 +17,7 @@ const dispatch = createTokenDispatcher(
     {
       tokenType: TokenTypes.DoctypeOpen,
       handler: (token, state) => {
-        state.currentNode.open = createNodeFrom(token) as DoctypeOpenNode
+        state.currentNode.open = createNodeFrom(token)
         state.caretPosition++
         return state
       },
@@ -27,7 +25,7 @@ const dispatch = createTokenDispatcher(
     {
       tokenType: TokenTypes.DoctypeClose,
       handler: (token, state) => {
-        state.currentNode.close = createNodeFrom(token) as DoctypeCloseNode
+        state.currentNode.close = createNodeFrom(token)
         updateNodeEnd(state.currentNode, token)
         state.currentNode = state.currentNode.parentRef
         state.currentContext = state.currentContext.parentRef
