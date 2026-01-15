@@ -25,12 +25,7 @@ export type ContextualAttributeNode = ContextualNode<
   'key' | 'value'
 >
 
-export type ContextualCommentNode = ContextualNode<CommentNode, 'content'> & {
-  // Legacy properties for handler compatibility
-  close?: any
-  open?: any
-  value?: any
-}
+export type ContextualCommentNode = ContextualNode<CommentNode, 'content'>
 
 export type ContextualDoctypeAttributeNode = ContextualNode<
   DoctypeAttributeNode,
@@ -42,9 +37,6 @@ export type ContextualDoctypeNode = ContextualNode<
   'attributes'
 > & {
   attributes: ContextualDoctypeAttributeNode[]
-  // Legacy properties for handler compatibility
-  close?: any
-  open?: any
 }
 
 export type ContextualDocumentNode = Omit<
@@ -69,9 +61,6 @@ export type ContextualTagNode = ContextualNode<
   'attributes' | 'children' | 'name' | 'selfClosing'
 > & {
   attributes: ContextualAttributeNode[]
-  close?: any
-  openEnd?: any
-  openStart?: any
   children: Array<
     | ContextualCommentNode
     | ContextualDoctypeNode
@@ -89,9 +78,6 @@ export type ContextualXMLDeclarationNode = ContextualNode<
   'attributes'
 > & {
   attributes: ContextualXMLDeclarationAttributeNode[]
-  // Legacy properties for handler compatibility
-  close?: any
-  open?: any
 }
 
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
