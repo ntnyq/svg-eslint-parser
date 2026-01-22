@@ -24,7 +24,7 @@ const dispatch = createTokenDispatcher(
   [
     {
       tokenType: TokenTypes.OpenTagStart,
-      handler: (token, state) => {
+      handler(token, state) {
         initChildrenIfNone(state.currentNode)
         const tagNode: ContextualTagNode = {
           type: NodeTypes.Tag,
@@ -45,7 +45,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: TokenTypes.Text,
-      handler: (token, state) => {
+      handler(token, state) {
         initChildrenIfNone(state.currentNode)
         const textNode = createNodeFrom(token) as TextNode
         state.currentNode.children.push(textNode)
@@ -55,7 +55,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: TokenTypes.CloseTag,
-      handler: (token, state) => {
+      handler(token, state) {
         const closeTagName = parseCloseTagName(token.value)
         if (closeTagName !== state.currentNode.name) {
           state.caretPosition++
@@ -67,7 +67,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: TokenTypes.CommentOpen,
-      handler: (token, state) => {
+      handler(token, state) {
         initChildrenIfNone(state.currentNode)
         const commentNode: ContextualCommentNode = {
           type: NodeTypes.Comment,
@@ -86,7 +86,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: TokenTypes.DoctypeOpen,
-      handler: (token, state) => {
+      handler(token, state) {
         initChildrenIfNone(state.currentNode)
         const doctypeNode: ContextualDoctypeNode = {
           type: NodeTypes.Doctype,

@@ -20,14 +20,14 @@ const dispatch = createTokenDispatcher(
   [
     {
       tokenType: TokenTypes.DoctypeClose,
-      handler: (_, state) => {
+      handler(_, state) {
         state.currentContext = state.currentContext.parentRef
         return state
       },
     },
     {
       tokenType: ATTRIBUTE_START_TOKENS,
-      handler: (token, state) => {
+      handler(token, state) {
         initAttributesIfNone(state.currentNode)
         // new empty attributes
         state.currentNode.attributes.push({

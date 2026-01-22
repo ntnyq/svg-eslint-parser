@@ -23,14 +23,14 @@ const dispatch = createTokenDispatcher(
   [
     {
       tokenType: VALUE_END_TOKENS,
-      handler: (_, state) => {
+      handler(_, state) {
         state.currentContext = state.currentContext.parentRef
         return state
       },
     },
     {
       tokenType: TokenTypes.AttributeValue,
-      handler: (token, state) => {
+      handler(token, state) {
         const attribute = getLastAttribute(state)
         attribute.value = createNodeFrom(token) as AttributeValueNode
         updateNodeEnd(attribute, token)
@@ -40,7 +40,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: TokenTypes.AttributeValueWrapperStart,
-      handler: (token, state) => {
+      handler(token, state) {
         const attribute = getLastAttribute(state)
         attribute.quoteChar = token.value as any
         if (!attribute.key) {
@@ -52,7 +52,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: TokenTypes.AttributeValueWrapperEnd,
-      handler: (token, state) => {
+      handler(token, state) {
         const attribute = getLastAttribute(state)
         updateNodeEnd(attribute, token)
         state.caretPosition++

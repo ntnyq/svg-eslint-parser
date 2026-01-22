@@ -1,6 +1,5 @@
 import { unindent } from '@ntnyq/utils'
 import { describe, expect, it } from 'vitest'
-
 import { NodeTypes } from '../src/constants'
 import { parseForESLint } from '../src/parser'
 import {

@@ -17,14 +17,14 @@ const dispatch = createTokenDispatcher(
   [
     {
       tokenType: TokenTypes.OpenTagEnd,
-      handler: (_, state) => {
+      handler(_, state) {
         state.currentContext = state.currentContext.parentRef
         return state
       },
     },
     {
       tokenType: TokenTypes.AttributeValue,
-      handler: (token, state) => {
+      handler(token, state) {
         const attribute = getLastAttribute(state)
         if (attribute.value !== undefined) {
           state.currentContext = state.currentContext.parentRef
@@ -40,7 +40,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: TokenTypes.AttributeValueWrapperStart,
-      handler: (token, state) => {
+      handler(token, state) {
         const attribute = getLastAttribute(state)
         if (attribute.value !== undefined) {
           state.currentContext = state.currentContext.parentRef
@@ -54,7 +54,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: TokenTypes.AttributeValueWrapperEnd,
-      handler: (token, state) => {
+      handler(token, state) {
         const attribute = getLastAttribute(state)
         updateNodeEnd(attribute, token)
         state.currentContext = state.currentContext.parentRef

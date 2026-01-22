@@ -16,7 +16,7 @@ const dispatch = createTokenDispatcher(
   [
     {
       tokenType: TokenTypes.DoctypeOpen,
-      handler: (token, state) => {
+      handler(token, state) {
         state.currentNode.open = createNodeFrom(token)
         state.caretPosition++
         return state
@@ -24,7 +24,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: TokenTypes.DoctypeClose,
-      handler: (token, state) => {
+      handler(token, state) {
         state.currentNode.close = createNodeFrom(token)
         updateNodeEnd(state.currentNode, token)
         state.currentNode = state.currentNode.parentRef
@@ -35,7 +35,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: ATTRIBUTES_START_TOKENS,
-      handler: (_, state) => {
+      handler(_, state) {
         state.currentContext = {
           parentRef: state.currentContext,
           type: ConstructTreeContextTypes.DoctypeAttributes,

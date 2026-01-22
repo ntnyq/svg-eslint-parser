@@ -5,5 +5,9 @@ import { defineESLintConfig } from '@ntnyq/eslint-config'
 export default defineESLintConfig({
   svgo: true,
   unocss: true,
-  vue: true,
+  vue: {
+    overrides: {
+      'vue/no-literals-in-template': 'off',
+    },
+  },
 })

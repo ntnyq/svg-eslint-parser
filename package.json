@@ -2,7 +2,7 @@
   "name": "svg-eslint-parser",
   "type": "module",
   "version": "0.0.5",
-  "packageManager": "pnpm@10.28.0",
+  "packageManager": "pnpm@10.28.1",
   "description": "An SVG parser that produces output compatible with ESLint.",
   "keywords": [
     "eslint-parser",
@@ -52,16 +52,16 @@
     "eslint-visitor-keys": "^5.0.0"
   },
   "devDependencies": {
-    "@ntnyq/eslint-config": "^5.9.0",
+    "@ntnyq/eslint-config": "^6.0.0-beta.2",
     "@ntnyq/prettier-config": "^3.0.1",
-    "@types/node": "^25.0.8",
+    "@types/node": "^25.0.10",
     "bumpp": "^10.4.0",
     "eslint": "^9.39.2",
     "husky": "^9.1.7",
     "nano-staged": "^0.9.0",
     "npm-run-all2": "^8.0.4",
-    "prettier": "^3.7.4",
-    "tsdown": "^0.20.0-beta.2",
+    "prettier": "^3.8.1",
+    "tsdown": "^0.20.0-beta.4",
     "typescript": "^5.9.3",
     "vitest": "^4.0.17"
   },

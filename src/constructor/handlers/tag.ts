@@ -20,7 +20,7 @@ const dispatch = createTokenDispatcher(
   [
     {
       tokenType: TokenTypes.OpenTagStart,
-      handler: (token, state) => {
+      handler(token, state) {
         state.currentNode.openStart = createNodeFrom(token)
         state.currentContext = {
           parentRef: state.currentContext,
@@ -31,7 +31,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: ATTRIBUTE_START_TOKENS,
-      handler: (_, state) => {
+      handler(_, state) {
         state.currentContext = {
           parentRef: state.currentContext,
           type: ConstructTreeContextTypes.Attributes,
@@ -41,7 +41,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: TokenTypes.OpenTagEnd,
-      handler: (token, state) => {
+      handler(token, state) {
         const tagName = state.currentNode.name
         state.currentNode.openEnd = createNodeFrom(token)
         updateNodeEnd(state.currentNode, token)
@@ -69,7 +69,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: TokenTypes.CloseTag,
-      handler: (token, state) => {
+      handler(token, state) {
         state.currentNode.close = createNodeFrom(token)
         updateNodeEnd(state.currentNode, token)
         state.currentNode = state.currentNode.parentRef

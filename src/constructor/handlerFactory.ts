@@ -4,19 +4,22 @@
  */
 
 import type { TokenTypes } from '../constants'
-import type { AnyToken } from '../types'
+import type { AnyContextualNode, AnyToken, ConstructTreeState } from '../types'
 
 /**
  * Handler function type
  */
-export type HandlerFunction = (token: AnyToken, state: any) => any
+export type HandlerFunction<ContextualNode extends AnyContextualNode = any> = (
+  token: AnyToken,
+  state: ConstructTreeState<ContextualNode>,
+) => ConstructTreeState<ContextualNode>
 
 /**
  * Handler configuration
  */
-export interface HandlerConfig {
+export interface HandlerConfig<ContextualNode extends AnyContextualNode = any> {
   tokenType: TokenTypes | Set<TokenTypes>
-  handler: HandlerFunction
+  handler: HandlerFunction<ContextualNode>
 }
 
 /**
@@ -25,11 +28,14 @@ export interface HandlerConfig {
  * @param defaultHandler - Optional default handler for unmatched tokens
  * @returns A function that dispatches tokens to appropriate handlers
  */
-export function createTokenDispatcher(
-  handlers: HandlerConfig[],
-  defaultHandler?: HandlerFunction,
+
+export function createTokenDispatcher<
+  ContextualNode extends AnyContextualNode = any,
+>(
+  handlers: HandlerConfig<ContextualNode>[],
+  defaultHandler?: HandlerFunction<ContextualNode>,
 ) {
-  return (token: AnyToken, state: any) => {
+  return (token: AnyToken, state: ConstructTreeState<ContextualNode>) => {
     for (const config of handlers) {
       const matches =
         config.tokenType instanceof Set
@@ -53,8 +59,10 @@ export function createTokenDispatcher(
 /**
  * Creates a simple handler that just increments caretPosition
  */
-export function createSkipHandler(): HandlerFunction {
-  return (_token: AnyToken, state: any) => {
+export function createSkipHandler<
+  ContextualNode extends AnyContextualNode,
+>(): HandlerFunction<ContextualNode> {
+  return (_token: AnyToken, state: ConstructTreeState<ContextualNode>) => {
     state.caretPosition++
     return state
   }
@@ -63,10 +71,12 @@ export function createSkipHandler(): HandlerFunction {
 /**
  * Creates a handler that increments caretPosition after calling a function
  */
-export function createIncrementingHandler(
-  fn: (token: AnyToken, state: any) => void,
-): HandlerFunction {
-  return (token: AnyToken, state: any) => {
+export function createIncrementingHandler<
+  ContextualNode extends AnyContextualNode,
+>(
+  fn: (token: AnyToken, state: ConstructTreeState<ContextualNode>) => void,
+): HandlerFunction<ContextualNode> {
+  return (token: AnyToken, state: ConstructTreeState<ContextualNode>) => {
     fn(token, state)
     state.caretPosition++
     return state

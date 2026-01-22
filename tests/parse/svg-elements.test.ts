@@ -35,7 +35,7 @@ describe('SVG-Specific Parsing', () => {
     const document = ast.body[0]
     const svg = document.children[0] as TagNode
 
-    const xmlns = svg.attributes.find((attr: any) => attr.key.value === 'xmlns')
+    const xmlns = svg.attributes.find(attr => attr.key.value === 'xmlns')
     expect(xmlns!.value?.value).toBe('http://www.w3.org/2000/svg')
   })
 
@@ -67,7 +67,7 @@ describe('SVG-Specific Parsing', () => {
     const path = document.children[0] as TagNode
 
     expect(path.name).toBe('path')
-    const d = path.attributes.find((attr: any) => attr.key.value === 'd')
+    const d = path.attributes.find(attr => attr.key.value === 'd')
     expect(d!.value?.value).toBe('M 10 10 L 50 50 L 10 50 Z')
   })
 
@@ -88,9 +88,7 @@ describe('SVG-Specific Parsing', () => {
     const polygon = document.children[0] as TagNode
 
     expect(polygon.name).toBe('polygon')
-    const points = polygon.attributes.find(
-      (attr: any) => attr.key.value === 'points',
-    )
+    const points = polygon.attributes.find(attr => attr.key.value === 'points')
     expect(points!.value?.value).toBe('50,0 100,100 0,100')
   })
 
@@ -135,9 +133,7 @@ describe('SVG-Specific Parsing', () => {
     const g = document.children[0] as TagNode
 
     expect(g.name).toBe('g')
-    const shapes = g.children.filter(
-      (child: any) => child.type === NodeTypes.Tag,
-    )
+    const shapes = g.children.filter(child => child.type === NodeTypes.Tag)
     expect(shapes.length).toBeGreaterThan(0)
   })
 
@@ -164,9 +160,7 @@ describe('SVG-Specific Parsing', () => {
     const use = document.children[0] as TagNode
 
     expect(use.name).toBe('use')
-    const href = use.attributes.find(
-      (attr: any) => attr.key.value === 'xlink:href',
-    )
+    const href = use.attributes.find(attr => attr.key.value === 'xlink:href')
     expect(href!.value?.value).toBe('#icon')
   })
 
@@ -242,9 +236,7 @@ describe('SVG-Specific Parsing', () => {
     const svg = document.children[0] as TagNode
 
     expect(svg.name).toBe('svg')
-    const tags = svg.children.filter(
-      (child: any) => child.type === NodeTypes.Tag,
-    )
+    const tags = svg.children.filter(child => child.type === NodeTypes.Tag)
     expect(tags.length).toBeGreaterThan(0)
   })
 
@@ -256,7 +248,7 @@ describe('SVG-Specific Parsing', () => {
     const rect = document.children[0] as TagNode
 
     const transform = rect.attributes.find(
-      (attr: any) => attr.key.value === 'transform',
+      attr => attr.key.value === 'transform',
     )
     expect(transform!.value?.value).toBe('rotate(45 50 50)')
   })
@@ -268,9 +260,7 @@ describe('SVG-Specific Parsing', () => {
     const document = ast.body[0]
     const circle = document.children[0] as TagNode
 
-    const style = circle.attributes.find(
-      (attr: any) => attr.key.value === 'style',
-    )
+    const style = circle.attributes.find(attr => attr.key.value === 'style')
     expect(style!.value?.value).toContain('fill: red')
   })
 
@@ -281,9 +271,7 @@ describe('SVG-Specific Parsing', () => {
     const document = ast.body[0]
     const circle = document.children[0] as TagNode
 
-    const className = circle.attributes.find(
-      (attr: any) => attr.key.value === 'class',
-    )
+    const className = circle.attributes.find(attr => attr.key.value === 'class')
     expect(className!.value?.value).toBe('primary-color large')
   })
 })

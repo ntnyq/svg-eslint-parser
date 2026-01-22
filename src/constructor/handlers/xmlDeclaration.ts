@@ -11,7 +11,7 @@ const dispatch = createTokenDispatcher(
   [
     {
       tokenType: TokenTypes.OpenTagStart,
-      handler: (token, state) => {
+      handler(token, state) {
         state.currentNode.name = parseOpenTagName(token.value)
         state.currentContext = state.currentContext.parentRef
         state.caretPosition++

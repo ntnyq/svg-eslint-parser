@@ -14,14 +14,14 @@ const dispatch = createTokenDispatcher(
   [
     {
       tokenType: OPEN_TAG_END_TOKENS,
-      handler: (_, state) => {
+      handler(_, state) {
         state.currentContext = state.currentContext.parentRef
         return state
       },
     },
     {
       tokenType: TokenTypes.AttributeKey,
-      handler: (token, state) => {
+      handler(token, state) {
         const attribute = getLastAttribute(state)
 
         if (attribute.key !== undefined || attribute.value !== undefined) {
@@ -36,7 +36,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: TokenTypes.AttributeAssignment,
-      handler: (_, state) => {
+      handler(_, state) {
         const attribute = getLastAttribute(state)
 
         if (attribute.value !== undefined) {

@@ -17,6 +17,7 @@ import {
   xmlDeclarationAttributeValue,
 } from './handlers'
 import type {
+  AnyContextualNode,
   AnyToken,
   ConstructTreeHandler,
   ConstructTreeState,
@@ -58,8 +59,10 @@ const contextHandlers: Record<ConstructTreeContextTypes, ConstructTreeHandler> =
       xmlDeclarationAttributeValue,
   }
 
-export function constructTree(tokens: AnyToken[]) {
-  const rootContext: ConstructTreeState<any>['currentContext'] = {
+export function constructTree<ContextualNode extends AnyContextualNode = any>(
+  tokens: AnyToken[],
+) {
+  const rootContext: ConstructTreeState<ContextualNode>['currentContext'] = {
     type: ConstructTreeContextTypes.TagContent,
     parentRef: undefined,
     content: [],
@@ -84,9 +87,10 @@ export function constructTree(tokens: AnyToken[]) {
     children: [],
     loc,
   }
-  const state: ConstructTreeState<any> = {
+  const state: ConstructTreeState<ContextualNode> = {
     caretPosition: 0,
     currentContext: rootContext,
+    // @ts-expect-error TODO: fix type
     currentNode: rootNode,
     rootNode,
   }
@@ -101,9 +105,9 @@ export function constructTree(tokens: AnyToken[]) {
   }
 }
 
-function processTokens(
+function processTokens<ContextualNode extends AnyContextualNode = any>(
   tokens: AnyToken[],
-  state: ConstructTreeState<any>,
+  state: ConstructTreeState<ContextualNode>,
   positionOffset: number,
 ) {
   let tokenIndex = state.caretPosition - positionOffset

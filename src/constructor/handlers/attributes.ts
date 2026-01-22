@@ -22,7 +22,7 @@ const dispatch = createTokenDispatcher(
   [
     {
       tokenType: ATTRIBUTE_START_TOKENS,
-      handler: (token, state) => {
+      handler(token, state) {
         initAttributesIfNone(state.currentNode)
         // new empty attributes
         state.currentNode.attributes.push({
@@ -39,7 +39,7 @@ const dispatch = createTokenDispatcher(
     },
     {
       tokenType: ATTRIBUTE_END_TOKENS,
-      handler: (_, state) => {
+      handler(_, state) {
         state.currentContext = state.currentContext.parentRef
         return state
       },
