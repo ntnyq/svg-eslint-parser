@@ -743,7 +743,24 @@ exports[`should parse 1`] = `
     },
   ],
   "comments": [
-    " eslint logo from https://icones.js.org ",
+    {
+      "loc": {
+        "end": {
+          "column": 49,
+          "line": 2,
+        },
+        "start": {
+          "column": 2,
+          "line": 2,
+        },
+      },
+      "range": [
+        86,
+        133,
+      ],
+      "type": "Block",
+      "value": " eslint logo from https://icones.js.org ",
+    },
   ],
   "loc": {
     "end": {

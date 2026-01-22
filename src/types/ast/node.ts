@@ -13,6 +13,12 @@ export interface SimpleNode<T extends NodeTypes> extends BaseNode {
 
 export type TextNode = SimpleNode<NodeTypes.Text>
 
+// ESLint expects comments to be plain objects with loc/range
+export interface ESLintComment extends Locations {
+  type: 'Block' | 'Line'
+  value: string
+}
+
 /**
  * attribute nodes
  * @pg
@@ -109,7 +115,7 @@ export type NestableNode =
  */
 export interface Program extends BaseNode {
   body: DocumentNode[]
-  comments: string[]
+  comments: ESLintComment[]
   tokens: AnyToken[]
   type: NodeTypes.Program
 }
