@@ -3,8 +3,8 @@ import {
   TokenizerContextTypes,
   TokenTypes,
 } from '../../constants'
-import { calculateTokenPosition, isWhitespace } from '../../utils'
 import type { AnyToken, TokenizerState } from '../../types'
+import { calculateTokenPosition, isWhitespace } from '../../utils'
 import type { CharsBuffer } from '../charsBuffer'
 
 export function parse(chars: CharsBuffer, state: TokenizerState) {

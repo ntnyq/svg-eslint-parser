@@ -3,8 +3,8 @@ import {
   TokenizerContextTypes,
   TokenTypes,
 } from '../../constants'
-import { calculateTokenPosition, isWhitespace } from '../../utils'
 import type { TokenizerState } from '../../types'
+import { calculateTokenPosition, isWhitespace } from '../../utils'
 import type { CharsBuffer } from '../charsBuffer'
 
 export function parse(chars: CharsBuffer, state: TokenizerState) {
@@ -20,10 +20,10 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
 function isKeyBreak(chars: CharsBuffer): boolean {
   const value = chars.value()
   return (
-    value === SPECIAL_CHAR.equal
-    || value === SPECIAL_CHAR.slash
-    || value === SPECIAL_CHAR.closingCorner
-    || isWhitespace(value)
+    value === SPECIAL_CHAR.equal ||
+    value === SPECIAL_CHAR.slash ||
+    value === SPECIAL_CHAR.closingCorner ||
+    isWhitespace(value)
   )
 }
 

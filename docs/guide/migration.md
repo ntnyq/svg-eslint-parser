@@ -125,10 +125,10 @@ Use the built-in validation function:
 ```typescript
 function isValidNode(node: any): boolean {
   return (
-    node
-    && typeof node.type === 'string'
-    && Array.isArray(node.range)
-    && node.range.length === 2
+    node &&
+    typeof node.type === 'string' &&
+    Array.isArray(node.range) &&
+    node.range.length === 2
   )
 }
 ```
@@ -291,8 +291,8 @@ export default {
       Tag(node) {
         // node is automatically typed as TagNode
         if (
-          node.name === 'circle'
-          && !node.attributes.some(a => a.key.value === 'r')
+          node.name === 'circle' &&
+          !node.attributes.some(a => a.key.value === 'r')
         ) {
           context.report({
             node,

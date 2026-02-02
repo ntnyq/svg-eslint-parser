@@ -1,4 +1,9 @@
 import { TokenTypes } from '../../constants'
+import type {
+  AnyToken,
+  ConstructTreeState,
+  ContextualDoctypeNode,
+} from '../../types'
 import {
   cloneRange,
   createNodeFrom,
@@ -6,11 +11,6 @@ import {
   updateNodeEnd,
 } from '../../utils'
 import { createTokenDispatcher } from '../handlerFactory'
-import type {
-  AnyToken,
-  ConstructTreeState,
-  ContextualDoctypeNode,
-} from '../../types'
 
 const dispatch = createTokenDispatcher(
   [

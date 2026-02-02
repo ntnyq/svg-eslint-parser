@@ -3,13 +3,13 @@ import {
   SELF_CLOSING_ELEMENTS,
   TokenTypes,
 } from '../../constants'
-import { createNodeFrom, updateNodeEnd } from '../../utils'
-import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
   ConstructTreeState,
   ContextualTagNode,
 } from '../../types'
+import { createNodeFrom, updateNodeEnd } from '../../utils'
+import { createTokenDispatcher } from '../handlerFactory'
 
 const ATTRIBUTE_START_TOKENS = new Set([
   TokenTypes.AttributeKey,
@@ -47,9 +47,9 @@ const dispatch = createTokenDispatcher(
         updateNodeEnd(state.currentNode, token)
 
         if (
-          tagName
-          && SELF_CLOSING_ELEMENTS.has(tagName)
-          && state.currentNode.openEnd.value === '/>'
+          tagName &&
+          SELF_CLOSING_ELEMENTS.has(tagName) &&
+          state.currentNode.openEnd.value === '/>'
         ) {
           state.currentNode.selfClosing = true
           state.currentNode = state.currentNode.parentRef

@@ -1,4 +1,13 @@
 import { ConstructTreeContextTypes, NodeTypes } from '../constants'
+import type {
+  AnyContextualNode,
+  AnyToken,
+  ConstructTreeHandler,
+  ConstructTreeState,
+  DocumentNode,
+  Range,
+  SourceLocation,
+} from '../types'
 import { cloneLocation, first, last } from '../utils'
 import {
   attribute,
@@ -16,15 +25,6 @@ import {
   xmlDeclarationAttributes,
   xmlDeclarationAttributeValue,
 } from './handlers'
-import type {
-  AnyContextualNode,
-  AnyToken,
-  ConstructTreeHandler,
-  ConstructTreeState,
-  DocumentNode,
-  Range,
-  SourceLocation,
-} from '../types'
 
 const EMPTY_RANGE: Range = [0, 0]
 const EMPTY_LOC: SourceLocation = {

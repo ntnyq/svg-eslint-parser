@@ -2,8 +2,8 @@
   "recommendations": [
     "streetsidesoftware.code-spell-checker",
     "editorconfig.editorconfig",
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
-    "antfu.unocss"
+    "antfu.unocss",
+    "oxc.oxc-vscode",
+    "typescriptteam.native-preview"
   ]
 }

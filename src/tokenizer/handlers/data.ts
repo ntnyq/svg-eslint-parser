@@ -6,8 +6,8 @@ import {
   TokenTypes,
   XML_DECLARATION_START,
 } from '../../constants'
-import { calculateTokenPosition } from '../../utils'
 import type { Range, Token, TokenizerState } from '../../types'
+import { calculateTokenPosition } from '../../utils'
 import type { CharsBuffer } from '../charsBuffer'
 
 const INCOMPLETE_DOCTYPE_CHARS = new Set([
@@ -38,9 +38,9 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
   }
 
   if (
-    value === SPECIAL_CHAR.openingCorner
-    || value === '<!'
-    || value === '<!-'
+    value === SPECIAL_CHAR.openingCorner ||
+    value === '<!' ||
+    value === '<!-'
   ) {
     return state.sourceCode.next()
   }

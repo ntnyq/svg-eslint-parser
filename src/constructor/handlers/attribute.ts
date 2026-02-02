@@ -1,12 +1,12 @@
 import { ConstructTreeContextTypes, TokenTypes } from '../../constants'
-import { createNodeFrom, getLastAttribute } from '../../utils'
-import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
   AttributeKeyNode,
   ConstructTreeState,
   ContextualTagNode,
 } from '../../types'
+import { createNodeFrom, getLastAttribute } from '../../utils'
+import { createTokenDispatcher } from '../handlerFactory'
 
 const OPEN_TAG_END_TOKENS = new Set([TokenTypes.OpenTagEnd])
 

@@ -1,6 +1,6 @@
+import type { DefaultTheme } from 'vitepress'
 import { version } from '../../../package.json'
 import { packageName } from '../meta'
-import type { DefaultTheme } from 'vitepress'
 
 const VERSIONS: DefaultTheme.NavItemWithLink[] = [
   { text: `v${version} (current)`, link: '/' },

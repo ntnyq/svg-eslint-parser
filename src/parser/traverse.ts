@@ -1,5 +1,5 @@
-import { visitorKeys } from '../visitorKeys'
 import type { AnyNode } from '../types'
+import { visitorKeys } from '../visitorKeys'
 
 type Visitor = (node: AnyNode) => void
 

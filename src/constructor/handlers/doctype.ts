@@ -1,11 +1,11 @@
 import { ConstructTreeContextTypes, TokenTypes } from '../../constants'
-import { createNodeFrom, updateNodeEnd } from '../../utils'
-import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
   ConstructTreeState,
   ContextualDoctypeNode,
 } from '../../types'
+import { createNodeFrom, updateNodeEnd } from '../../utils'
+import { createTokenDispatcher } from '../handlerFactory'
 
 const ATTRIBUTES_START_TOKENS = new Set([
   TokenTypes.DoctypeAttributeWrapperStart,

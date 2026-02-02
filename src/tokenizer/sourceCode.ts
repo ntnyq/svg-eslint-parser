@@ -1,6 +1,6 @@
+import type { Range, SourceLocation } from '../types'
 import { getLineInfo } from '../utils'
 import { Chars } from './chars'
-import type { Range, SourceLocation } from '../types'
 
 export class SourceCode {
   private charsList: Chars[]

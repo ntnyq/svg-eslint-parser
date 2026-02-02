@@ -3,13 +3,13 @@ import {
   NodeTypes,
   TokenTypes,
 } from '../../constants'
-import { cloneLocation, cloneRange, initAttributesIfNone } from '../../utils'
-import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
   ConstructTreeState,
   ContextualDoctypeNode,
 } from '../../types'
+import { cloneLocation, cloneRange, initAttributesIfNone } from '../../utils'
+import { createTokenDispatcher } from '../handlerFactory'
 
 const ATTRIBUTE_START_TOKENS = new Set([
   TokenTypes.DoctypeAttributeWrapperStart,
