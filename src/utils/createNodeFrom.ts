@@ -1,6 +1,6 @@
+import type { AnyToken } from '../types'
 import { cloneLocation } from './cloneLocation'
 import { cloneRange } from './cloneRange'
-import type { AnyToken } from '../types'
 
 /**
  * Create a node object from a token, copying essential properties

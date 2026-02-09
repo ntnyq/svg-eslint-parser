@@ -1,10 +1,10 @@
 import { createSharedComposable, useLocalStorage } from '@vueuse/core'
 import { parseForESLint } from 'svg-eslint-parser'
+import type { ParseForESLintResult } from 'svg-eslint-parser'
 import { computed, ref, shallowRef, watchEffect } from 'vue'
 import { InputTab, OutputTab } from '../constants'
 import { svgSample } from '../constants/sample'
 import { packageName } from '../meta'
-import type { ParseForESLintResult } from 'svg-eslint-parser'
 
 export function usePlaygroundState() {
   const code = useLocalStorage(`${packageName}:code`, svgSample)

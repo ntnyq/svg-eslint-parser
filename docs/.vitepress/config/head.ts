@@ -1,5 +1,5 @@
-import { appDescription, appTitle, appUrl } from '../meta'
 import type { HeadConfig } from 'vitepress'
+import { appDescription, appTitle, appUrl } from '../meta'
 
 export const head: HeadConfig[] = [
   ['link', { rel: 'icon', href: '/favicon.ico' }],

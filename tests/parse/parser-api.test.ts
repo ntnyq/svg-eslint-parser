@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest'
-
 import { NodeTypes } from '../../src/constants'
 import { parse, parseForESLint } from '../../src/parser'
 import type { CommentNode, TagNode, TextNode } from '../../src/types'

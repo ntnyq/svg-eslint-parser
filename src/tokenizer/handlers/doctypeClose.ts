@@ -1,6 +1,6 @@
 import { TokenizerContextTypes, TokenTypes } from '../../constants'
-import { calculateTokenPosition } from '../../utils'
 import type { TokenizerState } from '../../types'
+import { calculateTokenPosition } from '../../utils'
 import type { CharsBuffer } from '../charsBuffer'
 
 export function parse(chars: CharsBuffer, state: TokenizerState) {

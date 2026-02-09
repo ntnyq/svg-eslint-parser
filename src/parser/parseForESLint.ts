@@ -1,13 +1,13 @@
 import { NodeTypes, TokenTypes } from '../constants'
-import { visitorKeys } from '../visitorKeys'
-import { parse } from './parse'
-import { traverse } from './traverse'
 import type {
   ESLintComment,
   Options,
   ParseForESLintResult,
   Program,
 } from '../types'
+import { visitorKeys } from '../visitorKeys'
+import { parse } from './parse'
+import { traverse } from './traverse'
 
 export function parseForESLint(
   source: string,
@@ -20,9 +20,9 @@ export function parseForESLint(
     comments: [],
     tokens: tokens.filter(
       token =>
-        token.type !== TokenTypes.CommentOpen
-        && token.type !== TokenTypes.CommentClose
-        && token.type !== TokenTypes.CommentContent,
+        token.type !== TokenTypes.CommentOpen &&
+        token.type !== TokenTypes.CommentClose &&
+        token.type !== TokenTypes.CommentContent,
     ),
     range: ast.range,
     loc: ast.loc,

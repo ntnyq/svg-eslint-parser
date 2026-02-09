@@ -1,5 +1,5 @@
-import { getLineInfo } from './getLineInfo'
 import type { Range } from '../types'
+import { getLineInfo } from './getLineInfo'
 
 /**
  * Calculate the source location of a token based on its character range

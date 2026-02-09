@@ -1,5 +1,5 @@
-import { unionWith } from 'eslint-visitor-keys'
 import type { SourceCode } from 'eslint'
+import { unionWith } from 'eslint-visitor-keys'
 import type { AnyNode } from './types'
 
 const keys: {

@@ -18,23 +18,23 @@ export function validateNode(node: AnyNode): boolean {
 
   // Validate range
   if (
-    !Array.isArray(node.range)
-    || node.range.length !== 2
-    || typeof node.range[0] !== 'number'
-    || typeof node.range[1] !== 'number'
+    !Array.isArray(node.range) ||
+    node.range.length !== 2 ||
+    typeof node.range[0] !== 'number' ||
+    typeof node.range[1] !== 'number'
   ) {
     return false
   }
 
   // Validate location
   if (
-    !node.loc
-    || !node.loc.start
-    || !node.loc.end
-    || typeof node.loc.start.line !== 'number'
-    || typeof node.loc.start.column !== 'number'
-    || typeof node.loc.end.line !== 'number'
-    || typeof node.loc.end.column !== 'number'
+    !node.loc ||
+    !node.loc.start ||
+    !node.loc.end ||
+    typeof node.loc.start.line !== 'number' ||
+    typeof node.loc.start.column !== 'number' ||
+    typeof node.loc.end.line !== 'number' ||
+    typeof node.loc.end.column !== 'number'
   ) {
     return false
   }
@@ -81,9 +81,9 @@ function validateAttributeNode(node: AnyNode): boolean {
   }
 
   if (
-    'value' in node
-    && node.value !== undefined
-    && typeof node.value !== 'object'
+    'value' in node &&
+    node.value !== undefined &&
+    typeof node.value !== 'object'
   ) {
     return false
   }

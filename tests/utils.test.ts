@@ -176,9 +176,9 @@ describe('AST Utility Functions', () => {
       const filtered = filterNodes(
         ast,
         node =>
-          node.type === NodeTypes.Tag
-          && 'name' in node
-          && node.name === 'circle',
+          node.type === NodeTypes.Tag &&
+          'name' in node &&
+          node.name === 'circle',
       )
 
       expect(filtered.length).toBe(1)

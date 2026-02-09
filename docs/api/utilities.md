@@ -194,8 +194,8 @@ import { filterNodes } from 'svg-eslint-parser'
 // Find all tags with width attribute
 const tagsWithWidth = filterNodes(ast.body[0], node => {
   return (
-    node.type === 'Tag'
-    && node.attributes.some(attr => attr.key.value === 'width')
+    node.type === 'Tag' &&
+    node.attributes.some(attr => attr.key.value === 'width')
   )
 })
 ```
@@ -351,8 +351,8 @@ const { ast } = parseForESLint(svgSource)
 traverseAST(ast.body[0], {
   enter(node, parent) {
     if (
-      node.type === NodeTypes.Comment
-      && parent?.type === NodeTypes.Document
+      node.type === NodeTypes.Comment &&
+      parent?.type === NodeTypes.Document
     ) {
       const index = parent.children.indexOf(node)
       if (index !== -1) {

@@ -1,11 +1,11 @@
 import { TokenTypes } from '../../constants'
-import { updateNodeEnd } from '../../utils'
-import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
   ConstructTreeState,
   ContextualCommentNode,
 } from '../../types'
+import { updateNodeEnd } from '../../utils'
+import { createTokenDispatcher } from '../handlerFactory'
 
 const dispatch = createTokenDispatcher([
   {

@@ -1,8 +1,8 @@
 import { meta } from './meta'
 import { ParseError, parseForESLint } from './parser'
-import { visitorKeys } from './visitorKeys'
 import type { Options } from './types'
 import type * as AST from './types'
+import { visitorKeys } from './visitorKeys'
 
 export const name = meta.name
 export const VisitorKeys = visitorKeys

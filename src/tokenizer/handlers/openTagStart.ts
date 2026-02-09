@@ -3,12 +3,12 @@ import {
   TokenizerContextTypes,
   TokenTypes,
 } from '../../constants'
+import type { TokenizerState } from '../../types'
 import {
   calculateTokenPosition,
   isWhitespace,
   parseOpenTagName,
 } from '../../utils'
-import type { TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
 export function parse(chars: CharsBuffer, state: TokenizerState) {

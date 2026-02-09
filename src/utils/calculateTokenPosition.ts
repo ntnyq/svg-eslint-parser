@@ -1,6 +1,6 @@
+import type { TokenizerState } from '../types'
 import { calculateTokenCharactersRange } from './calculateTokenCharactersRange'
 import { calculateTokenLocation } from './calculateTokenLocation'
-import type { TokenizerState } from '../types'
 
 /**
  * Calculate both character range and source location of a token
