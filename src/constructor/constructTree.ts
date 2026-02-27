@@ -59,6 +59,24 @@ const contextHandlers: Record<ConstructTreeContextTypes, ConstructTreeHandler> =
       xmlDeclarationAttributeValue,
   }
 
+function processTokens<ContextualNode extends AnyContextualNode = any>(
+  tokens: AnyToken[],
+  state: ConstructTreeState<ContextualNode>,
+  positionOffset: number,
+) {
+  let tokenIndex = state.caretPosition - positionOffset
+
+  while (tokenIndex < tokens.length) {
+    const token = tokens[tokenIndex]
+    const handler = contextHandlers[state.currentContext.type].construct
+    // oxlint-disable-next-line no-param-reassign
+    state = handler(token, state)
+    tokenIndex = state.caretPosition - positionOffset
+  }
+
+  return state
+}
+
 export function constructTree<ContextualNode extends AnyContextualNode = any>(
   tokens: AnyToken[],
 ) {
@@ -103,21 +121,4 @@ export function constructTree<ContextualNode extends AnyContextualNode = any>(
     state,
     ast: state.rootNode,
   }
-}
-
-function processTokens<ContextualNode extends AnyContextualNode = any>(
-  tokens: AnyToken[],
-  state: ConstructTreeState<ContextualNode>,
-  positionOffset: number,
-) {
-  let tokenIndex = state.caretPosition - positionOffset
-
-  while (tokenIndex < tokens.length) {
-    const token = tokens[tokenIndex]
-    const handler = contextHandlers[state.currentContext.type].construct
-    state = handler(token, state)
-    tokenIndex = state.caretPosition - positionOffset
-  }
-
-  return state
 }

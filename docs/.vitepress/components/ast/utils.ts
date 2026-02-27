@@ -14,6 +14,8 @@ export function getTooltipLabel(
     switch (parentType) {
       case 'svgNode':
         return propName
+      default:
+        return undefined
     }
   }
 
@@ -34,10 +36,9 @@ export function getTypeName(
   switch (valueType) {
     case 'svgNode':
       return String(value.type)
-
-    // extends
+    default:
+      return undefined
   }
-  return undefined
 }
 
 export function filterProperties(
@@ -53,7 +54,7 @@ export function filterProperties(
   switch (type) {
     case 'svgNode':
       return key !== 'tokens' || !showTokens
+    default:
+      return true
   }
-
-  return true
 }

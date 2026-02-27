@@ -7,16 +7,6 @@ import type { TokenizerState } from '../../types'
 import { calculateTokenPosition, isWhitespace } from '../../utils'
 import type { CharsBuffer } from '../charsBuffer'
 
-export function parse(chars: CharsBuffer, state: TokenizerState) {
-  if (isKeyBreak(chars)) {
-    return parseKeyEnd(state)
-  }
-
-  state.accumulatedContent.concatBuffer(state.decisionBuffer)
-  state.decisionBuffer.clear()
-  state.sourceCode.next()
-}
-
 function isKeyBreak(chars: CharsBuffer): boolean {
   const value = chars.value()
   return (
@@ -40,4 +30,14 @@ function parseKeyEnd(state: TokenizerState) {
   state.accumulatedContent.clear()
   state.decisionBuffer.clear()
   state.currentContext = TokenizerContextTypes.XMLDeclarationAttributes
+}
+
+export function parse(chars: CharsBuffer, state: TokenizerState) {
+  if (isKeyBreak(chars)) {
+    return parseKeyEnd(state)
+  }
+
+  state.accumulatedContent.concatBuffer(state.decisionBuffer)
+  state.decisionBuffer.clear()
+  state.sourceCode.next()
 }

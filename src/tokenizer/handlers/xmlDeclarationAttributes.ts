@@ -8,22 +8,6 @@ import type { Range, TokenizerState } from '../../types'
 import { calculateTokenPosition } from '../../utils'
 import type { CharsBuffer } from '../charsBuffer'
 
-export function parse(chars: CharsBuffer, state: TokenizerState) {
-  const value = chars.value()
-
-  if (value === SPECIAL_CHAR.question || value === SPECIAL_CHAR.closingCorner) {
-    return parseXMLDeclarationClose(state)
-  }
-
-  if (value === XML_DECLARATION_END) {
-    return parseXMLDeclarationClose(state)
-  }
-
-  state.accumulatedContent.concatBuffer(state.decisionBuffer)
-  state.decisionBuffer.clear()
-  state.sourceCode.next()
-}
-
 function parseXMLDeclarationClose(state: TokenizerState) {
   const position = calculateTokenPosition(state, { keepBuffer: false })
   const endRange: Range = [
@@ -41,5 +25,21 @@ function parseXMLDeclarationClose(state: TokenizerState) {
   state.accumulatedContent.clear()
   state.decisionBuffer.clear()
   state.currentContext = TokenizerContextTypes.Data
+  state.sourceCode.next()
+}
+
+export function parse(chars: CharsBuffer, state: TokenizerState) {
+  const value = chars.value()
+
+  if (value === SPECIAL_CHAR.question || value === SPECIAL_CHAR.closingCorner) {
+    return parseXMLDeclarationClose(state)
+  }
+
+  if (value === XML_DECLARATION_END) {
+    return parseXMLDeclarationClose(state)
+  }
+
+  state.accumulatedContent.concatBuffer(state.decisionBuffer)
+  state.decisionBuffer.clear()
   state.sourceCode.next()
 }

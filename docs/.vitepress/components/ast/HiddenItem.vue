@@ -15,11 +15,10 @@ const model = computed<{ isComplex: boolean; length: number }>(() => {
       isComplex: filtered.some(([_, item]) => isNumber(item)),
       length: filtered.length,
     }
-  } else {
-    return {
-      isComplex: true,
-      length: 0,
-    }
+  }
+  return {
+    isComplex: true,
+    length: 0,
   }
 })
 </script>

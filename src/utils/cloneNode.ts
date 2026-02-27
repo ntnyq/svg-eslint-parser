@@ -19,7 +19,7 @@ export function cloneNode<T extends AnyNode>(node: T): T {
   const cloned: any = {}
 
   for (const key in node) {
-    if (!Object.prototype.hasOwnProperty.call(node, key)) {
+    if (!Object.hasOwn(node, key)) {
       continue
     }
 
@@ -68,7 +68,7 @@ export function cloneNodeWithParent<T extends AnyNode>(
   const cloned: any = {}
 
   for (const key in node) {
-    if (!Object.prototype.hasOwnProperty.call(node, key)) {
+    if (!Object.hasOwn(node, key)) {
       continue
     }
 

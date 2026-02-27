@@ -4,6 +4,8 @@ export default defineConfig({
   clean: true,
   dts: true,
   entry: ['src/index.ts'],
-  external: ['eslint'],
   platform: 'neutral',
+  deps: {
+    neverBundle: ['eslint'],
+  },
 })

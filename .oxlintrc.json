@@ -1,0 +1,168 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "eslint",
+    // "import",
+    // "jsdoc",
+    "node",
+    "promise",
+    "oxc",
+    // "typescript",
+    "unicorn",
+    "vue"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "pedantic": "warn",
+    "perf": "warn",
+    "style": "warn",
+    "restriction": "warn"
+  },
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/tests/fixtures/**",
+    "docs/components.d.ts"
+  ],
+  "globals": {},
+  "rules": {
+    "capitalized-comments": "off",
+    "no-async-await": "off",
+    "no-continue": "off",
+    "no-inline-comments": "off",
+    "no-plusplus": "off",
+    "no-ternary": "off",
+    "no-undefined": "off",
+    "prefer-destructuring": "off",
+    "sort-imports": "off",
+    "sort-keys": "off",
+    "oxc/no-optional-chaining": "off",
+    "oxc/no-rest-spread-properties": "off",
+    "import/no-relative-parent-imports": "off",
+    "promise/prefer-await-to-callbacks": "off",
+    "unicorn/explicit-length-check": "off",
+    "unicorn/filename-case": "off",
+    "unicorn/numeric-separators-style": "off",
+    "unicorn/no-null": "off",
+    "unicorn/no-array-sort": "off",
+    "unicorn/no-array-for-each": "off",
+    "unicorn/no-array-reverse": "off",
+    "unicorn/no-useless-undefined": "off",
+    "unicorn/prefer-at": "off",
+    "unicorn/prefer-spread": "off",
+    "unicorn/prefer-ternary": "off",
+    "unicorn/prefer-global-this": "off",
+    "unicorn/relative-url-style": "off",
+    "unicorn/switch-case-braces": "off",
+    "complexity": ["warn", { "max": 50 }],
+    "func-style": [
+      "warn",
+      "declaration",
+      { "allowArrowFunctions": true, "allowTypeAnnotation": true }
+    ],
+    "id-length": [
+      "warn",
+      {
+        "min": 2,
+        "exceptions": [
+          "a",
+          "b",
+          "c",
+          "i",
+          "j",
+          "t",
+          "v",
+          "x",
+          "y",
+          "_",
+          "$",
+          "T",
+          "K"
+        ]
+      }
+    ],
+    "max-params": ["warn", 5],
+    "max-statements": ["warn", 50],
+    "max-lines-per-function": [
+      "warn",
+      { "max": 100, "skipBlankLines": true, "skipComments": true }
+    ],
+    "no-duplicate-imports": [
+      "warn",
+      {
+        "allowSeparateTypeImports": true,
+        "includeExports": false
+      }
+    ],
+    "no-magic-numbers": [
+      "warn",
+      {
+        "ignore": [-1, 0, 1, 2, 10, 200, 250],
+        "ignoreArrayIndexes": true,
+        "ignoreClassFieldInitialValues": true,
+        "ignoreDefaultValues": true,
+        "ignoreTypeIndexes": true
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["scripts/**/*.{js,ts}"],
+      "rules": {
+        "no-console": "off",
+        "import/no-nodejs-modules": "off"
+      }
+    },
+    {
+      "files": ["**/*.config.{js,ts,mjs,mts}"],
+      "rules": {
+        "new-cap": "off",
+        "import/no-default-export": "off",
+        "import/no-nodejs-modules": "off"
+      }
+    },
+    {
+      "files": ["**/components/**/*.{ts,tsx,vue}"],
+      "rules": {
+        "vue/define-props-destructuring": "off",
+        // loose max lines for components setup blocks
+        "max-lines-per-function": [
+          "warn",
+          { "max": 300, "skipBlankLines": true, "skipComments": true }
+        ],
+        // increase max props for vue components to 10
+        "vue/max-props": ["warn", { "maxProps": 10 }]
+      }
+    },
+    {
+      "files": ["*.d.ts"],
+      "rules": {
+        // to extend existing modules, import/export must not appear in declaration files at top level
+        "import/unambiguous": "off",
+        // we need `export {}` to convert a file to a module
+        "unicorn/require-module-specifiers": "off"
+      }
+    },
+    {
+      "files": ["*.{spec,test}.{js,ts,tsx}", "*.{spec,test}-d.{ts,tsx}"],
+      "plugins": ["vitest"],
+      "rules": {
+        "id-length": "off",
+        "max-classes-per-file": "off",
+        "max-lines-per-function": "off",
+        "max-lines": "off",
+        "max-statements": "off",
+        "no-empty-function": "off",
+        "no-undefined": "off",
+        "no-magic-numbers": "off",
+        "import/no-nodejs-modules": "off",
+        "typescript/ban-ts-comment": "off",
+        "typescript/no-non-null-assertion": "off",
+        "typescript/prefer-ts-expect-error": "off",
+        "typescript/require-array-sort-compare": "off",
+        "vitest/no-importing-vitest-globals": "off"
+      }
+    }
+  ]
+}

@@ -7,7 +7,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.oxc": "explicit"
   },
-  "typescript.experimental.useTsgo": true,
   "cSpell.words": [
     "apos",
     "bumpp",

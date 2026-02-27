@@ -3,20 +3,6 @@ import type { Range, TokenizerState } from '../../types'
 import { calculateTokenPosition } from '../../utils'
 import type { CharsBuffer } from '../charsBuffer'
 
-export function parse(chars: CharsBuffer, state: TokenizerState) {
-  const value = chars.value()
-  const wrapperChar =
-    state.contextParams[TokenizerContextTypes.DoctypeAttributeWrapped]?.wrapper
-
-  if (value === wrapperChar) {
-    return parseWrapper(state)
-  }
-
-  state.accumulatedContent.concatBuffer(state.decisionBuffer)
-  state.decisionBuffer.clear()
-  state.sourceCode.next()
-}
-
 function parseWrapper(state: TokenizerState) {
   const position = calculateTokenPosition(state, { keepBuffer: false })
   const endWrapperPosition = position.range[1]
@@ -43,4 +29,18 @@ function parseWrapper(state: TokenizerState) {
   state.sourceCode.next()
 
   state.contextParams[TokenizerContextTypes.DoctypeAttributeWrapped] = undefined
+}
+
+export function parse(chars: CharsBuffer, state: TokenizerState) {
+  const value = chars.value()
+  const wrapperChar =
+    state.contextParams[TokenizerContextTypes.DoctypeAttributeWrapped]?.wrapper
+
+  if (value === wrapperChar) {
+    return parseWrapper(state)
+  }
+
+  state.accumulatedContent.concatBuffer(state.decisionBuffer)
+  state.decisionBuffer.clear()
+  state.sourceCode.next()
 }

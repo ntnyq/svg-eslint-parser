@@ -7,21 +7,6 @@ import type { AnyToken, TokenizerState } from '../../types'
 import { calculateTokenPosition, isWhitespace } from '../../utils'
 import type { CharsBuffer } from '../charsBuffer'
 
-export function parse(chars: CharsBuffer, state: TokenizerState) {
-  const value = chars.value()
-
-  if (isWhitespace(value)) {
-    return parseWhitespace(state)
-  }
-
-  if (value === SPECIAL_CHAR.closingCorner) {
-    return parseClosingCornerBrace(state)
-  }
-
-  state.decisionBuffer.clear()
-  state.sourceCode.next()
-}
-
 function generateDoctypeOpenToken(state: TokenizerState): AnyToken {
   const position = calculateTokenPosition(state, { keepBuffer: false })
   const token: AnyToken = {
@@ -48,4 +33,19 @@ function parseClosingCornerBrace(state: TokenizerState) {
   state.accumulatedContent.clear()
   state.decisionBuffer.clear()
   state.currentContext = TokenizerContextTypes.DoctypeClose
+}
+
+export function parse(chars: CharsBuffer, state: TokenizerState) {
+  const value = chars.value()
+
+  if (isWhitespace(value)) {
+    return parseWhitespace(state)
+  }
+
+  if (value === SPECIAL_CHAR.closingCorner) {
+    return parseClosingCornerBrace(state)
+  }
+
+  state.decisionBuffer.clear()
+  state.sourceCode.next()
 }

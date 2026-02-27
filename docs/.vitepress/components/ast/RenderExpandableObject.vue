@@ -4,6 +4,7 @@ import { useToggle } from '@vueuse/core'
 import { computed, watchEffect } from 'vue'
 import type { OnHoverNodeFn, ParentNodeType } from './types'
 
+// oxlint-disable-next-line vue/max-props
 const props = defineProps<{
   field?: string
   lastElement?: boolean
@@ -22,7 +23,7 @@ const props = defineProps<{
 const lastIndex = props.data.length - 1
 
 const [isExpanded, setIsExpanded] = useToggle(
-  props.level === 'ast' || !!props.selectedPath?.startsWith(props.level),
+  props.level === 'ast' || Boolean(props.selectedPath?.startsWith(props.level)),
 )
 const isActive = computed(
   () => props.level !== 'ast' && props.selectedPath === props.level,
@@ -41,7 +42,7 @@ function handleHoverItem(isHovering: boolean) {
 }
 
 watchEffect(() => {
-  const shouldOpen = !!props.selectedPath?.startsWith(props.level)
+  const shouldOpen = Boolean(props.selectedPath?.startsWith(props.level))
 
   if (shouldOpen) {
     setIsExpanded(isExpanded.value || shouldOpen)

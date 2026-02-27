@@ -7,18 +7,6 @@ import type { TokenizerState } from '../../types'
 import { calculateTokenPosition } from '../../utils'
 import type { CharsBuffer } from '../charsBuffer'
 
-export function parse(chars: CharsBuffer, state: TokenizerState) {
-  const value = chars.value()
-
-  if (value === SPECIAL_CHAR.closingCorner) {
-    return parseClosingCornerBrace(state)
-  }
-
-  state.accumulatedContent.concatBuffer(state.decisionBuffer)
-  state.decisionBuffer.clear()
-  state.sourceCode.next()
-}
-
 function parseClosingCornerBrace(state: TokenizerState) {
   const position = calculateTokenPosition(state, { keepBuffer: true })
 
@@ -32,5 +20,17 @@ function parseClosingCornerBrace(state: TokenizerState) {
   state.accumulatedContent.clear()
   state.decisionBuffer.clear()
   state.currentContext = TokenizerContextTypes.Data
+  state.sourceCode.next()
+}
+
+export function parse(chars: CharsBuffer, state: TokenizerState) {
+  const value = chars.value()
+
+  if (value === SPECIAL_CHAR.closingCorner) {
+    return parseClosingCornerBrace(state)
+  }
+
+  state.accumulatedContent.concatBuffer(state.decisionBuffer)
+  state.decisionBuffer.clear()
   state.sourceCode.next()
 }

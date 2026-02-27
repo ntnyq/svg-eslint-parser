@@ -23,5 +23,6 @@ export * as xmlDeclarationAttributeValue from './xmlDeclarationAttributeValue'
 export * as xmlDeclarationAttributeValueWrapped from './xmlDeclarationAttributeValueWrapped'
 
 export const noop: TokenizeHandler = {
+  // oxlint-disable-next-line no-empty-function
   parse: () => {},
 }

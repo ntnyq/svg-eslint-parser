@@ -7,18 +7,6 @@ import type { TokenizerState } from '../../types'
 import { calculateTokenPosition, isWhitespace } from '../../utils'
 import type { CharsBuffer } from '../charsBuffer'
 
-export function parse(chars: CharsBuffer, state: TokenizerState) {
-  const value = chars.value()
-
-  if (isWhitespace(value) || value === SPECIAL_CHAR.closingCorner) {
-    return parseAttributeEnd(state)
-  }
-
-  state.accumulatedContent.concatBuffer(state.decisionBuffer)
-  state.decisionBuffer.clear()
-  state.sourceCode.next()
-}
-
 function parseAttributeEnd(state: TokenizerState) {
   const position = calculateTokenPosition(state, { keepBuffer: false })
 
@@ -32,4 +20,16 @@ function parseAttributeEnd(state: TokenizerState) {
   state.accumulatedContent.clear()
   state.decisionBuffer.clear()
   state.currentContext = TokenizerContextTypes.DoctypeAttributes
+}
+
+export function parse(chars: CharsBuffer, state: TokenizerState) {
+  const value = chars.value()
+
+  if (isWhitespace(value) || value === SPECIAL_CHAR.closingCorner) {
+    return parseAttributeEnd(state)
+  }
+
+  state.accumulatedContent.concatBuffer(state.decisionBuffer)
+  state.decisionBuffer.clear()
+  state.sourceCode.next()
 }

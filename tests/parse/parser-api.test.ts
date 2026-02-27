@@ -1,10 +1,10 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expectTypeOf, expect, it } from 'vitest'
 import { NodeTypes } from '../../src/constants'
 import { parse, parseForESLint } from '../../src/parser'
 import type { CommentNode, TagNode, TextNode } from '../../src/types'
 
 describe('Parser API', () => {
-  describe('parseForESLint', () => {
+  describe(parseForESLint, () => {
     it('should return Program node', () => {
       const source = '<div>Test</div>'
       const result = parseForESLint(source)
@@ -16,7 +16,7 @@ describe('Parser API', () => {
       const source = '<div>Test</div>'
       const result = parseForESLint(source)
 
-      expect(Array.isArray(result.ast.body)).toBe(true)
+      expect(Array.isArray(result.ast.body)).toBeTruthy()
       expect(result.ast.body).toHaveLength(1)
       expect(result.ast.body[0].type).toBe(NodeTypes.Document)
     })
@@ -26,7 +26,7 @@ describe('Parser API', () => {
       const result = parseForESLint(source)
 
       expect(result.visitorKeys).toBeDefined()
-      expect(typeof result.visitorKeys).toBe('object')
+      expectTypeOf(result.visitorKeys).toBeObject()
     })
 
     it('should include services with isSVG flag', () => {
@@ -34,14 +34,14 @@ describe('Parser API', () => {
       const result = parseForESLint(source)
 
       expect(result.services).toBeDefined()
-      expect(result.services.isSVG).toBe(true)
+      expect(result.services.isSVG).toBeTruthy()
     })
 
     it('should include tokens array', () => {
       const source = '<div>Test</div>'
       const result = parseForESLint(source)
 
-      expect(Array.isArray(result.ast.tokens)).toBe(true)
+      expect(Array.isArray(result.ast.tokens)).toBeTruthy()
       expect(result.ast.tokens.length).toBeGreaterThan(0)
     })
 
@@ -49,7 +49,7 @@ describe('Parser API', () => {
       const source = '<!-- Comment --><div>Test</div>'
       const result = parseForESLint(source)
 
-      expect(Array.isArray(result.ast.comments)).toBe(true)
+      expect(Array.isArray(result.ast.comments)).toBeTruthy()
       expect(result.ast.comments.length).toBeGreaterThan(0)
     })
 
@@ -66,7 +66,7 @@ describe('Parser API', () => {
       const result = parseForESLint(source)
 
       expect(result.ast.range).toBeDefined()
-      expect(Array.isArray(result.ast.range)).toBe(true)
+      expect(Array.isArray(result.ast.range)).toBeTruthy()
       expect(result.ast.range).toHaveLength(2)
     })
 
@@ -87,7 +87,7 @@ describe('Parser API', () => {
     })
   })
 
-  describe('parse', () => {
+  describe(parse, () => {
     it('should return Document node directly', () => {
       const source = '<div>Test</div>'
       const result = parse(source)
@@ -99,7 +99,7 @@ describe('Parser API', () => {
       const source = '<div>Test</div>'
       const result = parse(source)
 
-      expect(Array.isArray(result.ast.children)).toBe(true)
+      expect(Array.isArray(result.ast.children)).toBeTruthy()
       expect(result.ast.children.length).toBeGreaterThan(0)
     })
 
@@ -108,7 +108,7 @@ describe('Parser API', () => {
       const result = parse(source)
 
       expect(result.ast.range).toBeDefined()
-      expect(Array.isArray(result.ast.range)).toBe(true)
+      expect(Array.isArray(result.ast.range)).toBeTruthy()
     })
 
     it('should include location information', () => {
@@ -184,7 +184,7 @@ describe('Parser API', () => {
       expect(div.name).toBe('div')
       expect(div.attributes).toBeDefined()
       expect(div.children).toBeDefined()
-      expect(div.selfClosing).toBe(false)
+      expect(div.selfClosing).toBeFalsy()
     })
 
     it('should have valid Attribute node structure', () => {
@@ -240,8 +240,8 @@ describe('Parser API', () => {
       const source = '<div>Test</div>'
       const result = parseForESLint(source)
 
-      expect(Array.isArray(result.visitorKeys.Document)).toBe(true)
-      expect(result.visitorKeys.Document.includes('children')).toBe(true)
+      expect(Array.isArray(result.visitorKeys.Document)).toBeTruthy()
+      expect(result.visitorKeys.Document.includes('children')).toBeTruthy()
     })
   })
 

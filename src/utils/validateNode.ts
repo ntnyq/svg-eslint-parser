@@ -1,6 +1,59 @@
 import { NodeTypes } from '../constants'
 import type { AnyNode } from '../types'
 
+function validateTagNode(node: AnyNode): boolean {
+  if (!('name' in node) || typeof node.name !== 'string') {
+    return false
+  }
+
+  if ('children' in node && !Array.isArray(node.children)) {
+    return false
+  }
+
+  if ('attributes' in node && !Array.isArray(node.attributes)) {
+    return false
+  }
+
+  return true
+}
+
+function validateAttributeNode(node: AnyNode): boolean {
+  // Attribute can have key and/or value
+  if ('key' in node && node.key !== undefined && typeof node.key !== 'object') {
+    return false
+  }
+
+  if (
+    'value' in node &&
+    node.value !== undefined &&
+    typeof node.value !== 'object'
+  ) {
+    return false
+  }
+
+  return true
+}
+
+function validateTextNode(node: AnyNode): boolean {
+  return 'value' in node && typeof node.value === 'string'
+}
+
+function validateCommentNode(node: AnyNode): boolean {
+  return 'content' in node && typeof node.content === 'string'
+}
+
+function validateDocumentNode(node: AnyNode): boolean {
+  return 'children' in node && Array.isArray(node.children)
+}
+
+function validateDoctypeNode(node: AnyNode): boolean {
+  if ('attributes' in node && !Array.isArray(node.attributes)) {
+    return false
+  }
+
+  return true
+}
+
 /**
  * Validate if a node matches its expected structure
  * @param node - Node to validate
@@ -56,59 +109,6 @@ export function validateNode(node: AnyNode): boolean {
     default:
       return true // Unknown types are considered valid
   }
-}
-
-function validateTagNode(node: AnyNode): boolean {
-  if (!('name' in node) || typeof node.name !== 'string') {
-    return false
-  }
-
-  if ('children' in node && !Array.isArray(node.children)) {
-    return false
-  }
-
-  if ('attributes' in node && !Array.isArray(node.attributes)) {
-    return false
-  }
-
-  return true
-}
-
-function validateAttributeNode(node: AnyNode): boolean {
-  // Attribute can have key and/or value
-  if ('key' in node && node.key !== undefined && typeof node.key !== 'object') {
-    return false
-  }
-
-  if (
-    'value' in node &&
-    node.value !== undefined &&
-    typeof node.value !== 'object'
-  ) {
-    return false
-  }
-
-  return true
-}
-
-function validateTextNode(node: AnyNode): boolean {
-  return 'value' in node && typeof node.value === 'string'
-}
-
-function validateCommentNode(node: AnyNode): boolean {
-  return 'content' in node && typeof node.content === 'string'
-}
-
-function validateDocumentNode(node: AnyNode): boolean {
-  return 'children' in node && Array.isArray(node.children)
-}
-
-function validateDoctypeNode(node: AnyNode): boolean {
-  if ('attributes' in node && !Array.isArray(node.attributes)) {
-    return false
-  }
-
-  return true
 }
 
 /**

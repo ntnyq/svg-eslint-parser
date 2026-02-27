@@ -4,6 +4,7 @@
  * @returns True if code is a newline character (LF, CR, LS, PS)
  */
 function isNewLine(code: number) {
+  // oxlint-disable-next-line no-magic-numbers
   return code === 10 || code === 13 || code === 0x2028 || code === 0x2029
 }
 
@@ -23,6 +24,7 @@ function nextLineBreak(code: string, from: number, end = code.length) {
     }
 
     if (isNewLine(next)) {
+      // oxlint-disable-next-line no-magic-numbers
       return i < end - 1 && next === 13 && code.codePointAt(i + 1) === 10
         ? i + 2
         : i + 1
@@ -38,6 +40,7 @@ function nextLineBreak(code: string, from: number, end = code.length) {
  * @returns Object with line (1-indexed) and column (0-indexed) information
  */
 export function getLineInfo(input: string, offset: number) {
+  // oxlint-disable-next-line sort-vars
   for (let line = 1, cur = 0; ; ) {
     const nextBreak = nextLineBreak(input, cur, offset)
     if (nextBreak < 0) {

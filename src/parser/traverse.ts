@@ -22,7 +22,7 @@ export function traverse(node: AnyNode, visitor: Visitor) {
 
     if (value) {
       if (Array.isArray(value)) {
-        value.forEach(n => traverse(n, visitor))
+        value.forEach(v => traverse(v, visitor))
       } else {
         traverse(value, visitor)
       }

@@ -2,9 +2,9 @@ import type { ConstructTreeContextTypes } from '../constants'
 import type { DocumentNode } from './ast'
 import type { AnyContextualNode } from './contextualNode'
 
-export type ConstructTreeState<N extends AnyContextualNode> = {
+export type ConstructTreeState<Node extends AnyContextualNode> = {
   caretPosition: number
-  currentNode: N
+  currentNode: Node
   rootNode: DocumentNode
   currentContext: {
     type: ConstructTreeContextTypes

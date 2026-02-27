@@ -22,62 +22,6 @@ const INCOMPLETE_DOCTYPE_CHARS = new Set([
   '<!DOCTYP',
 ])
 
-export function parse(chars: CharsBuffer, state: TokenizerState) {
-  const value = chars.value()
-
-  if (value === XML_DECLARATION_START) {
-    return parseXMLDeclarationOpen(state)
-  }
-
-  if (RE_OPEN_TAG_START.test(value)) {
-    return parseOpeningCornerBraceWithText(state)
-  }
-
-  if (value === '</') {
-    return parseOpeningCornerBraceWithSlash(state)
-  }
-
-  if (
-    value === SPECIAL_CHAR.openingCorner ||
-    value === '<!' ||
-    value === '<!-'
-  ) {
-    return state.sourceCode.next()
-  }
-
-  if (value === COMMENT_START) {
-    return parseCommentOpen(state)
-  }
-
-  if (isIncompleteDoctype(value)) {
-    return state.sourceCode.next()
-  }
-
-  if (value.toUpperCase() === '<!DOCTYPE') {
-    return parseDoctypeOpen(state)
-  }
-
-  state.accumulatedContent.concatBuffer(state.decisionBuffer)
-  state.decisionBuffer.clear()
-  state.sourceCode.next()
-}
-
-export function handleContentEnd(state: TokenizerState) {
-  const textContent =
-    state.accumulatedContent.value() + state.decisionBuffer.value()
-
-  if (textContent.length !== 0) {
-    const position = calculateTokenPosition(state, { keepBuffer: false })
-
-    state.tokens.push({
-      type: TokenTypes.Text,
-      value: textContent,
-      range: position.range,
-      loc: position.loc,
-    })
-  }
-}
-
 function generateTextToken(state: TokenizerState): Token<TokenTypes.Text> {
   const position = calculateTokenPosition(state, { keepBuffer: false })
   return {
@@ -155,4 +99,60 @@ function parseXMLDeclarationOpen(state: TokenizerState) {
   state.decisionBuffer.clear()
   state.currentContext = TokenizerContextTypes.XMLDeclarationAttributes
   state.sourceCode.next()
+}
+
+export function parse(chars: CharsBuffer, state: TokenizerState) {
+  const value = chars.value()
+
+  if (value === XML_DECLARATION_START) {
+    return parseXMLDeclarationOpen(state)
+  }
+
+  if (RE_OPEN_TAG_START.test(value)) {
+    return parseOpeningCornerBraceWithText(state)
+  }
+
+  if (value === '</') {
+    return parseOpeningCornerBraceWithSlash(state)
+  }
+
+  if (
+    value === SPECIAL_CHAR.openingCorner ||
+    value === '<!' ||
+    value === '<!-'
+  ) {
+    return state.sourceCode.next()
+  }
+
+  if (value === COMMENT_START) {
+    return parseCommentOpen(state)
+  }
+
+  if (isIncompleteDoctype(value)) {
+    return state.sourceCode.next()
+  }
+
+  if (value.toUpperCase() === '<!DOCTYPE') {
+    return parseDoctypeOpen(state)
+  }
+
+  state.accumulatedContent.concatBuffer(state.decisionBuffer)
+  state.decisionBuffer.clear()
+  state.sourceCode.next()
+}
+
+export function handleContentEnd(state: TokenizerState) {
+  const textContent =
+    state.accumulatedContent.value() + state.decisionBuffer.value()
+
+  if (textContent.length !== 0) {
+    const position = calculateTokenPosition(state, { keepBuffer: false })
+
+    state.tokens.push({
+      type: TokenTypes.Text,
+      value: textContent,
+      range: position.range,
+      loc: position.loc,
+    })
+  }
 }

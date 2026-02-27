@@ -51,9 +51,9 @@ export class ErrorHandler implements ErrorContext {
    * Get all issues (errors + warnings) sorted by position
    */
   getAllIssues(): ParseError[] {
-    return [...this.errors, ...this.warnings].sort((a, b) => {
-      return a.range[0] - b.range[0]
-    })
+    return [...this.errors, ...this.warnings].sort(
+      (a, b) => a.range[0] - b.range[0],
+    )
   }
 
   /**

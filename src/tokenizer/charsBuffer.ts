@@ -5,10 +5,10 @@ export class CharsBuffer {
   public charsBuffer: Chars[] = []
 
   public concat(chars: Chars) {
-    const last = this.last()
+    const theLast = this.last()
 
-    if (last) {
-      last.concat(chars)
+    if (theLast) {
+      theLast.concat(chars)
     } else {
       this.charsBuffer.push(chars)
     }

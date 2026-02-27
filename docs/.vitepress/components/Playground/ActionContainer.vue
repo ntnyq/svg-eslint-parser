@@ -14,29 +14,24 @@ const {
 
 const { parseCost, setCode, resetPlayground } = useSharedPlaygroundState()
 
+async function tryLoadFile(file: File) {
+  try {
+    const content = await file.text()
+    setCode(content)
+  } catch (error) {
+    // oxlint-disable-next-line no-console
+    console.log(error)
+  } finally {
+    resetSelectedFiles()
+  }
+}
+
 handleFileDialogChange(files => {
   if (!files?.length) {
     return
   }
   tryLoadFile(files[0])
 })
-
-function tryLoadFile(file: File) {
-  const reader = new FileReader()
-
-  reader.addEventListener('load', (event: ProgressEvent<FileReader>) => {
-    const content = event.target?.result ?? ''
-
-    if (typeof content !== 'string') {
-      return
-    }
-
-    setCode(content)
-    resetSelectedFiles()
-  })
-
-  reader.readAsText(file)
-}
 </script>
 
 <template>

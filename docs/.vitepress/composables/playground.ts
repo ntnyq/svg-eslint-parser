@@ -12,7 +12,7 @@ export function usePlaygroundState() {
 
   const loading = ref(false)
   const parseCost = ref(0)
-  const error = shallowRef<unknown>()
+  const parseError = shallowRef<unknown>()
 
   const astJson = computed(() => {
     if (!ast.value) {
@@ -33,7 +33,7 @@ export function usePlaygroundState() {
   function resetPlayground() {
     setCode(null)
     parseCost.value = 0
-    error.value = null
+    parseError.value = null
     ast.value = undefined
   }
 
@@ -58,10 +58,11 @@ export function usePlaygroundState() {
       ast.value = parseForESLint(code.value)
 
       parseCost.value = window.performance.now() - startTime
-      error.value = null
-    } catch (err) {
-      console.error(err)
-      error.value = err
+      parseError.value = null
+    } catch (error) {
+      // oxlint-disable-next-line no-console
+      console.error(error)
+      parseError.value = error
     } finally {
       loading.value = false
     }
@@ -69,6 +70,7 @@ export function usePlaygroundState() {
 
   return {
     code,
+    parseError,
 
     ast,
     astJson,

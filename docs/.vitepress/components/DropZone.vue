@@ -47,10 +47,12 @@ async function onImportFile(files?: FileList | null) {
   const fileContent = await file.text()
 
   if (fileExt !== 'svg') {
+    // oxlint-disable-next-line no-console
     return console.log(`Expected SVG file, but got ${fileExt}`)
   }
 
   if (!fileContent.trim().length) {
+    // oxlint-disable-next-line no-console
     return console.log('Empty SVG file')
   }
 
