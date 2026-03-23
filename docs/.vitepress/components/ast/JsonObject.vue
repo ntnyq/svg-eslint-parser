@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { filterProperties, getNodeType, getTypeName } from './utils'
 import type { OnHoverNodeFn, ParentNodeType } from './types'
+import { filterProperties, getNodeType, getTypeName } from './utils'
 
 const props = defineProps<{
   field?: string

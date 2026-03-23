@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+import type { Extension } from '@codemirror/state'
 import { useData } from 'vitepress/client'
 import { computed } from 'vue'
 import { Codemirror } from 'vue-codemirror'
 import { languages } from './language'
-import { githubDark, githubLight } from './theme'
-import type { Extension } from '@codemirror/state'
 import type { SupportedLanguage } from './language'
+import { githubDark, githubLight } from './theme'
 
 const props = withDefaults(
   defineProps<{

@@ -9,7 +9,7 @@
     "oxc",
     // "typescript",
     "unicorn",
-    "vue"
+    "vue",
   ],
   "categories": {
     "correctness": "error",
@@ -17,15 +17,14 @@
     "pedantic": "warn",
     "perf": "warn",
     "style": "warn",
-    "restriction": "warn"
+    "restriction": "warn",
   },
   "ignorePatterns": [
     "**/dist/**",
     "**/node_modules/**",
-    "**/tests/fixtures/**",
-    "docs/components.d.ts"
+    "**/fixtures/**",
+    "docs/components.d.ts",
   ],
-  "globals": {},
   "rules": {
     "capitalized-comments": "off",
     "no-async-await": "off",
@@ -59,7 +58,7 @@
     "func-style": [
       "warn",
       "declaration",
-      { "allowArrowFunctions": true, "allowTypeAnnotation": true }
+      { "allowArrowFunctions": true, "allowTypeAnnotation": true },
     ],
     "id-length": [
       "warn",
@@ -78,22 +77,22 @@
           "_",
           "$",
           "T",
-          "K"
-        ]
-      }
+          "K",
+        ],
+      },
     ],
     "max-params": ["warn", 5],
     "max-statements": ["warn", 50],
     "max-lines-per-function": [
       "warn",
-      { "max": 100, "skipBlankLines": true, "skipComments": true }
+      { "max": 100, "skipBlankLines": true, "skipComments": true },
     ],
     "no-duplicate-imports": [
       "warn",
       {
         "allowSeparateTypeImports": true,
-        "includeExports": false
-      }
+        "includeExports": false,
+      },
     ],
     "no-magic-numbers": [
       "warn",
@@ -102,25 +101,25 @@
         "ignoreArrayIndexes": true,
         "ignoreClassFieldInitialValues": true,
         "ignoreDefaultValues": true,
-        "ignoreTypeIndexes": true
-      }
-    ]
+        "ignoreTypeIndexes": true,
+      },
+    ],
   },
   "overrides": [
     {
       "files": ["scripts/**/*.{js,ts}"],
       "rules": {
         "no-console": "off",
-        "import/no-nodejs-modules": "off"
-      }
+        "import/no-nodejs-modules": "off",
+      },
     },
     {
       "files": ["**/*.config.{js,ts,mjs,mts}"],
       "rules": {
         "new-cap": "off",
         "import/no-default-export": "off",
-        "import/no-nodejs-modules": "off"
-      }
+        "import/no-nodejs-modules": "off",
+      },
     },
     {
       "files": ["**/components/**/*.{ts,tsx,vue}"],
@@ -129,11 +128,11 @@
         // loose max lines for components setup blocks
         "max-lines-per-function": [
           "warn",
-          { "max": 300, "skipBlankLines": true, "skipComments": true }
+          { "max": 300, "skipBlankLines": true, "skipComments": true },
         ],
         // increase max props for vue components to 10
-        "vue/max-props": ["warn", { "maxProps": 10 }]
-      }
+        "vue/max-props": ["warn", { "maxProps": 10 }],
+      },
     },
     {
       "files": ["*.d.ts"],
@@ -141,8 +140,8 @@
         // to extend existing modules, import/export must not appear in declaration files at top level
         "import/unambiguous": "off",
         // we need `export {}` to convert a file to a module
-        "unicorn/require-module-specifiers": "off"
-      }
+        "unicorn/require-module-specifiers": "off",
+      },
     },
     {
       "files": ["*.{spec,test}.{js,ts,tsx}", "*.{spec,test}-d.{ts,tsx}"],
@@ -161,8 +160,9 @@
         "typescript/no-non-null-assertion": "off",
         "typescript/prefer-ts-expect-error": "off",
         "typescript/require-array-sort-compare": "off",
-        "vitest/no-importing-vitest-globals": "off"
-      }
-    }
-  ]
+        "vitest/no-importing-vitest-globals": "off",
+        "vitest/prefer-strict-boolean-matchers": "off",
+      },
+    },
+  ],
 }
