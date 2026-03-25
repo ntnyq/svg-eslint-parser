@@ -32,12 +32,12 @@ describe('AST Utility Functions', () => {
     it('should find all nodes of a specific type', () => {
       const tags = findNodeByType(ast, NodeTypes.Tag)
       expect(tags.length).toBeGreaterThan(0)
-      expect(tags.every(node => node.type === NodeTypes.Tag)).toBe(true)
+      expect(tags.every(node => node.type === NodeTypes.Tag)).toBeTruthy()
     })
 
     it('should find text nodes', () => {
       const textNodes = findNodeByType(ast, NodeTypes.Text)
-      expect(Array.isArray(textNodes)).toBe(true)
+      expect(Array.isArray(textNodes)).toBeTruthy()
     })
 
     it('should return empty array for non-existent types', () => {
@@ -62,16 +62,16 @@ describe('AST Utility Functions', () => {
   describe(validateNode, () => {
     it('should validate correct nodes', () => {
       const tags = findNodeByType(ast, NodeTypes.Tag)
-      expect(validateNode(tags[0])).toBe(true)
+      expect(validateNode(tags[0])).toBeTruthy()
     })
 
     it('should validate document node', () => {
-      expect(validateNode(ast)).toBe(true)
+      expect(validateNode(ast)).toBeTruthy()
     })
 
     it('should reject invalid nodes', () => {
-      expect(validateNode({} as any)).toBe(false)
-      expect(validateNode({ type: 'invalid' } as any)).toBe(false)
+      expect(validateNode({} as any)).toBeFalsy()
+      expect(validateNode({ type: 'invalid' } as any)).toBeFalsy()
     })
   })
 
@@ -151,16 +151,16 @@ describe('AST Utility Functions', () => {
       const tags = findNodeByType(ast, NodeTypes.Tag)
       const cloned = cloneNode(tags[0])
 
-      expect('parentRef' in cloned).toBe(false)
-      expect('parent' in cloned).toBe(false)
+      expect('parentRef' in cloned).toBeFalsy()
+      expect('parent' in cloned).toBeFalsy()
     })
   })
 
   describe(isNodeType, () => {
     it('should check node type correctly', () => {
       const tags = findNodeByType(ast, NodeTypes.Tag)
-      expect(isNodeType(tags[0], NodeTypes.Tag)).toBe(true)
-      expect(isNodeType(tags[0], NodeTypes.Text)).toBe(false)
+      expect(isNodeType(tags[0], NodeTypes.Tag)).toBeTruthy()
+      expect(isNodeType(tags[0], NodeTypes.Text)).toBeFalsy()
     })
   })
 
@@ -169,7 +169,7 @@ describe('AST Utility Functions', () => {
       const filtered = filterNodes(ast, node => node.type === NodeTypes.Tag)
 
       expect(filtered.length).toBeGreaterThan(0)
-      expect(filtered.every(node => node.type === NodeTypes.Tag)).toBe(true)
+      expect(filtered.every(node => node.type === NodeTypes.Tag)).toBeTruthy()
     })
 
     it('should handle complex predicates', () => {
@@ -209,7 +209,7 @@ describe('AST Utility Functions', () => {
       const astWithParents = cloneNodeWithParent(ast)
       const tags = findNodeByType(astWithParents, NodeTypes.Tag)
       const depths = tags.map(tag => getNodeDepth(tag))
-      expect(depths.some(d => d > 0)).toBe(true)
+      expect(depths.some(d => d > 0)).toBeTruthy()
     })
   })
 
