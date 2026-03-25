@@ -16,7 +16,7 @@ describe('Parser API', () => {
       const source = '<div>Test</div>'
       const result = parseForESLint(source)
 
-      expect(Array.isArray(result.ast.body)).toBeTruthy()
+      expect(Array.isArray(result.ast.body)).toBe(true)
       expect(result.ast.body).toHaveLength(1)
       expect(result.ast.body[0].type).toBe(NodeTypes.Document)
     })
@@ -34,14 +34,14 @@ describe('Parser API', () => {
       const result = parseForESLint(source)
 
       expect(result.services).toBeDefined()
-      expect(result.services.isSVG).toBeTruthy()
+      expect(result.services.isSVG).toBe(true)
     })
 
     it('should include tokens array', () => {
       const source = '<div>Test</div>'
       const result = parseForESLint(source)
 
-      expect(Array.isArray(result.ast.tokens)).toBeTruthy()
+      expect(Array.isArray(result.ast.tokens)).toBe(true)
       expect(result.ast.tokens.length).toBeGreaterThan(0)
     })
 
@@ -49,7 +49,7 @@ describe('Parser API', () => {
       const source = '<!-- Comment --><div>Test</div>'
       const result = parseForESLint(source)
 
-      expect(Array.isArray(result.ast.comments)).toBeTruthy()
+      expect(Array.isArray(result.ast.comments)).toBe(true)
       expect(result.ast.comments.length).toBeGreaterThan(0)
     })
 
@@ -66,7 +66,7 @@ describe('Parser API', () => {
       const result = parseForESLint(source)
 
       expect(result.ast.range).toBeDefined()
-      expect(Array.isArray(result.ast.range)).toBeTruthy()
+      expect(Array.isArray(result.ast.range)).toBe(true)
       expect(result.ast.range).toHaveLength(2)
     })
 
@@ -99,7 +99,7 @@ describe('Parser API', () => {
       const source = '<div>Test</div>'
       const result = parse(source)
 
-      expect(Array.isArray(result.ast.children)).toBeTruthy()
+      expect(Array.isArray(result.ast.children)).toBe(true)
       expect(result.ast.children.length).toBeGreaterThan(0)
     })
 
@@ -108,7 +108,7 @@ describe('Parser API', () => {
       const result = parse(source)
 
       expect(result.ast.range).toBeDefined()
-      expect(Array.isArray(result.ast.range)).toBeTruthy()
+      expect(Array.isArray(result.ast.range)).toBe(true)
     })
 
     it('should include location information', () => {
@@ -184,7 +184,7 @@ describe('Parser API', () => {
       expect(div.name).toBe('div')
       expect(div.attributes).toBeDefined()
       expect(div.children).toBeDefined()
-      expect(div.selfClosing).toBeFalsy()
+      expect(div.selfClosing).toBe(false)
     })
 
     it('should have valid Attribute node structure', () => {
@@ -240,8 +240,8 @@ describe('Parser API', () => {
       const source = '<div>Test</div>'
       const result = parseForESLint(source)
 
-      expect(Array.isArray(result.visitorKeys.Document)).toBeTruthy()
-      expect(result.visitorKeys.Document.includes('children')).toBeTruthy()
+      expect(Array.isArray(result.visitorKeys.Document)).toBe(true)
+      expect(result.visitorKeys.Document.includes('children')).toBe(true)
     })
   })
 

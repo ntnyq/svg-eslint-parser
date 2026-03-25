@@ -12,7 +12,7 @@ describe('Tag Parsing', () => {
     const tag = document.children[0] as TagNode
 
     expect(tag.type).toBe(NodeTypes.Tag)
-    expect(tag.selfClosing).toBeTruthy()
+    expect(tag.selfClosing).toBe(true)
     expect(tag.children).toHaveLength(0)
   })
 
@@ -22,7 +22,7 @@ describe('Tag Parsing', () => {
     const document = ast.body[0]
     const tag = document.children[0] as TagNode
 
-    expect(tag.selfClosing).toBeFalsy()
+    expect(tag.selfClosing).toBe(false)
   })
 
   it('should parse nested tags', () => {

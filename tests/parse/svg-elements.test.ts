@@ -45,7 +45,7 @@ describe('SVG-Specific Parsing', () => {
     const circle = document.children[0] as TagNode
 
     expect(circle.name).toBe('circle')
-    expect(circle.selfClosing).toBeTruthy()
+    expect(circle.selfClosing).toBe(true)
     expect(circle.attributes).toHaveLength(4)
   })
 
