@@ -49,22 +49,22 @@
     "typecheck": "tsgo --noEmit"
   },
   "dependencies": {
-    "@ntnyq/utils": "^0.11.5",
+    "@ntnyq/utils": "^0.11.6",
     "eslint-visitor-keys": "^5.0.1"
   },
   "devDependencies": {
-    "@types/node": "^25.5.2",
-    "@typescript/native-preview": "^7.0.0-dev.20260405.1",
+    "@types/node": "^25.6.0",
+    "@typescript/native-preview": "^7.0.0-dev.20260412.1",
     "bumpp": "^11.0.1",
     "eslint": "^10.2.0",
     "husky": "^9.1.7",
     "nano-staged": "^0.9.0",
     "npm-run-all2": "^8.0.4",
-    "oxfmt": "^0.43.0",
-    "oxlint": "^1.58.0",
+    "oxfmt": "^0.44.0",
+    "oxlint": "^1.59.0",
     "tsdown": "^0.21.7",
     "typescript": "^6.0.2",
-    "vitest": "^4.1.2"
+    "vitest": "^4.1.4"
   },
   "nano-staged": {
     "*.{js,ts,mjs,tsx,vue}": "oxlint --fix",
