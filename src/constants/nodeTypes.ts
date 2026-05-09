@@ -7,9 +7,11 @@ export enum NodeTypes {
   DoctypeAttribute = 'DoctypeAttribute',
   DoctypeAttributeValue = 'DoctypeAttributeValue',
   Document = 'Document',
+  Element = 'Element',
   Error = 'Error',
   Program = 'Program',
-  Tag = 'Tag',
+  /** @deprecated Use Element instead. */
+  Tag = 'Element',
   Text = 'Text',
   XMLDeclaration = 'XMLDeclaration',
   XMLDeclarationAttribute = 'XMLDeclarationAttribute',

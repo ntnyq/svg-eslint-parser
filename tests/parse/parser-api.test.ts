@@ -3,7 +3,7 @@ import { NodeTypes } from '../../src/constants'
 import { parse, parseForESLint } from '../../src/parser'
 import type { CommentNode, TagNode, TextNode } from '../../src/types'
 
-describe('Parser API', () => {
+describe('parser api', () => {
   describe(parseForESLint, () => {
     it('should return Program node', () => {
       const source = '<div>Test</div>'
@@ -17,8 +17,8 @@ describe('Parser API', () => {
       const result = parseForESLint(source)
 
       expect(Array.isArray(result.ast.body)).toBeTruthy()
-      expect(result.ast.body).toHaveLength(1)
-      expect(result.ast.body[0].type).toBe(NodeTypes.Document)
+      expect(result.ast.body).toHaveLength(0)
+      expect(result.ast.document.type).toBe(NodeTypes.Document)
     })
 
     it('should include visitorKeys', () => {
@@ -136,7 +136,7 @@ describe('Parser API', () => {
     })
   })
 
-  describe('Range and Location accuracy', () => {
+  describe('range and Location accuracy', () => {
     it('should have correct start position', () => {
       const source = '<div>Test</div>'
       const result = parse(source)
@@ -174,7 +174,7 @@ describe('Parser API', () => {
     })
   })
 
-  describe('Node structure validation', () => {
+  describe('node structure validation', () => {
     it('should have valid Tag node structure', () => {
       const source = '<div id="test">Content</div>'
       const result = parse(source)
@@ -221,7 +221,7 @@ describe('Parser API', () => {
     })
   })
 
-  describe('Visitor keys', () => {
+  describe('visitor keys', () => {
     it('should include Document in visitor keys', () => {
       const source = '<div>Test</div>'
       const result = parseForESLint(source)
@@ -245,7 +245,7 @@ describe('Parser API', () => {
     })
   })
 
-  describe('Error handling', () => {
+  describe('error handling', () => {
     it('should not throw on malformed input', () => {
       expect(() => parse('<div')).not.toThrow()
       expect(() => parse('<div></span>')).not.toThrow()

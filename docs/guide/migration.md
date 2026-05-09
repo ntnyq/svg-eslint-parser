@@ -64,7 +64,7 @@ If you were manually traversing the AST, consider using the new utility function
 function findTags(node: any): any[] {
   const tags: any[] = []
 
-  if (node.type === 'Tag') {
+  if (node.type === 'Element') {
     tags.push(node)
   }
 
@@ -89,7 +89,7 @@ function findTags(node: any): any[] {
 ```typescript
 import { findNodeByType, NodeTypes } from 'svg-eslint-parser'
 
-const tags = findNodeByType(document, NodeTypes.Tag)
+const tags = findNodeByType(document, NodeTypes.Element)
 ```
 
 ### 4. Update Node Type Checks
@@ -99,8 +99,8 @@ Use the new type guard function for better type safety:
 **Before:**
 
 ```typescript
-if (node.type === 'Tag') {
-  // TypeScript doesn't know node is TagNode
+if (node.type === 'Element') {
+  // TypeScript doesn't know node is ElementNode
   const name = (node as any).name
 }
 ```
@@ -110,8 +110,8 @@ if (node.type === 'Tag') {
 ```typescript
 import { isNodeType, NodeTypes } from 'svg-eslint-parser'
 
-if (isNodeType(node, NodeTypes.Tag)) {
-  // TypeScript knows node is TagNode
+if (isNodeType(node, NodeTypes.Element)) {
+  // TypeScript knows node is ElementNode
   const name = node.name
 }
 ```
@@ -184,7 +184,7 @@ visit(ast, node => {
 ```typescript
 import { traverseAST } from 'svg-eslint-parser'
 
-traverseAST(ast.body[0], {
+traverseAST(ast.document, {
   enter(node) {
     console.log(node.type)
   },
@@ -207,7 +207,7 @@ Easily find nodes by type:
 import { parseForESLint, findNodeByType, NodeTypes } from 'svg-eslint-parser'
 
 const { ast } = parseForESLint(svgSource)
-const circles = findNodeByType(ast.body[0], NodeTypes.Tag).filter(
+const circles = findNodeByType(ast.document, NodeTypes.Element).filter(
   tag => tag.name === 'circle',
 )
 ```
@@ -220,7 +220,7 @@ Implement complex traversals with enter/leave hooks:
 import { traverseAST } from 'svg-eslint-parser'
 
 let depth = 0
-traverseAST(ast.body[0], {
+traverseAST(ast.document, {
   enter(node) {
     console.log('  '.repeat(depth) + node.type)
     depth++
@@ -251,7 +251,7 @@ Use type guards for better TypeScript support:
 import { isNodeType, NodeTypes } from 'svg-eslint-parser'
 
 nodes.forEach(node => {
-  if (isNodeType(node, NodeTypes.Tag)) {
+  if (isNodeType(node, NodeTypes.Element)) {
     // TypeScript knows node.name exists
     console.log(node.name)
   }
@@ -269,10 +269,10 @@ import {
   cloneNodeWithParent,
 } from 'svg-eslint-parser'
 
-const totalNodes = countNodes(ast.body[0])
+const totalNodes = countNodes(ast.document)
 console.log(`Total nodes: ${totalNodes}`)
 
-const astWithParents = cloneNodeWithParent(ast.body[0])
+const astWithParents = cloneNodeWithParent(ast.document)
 const depth = getNodeDepth(someNode)
 console.log(`Node depth: ${depth}`)
 ```
@@ -288,8 +288,8 @@ import { isNodeType, NodeTypes } from 'svg-eslint-parser'
 export default {
   create(context) {
     return {
-      Tag(node) {
-        // node is automatically typed as TagNode
+      Element(node) {
+        // node is automatically typed as ElementNode
         if (
           node.name === 'circle' &&
           !node.attributes.some(a => a.key.value === 'r')
@@ -311,10 +311,10 @@ export default {
 import { parseForESLint, findNodeByType, NodeTypes } from 'svg-eslint-parser'
 
 const { ast } = parseForESLint(svgSource)
-const document = ast.body[0]
+const document = ast.document
 
 // Get statistics
-const tags = findNodeByType(document, NodeTypes.Tag)
+const tags = findNodeByType(document, NodeTypes.Element)
 const comments = findNodeByType(document, NodeTypes.Comment)
 
 console.log(`Tags: ${tags.length}`)
@@ -322,7 +322,7 @@ console.log(`Comments: ${comments.length}`)
 
 // Find all unique tag names
 const tagNames = new Set(tags.map(tag => tag.name))
-console.log('Tag names:', Array.from(tagNames))
+console.log('Element names:', Array.from(tagNames))
 ```
 
 ### Transforming SVG
@@ -333,9 +333,9 @@ import { parseForESLint, traverseAST, NodeTypes } from 'svg-eslint-parser'
 const { ast } = parseForESLint(svgSource)
 
 // Remove all style attributes
-traverseAST(ast.body[0], {
+traverseAST(ast.document, {
   enter(node) {
-    if (node.type === NodeTypes.Tag) {
+    if (node.type === NodeTypes.Element) {
       node.attributes = node.attributes.filter(
         attr => attr.key.value !== 'style',
       )
@@ -361,7 +361,7 @@ npm install svg-eslint-parser
 ```typescript
 import { isNodeType, NodeTypes } from 'svg-eslint-parser'
 
-if (isNodeType(node, NodeTypes.Tag)) {
+if (isNodeType(node, NodeTypes.Element)) {
   // TypeScript now knows the correct type
 }
 ```
@@ -373,7 +373,7 @@ if (isNodeType(node, NodeTypes.Tag)) {
 ```typescript
 import { cloneNodeWithParent } from 'svg-eslint-parser'
 
-const astWithParents = cloneNodeWithParent(ast.body[0])
+const astWithParents = cloneNodeWithParent(ast.document)
 ```
 
 ### Issue: "ESLint doesn't recognize the parser"

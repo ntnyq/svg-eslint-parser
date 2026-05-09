@@ -4,11 +4,11 @@ import { NodeTypes } from '../../src/constants'
 import { parseForESLint } from '../../src/parser'
 import type { CommentNode, TagNode } from '../../src/types'
 
-describe('Comment Parsing', () => {
+describe('comment parsing', () => {
   it('should parse simple comments', () => {
     const source = '<!-- This is a comment -->'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const comment = document.children[0] as CommentNode
 
     expect(comment.type).toBe(NodeTypes.Comment)
@@ -18,7 +18,7 @@ describe('Comment Parsing', () => {
   it('should parse empty comments', () => {
     const source = '<!---->'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const comment = document.children[0] as CommentNode
 
     expect(comment.type).toBe(NodeTypes.Comment)
@@ -28,7 +28,7 @@ describe('Comment Parsing', () => {
   it('should parse comments with special characters', () => {
     const source = '<!-- Test & Demo < > " \' -->'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const comment = document.children[0] as CommentNode
 
     expect(comment.content).toBe(' Test & Demo < > " \' ')
@@ -43,7 +43,7 @@ describe('Comment Parsing', () => {
       -->
     `
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const comment = document.children[0] as CommentNode
 
     expect(comment.type).toBe(NodeTypes.Comment)
@@ -55,7 +55,7 @@ describe('Comment Parsing', () => {
   it('should parse multiple comments', () => {
     const source = '<!-- Comment 1 --><!-- Comment 2 --><!-- Comment 3 -->'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
 
     const comments = document.children.filter(
       (child: any) => child.type === NodeTypes.Comment,
@@ -69,7 +69,7 @@ describe('Comment Parsing', () => {
   it('should parse comments between tags', () => {
     const source = '<div><!-- Comment --></div>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
 
     expect(div.children[0].type).toBe(NodeTypes.Comment)
@@ -79,7 +79,7 @@ describe('Comment Parsing', () => {
   it('should parse comments with hyphens', () => {
     const source = '<!-- This-is-a-test -->'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const comment = document.children[0] as CommentNode
 
     expect(comment.content).toBe(' This-is-a-test ')
@@ -88,7 +88,7 @@ describe('Comment Parsing', () => {
   it('should parse comments with numbers', () => {
     const source = '<!-- Version 1.0.0 -->'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const comment = document.children[0] as CommentNode
 
     expect(comment.content).toBe(' Version 1.0.0 ')
@@ -97,7 +97,7 @@ describe('Comment Parsing', () => {
   it('should parse comments adjacent to tags', () => {
     const source = '<!-- Before --><div></div><!-- After -->'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
 
     expect(document.children[0].type).toBe(NodeTypes.Comment)
     expect(document.children[1].type).toBe(NodeTypes.Tag)
@@ -114,7 +114,7 @@ describe('Comment Parsing', () => {
       </div>
     `
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
 
     const comments = div.children.filter(
@@ -126,7 +126,7 @@ describe('Comment Parsing', () => {
   it('should parse comments with URLs', () => {
     const source = '<!-- https://example.com/path?query=value -->'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const comment = document.children[0] as CommentNode
 
     expect(comment.content).toBe(' https://example.com/path?query=value ')
@@ -135,7 +135,7 @@ describe('Comment Parsing', () => {
   it('should parse comments with code examples', () => {
     const source = '<!-- <div class="test"></div> -->'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const comment = document.children[0] as CommentNode
 
     expect(comment.content).toBe(' <div class="test"></div> ')

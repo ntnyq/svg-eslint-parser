@@ -25,7 +25,7 @@ export default defineConfig({
         position: 'all',
       }),
       transformerTwoslash({
-        explicitTrigger: /\btwoslash\b/,
+        explicitTrigger: /\btwoslash\b/u,
       }),
     ],
   },

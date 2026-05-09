@@ -59,7 +59,7 @@ npm install svg-eslint-parser -D
 import { parseForESLint, findNodeByType, NodeTypes } from 'svg-eslint-parser'
 
 const { ast } = parseForESLint('<svg><circle cx="50" /></svg>')
-const tags = findNodeByType(ast.body[0], NodeTypes.Tag)
+const tags = findNodeByType(ast.document, NodeTypes.Element)
 console.log(`Found ${tags.length} tags`)
 ```
 

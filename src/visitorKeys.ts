@@ -5,7 +5,7 @@ import type { AnyNode } from './types'
 const keys: {
   [key in AnyNode['type']]: string[]
 } = {
-  Program: ['body'],
+  Program: ['document'],
   Document: ['children'],
 
   XMLDeclaration: ['attributes'],
@@ -21,7 +21,7 @@ const keys: {
   AttributeKey: [],
   AttributeValue: [],
 
-  Tag: ['attributes', 'children'],
+  Element: ['attributes', 'children'],
 
   Comment: [],
 
@@ -34,7 +34,11 @@ let vistorKeysCache: SourceCode.VisitorKeys | null = null
 
 export function getVisitorKeys(): SourceCode.VisitorKeys {
   if (!vistorKeysCache) {
-    vistorKeysCache = unionWith(keys) as SourceCode.VisitorKeys
+    const merged = unionWith(keys) as SourceCode.VisitorKeys
+    vistorKeysCache = {
+      ...merged,
+      Tag: merged.Element,
+    }
   }
   return vistorKeysCache
 }

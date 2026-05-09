@@ -5,7 +5,7 @@ import type {
   DoctypeAttributeNode,
   DoctypeNode,
   DocumentNode,
-  TagNode,
+  ElementNode,
   XMLDeclarationAttributeNode,
   XMLDeclarationNode,
 } from './ast'
@@ -16,7 +16,7 @@ export type AnyContextualNode =
   | ContextualDoctypeAttributeNode
   | ContextualDoctypeNode
   | ContextualDocumentNode
-  | ContextualTagNode
+  | ContextualElementNode
   | ContextualXMLDeclarationAttributeNode
   | ContextualXMLDeclarationNode
 
@@ -45,7 +45,10 @@ export type ContextualDocumentNode = Omit<
 > & {
   children: Array<
     | DocumentNode['children'][number]
-    | Exclude<AnyContextualNode, ContextualDoctypeNode>
+    | ContextualCommentNode
+    | ContextualDoctypeNode
+    | ContextualElementNode
+    | ContextualXMLDeclarationNode
   >
 }
 
@@ -56,18 +59,20 @@ export type ContextualNode<T extends AnyNode, K extends keyof T> = PartialBy<
   parentRef?: any
 }
 
-export type ContextualTagNode = ContextualNode<
-  TagNode,
+export type ContextualElementNode = ContextualNode<
+  ElementNode,
   'attributes' | 'children' | 'name' | 'selfClosing'
 > & {
   attributes: ContextualAttributeNode[]
   children: Array<
     | ContextualCommentNode
-    | ContextualDoctypeNode
-    | ContextualTagNode
-    | TagNode['children'][number]
+    | ContextualElementNode
+    | ElementNode['children'][number]
   >
 }
+
+/** @deprecated Use ContextualElementNode instead. */
+export type ContextualTagNode = ContextualElementNode
 
 export type ContextualXMLDeclarationAttributeNode = ContextualNode<
   XMLDeclarationAttributeNode,

@@ -26,7 +26,7 @@ function parseForESLint(
 import { parseForESLint } from 'svg-eslint-parser'
 
 const result = parseForESLint('<svg><circle /></svg>')
-console.log(result.ast) // Program node with Document in body
+console.log(result.ast) // Program node with `document`
 ```
 
 ### parse()
@@ -64,7 +64,7 @@ import type {
   AnyNode,
   ProgramNode,
   DocumentNode,
-  TagNode,
+  ElementNode,
   AttributeNode,
   TextNode,
   CommentNode,

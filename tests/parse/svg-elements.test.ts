@@ -4,11 +4,11 @@ import { NodeTypes } from '../../src/constants'
 import { parseForESLint } from '../../src/parser'
 import type { TagNode, TextNode } from '../../src/types'
 
-describe('SVG-Specific Parsing', () => {
+describe('svg-specific parsing', () => {
   it('should parse basic SVG element', () => {
     const source = '<svg width="100" height="100"></svg>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const svg = document.children[0] as TagNode
 
     expect(svg.type).toBe(NodeTypes.Tag)
@@ -19,7 +19,7 @@ describe('SVG-Specific Parsing', () => {
   it('should parse SVG with viewBox', () => {
     const source = '<svg viewBox="0 0 100 100"></svg>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const svg = document.children[0] as TagNode
 
     const viewBox = svg.attributes.find(
@@ -31,7 +31,7 @@ describe('SVG-Specific Parsing', () => {
   it('should parse SVG with xmlns', () => {
     const source = '<svg xmlns="http://www.w3.org/2000/svg"></svg>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const svg = document.children[0] as TagNode
 
     const xmlns = svg.attributes.find(attr => attr.key.value === 'xmlns')
@@ -41,7 +41,7 @@ describe('SVG-Specific Parsing', () => {
   it('should parse circle element', () => {
     const source = '<circle cx="50" cy="50" r="40" fill="red" />'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const circle = document.children[0] as TagNode
 
     expect(circle.name).toBe('circle')
@@ -52,7 +52,7 @@ describe('SVG-Specific Parsing', () => {
   it('should parse rect element', () => {
     const source = '<rect x="10" y="10" width="50" height="50" />'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const rect = document.children[0] as TagNode
 
     expect(rect.name).toBe('rect')
@@ -62,7 +62,7 @@ describe('SVG-Specific Parsing', () => {
   it('should parse path element with d attribute', () => {
     const source = '<path d="M 10 10 L 50 50 L 10 50 Z" />'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const path = document.children[0] as TagNode
 
     expect(path.name).toBe('path')
@@ -73,7 +73,7 @@ describe('SVG-Specific Parsing', () => {
   it('should parse line element', () => {
     const source = '<line x1="0" y1="0" x2="100" y2="100" stroke="black" />'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const line = document.children[0] as TagNode
 
     expect(line.name).toBe('line')
@@ -83,7 +83,7 @@ describe('SVG-Specific Parsing', () => {
   it('should parse polygon element', () => {
     const source = '<polygon points="50,0 100,100 0,100" />'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const polygon = document.children[0] as TagNode
 
     expect(polygon.name).toBe('polygon')
@@ -94,7 +94,7 @@ describe('SVG-Specific Parsing', () => {
   it('should parse polyline element', () => {
     const source = '<polyline points="0,0 50,50 100,0" />'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const polyline = document.children[0] as TagNode
 
     expect(polyline.name).toBe('polyline')
@@ -103,7 +103,7 @@ describe('SVG-Specific Parsing', () => {
   it('should parse ellipse element', () => {
     const source = '<ellipse cx="50" cy="50" rx="40" ry="20" />'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const ellipse = document.children[0] as TagNode
 
     expect(ellipse.name).toBe('ellipse')
@@ -113,7 +113,7 @@ describe('SVG-Specific Parsing', () => {
   it('should parse text element', () => {
     const source = '<text x="10" y="20">Hello SVG</text>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const textTag = document.children[0] as TagNode
 
     expect(textTag.name).toBe('text')
@@ -128,7 +128,7 @@ describe('SVG-Specific Parsing', () => {
       </g>
     `
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const g = document.children[0] as TagNode
 
     expect(g.name).toBe('g')
@@ -146,7 +146,7 @@ describe('SVG-Specific Parsing', () => {
       </defs>
     `
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const defs = document.children[0] as TagNode
 
     expect(defs.name).toBe('defs')
@@ -155,7 +155,7 @@ describe('SVG-Specific Parsing', () => {
   it('should parse use element with xlink:href', () => {
     const source = '<use xlink:href="#icon" x="10" y="10" />'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const use = document.children[0] as TagNode
 
     expect(use.name).toBe('use')
@@ -170,7 +170,7 @@ describe('SVG-Specific Parsing', () => {
       </symbol>
     `
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const symbol = document.children[0] as TagNode
 
     expect(symbol.name).toBe('symbol')
@@ -183,7 +183,7 @@ describe('SVG-Specific Parsing', () => {
       </clipPath>
     `
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const clipPath = document.children[0] as TagNode
 
     // Parser converts to lowercase
@@ -197,7 +197,7 @@ describe('SVG-Specific Parsing', () => {
       </mask>
     `
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const mask = document.children[0] as TagNode
 
     expect(mask.name).toBe('mask')
@@ -210,7 +210,7 @@ describe('SVG-Specific Parsing', () => {
       </pattern>
     `
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const pattern = document.children[0] as TagNode
 
     expect(pattern.name).toBe('pattern')
@@ -231,7 +231,7 @@ describe('SVG-Specific Parsing', () => {
       </svg>
     `
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const svg = document.children[0] as TagNode
 
     expect(svg.name).toBe('svg')
@@ -243,7 +243,7 @@ describe('SVG-Specific Parsing', () => {
     const source =
       '<rect transform="rotate(45 50 50)" x="25" y="25" width="50" height="50" />'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const rect = document.children[0] as TagNode
 
     const transform = rect.attributes.find(
@@ -256,7 +256,7 @@ describe('SVG-Specific Parsing', () => {
     const source =
       '<circle cx="50" cy="50" r="40" style="fill: red; stroke: blue;" />'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const circle = document.children[0] as TagNode
 
     const style = circle.attributes.find(attr => attr.key.value === 'style')
@@ -267,7 +267,7 @@ describe('SVG-Specific Parsing', () => {
     const source =
       '<circle class="primary-color large" cx="50" cy="50" r="40" />'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const circle = document.children[0] as TagNode
 
     const className = circle.attributes.find(attr => attr.key.value === 'class')

@@ -15,12 +15,12 @@ The root node returned by `parseForESLint()`. Wraps the Document node with ESLin
 ```typescript
 interface ProgramNode {
   type: 'Program'
-  body: DocumentNode[]
-  sourceType: 'module'
+  body: []
+  document: DocumentNode
   range: [number, number]
   loc: SourceLocation
   tokens: Token[]
-  comments: CommentNode[]
+  comments: ESLintComment[]
 }
 ```
 
@@ -32,7 +32,7 @@ The root node of the SVG document. Contains all top-level elements, text, and co
 interface DocumentNode {
   type: 'Document'
   children: (
-    | TagNode
+    | ElementNode
     | TextNode
     | CommentNode
     | DoctypeNode
@@ -45,16 +45,16 @@ interface DocumentNode {
 
 ### Elements
 
-#### Tag
+#### Element
 
 Represents an SVG element (e.g., `<svg>`, `<circle>`, `<path>`).
 
 ```typescript
-interface TagNode {
-  type: 'Tag'
+interface ElementNode {
+  type: 'Element'
   name: string
   attributes: AttributeNode[]
-  children: (TagNode | TextNode | CommentNode)[]
+  children: (ElementNode | TextNode | CommentNode)[]
   selfClosing: boolean
   range: [number, number]
   loc: SourceLocation
@@ -71,7 +71,7 @@ Represents an attribute of an SVG element.
 interface AttributeNode {
   type: 'Attribute'
   key: AttributeKeyNode
-  value: AttributeValueNode | null
+  value?: AttributeValueNode
   range: [number, number]
   loc: SourceLocation
 }
@@ -291,7 +291,7 @@ The parser generates:
       "type": "Document",
       "children": [
         {
-          "type": "Tag",
+          "type": "Element",
           "name": "svg",
           "attributes": [
             {
@@ -313,7 +313,7 @@ The parser generates:
               "value": "\n  "
             },
             {
-              "type": "Tag",
+              "type": "Element",
               "name": "circle",
               "selfClosing": true,
               "attributes": [

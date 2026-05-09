@@ -17,7 +17,7 @@ import {
   walkAST,
 } from '../src/utils'
 
-describe('AST Utility Functions', () => {
+describe('ast utility functions', () => {
   const svgSource = unindent`
     <svg width="100" height="100">
       <circle cx="50" cy="50" r="40" />
@@ -26,7 +26,7 @@ describe('AST Utility Functions', () => {
   `
 
   const parsed = parseForESLint(svgSource)
-  const ast = parsed.ast.body[0] // Get the first document node
+  const ast = parsed.ast.document // Get the first document node
 
   describe(findNodeByType, () => {
     it('should find all nodes of a specific type', () => {
@@ -42,7 +42,7 @@ describe('AST Utility Functions', () => {
 
     it('should return empty array for non-existent types', () => {
       const comments = findNodeByType(ast, NodeTypes.Comment)
-      expect(comments).toEqual([])
+      expect(comments).toStrictEqual([])
     })
   })
 
@@ -102,7 +102,7 @@ describe('AST Utility Functions', () => {
         },
       })
 
-      expect(entered.length).toBe(left.length)
+      expect(entered).toHaveLength(left.length)
     })
 
     it('should skip children when enter returns false', () => {
@@ -143,7 +143,7 @@ describe('AST Utility Functions', () => {
 
       expect(cloned).not.toBe(original)
       expect(cloned.type).toBe(original.type)
-      expect(cloned.range).toEqual(original.range)
+      expect(cloned.range).toStrictEqual(original.range)
       expect(cloned.range).not.toBe(original.range)
     })
 
@@ -181,7 +181,7 @@ describe('AST Utility Functions', () => {
           node.name === 'circle',
       )
 
-      expect(filtered.length).toBe(1)
+      expect(filtered).toHaveLength(1)
     })
   })
 
@@ -216,7 +216,7 @@ describe('AST Utility Functions', () => {
   describe(getParentChain, () => {
     it('should return empty array for root', () => {
       const chain = getParentChain(ast)
-      expect(chain).toEqual([])
+      expect(chain).toStrictEqual([])
     })
 
     it('should return parent chain for nested nodes', () => {

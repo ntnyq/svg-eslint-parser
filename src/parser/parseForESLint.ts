@@ -16,8 +16,9 @@ export function parseForESLint(
   const { ast, tokens } = parse(source, options)
   const programNode: Program = {
     type: NodeTypes.Program,
-    body: [ast],
+    body: [],
     comments: [],
+    document: ast,
     tokens: tokens.filter(
       token =>
         token.type !== TokenTypes.CommentOpen &&

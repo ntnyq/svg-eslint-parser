@@ -85,10 +85,10 @@ import {
 } from 'svg-eslint-parser'
 
 const { ast } = parseForESLint(svgSource)
-const document = ast.body[0]
+const document = ast.document
 
 // Find all tag nodes
-const tags = findNodeByType(document, NodeTypes.Tag)
+const tags = findNodeByType(document, NodeTypes.Element)
 console.log(`Found ${tags.length} tags`)
 
 // Traverse with visitor pattern
@@ -145,21 +145,17 @@ Returns a Document node directly.
 
 ### Node Types
 
-The parser defines 34 node types:
+The parser currently exposes 16 AST node types:
 
-**Document Structure**: `Program`, `Document`
+**Program & Document**: `Program`, `Document`
 
-**Elements**: `Tag`, `OpenTagStart`, `OpenTagEnd`, `CloseTag`
+**Element Tree**: `Element`, `Attribute`, `AttributeKey`, `AttributeValue`, `Text`, `Comment`
 
-**Attributes**: `Attribute`, `AttributeKey`, `AttributeValue`, `AttributeValueWrapperStart`, `AttributeValueWrapperEnd`
-
-**Text & Comments**: `Text`, `Comment`, `CommentOpen`, `CommentContent`, `CommentClose`
-
-**XML Declaration**: `XMLDeclaration`, `XMLDeclarationOpen`, `XMLDeclarationClose`, `XMLDeclarationAttribute`, `XMLDeclarationAttributeKey`, `XMLDeclarationAttributeValue`, `XMLDeclarationAttributeValueWrapperStart`, `XMLDeclarationAttributeValueWrapperEnd`
-
-**DOCTYPE**: `Doctype`, `DoctypeOpen`, `DoctypeClose`, `DoctypeAttribute`, `DoctypeAttributeValue`, `DoctypeAttributeWrapperStart`, `DoctypeAttributeWrapperEnd`
+**Declarations**: `Doctype`, `DoctypeAttribute`, `DoctypeAttributeValue`, `XMLDeclaration`, `XMLDeclarationAttribute`, `XMLDeclarationAttributeKey`, `XMLDeclarationAttributeValue`
 
 **Error Handling**: `Error`
+
+`NodeTypes.Tag` is still available as a deprecated alias of `NodeTypes.Element` for backward compatibility.
 
 ## Documentation
 
@@ -190,10 +186,10 @@ const svgCode = `
 `
 
 const { ast } = parseForESLint(svgCode)
-const document = ast.body[0]
+const document = ast.document
 
 // Find all tags and filter for circles
-const allTags = findNodeByType(document, NodeTypes.Tag)
+const allTags = findNodeByType(document, NodeTypes.Element)
 const circles = allTags.filter(tag => tag.name === 'circle')
 
 console.log(`Found ${circles.length} circles`)

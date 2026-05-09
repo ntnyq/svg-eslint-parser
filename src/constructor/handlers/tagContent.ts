@@ -27,7 +27,7 @@ const dispatch = createTokenDispatcher(
       handler(token, state) {
         initChildrenIfNone(state.currentNode)
         const tagNode: ContextualTagNode = {
-          type: NodeTypes.Tag,
+          type: NodeTypes.Element,
           parentRef: state.currentNode,
           range: cloneRange(token.range),
           loc: cloneLocation(token.loc),
@@ -39,6 +39,30 @@ const dispatch = createTokenDispatcher(
         state.currentContext = {
           parentRef: state.currentContext,
           type: ConstructTreeContextTypes.Tag,
+        }
+        return state
+      },
+    },
+    {
+      tokenType: TokenTypes.DoctypeOpen,
+      handler(token, state) {
+        if (state.currentNode.type !== NodeTypes.Document) {
+          state.caretPosition++
+          return state
+        }
+        initChildrenIfNone(state.currentNode)
+        const doctypeNode: ContextualDoctypeNode = {
+          type: NodeTypes.Doctype,
+          parentRef: state.currentNode,
+          range: cloneRange(token.range),
+          loc: cloneLocation(token.loc),
+          attributes: [],
+        }
+        state.currentNode.children.push(doctypeNode as any)
+        state.currentNode = doctypeNode as any
+        state.currentContext = {
+          parentRef: state.currentContext,
+          type: ConstructTreeContextTypes.Doctype,
         }
         return state
       },
@@ -80,26 +104,6 @@ const dispatch = createTokenDispatcher(
         state.currentContext = {
           parentRef: state.currentContext,
           type: ConstructTreeContextTypes.Comment,
-        }
-        return state
-      },
-    },
-    {
-      tokenType: TokenTypes.DoctypeOpen,
-      handler(token, state) {
-        initChildrenIfNone(state.currentNode)
-        const doctypeNode: ContextualDoctypeNode = {
-          type: NodeTypes.Doctype,
-          parentRef: state.currentNode,
-          range: cloneRange(token.range),
-          loc: cloneLocation(token.loc),
-          attributes: [],
-        }
-        state.currentNode.children.push(doctypeNode as any)
-        state.currentNode = doctypeNode as any
-        state.currentContext = {
-          parentRef: state.currentContext,
-          type: ConstructTreeContextTypes.Doctype,
         }
         return state
       },

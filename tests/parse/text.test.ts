@@ -4,11 +4,11 @@ import { NodeTypes } from '../../src/constants'
 import { parseForESLint } from '../../src/parser'
 import type { TagNode, TextNode } from '../../src/types'
 
-describe('Text Content Parsing', () => {
+describe('text content parsing', () => {
   it('should parse simple text content', () => {
     const source = '<div>Hello World</div>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
     const text = div.children[0] as TextNode
 
@@ -19,7 +19,7 @@ describe('Text Content Parsing', () => {
   it('should parse empty text', () => {
     const source = '<div></div>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
 
     expect(div.children).toHaveLength(0)
@@ -28,7 +28,7 @@ describe('Text Content Parsing', () => {
   it('should parse text with whitespace', () => {
     const source = '<div>  Text with spaces  </div>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
     const text = div.children[0] as TextNode
 
@@ -43,7 +43,7 @@ describe('Text Content Parsing', () => {
       </div>
     `
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
 
     const textNodes = div.children.filter(
@@ -55,7 +55,7 @@ describe('Text Content Parsing', () => {
   it('should parse text with special HTML entities', () => {
     const source = '<div>&amp; &lt; &gt; &quot; &apos;</div>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
     const text = div.children[0] as TextNode
 
@@ -65,7 +65,7 @@ describe('Text Content Parsing', () => {
   it('should parse text with numbers', () => {
     const source = '<div>12345 67890</div>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
     const text = div.children[0] as TextNode
 
@@ -75,7 +75,7 @@ describe('Text Content Parsing', () => {
   it('should parse text with punctuation', () => {
     const source = '<div>Hello, World! How are you?</div>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
     const text = div.children[0] as TextNode
 
@@ -86,7 +86,7 @@ describe('Text Content Parsing', () => {
     // cSpell: disable-next-line
     const source = '<div>你好世界 🌍 Привет</div>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
     const text = div.children[0] as TextNode
 
@@ -97,7 +97,7 @@ describe('Text Content Parsing', () => {
   it('should parse mixed text and tags', () => {
     const source = '<p>Before <strong>bold</strong> after</p>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const p = document.children[0] as TagNode
 
     expect(p.children[0].type).toBe(NodeTypes.Text)
@@ -111,7 +111,7 @@ describe('Text Content Parsing', () => {
     const source =
       '<div>Text1<span>Inner</span>Text2<span>Inner2</span>Text3</div>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
 
     const textNodes = div.children.filter(
@@ -126,7 +126,7 @@ describe('Text Content Parsing', () => {
   it('should preserve tabs and newlines in text', () => {
     const source = '<div>\tTabbed\n\tText\n</div>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
     const text = div.children[0] as TextNode
 
@@ -137,7 +137,7 @@ describe('Text Content Parsing', () => {
   it('should parse text with URLs', () => {
     const source = '<div>Visit https://example.com for more info</div>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
     const text = div.children[0] as TextNode
 
@@ -147,7 +147,7 @@ describe('Text Content Parsing', () => {
   it('should parse text with email addresses', () => {
     const source = '<div>Contact: test@example.com</div>'
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
     const text = div.children[0] as TextNode
 
@@ -158,7 +158,7 @@ describe('Text Content Parsing', () => {
     const longText = 'Lorem ipsum '.repeat(100)
     const source = `<div>${longText}</div>`
     const { ast } = parseForESLint(source)
-    const document = ast.body[0]
+    const document = ast.document
     const div = document.children[0] as TagNode
     const text = div.children[0] as TextNode
 

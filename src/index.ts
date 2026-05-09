@@ -1,14 +1,14 @@
 import { meta } from './meta'
 import { ParseError, parseForESLint } from './parser'
-import type { Options } from './types'
+import type { DocumentNode, Options } from './types'
 import type * as AST from './types'
 import { visitorKeys } from './visitorKeys'
 
 export const name = meta.name
 export const VisitorKeys = visitorKeys
 
-export function parse(code: string, options: Options = {}) {
-  return parseForESLint(code, options).ast
+export function parse(code: string, options: Options = {}): DocumentNode {
+  return parseForESLint(code, options).ast.document
 }
 
 export { meta }

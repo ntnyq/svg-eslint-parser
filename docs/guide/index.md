@@ -61,7 +61,7 @@ console.log(document.type) // 'Document'
 // ESLint-compatible parsing - returns Program with metadata
 const result = parseForESLint('<svg><circle /></svg>')
 console.log(result.ast.type) // 'Program'
-console.log(result.ast.body[0].type) // 'Document'
+console.log(result.ast.document.type) // 'Document'
 ```
 
 ### Using Utilities
@@ -76,10 +76,10 @@ import {
 
 const svgSource = '<svg><circle cx="50" /></svg>'
 const { ast } = parseForESLint(svgSource)
-const document = ast.body[0]
+const document = ast.document
 
 // Find all tag nodes
-const tags = findNodeByType(document, NodeTypes.Tag)
+const tags = findNodeByType(document, NodeTypes.Element)
 console.log(`Found ${tags.length} tags`)
 
 // Traverse the AST

@@ -1,7 +1,7 @@
 import { NodeTypes } from '../constants'
 import type { AnyNode } from '../types'
 
-function validateTagNode(node: AnyNode): boolean {
+function validateElementNode(node: AnyNode): boolean {
   if (!('name' in node) || typeof node.name !== 'string') {
     return false
   }
@@ -94,8 +94,9 @@ export function validateNode(node: AnyNode): boolean {
 
   // Type-specific validation
   switch (node.type) {
+    case NodeTypes.Element:
     case NodeTypes.Tag:
-      return validateTagNode(node)
+      return validateElementNode(node)
     case NodeTypes.Attribute:
       return validateAttributeNode(node)
     case NodeTypes.Text:

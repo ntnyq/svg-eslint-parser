@@ -28,7 +28,7 @@ export type AttributeValueNode = SimpleNode<NodeTypes.AttributeValue>
 export interface AttributeNode extends BaseNode {
   key: AttributeKeyNode
   type: NodeTypes.Attribute
-  value: AttributeValueNode
+  value?: AttributeValueNode
   quoteChar?: '"' | "'" | undefined
 }
 
@@ -58,16 +58,19 @@ export interface DoctypeNode extends BaseNode {
 }
 
 /**
- * tag nodes
+ * element nodes
  * @pg
  */
-export interface TagNode extends BaseNode {
+export interface ElementNode extends BaseNode {
   attributes: AttributeNode[]
-  children: NestableNode[]
+  children: ElementChildNode[]
   name: string
   selfClosing: boolean
-  type: NodeTypes.Tag
+  type: NodeTypes.Element
 }
+
+/** @deprecated Use ElementNode instead. */
+export type TagNode = ElementNode
 
 /**
  * XML declaration nodes
@@ -79,7 +82,7 @@ export type XMLDeclarationAttributeValueNode =
 export interface XMLDeclarationAttributeNode extends BaseNode {
   key: XMLDeclarationAttributeKeyNode
   type: NodeTypes.XMLDeclarationAttribute
-  value: XMLDeclarationAttributeValueNode
+  value?: XMLDeclarationAttributeValueNode
   quoteChar?: '"' | "'" | undefined
 }
 export interface XMLDeclarationNode extends BaseNode {
@@ -99,29 +102,32 @@ export interface ErrorNode extends BaseNode {
 }
 
 /**
- * nestable node
+ * child node
  * @pg
  */
-export type NestableNode =
-  | CommentNode
-  | DoctypeNode
-  | TagNode
-  | TextNode
+export type DocumentChildNode =
   | XMLDeclarationNode
+  | DoctypeNode
+  | ElementNode
+  | CommentNode
+  | TextNode
+
+export type ElementChildNode = ElementNode | CommentNode | TextNode
 
 /**
  * program
  * @pg
  */
 export interface Program extends BaseNode {
-  body: DocumentNode[]
+  body: []
   comments: ESLintComment[]
+  document: DocumentNode
   tokens: AnyToken[]
   type: NodeTypes.Program
 }
 
 export interface DocumentNode extends BaseNode {
-  children: NestableNode[]
+  children: DocumentChildNode[]
   type: NodeTypes.Document
 }
 
@@ -138,9 +144,9 @@ export type AnyNode =
   | DoctypeAttributeValueNode
   | DoctypeNode
   | DocumentNode
+  | ElementNode
   | ErrorNode
   | Program
-  | TagNode
   | TextNode
   | XMLDeclarationAttributeKeyNode
   | XMLDeclarationAttributeNode
