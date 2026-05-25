@@ -53,22 +53,22 @@
     "eslint-visitor-keys": "^5.0.1"
   },
   "devDependencies": {
-    "@types/node": "^25.6.2",
-    "@typescript/native-preview": "^7.0.0-dev.20260510.1",
+    "@types/node": "^25.8.0",
+    "@typescript/native-preview": "^7.0.0-dev.20260517.1",
     "bumpp": "^11.1.0",
-    "eslint": "^10.3.0",
+    "eslint": "^10.4.0",
     "husky": "^9.1.7",
     "nano-staged": "^1.0.2",
     "npm-run-all2": "^8.0.4",
-    "oxfmt": "^0.48.0",
-    "oxlint": "^1.63.0",
+    "oxfmt": "^0.50.0",
+    "oxlint": "^1.65.0",
     "tsdown": "^0.22.0",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.5"
+    "vitest": "^4.1.6"
   },
   "nano-staged": {
     "*.{js,ts,mjs,tsx,vue}": "oxlint --fix",
     "*": "oxfmt --no-error-on-unmatched-pattern"
   },
-  "packageManager": "pnpm@11.0.9"
+  "packageManager": "pnpm@11.1.2"
 }
