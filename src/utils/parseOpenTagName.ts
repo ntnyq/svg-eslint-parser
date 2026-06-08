@@ -15,5 +15,13 @@ export function parseOpenTagName(openTagStartTokenContent: string): string {
     )
   }
 
-  return match[1].toLowerCase()
+  const tagName = match.groups?.tagName
+
+  if (tagName === undefined) {
+    throw new Error(
+      `Unable to parse open tag name. Named capture group "tagName" is missing.`,
+    )
+  }
+
+  return tagName.toLowerCase()
 }

@@ -15,5 +15,13 @@ export function parseCloseTagName(closeTagTokenContent: string): string {
     )
   }
 
-  return match[1].trim().toLowerCase()
+  const tagName = match.groups?.tagName
+
+  if (tagName === undefined) {
+    throw new Error(
+      `Unable to parse close tag name. Named capture group "tagName" is missing.`,
+    )
+  }
+
+  return tagName.trim().toLowerCase()
 }

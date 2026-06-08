@@ -28,13 +28,13 @@ export const RE_OPEN_TAG_START = /^<\w/u
  * regexp for open tag name
  * @regex101 https://regex101.com/?regex=%5E%3C%28%5CS%2B%29&flavor=javascript
  */
-export const RE_OPEN_TAG_NAME = /^<(\S+)/u
+export const RE_OPEN_TAG_NAME = /^<(?<tagName>\S+)/u
 
 /**
  * regexp for close tag name
  * @regex101 https://regex101.com/?regex=%5E%3C%5C%2F%28%28%3F%3A.%7C%5Cr%3F%5Cn%29*%29%3E%24&flavor=javascript
  */
-export const RE_CLOSE_TAG_NAME = /^<\/((?:.|\r?\n)*)>$/u
+export const RE_CLOSE_TAG_NAME = /^<\/(?<tagName>(?:.|\r?\n)*)>$/u
 
 /**
  * regexp for incomplete closing tag
