@@ -46,6 +46,7 @@
     "release:check": "run-s format:check lint typecheck test",
     "release:version": "bumpp",
     "test": "vitest",
+    "test:coverage": "vitest run --coverage",
     "typecheck": "tsgo --noEmit"
   },
   "dependencies": {
@@ -55,6 +56,7 @@
   "devDependencies": {
     "@types/node": "^25.9.2",
     "@typescript/native-preview": "^7.0.0-dev.20260606.1",
+    "@vitest/coverage-v8": "^4.1.8",
     "bumpp": "^11.1.0",
     "eslint": "^10.4.1",
     "husky": "^9.1.7",
