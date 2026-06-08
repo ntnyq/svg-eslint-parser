@@ -8,7 +8,7 @@ import type {
   ConstructTreeState,
   ContextualCommentNode,
   ContextualDoctypeNode,
-  ContextualTagNode,
+  ContextualElementNode,
   TextNode,
 } from '../../types'
 import {
@@ -26,7 +26,7 @@ const dispatch = createTokenDispatcher(
       tokenType: TokenTypes.OpenTagStart,
       handler(token, state) {
         initChildrenIfNone(state.currentNode)
-        const tagNode: ContextualTagNode = {
+        const tagNode: ContextualElementNode = {
           type: NodeTypes.Element,
           parentRef: state.currentNode,
           range: cloneRange(token.range),
@@ -117,7 +117,7 @@ const dispatch = createTokenDispatcher(
 
 export function construct(
   token: AnyToken,
-  state: ConstructTreeState<ContextualTagNode>,
+  state: ConstructTreeState<ContextualElementNode>,
 ) {
   return dispatch(token, state)
 }

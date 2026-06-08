@@ -2,7 +2,7 @@ import type {
   AttributeNode,
   ConstructTreeState,
   ContextualDoctypeNode,
-  ContextualTagNode,
+  ContextualElementNode,
   DoctypeAttributeNode,
   XMLDeclarationAttributeNode,
 } from '../types'
@@ -15,7 +15,7 @@ import { last } from './firstLast'
  * @returns The last attribute in the node's attributes array
  */
 export function getLastAttribute(
-  state: ConstructTreeState<ContextualTagNode>,
+  state: ConstructTreeState<ContextualElementNode>,
 ): AttributeNode
 export function getLastAttribute(
   state: ConstructTreeState<ContextualDoctypeNode>,

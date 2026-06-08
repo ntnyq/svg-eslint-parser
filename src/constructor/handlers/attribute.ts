@@ -3,7 +3,7 @@ import type {
   AnyToken,
   AttributeKeyNode,
   ConstructTreeState,
-  ContextualTagNode,
+  ContextualElementNode,
 } from '../../types'
 import { createNodeFrom, getLastAttribute } from '../../utils'
 import { createTokenDispatcher } from '../handlerFactory'
@@ -61,7 +61,7 @@ const dispatch = createTokenDispatcher(
 
 export function construct(
   token: AnyToken,
-  state: ConstructTreeState<ContextualTagNode>,
+  state: ConstructTreeState<ContextualElementNode>,
 ) {
   return dispatch(token, state)
 }

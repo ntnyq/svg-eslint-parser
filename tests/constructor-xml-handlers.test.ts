@@ -30,7 +30,7 @@ function createState(overrides: Record<string, unknown> = {}) {
       parentRef: parentContext,
     },
     currentNode: {
-      type: NodeTypes.Tag,
+      type: NodeTypes.Element,
       name: 'xml',
       range: [0, 1] as [number, number],
       loc: {
@@ -69,7 +69,7 @@ describe('constructor xml handlers', () => {
         parentRef: { type: ConstructTreeContextTypes.XMLDeclaration },
       },
       currentNode: {
-        type: NodeTypes.Tag,
+        type: NodeTypes.Element,
         range: [0, 1] as [number, number],
         loc: {
           start: { line: 1, column: 0 },

@@ -2,7 +2,7 @@ import { unindent as $ } from '@ntnyq/utils'
 import { describe, expect, it } from 'vitest'
 import { NodeTypes } from '../../src/constants'
 import { parseForESLint } from '../../src/parser'
-import type { TagNode, TextNode } from '../../src/types'
+import type { ElementNode, TextNode } from '../../src/types'
 
 describe('edge cases', () => {
   it('should handle empty input', () => {
@@ -56,9 +56,9 @@ describe('edge cases', () => {
     const document = ast.document
 
     expect(document.children).toHaveLength(3)
-    expect(document.children[0].type).toBe(NodeTypes.Tag)
-    expect(document.children[1].type).toBe(NodeTypes.Tag)
-    expect(document.children[2].type).toBe(NodeTypes.Tag)
+    expect(document.children[0].type).toBe(NodeTypes.Element)
+    expect(document.children[1].type).toBe(NodeTypes.Element)
+    expect(document.children[2].type).toBe(NodeTypes.Element)
   })
 
   it('should handle very deeply nested structure', () => {
@@ -80,7 +80,7 @@ describe('edge cases', () => {
     const source = '<custom-element-123></custom-element-123>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as TagNode
+    const tag = document.children[0] as ElementNode
 
     expect(tag.name).toBe('custom-element-123')
   })
@@ -89,7 +89,7 @@ describe('edge cases', () => {
     const source = '<div class="test"id="main"data-value="foo"></div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as TagNode
+    const tag = document.children[0] as ElementNode
 
     expect(tag.attributes.length).toBeGreaterThan(0)
   })
@@ -100,9 +100,9 @@ describe('edge cases', () => {
     const document = ast.document
 
     // Parser converts to lowercase
-    expect((document.children[0] as TagNode).name).toBe('div')
+    expect((document.children[0] as ElementNode).name).toBe('div')
     expect(
-      ((document.children[0] as TagNode).children[0] as TagNode).name,
+      ((document.children[0] as ElementNode).children[0] as ElementNode).name,
     ).toBe('span')
   })
 
@@ -110,17 +110,17 @@ describe('edge cases', () => {
     const source = '<img/>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as TagNode
+    const tag = document.children[0] as ElementNode
 
     // Parser may or may not treat this as self-closing based on implementation
-    expect(tag.type).toBe(NodeTypes.Tag)
+    expect(tag.type).toBe(NodeTypes.Element)
   })
 
   it('should handle attributes with no value and no equals', () => {
     const source = '<input checked>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as TagNode
+    const tag = document.children[0] as ElementNode
 
     expect(tag.attributes[0].key.value).toBe('checked')
     expect(tag.attributes[0].value).toBeUndefined()
@@ -135,7 +135,7 @@ describe('edge cases', () => {
 
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as TagNode
+    const tag = document.children[0] as ElementNode
 
     expect(tag.attributes).toHaveLength(100)
   })
@@ -172,7 +172,7 @@ describe('edge cases', () => {
     const source = '<div>Text1Text2Text3</div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
 
     expect(div.children[0].type).toBe(NodeTypes.Text)
     expect((div.children[0] as TextNode).value).toBe('Text1Text2Text3')
@@ -183,7 +183,7 @@ describe('edge cases', () => {
     const source = `<div data-long="${longValue}"></div>`
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as TagNode
+    const tag = document.children[0] as ElementNode
 
     expect(tag.attributes[0].value?.value).toBe(longValue)
   })
@@ -196,7 +196,7 @@ describe('edge cases', () => {
     `
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as TagNode
+    const tag = document.children[0] as ElementNode
 
     expect(tag.attributes[0].value?.value).toContain('\n')
   })

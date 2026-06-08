@@ -10,8 +10,6 @@ export enum NodeTypes {
   Element = 'Element',
   Error = 'Error',
   Program = 'Program',
-  /** @deprecated Use Element instead. */
-  Tag = 'Element',
   Text = 'Text',
   XMLDeclaration = 'XMLDeclaration',
   XMLDeclarationAttribute = 'XMLDeclarationAttribute',

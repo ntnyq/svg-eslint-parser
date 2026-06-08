@@ -2,7 +2,7 @@ import { unindent as $ } from '@ntnyq/utils'
 import { describe, expect, it } from 'vitest'
 import { NodeTypes } from '../../src/constants'
 import { parseForESLint } from '../../src/parser'
-import type { CommentNode, TagNode } from '../../src/types'
+import type { CommentNode, ElementNode } from '../../src/types'
 
 describe('comment parsing', () => {
   it('should parse simple comments', () => {
@@ -70,7 +70,7 @@ describe('comment parsing', () => {
     const source = '<div><!-- Comment --></div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
 
     expect(div.children[0].type).toBe(NodeTypes.Comment)
     expect((div.children[0] as CommentNode).content).toBe(' Comment ')
@@ -100,7 +100,7 @@ describe('comment parsing', () => {
     const document = ast.document
 
     expect(document.children[0].type).toBe(NodeTypes.Comment)
-    expect(document.children[1].type).toBe(NodeTypes.Tag)
+    expect(document.children[1].type).toBe(NodeTypes.Element)
     expect(document.children[2].type).toBe(NodeTypes.Comment)
   })
 
@@ -115,7 +115,7 @@ describe('comment parsing', () => {
     `
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
 
     const comments = div.children.filter(
       (child: any) => child.type === NodeTypes.Comment,

@@ -2,16 +2,16 @@ import { unindent as $ } from '@ntnyq/utils'
 import { describe, expect, it } from 'vitest'
 import { NodeTypes } from '../../src/constants'
 import { parseForESLint } from '../../src/parser'
-import type { TagNode } from '../../src/types'
+import type { ElementNode } from '../../src/types'
 
 describe('tag parsing', () => {
   it('should parse self-closing tags with />', () => {
     const source = '<circle cx="50" cy="50" r="40" />'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as TagNode
+    const tag = document.children[0] as ElementNode
 
-    expect(tag.type).toBe(NodeTypes.Tag)
+    expect(tag.type).toBe(NodeTypes.Element)
     expect(tag.selfClosing).toBeTruthy()
     expect(tag.children).toHaveLength(0)
   })
@@ -20,7 +20,7 @@ describe('tag parsing', () => {
     const source = '<div>Content</div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as TagNode
+    const tag = document.children[0] as ElementNode
 
     expect(tag.selfClosing).toBeFalsy()
   })
@@ -35,11 +35,11 @@ describe('tag parsing', () => {
     `
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
     const span = div.children[1] as any // children[0] is whitespace
 
     expect(div.name).toBe('div')
-    expect(span.type).toBe(NodeTypes.Tag)
+    expect(span.type).toBe(NodeTypes.Element)
     expect(span.name).toBe('span')
   })
 
@@ -47,11 +47,11 @@ describe('tag parsing', () => {
     const source = '<p>Text before <strong>bold</strong> text after</p>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const p = document.children[0] as TagNode
+    const p = document.children[0] as ElementNode
 
     expect(p.children).toHaveLength(3)
     expect(p.children[0].type).toBe(NodeTypes.Text)
-    expect(p.children[1].type).toBe(NodeTypes.Tag)
+    expect(p.children[1].type).toBe(NodeTypes.Element)
     expect(p.children[2].type).toBe(NodeTypes.Text)
   })
 
@@ -59,7 +59,7 @@ describe('tag parsing', () => {
     const source = '<div></div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as TagNode
+    const tag = document.children[0] as ElementNode
 
     expect(tag.children).toHaveLength(0)
   })
@@ -68,7 +68,7 @@ describe('tag parsing', () => {
     const source = '<div>   \n\t  </div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as TagNode
+    const tag = document.children[0] as ElementNode
 
     expect(tag.children).toHaveLength(1)
     expect(tag.children[0].type).toBe(NodeTypes.Text)
@@ -80,20 +80,20 @@ describe('tag parsing', () => {
     const document = ast.document
 
     expect(document.children).toHaveLength(3)
-    expect((document.children[0] as TagNode).name).toBe('div')
-    expect((document.children[1] as TagNode).name).toBe('span')
-    expect((document.children[2] as TagNode).name).toBe('p')
+    expect((document.children[0] as ElementNode).name).toBe('div')
+    expect((document.children[1] as ElementNode).name).toBe('span')
+    expect((document.children[2] as ElementNode).name).toBe('p')
   })
 
   it('should parse tags with uppercase names', () => {
     const source = '<DIV><SPAN>Text</SPAN></DIV>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as TagNode
+    const tag = document.children[0] as ElementNode
 
     // Parser converts tags to lowercase
     expect(tag.name).toBe('div')
-    expect((tag.children[0] as TagNode).name).toBe('span')
+    expect((tag.children[0] as ElementNode).name).toBe('span')
   })
 
   it('should parse tags with numbers in names', () => {
@@ -101,15 +101,15 @@ describe('tag parsing', () => {
     const { ast } = parseForESLint(source)
     const document = ast.document
 
-    expect((document.children[0] as TagNode).name).toBe('h1')
-    expect((document.children[1] as TagNode).name).toBe('h2')
+    expect((document.children[0] as ElementNode).name).toBe('h1')
+    expect((document.children[1] as ElementNode).name).toBe('h2')
   })
 
   it('should parse tags with hyphens in names', () => {
     const source = '<custom-element></custom-element>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as TagNode
+    const tag = document.children[0] as ElementNode
 
     expect(tag.name).toBe('custom-element')
   })
@@ -119,19 +119,19 @@ describe('tag parsing', () => {
     const { ast } = parseForESLint(source)
     const document = ast.document
 
-    let current = document.children[0] as TagNode
+    let current = document.children[0] as ElementNode
     expect(current.name).toBe('a')
 
-    current = current.children[0] as TagNode
+    current = current.children[0] as ElementNode
     expect(current.name).toBe('b')
 
-    current = current.children[0] as TagNode
+    current = current.children[0] as ElementNode
     expect(current.name).toBe('c')
 
-    current = current.children[0] as TagNode
+    current = current.children[0] as ElementNode
     expect(current.name).toBe('d')
 
-    current = current.children[0] as TagNode
+    current = current.children[0] as ElementNode
     expect(current.name).toBe('e')
   })
 
@@ -148,10 +148,10 @@ describe('tag parsing', () => {
     `
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const svg = document.children[0] as TagNode
+    const svg = document.children[0] as ElementNode
 
     const tagNames = svg.children
-      .filter((child: any) => child.type === NodeTypes.Tag)
+      .filter((child: any) => child.type === NodeTypes.Element)
       .map((child: any) => child.name)
 
     expect(tagNames).toStrictEqual([
@@ -168,7 +168,7 @@ describe('tag parsing', () => {
     const source = '<svg:circle xmlns:svg="http://www.w3.org/2000/svg" />'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as TagNode
+    const tag = document.children[0] as ElementNode
 
     expect(tag.name).toBe('svg:circle')
   })

@@ -69,9 +69,6 @@ export interface ElementNode extends BaseNode {
   type: NodeTypes.Element
 }
 
-/** @deprecated Use ElementNode instead. */
-export type TagNode = ElementNode
-
 /**
  * XML declaration nodes
  */

@@ -3,7 +3,7 @@ import type {
   AnyToken,
   AttributeValueNode,
   ConstructTreeState,
-  ContextualTagNode,
+  ContextualElementNode,
 } from '../../types'
 import {
   cloneRange,
@@ -68,7 +68,7 @@ const dispatch = createTokenDispatcher(
 
 export function construct(
   token: AnyToken,
-  state: ConstructTreeState<ContextualTagNode>,
+  state: ConstructTreeState<ContextualElementNode>,
 ) {
   return dispatch(token, state)
 }

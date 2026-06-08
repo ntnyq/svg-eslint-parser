@@ -30,9 +30,9 @@ describe('ast utility functions', () => {
 
   describe(findNodeByType, () => {
     it('should find all nodes of a specific type', () => {
-      const tags = findNodeByType(ast, NodeTypes.Tag)
+      const tags = findNodeByType(ast, NodeTypes.Element)
       expect(tags.length).toBeGreaterThan(0)
-      expect(tags.every(node => node.type === NodeTypes.Tag)).toBeTruthy()
+      expect(tags.every(node => node.type === NodeTypes.Element)).toBeTruthy()
     })
 
     it('should find text nodes', () => {
@@ -48,9 +48,9 @@ describe('ast utility functions', () => {
 
   describe(findFirstNodeByType, () => {
     it('should find the first node of a specific type', () => {
-      const firstTag = findFirstNodeByType(ast, NodeTypes.Tag)
+      const firstTag = findFirstNodeByType(ast, NodeTypes.Element)
       expect(firstTag).toBeDefined()
-      expect(firstTag?.type).toBe(NodeTypes.Tag)
+      expect(firstTag?.type).toBe(NodeTypes.Element)
     })
 
     it('should return undefined for non-existent types', () => {
@@ -61,7 +61,7 @@ describe('ast utility functions', () => {
 
   describe(validateNode, () => {
     it('should validate correct nodes', () => {
-      const tags = findNodeByType(ast, NodeTypes.Tag)
+      const tags = findNodeByType(ast, NodeTypes.Element)
       expect(validateNode(tags[0])).toBeTruthy()
     })
 
@@ -112,14 +112,14 @@ describe('ast utility functions', () => {
         enter: node => {
           visited.push(node.type)
           // Skip children of Tag nodes
-          if (node.type === NodeTypes.Tag) {
+          if (node.type === NodeTypes.Element) {
             return false
           }
         },
       })
 
       expect(visited).toContain(NodeTypes.Document)
-      expect(visited).toContain(NodeTypes.Tag)
+      expect(visited).toContain(NodeTypes.Element)
     })
   })
 
@@ -137,7 +137,7 @@ describe('ast utility functions', () => {
 
   describe(cloneNode, () => {
     it('should deep clone a node', () => {
-      const tags = findNodeByType(ast, NodeTypes.Tag)
+      const tags = findNodeByType(ast, NodeTypes.Element)
       const original = tags[0]
       const cloned = cloneNode(original)
 
@@ -148,7 +148,7 @@ describe('ast utility functions', () => {
     })
 
     it('should remove parent references', () => {
-      const tags = findNodeByType(ast, NodeTypes.Tag)
+      const tags = findNodeByType(ast, NodeTypes.Element)
       const cloned = cloneNode(tags[0])
 
       expect('parentRef' in cloned).toBeFalsy()
@@ -158,25 +158,27 @@ describe('ast utility functions', () => {
 
   describe(isNodeType, () => {
     it('should check node type correctly', () => {
-      const tags = findNodeByType(ast, NodeTypes.Tag)
-      expect(isNodeType(tags[0], NodeTypes.Tag)).toBeTruthy()
+      const tags = findNodeByType(ast, NodeTypes.Element)
+      expect(isNodeType(tags[0], NodeTypes.Element)).toBeTruthy()
       expect(isNodeType(tags[0], NodeTypes.Text)).toBeFalsy()
     })
   })
 
   describe(filterNodes, () => {
     it('should filter nodes by predicate', () => {
-      const filtered = filterNodes(ast, node => node.type === NodeTypes.Tag)
+      const filtered = filterNodes(ast, node => node.type === NodeTypes.Element)
 
       expect(filtered.length).toBeGreaterThan(0)
-      expect(filtered.every(node => node.type === NodeTypes.Tag)).toBeTruthy()
+      expect(
+        filtered.every(node => node.type === NodeTypes.Element),
+      ).toBeTruthy()
     })
 
     it('should handle complex predicates', () => {
       const filtered = filterNodes(
         ast,
         node =>
-          node.type === NodeTypes.Tag &&
+          node.type === NodeTypes.Element &&
           'name' in node &&
           node.name === 'circle',
       )
@@ -207,7 +209,7 @@ describe('ast utility functions', () => {
     it('should calculate depth for nested nodes', () => {
       // Clone with parent references first
       const astWithParents = cloneNodeWithParent(ast)
-      const tags = findNodeByType(astWithParents, NodeTypes.Tag)
+      const tags = findNodeByType(astWithParents, NodeTypes.Element)
       const depths = tags.map(tag => getNodeDepth(tag))
       expect(depths.some(d => d > 0)).toBeTruthy()
     })
@@ -220,7 +222,7 @@ describe('ast utility functions', () => {
     })
 
     it('should return parent chain for nested nodes', () => {
-      const tags = findNodeByType(ast, NodeTypes.Tag)
+      const tags = findNodeByType(ast, NodeTypes.Element)
       const chain = getParentChain(tags[0])
       expect(chain.length).toBeGreaterThanOrEqual(0)
     })

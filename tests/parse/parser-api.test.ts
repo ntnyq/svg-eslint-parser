@@ -1,7 +1,7 @@
 import { describe, expectTypeOf, expect, it } from 'vitest'
 import { NodeTypes } from '../../src/constants'
 import { parse, parseForESLint } from '../../src/parser'
-import type { CommentNode, TagNode, TextNode } from '../../src/types'
+import type { CommentNode, ElementNode, TextNode } from '../../src/types'
 
 describe('parser api', () => {
   describe(parseForESLint, () => {
@@ -178,9 +178,9 @@ describe('parser api', () => {
     it('should have valid Tag node structure', () => {
       const source = '<div id="test">Content</div>'
       const result = parse(source)
-      const div = result.ast.children[0] as TagNode
+      const div = result.ast.children[0] as ElementNode
 
-      expect(div.type).toBe(NodeTypes.Tag)
+      expect(div.type).toBe(NodeTypes.Element)
       expect(div.name).toBe('div')
       expect(div.attributes).toBeDefined()
       expect(div.children).toBeDefined()
@@ -190,7 +190,7 @@ describe('parser api', () => {
     it('should have valid Attribute node structure', () => {
       const source = '<div id="test"></div>'
       const result = parse(source)
-      const div = result.ast.children[0] as TagNode
+      const div = result.ast.children[0] as ElementNode
       const attr = div.attributes[0]
 
       expect(attr.type).toBe(NodeTypes.Attribute)
@@ -212,7 +212,7 @@ describe('parser api', () => {
     it('should have valid Text node structure', () => {
       const source = '<div>Text content</div>'
       const result = parse(source)
-      const div = result.ast.children[0] as TagNode
+      const div = result.ast.children[0] as ElementNode
       const text = div.children[0] as TextNode
 
       expect(text.type).toBe(NodeTypes.Text)

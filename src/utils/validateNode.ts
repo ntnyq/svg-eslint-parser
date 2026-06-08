@@ -95,7 +95,6 @@ export function validateNode(node: AnyNode): boolean {
   // Type-specific validation
   switch (node.type) {
     case NodeTypes.Element:
-    case NodeTypes.Tag:
       return validateElementNode(node)
     case NodeTypes.Attribute:
       return validateAttributeNode(node)

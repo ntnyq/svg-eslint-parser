@@ -2,14 +2,14 @@ import { unindent as $ } from '@ntnyq/utils'
 import { describe, expect, it } from 'vitest'
 import { NodeTypes } from '../../src/constants'
 import { parseForESLint } from '../../src/parser'
-import type { TagNode, TextNode } from '../../src/types'
+import type { ElementNode, TextNode } from '../../src/types'
 
 describe('text content parsing', () => {
   it('should parse simple text content', () => {
     const source = '<div>Hello World</div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
     const text = div.children[0] as TextNode
 
     expect(text.type).toBe(NodeTypes.Text)
@@ -20,7 +20,7 @@ describe('text content parsing', () => {
     const source = '<div></div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
 
     expect(div.children).toHaveLength(0)
   })
@@ -29,7 +29,7 @@ describe('text content parsing', () => {
     const source = '<div>  Text with spaces  </div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
     const text = div.children[0] as TextNode
 
     expect(text.value).toBe('  Text with spaces  ')
@@ -44,7 +44,7 @@ describe('text content parsing', () => {
     `
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
 
     const textNodes = div.children.filter(
       (child: any) => child.type === NodeTypes.Text,
@@ -56,7 +56,7 @@ describe('text content parsing', () => {
     const source = '<div>&amp; &lt; &gt; &quot; &apos;</div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
     const text = div.children[0] as TextNode
 
     expect(text.value).toBe('&amp; &lt; &gt; &quot; &apos;')
@@ -66,7 +66,7 @@ describe('text content parsing', () => {
     const source = '<div>12345 67890</div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
     const text = div.children[0] as TextNode
 
     expect(text.value).toBe('12345 67890')
@@ -76,7 +76,7 @@ describe('text content parsing', () => {
     const source = '<div>Hello, World! How are you?</div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
     const text = div.children[0] as TextNode
 
     expect(text.value).toBe('Hello, World! How are you?')
@@ -87,7 +87,7 @@ describe('text content parsing', () => {
     const source = '<div>你好世界 🌍 Привет</div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
     const text = div.children[0] as TextNode
 
     // cSpell: disable-next-line
@@ -98,11 +98,11 @@ describe('text content parsing', () => {
     const source = '<p>Before <strong>bold</strong> after</p>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const p = document.children[0] as TagNode
+    const p = document.children[0] as ElementNode
 
     expect(p.children[0].type).toBe(NodeTypes.Text)
     expect((p.children[0] as TextNode).value).toBe('Before ')
-    expect(p.children[1].type).toBe(NodeTypes.Tag)
+    expect(p.children[1].type).toBe(NodeTypes.Element)
     expect(p.children[2].type).toBe(NodeTypes.Text)
     expect((p.children[2] as TextNode).value).toBe(' after')
   })
@@ -112,7 +112,7 @@ describe('text content parsing', () => {
       '<div>Text1<span>Inner</span>Text2<span>Inner2</span>Text3</div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
 
     const textNodes = div.children.filter(
       (child: any) => child.type === NodeTypes.Text,
@@ -127,7 +127,7 @@ describe('text content parsing', () => {
     const source = '<div>\tTabbed\n\tText\n</div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
     const text = div.children[0] as TextNode
 
     expect(text.value).toContain('\t')
@@ -138,7 +138,7 @@ describe('text content parsing', () => {
     const source = '<div>Visit https://example.com for more info</div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
     const text = div.children[0] as TextNode
 
     expect(text.value).toBe('Visit https://example.com for more info')
@@ -148,7 +148,7 @@ describe('text content parsing', () => {
     const source = '<div>Contact: test@example.com</div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
     const text = div.children[0] as TextNode
 
     expect(text.value).toBe('Contact: test@example.com')
@@ -159,7 +159,7 @@ describe('text content parsing', () => {
     const source = `<div>${longText}</div>`
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const div = document.children[0] as TagNode
+    const div = document.children[0] as ElementNode
     const text = div.children[0] as TextNode
 
     expect(text.value).toBe(longText)

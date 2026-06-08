@@ -71,9 +71,6 @@ export type ContextualElementNode = ContextualNode<
   >
 }
 
-/** @deprecated Use ContextualElementNode instead. */
-export type ContextualTagNode = ContextualElementNode
-
 export type ContextualXMLDeclarationAttributeNode = ContextualNode<
   XMLDeclarationAttributeNode,
   'key' | 'value'

@@ -155,8 +155,6 @@ The parser currently exposes 16 AST node types:
 
 **Error Handling**: `Error`
 
-`NodeTypes.Tag` is still available as a deprecated alias of `NodeTypes.Element` for backward compatibility.
-
 ## Documentation
 
 Full documentation is available at [svg-eslint-parser.ntnyq.com](https://svg-eslint-parser.ntnyq.com):
