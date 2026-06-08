@@ -23,7 +23,7 @@ describe('edge cases', () => {
     expect(document.children[0].type).toBe(NodeTypes.Text)
   })
 
-  it('should handle unclosed tags gracefully', () => {
+  it('should handle unclosed elements gracefully', () => {
     const source = '<div><span>Text'
     const { ast } = parseForESLint(source)
     const document = ast.document
@@ -33,7 +33,7 @@ describe('edge cases', () => {
     expect(document.children.length).toBeGreaterThan(0)
   })
 
-  it('should handle mismatched tags', () => {
+  it('should handle mismatched elements', () => {
     const source = '<div></span>'
     const { ast } = parseForESLint(source)
     const document = ast.document
@@ -42,7 +42,7 @@ describe('edge cases', () => {
     expect(document.children.length).toBeGreaterThan(0)
   })
 
-  it('should handle tags with no closing bracket', () => {
+  it('should handle elements with no closing bracket', () => {
     const source = '<div'
     const { ast } = parseForESLint(source)
     const document = ast.document
@@ -76,25 +76,25 @@ describe('edge cases', () => {
     expect(ast.document.type).toBe(NodeTypes.Document)
   })
 
-  it('should handle tag names with unusual characters', () => {
+  it('should handle element names with unusual characters', () => {
     const source = '<custom-element-123></custom-element-123>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as ElementNode
+    const element = document.children[0] as ElementNode
 
-    expect(tag.name).toBe('custom-element-123')
+    expect(element.name).toBe('custom-element-123')
   })
 
   it('should handle attributes without spaces', () => {
     const source = '<div class="test"id="main"data-value="foo"></div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as ElementNode
+    const element = document.children[0] as ElementNode
 
-    expect(tag.attributes.length).toBeGreaterThan(0)
+    expect(element.attributes.length).toBeGreaterThan(0)
   })
 
-  it('should handle mixed case in tag names', () => {
+  it('should handle mixed case in element names', () => {
     const source = '<DiV><SpAn>Text</SpAn></DiV>'
     const { ast } = parseForESLint(source)
     const document = ast.document
@@ -106,24 +106,24 @@ describe('edge cases', () => {
     ).toBe('span')
   })
 
-  it('should handle self-closing tags without space before slash', () => {
+  it('should handle self-closing elements without space before slash', () => {
     const source = '<img/>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as ElementNode
+    const element = document.children[0] as ElementNode
 
     // Parser may or may not treat this as self-closing based on implementation
-    expect(tag.type).toBe(NodeTypes.Element)
+    expect(element.type).toBe(NodeTypes.Element)
   })
 
   it('should handle attributes with no value and no equals', () => {
     const source = '<input checked>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as ElementNode
+    const element = document.children[0] as ElementNode
 
-    expect(tag.attributes[0].key.value).toBe('checked')
-    expect(tag.attributes[0].value).toBeUndefined()
+    expect(element.attributes[0].key.value).toBe('checked')
+    expect(element.attributes[0].value).toBeUndefined()
   })
 
   it('should handle large number of attributes', () => {
@@ -135,9 +135,9 @@ describe('edge cases', () => {
 
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as ElementNode
+    const element = document.children[0] as ElementNode
 
-    expect(tag.attributes).toHaveLength(100)
+    expect(element.attributes).toHaveLength(100)
   })
 
   it('should handle large number of sibling elements', () => {
@@ -160,7 +160,7 @@ describe('edge cases', () => {
     expect(document.children.length).toBeGreaterThan(0)
   })
 
-  it('should handle special characters in tag names', () => {
+  it('should handle special characters in element names', () => {
     const source = '<ns:tag-name.with-dots></ns:tag-name.with-dots>'
     const { ast } = parseForESLint(source)
     const document = ast.document
@@ -183,9 +183,9 @@ describe('edge cases', () => {
     const source = `<div data-long="${longValue}"></div>`
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as ElementNode
+    const element = document.children[0] as ElementNode
 
-    expect(tag.attributes[0].value?.value).toBe(longValue)
+    expect(element.attributes[0].value?.value).toBe(longValue)
   })
 
   it('should handle newlines in attribute values', () => {
@@ -196,8 +196,8 @@ describe('edge cases', () => {
     `
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const tag = document.children[0] as ElementNode
+    const element = document.children[0] as ElementNode
 
-    expect(tag.attributes[0].value?.value).toContain('\n')
+    expect(element.attributes[0].value?.value).toContain('\n')
   })
 })

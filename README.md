@@ -87,9 +87,9 @@ import {
 const { ast } = parseForESLint(svgSource)
 const document = ast.document
 
-// Find all tag nodes
-const tags = findNodeByType(document, NodeTypes.Element)
-console.log(`Found ${tags.length} tags`)
+// Find all element nodes
+const elements = findNodeByType(document, NodeTypes.Element)
+console.log(`Found ${elements.length} elements`)
 
 // Traverse with visitor pattern
 traverseAST(document, {
@@ -186,9 +186,9 @@ const svgCode = `
 const { ast } = parseForESLint(svgCode)
 const document = ast.document
 
-// Find all tags and filter for circles
-const allTags = findNodeByType(document, NodeTypes.Element)
-const circles = allTags.filter(tag => tag.name === 'circle')
+// Find all elements and filter for circles
+const allElements = findNodeByType(document, NodeTypes.Element)
+const circles = allElements.filter(element => element.name === 'circle')
 
 console.log(`Found ${circles.length} circles`)
 

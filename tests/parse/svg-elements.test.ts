@@ -114,10 +114,10 @@ describe('svg-specific parsing', () => {
     const source = '<text x="10" y="20">Hello SVG</text>'
     const { ast } = parseForESLint(source)
     const document = ast.document
-    const textTag = document.children[0] as ElementNode
+    const textElement = document.children[0] as ElementNode
 
-    expect(textTag.name).toBe('text')
-    expect((textTag.children[0] as TextNode).value).toBe('Hello SVG')
+    expect(textElement.name).toBe('text')
+    expect((textElement.children[0] as TextNode).value).toBe('Hello SVG')
   })
 
   it('should parse g (group) element', () => {
@@ -235,8 +235,10 @@ describe('svg-specific parsing', () => {
     const svg = document.children[0] as ElementNode
 
     expect(svg.name).toBe('svg')
-    const tags = svg.children.filter(child => child.type === NodeTypes.Element)
-    expect(tags.length).toBeGreaterThan(0)
+    const elements = svg.children.filter(
+      child => child.type === NodeTypes.Element,
+    )
+    expect(elements.length).toBeGreaterThan(0)
   })
 
   it('should parse SVG with transform attribute', () => {

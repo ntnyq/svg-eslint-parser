@@ -168,7 +168,7 @@ describe('parser api', () => {
       const result = parse(source)
       const text = result.ast.children[0] // First child is whitespace text
 
-      // The div tag starts at column 2
+      // The div element starts at column 2
       expect(text.type).toBe(NodeTypes.Text)
       expect(text.loc.start.column).toBe(0) // Text starts at column 0
     })

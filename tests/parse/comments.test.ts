@@ -66,7 +66,7 @@ describe('comment parsing', () => {
     expect(comments[2].content).toBe(' Comment 3 ')
   })
 
-  it('should parse comments between tags', () => {
+  it('should parse comments between elements', () => {
     const source = '<div><!-- Comment --></div>'
     const { ast } = parseForESLint(source)
     const document = ast.document
@@ -94,7 +94,7 @@ describe('comment parsing', () => {
     expect(comment.content).toBe(' Version 1.0.0 ')
   })
 
-  it('should parse comments adjacent to tags', () => {
+  it('should parse comments adjacent to elements', () => {
     const source = '<!-- Before --><div></div><!-- After -->'
     const { ast } = parseForESLint(source)
     const document = ast.document

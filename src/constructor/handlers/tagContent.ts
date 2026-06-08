@@ -26,7 +26,7 @@ const dispatch = createTokenDispatcher(
       tokenType: TokenTypes.OpenTagStart,
       handler(token, state) {
         initChildrenIfNone(state.currentNode)
-        const tagNode: ContextualElementNode = {
+        const elementNode: ContextualElementNode = {
           type: NodeTypes.Element,
           parentRef: state.currentNode,
           range: cloneRange(token.range),
@@ -34,8 +34,8 @@ const dispatch = createTokenDispatcher(
           attributes: [],
           children: [],
         }
-        state.currentNode.children.push(tagNode)
-        state.currentNode = tagNode
+        state.currentNode.children.push(elementNode)
+        state.currentNode = elementNode
         state.currentContext = {
           parentRef: state.currentContext,
           type: ConstructTreeContextTypes.Tag,

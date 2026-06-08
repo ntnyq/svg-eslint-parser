@@ -94,7 +94,7 @@ describe('text content parsing', () => {
     expect(text.value).toBe('你好世界 🌍 Привет')
   })
 
-  it('should parse mixed text and tags', () => {
+  it('should parse mixed text and elements', () => {
     const source = '<p>Before <strong>bold</strong> after</p>'
     const { ast } = parseForESLint(source)
     const document = ast.document
@@ -107,7 +107,7 @@ describe('text content parsing', () => {
     expect((p.children[2] as TextNode).value).toBe(' after')
   })
 
-  it('should parse text between multiple tags', () => {
+  it('should parse text between multiple elements', () => {
     const source =
       '<div>Text1<span>Inner</span>Text2<span>Inner2</span>Text3</div>'
     const { ast } = parseForESLint(source)
