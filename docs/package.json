@@ -11,9 +11,9 @@
     "@codemirror/lang-xml": "^6.1.0",
     "@codemirror/language": "^6.12.3",
     "@codemirror/state": "^6.6.0",
-    "@codemirror/view": "^6.43.0",
+    "@codemirror/view": "^6.43.1",
     "@iconify-json/carbon": "^1.2.23",
-    "@iconify-json/lucide": "^1.2.111",
+    "@iconify-json/lucide": "^1.2.112",
     "@lezer/highlight": "^1.2.3",
     "@ntnyq/utils": "^0.15.0",
     "@shikijs/transformers": "^4.2.0",
@@ -26,12 +26,12 @@
     "splitpanes": "^4.1.2",
     "svg-eslint-parser": "workspace:*",
     "twoslash": "^0.3.8",
-    "unocss": "^66.7.0",
+    "unocss": "^66.7.2",
     "unplugin-vue-components": "^32.1.0",
     "vite": "^8.0.16",
     "vitepress": "^2.0.0-alpha.17",
     "vitepress-plugin-group-icons": "^1.7.5",
-    "vue": "^3.5.35",
+    "vue": "^3.5.38",
     "vue-codemirror": "^6.1.1"
   }
 }
