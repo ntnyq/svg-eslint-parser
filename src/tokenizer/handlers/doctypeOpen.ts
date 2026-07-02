@@ -3,8 +3,8 @@ import {
   TokenizerContextTypes,
   TokenTypes,
 } from '../../constants'
-import type { AnyToken, TokenizerState } from '../../types'
 import { calculateTokenPosition, isWhitespace } from '../../utils'
+import type { AnyToken, TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
 function generateDoctypeOpenToken(state: TokenizerState): AnyToken {

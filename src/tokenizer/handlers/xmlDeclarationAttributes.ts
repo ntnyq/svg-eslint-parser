@@ -4,8 +4,8 @@ import {
   TokenTypes,
   XML_DECLARATION_END,
 } from '../../constants'
-import type { Range, TokenizerState } from '../../types'
 import { calculateTokenPosition } from '../../utils'
+import type { Range, TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
 function parseXMLDeclarationClose(state: TokenizerState) {

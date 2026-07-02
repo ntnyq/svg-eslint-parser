@@ -3,14 +3,6 @@ import {
   NodeTypes,
   TokenTypes,
 } from '../../constants'
-import type {
-  AnyToken,
-  ConstructTreeState,
-  ContextualCommentNode,
-  ContextualDoctypeNode,
-  ContextualElementNode,
-  TextNode,
-} from '../../types'
 import {
   cloneLocation,
   cloneRange,
@@ -19,6 +11,14 @@ import {
   parseCloseTagName,
 } from '../../utils'
 import { createTokenDispatcher } from '../handlerFactory'
+import type {
+  AnyToken,
+  ConstructTreeState,
+  ContextualCommentNode,
+  ContextualDoctypeNode,
+  ContextualElementNode,
+  TextNode,
+} from '../../types'
 
 const dispatch = createTokenDispatcher(
   [

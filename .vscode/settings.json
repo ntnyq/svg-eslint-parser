@@ -1,12 +1,25 @@
 {
   "oxc.enable": true,
-  "eslint.enable": false,
+  "eslint.enable": true,
   "prettier.enable": false,
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll.oxc": "explicit"
+    "source.fixAll.eslint": "explicit"
   },
+  "eslint.validate": [
+    "vue",
+    "yaml",
+    "toml",
+    "json",
+    "jsonc",
+    "json5",
+    "markdown",
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact"
+  ],
   "cSpell.words": [
     "apos",
     "bumpp",

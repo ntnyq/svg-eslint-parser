@@ -1,29 +1,28 @@
 <script lang="ts" setup>
-import type { Extension } from '@codemirror/state'
 import { useData } from 'vitepress/client'
 import { computed } from 'vue'
 import { Codemirror } from 'vue-codemirror'
 import { languages } from './language'
-import type { SupportedLanguage } from './language'
 import { githubDark, githubLight } from './theme'
+import type { Extension } from '@codemirror/state'
+import type { SupportedLanguage } from './language'
 
-const props = withDefaults(
-  defineProps<{
-    language?: SupportedLanguage
-    extensions?: Extension[]
-    placeholder?: string
-    disabled?: boolean
-    tabSize?: number
-    indentWithTab?: boolean
-  }>(),
-  {
-    extensions: () => [],
-    placeholder: '',
-    disabled: false,
-    tabSize: 2,
-    indentWithTab: true,
-  },
-)
+interface Props {
+  language?: SupportedLanguage
+  extensions?: Extension[]
+  placeholder?: string
+  disabled?: boolean
+  tabSize?: number
+  indentWithTab?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  extensions: () => [],
+  placeholder: '',
+  disabled: false,
+  tabSize: 2,
+  indentWithTab: true,
+})
 const code = defineModel<string>()
 
 const { isDark } = useData()

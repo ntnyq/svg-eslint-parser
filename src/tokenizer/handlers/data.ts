@@ -6,8 +6,8 @@ import {
   TokenTypes,
   XML_DECLARATION_START,
 } from '../../constants'
-import type { Range, Token, TokenizerState } from '../../types'
 import { calculateTokenPosition } from '../../utils'
+import type { Range, Token, TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
 const INCOMPLETE_DOCTYPE_CHARS = new Set([
@@ -20,6 +20,12 @@ const INCOMPLETE_DOCTYPE_CHARS = new Set([
   '<!DOCTY',
   // cSpell: enable
   '<!DOCTYP',
+])
+
+const INCOMPLETE_COMMENT_START_CHARS = new Set([
+  SPECIAL_CHAR.openingCorner,
+  '<!',
+  '<!-',
 ])
 
 function generateTextToken(state: TokenizerState): Token<TokenTypes.Text> {
@@ -116,11 +122,7 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
     return parseOpeningCornerBraceWithSlash(state)
   }
 
-  if (
-    value === SPECIAL_CHAR.openingCorner ||
-    value === '<!' ||
-    value === '<!-'
-  ) {
+  if (INCOMPLETE_COMMENT_START_CHARS.has(value)) {
     return state.sourceCode.next()
   }
 

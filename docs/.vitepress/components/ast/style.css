@@ -51,34 +51,34 @@
 }
 
 .ast-list {
-  --at-apply: "bg-transparent border-none text-16px p-0 lh-24px font-mono [&_*]:align-top min-w-full";
+  --at-apply: 'bg-transparent border-none text-16px p-0 lh-24px font-mono [&_*]:align-top min-w-full';
 }
 
 .ast-list,
 .ast-sub-list {
-  --at-apply: "box-border m-0 pl-6 w-max";
+  --at-apply: 'box-border m-0 pl-6 w-max';
 }
 
 .ast-node,
 .ast-node-expandable {
-  --at-apply: "w-max border-0 border-l border-dashed border-$ast-token-border";
+  --at-apply: 'w-max border-0 border-l border-dashed border-$ast-token-border';
 }
 
 .ast-node.ast-node-expandable::before {
-  content: "+";
+  content: '+';
 }
 
 .ast-node::before {
-  content: "-";
-  --at-apply: "-ml-4 w-4 inline-block";
+  content: '-';
+  --at-apply: '-ml-4 w-4 inline-block';
 }
 
 .ast-node-selected {
-  --at-apply: "bg-$ast-token-background";
+  --at-apply: 'bg-$ast-token-background';
 }
 
 .ast-label {
-  --at-apply: "";
+  --at-apply: '';
 }
 
 .ast-prop-number,
@@ -88,49 +88,49 @@
 .ast-prop-boolean,
 .ast-prop-error,
 .ast-prop-string {
-  --at-apply: "inline-block max-w-600px break-all pre-wrap break-word";
+  --at-apply: 'inline-block max-w-600px break-all pre-wrap break-word';
 }
 
 .ast-prop-name {
-  --at-apply: "text-$ast-token-color-property";
+  --at-apply: 'text-$ast-token-color-property';
 }
 
 .ast-prop-number {
-  --at-apply: "text-$ast-token-color-number";
+  --at-apply: 'text-$ast-token-color-number';
 }
 
 .ast-prop-empty {
-  --at-apply: "text-$ast-token-color-comment";
+  --at-apply: 'text-$ast-token-color-comment';
 }
 
 .ast-prop-regexp {
-  --at-apply: "text-$ast-token-color-regexp";
+  --at-apply: 'text-$ast-token-color-regexp';
 }
 
 .ast-prop-class {
-  --at-apply: "text-$ast-token-color-class-name";
+  --at-apply: 'text-$ast-token-color-class-name';
 }
 
 .ast-prop-error {
-  --at-apply: "text-$ast-token-color-error";
+  --at-apply: 'text-$ast-token-color-error';
 }
 
 .ast-prop-string {
-  --at-apply: "text-$ast-token-color-string";
+  --at-apply: 'text-$ast-token-color-string';
 }
 
 .ast-token-name {
-  --at-apply: "text-$ast-token-color-class-name";
+  --at-apply: 'text-$ast-token-color-class-name';
 }
 
 .ast-value-body {
-  --at-apply: "max-w-300px w-fit";
+  --at-apply: 'max-w-300px w-fit';
 }
 
 .ast-prop-ellipsis {
-  --at-apply: "";
+  --at-apply: '';
 }
 
 .ast-hidden {
-  --at-apply: "text-$ast-token-color-comment max-w-200px of-hidden inline-block truncate align-bottom";
+  --at-apply: 'text-$ast-token-color-comment max-w-200px of-hidden inline-block truncate align-bottom';
 }

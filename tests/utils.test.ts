@@ -28,7 +28,7 @@ describe('ast utility functions', () => {
   const parsed = parseForESLint(svgSource)
   const ast = parsed.ast.document // Get the first document node
 
-  describe(findNodeByType, () => {
+  describe('findNodeByType', () => {
     it('should find all nodes of a specific type', () => {
       const elements = findNodeByType(ast, NodeTypes.Element)
       expect(elements.length).toBeGreaterThan(0)
@@ -48,7 +48,7 @@ describe('ast utility functions', () => {
     })
   })
 
-  describe(findFirstNodeByType, () => {
+  describe('findFirstNodeByType', () => {
     it('should find the first node of a specific type', () => {
       const firstTag = findFirstNodeByType(ast, NodeTypes.Element)
       expect(firstTag).toBeDefined()
@@ -61,7 +61,7 @@ describe('ast utility functions', () => {
     })
   })
 
-  describe(validateNode, () => {
+  describe('validateNode', () => {
     it('should validate correct nodes', () => {
       const elements = findNodeByType(ast, NodeTypes.Element)
       expect(validateNode(elements[0])).toBeTruthy()
@@ -77,7 +77,7 @@ describe('ast utility functions', () => {
     })
   })
 
-  describe(traverseAST, () => {
+  describe('traverseAST', () => {
     it('should visit all nodes', () => {
       const visited: string[] = []
 
@@ -125,7 +125,7 @@ describe('ast utility functions', () => {
     })
   })
 
-  describe(walkAST, () => {
+  describe('walkAST', () => {
     it('should walk through all nodes', () => {
       const types: string[] = []
 
@@ -137,7 +137,7 @@ describe('ast utility functions', () => {
     })
   })
 
-  describe(cloneNode, () => {
+  describe('cloneNode', () => {
     it('should deep clone a node', () => {
       const elements = findNodeByType(ast, NodeTypes.Element)
       const original = elements[0]
@@ -158,7 +158,7 @@ describe('ast utility functions', () => {
     })
   })
 
-  describe(isNodeType, () => {
+  describe('isNodeType', () => {
     it('should check node type correctly', () => {
       const elements = findNodeByType(ast, NodeTypes.Element)
       expect(isNodeType(elements[0], NodeTypes.Element)).toBeTruthy()
@@ -166,7 +166,7 @@ describe('ast utility functions', () => {
     })
   })
 
-  describe(filterNodes, () => {
+  describe('filterNodes', () => {
     it('should filter nodes by predicate', () => {
       const filtered = filterNodes(ast, node => node.type === NodeTypes.Element)
 
@@ -189,7 +189,7 @@ describe('ast utility functions', () => {
     })
   })
 
-  describe(countNodes, () => {
+  describe('countNodes', () => {
     it('should count all nodes in AST', () => {
       const count = countNodes(ast)
       expect(count).toBeGreaterThan(0)
@@ -203,7 +203,7 @@ describe('ast utility functions', () => {
     })
   })
 
-  describe(getNodeDepth, () => {
+  describe('getNodeDepth', () => {
     it('should return 0 for root node', () => {
       expect(getNodeDepth(ast)).toBe(0)
     })
@@ -217,7 +217,7 @@ describe('ast utility functions', () => {
     })
   })
 
-  describe(getParentChain, () => {
+  describe('getParentChain', () => {
     it('should return empty array for root', () => {
       const chain = getParentChain(ast)
       expect(chain).toStrictEqual([])

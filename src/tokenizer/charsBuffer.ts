@@ -8,7 +8,7 @@ export class CharsBuffer {
     const theLast = this.last()
 
     if (theLast) {
-      theLast.concat(chars)
+      theLast.append(chars)
     } else {
       this.charsBuffer.push(chars)
     }

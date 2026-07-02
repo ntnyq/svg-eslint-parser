@@ -1,3 +1,4 @@
+import { last } from './firstLast'
 import type {
   AttributeNode,
   ConstructTreeState,
@@ -6,7 +7,6 @@ import type {
   DoctypeAttributeNode,
   XMLDeclarationAttributeNode,
 } from '../types'
-import { last } from './firstLast'
 
 /**
  * Get the last attribute from a node's attributes array

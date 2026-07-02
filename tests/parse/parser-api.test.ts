@@ -1,10 +1,10 @@
-import { describe, expectTypeOf, expect, it } from 'vitest'
+import { describe, expect, expectTypeOf, it } from 'vitest'
 import { NodeTypes } from '../../src/constants'
 import { parse, parseForESLint } from '../../src/parser'
 import type { CommentNode, ElementNode, TextNode } from '../../src/types'
 
 describe('parser api', () => {
-  describe(parseForESLint, () => {
+  describe('parseForESLint', () => {
     it('should return Program node', () => {
       const source = '<div>Test</div>'
       const result = parseForESLint(source)
@@ -87,7 +87,7 @@ describe('parser api', () => {
     })
   })
 
-  describe(parse, () => {
+  describe('parse', () => {
     it('should return Document node directly', () => {
       const source = '<div>Test</div>'
       const result = parse(source)

@@ -3,8 +3,8 @@ import {
   TokenizerContextTypes,
   TokenTypes,
 } from '../../constants'
-import type { TokenizerState } from '../../types'
 import { calculateTokenPosition, isWhitespace } from '../../utils'
+import type { TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
 function isKeyBreak(chars: CharsBuffer): boolean {

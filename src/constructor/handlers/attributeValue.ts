@@ -1,10 +1,4 @@
 import { TokenTypes } from '../../constants'
-import type {
-  AnyToken,
-  AttributeValueNode,
-  ConstructTreeState,
-  ContextualElementNode,
-} from '../../types'
 import {
   cloneLocation,
   cloneRange,
@@ -13,6 +7,12 @@ import {
   updateNodeEnd,
 } from '../../utils'
 import { createTokenDispatcher } from '../handlerFactory'
+import type {
+  AnyToken,
+  AttributeValueNode,
+  ConstructTreeState,
+  ContextualElementNode,
+} from '../../types'
 
 const VALUE_END_TOKENS = new Set([
   TokenTypes.OpenTagEnd,

@@ -3,8 +3,8 @@ import {
   TokenizerContextTypes,
   TokenTypes,
 } from '../../constants'
-import type { Range, TokenizerState } from '../../types'
 import { isWhitespace } from '../../utils'
+import type { Range, TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
 function parseWrapper(state: TokenizerState) {

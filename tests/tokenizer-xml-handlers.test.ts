@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { TokenTypes, TokenizerContextTypes } from '../src/constants'
+import { TokenizerContextTypes, TokenTypes } from '../src/constants'
 import { Chars } from '../src/tokenizer/chars'
 import { CharsBuffer } from '../src/tokenizer/charsBuffer'
 import { parse as parseAttributeValueBare } from '../src/tokenizer/handlers/attributeValueBare'

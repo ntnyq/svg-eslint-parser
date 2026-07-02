@@ -1,11 +1,11 @@
 import { TokenTypes } from '../../constants'
+import { parseOpenTagName } from '../../utils'
+import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
   ConstructTreeState,
   ContextualElementNode,
 } from '../../types'
-import { parseOpenTagName } from '../../utils'
-import { createTokenDispatcher } from '../handlerFactory'
 
 const dispatch = createTokenDispatcher(
   [

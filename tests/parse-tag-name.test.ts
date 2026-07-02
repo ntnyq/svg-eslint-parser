@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { parseCloseTagName, parseOpenTagName } from '../src/utils'
 
 describe('parse tag name utilities', () => {
-  describe(parseOpenTagName, () => {
+  describe('parseOpenTagName', () => {
     it('parses and normalizes an uppercase open tag', () => {
       expect(parseOpenTagName('<SVG width="100">')).toBe('svg')
     })
@@ -20,7 +20,7 @@ describe('parse tag name utilities', () => {
     })
   })
 
-  describe(parseCloseTagName, () => {
+  describe('parseCloseTagName', () => {
     it('parses and normalizes an uppercase close tag', () => {
       expect(parseCloseTagName('</SVG>')).toBe('svg')
     })

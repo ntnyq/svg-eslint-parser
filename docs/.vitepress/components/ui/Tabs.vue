@@ -10,7 +10,7 @@ const props = withDefaults(
     options: () => [],
   },
 )
-const emits = defineEmits<{
+const emit = defineEmits<{
   change: [name: string, item: ITabItem]
 }>()
 
@@ -18,7 +18,7 @@ const activeItem = defineModel<string>({ default: '' })
 
 function handleItemClick(item: ITabItem) {
   activeItem.value = item.name
-  emits('change', item.name, item)
+  emit('change', item.name, item)
 }
 
 onMounted(() => {

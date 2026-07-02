@@ -3,9 +3,11 @@
  * @param code - Character code to check
  * @returns True if code is a newline character (LF, CR, LS, PS)
  */
+// oxlint-disable-next-line no-magic-numbers
+const LINE_BREAK_CODES = new Set([10, 13, 0x2028, 0x2029])
+
 function isNewLine(code: number) {
-  // oxlint-disable-next-line no-magic-numbers
-  return code === 10 || code === 13 || code === 0x2028 || code === 0x2029
+  return LINE_BREAK_CODES.has(code)
 }
 
 /**

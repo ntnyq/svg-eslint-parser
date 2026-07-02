@@ -6,7 +6,7 @@ export class Chars {
     public range: Range,
   ) {}
 
-  public concat(chars: Chars): void {
+  public append(chars: Chars): void {
     this.value += chars.value
     this.range[1] = chars.range[1]
   }

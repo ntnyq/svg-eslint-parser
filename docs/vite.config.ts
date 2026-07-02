@@ -17,8 +17,8 @@ export default defineConfig(({ command }) => {
       VueComponents({
         dts: fileURLToPath(new URL('./components.d.ts', import.meta.url)),
         extensions: ['vue', 'md'],
-        syncMode: isProduction ? 'overwrite' : 'append',
         include: [/\.vue$/u, /\.vue\?vue/u, /\.md$/u],
+        syncMode: isProduction ? 'overwrite' : 'append',
         dirs: [
           fileURLToPath(new URL('./.vitepress/components', import.meta.url)),
         ],

@@ -5,12 +5,8 @@
   "bracketSpacing": true,
   "embeddedLanguageFormatting": "auto",
   "endOfLine": "lf",
-  "sortImports": {
-    "newlinesBetween": false,
-  },
-  "sortPackageJson": {
-    "sortScripts": true,
-  },
+  "sortImports": false,
+  "sortPackageJson": false,
   "htmlWhitespaceSensitivity": "css",
   "ignorePatterns": [
     "pnpm-lock.yaml",

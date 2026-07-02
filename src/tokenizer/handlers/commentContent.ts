@@ -4,8 +4,8 @@ import {
   TokenizerContextTypes,
   TokenTypes,
 } from '../../constants'
-import type { Range, TokenizerState } from '../../types'
 import { calculateTokenPosition } from '../../utils'
+import type { Range, TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
 function parseCommentClose(state: TokenizerState) {

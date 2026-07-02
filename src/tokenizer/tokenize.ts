@@ -1,5 +1,4 @@
 import { TokenizerContextTypes } from '../constants'
-import type { AnyToken, TokenizeHandler, TokenizerState } from '../types'
 import { CharsBuffer } from './charsBuffer'
 import {
   attributeKey,
@@ -26,6 +25,7 @@ import {
   xmlDeclarationOpen,
 } from './handlers'
 import { SourceCode } from './sourceCode'
+import type { AnyToken, TokenizeHandler, TokenizerState } from '../types'
 
 const contextHandlers: Record<TokenizerContextTypes, TokenizeHandler> = {
   [TokenizerContextTypes.Data]: data,

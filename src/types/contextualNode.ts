@@ -44,11 +44,11 @@ export type ContextualDocumentNode = Omit<
   'children'
 > & {
   children: Array<
-    | DocumentNode['children'][number]
     | ContextualCommentNode
     | ContextualDoctypeNode
     | ContextualElementNode
     | ContextualXMLDeclarationNode
+    | DocumentNode['children'][number]
   >
 }
 

@@ -2,8 +2,8 @@
 import { shallowRef } from 'vue'
 import { useSharedPlaygroundState } from '../../composables/playground'
 import { OutputTab } from '../../constants'
-import type { ITabItem } from '../ui/tabs'
 import JsonContainer from './JsonContainer.vue'
+import type { ITabItem } from '../ui/tabs'
 
 const { activeOutputTab, setActiveOutputTab } = useSharedPlaygroundState()
 

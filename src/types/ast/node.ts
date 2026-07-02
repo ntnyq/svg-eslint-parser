@@ -28,8 +28,8 @@ export type AttributeValueNode = SimpleNode<NodeTypes.AttributeValue>
 export interface AttributeNode extends BaseNode {
   key: AttributeKeyNode
   type: NodeTypes.Attribute
-  value?: AttributeValueNode
   quoteChar?: '"' | "'" | undefined
+  value?: AttributeValueNode
 }
 
 /**
@@ -79,8 +79,8 @@ export type XMLDeclarationAttributeValueNode =
 export interface XMLDeclarationAttributeNode extends BaseNode {
   key: XMLDeclarationAttributeKeyNode
   type: NodeTypes.XMLDeclarationAttribute
-  value?: XMLDeclarationAttributeValueNode
   quoteChar?: '"' | "'" | undefined
+  value?: XMLDeclarationAttributeValueNode
 }
 export interface XMLDeclarationNode extends BaseNode {
   attributes: XMLDeclarationAttributeNode[]
@@ -103,13 +103,13 @@ export interface ErrorNode extends BaseNode {
  * @pg
  */
 export type DocumentChildNode =
-  | XMLDeclarationNode
+  | CommentNode
   | DoctypeNode
   | ElementNode
-  | CommentNode
   | TextNode
+  | XMLDeclarationNode
 
-export type ElementChildNode = ElementNode | CommentNode | TextNode
+export type ElementChildNode = CommentNode | ElementNode | TextNode
 
 /**
  * program

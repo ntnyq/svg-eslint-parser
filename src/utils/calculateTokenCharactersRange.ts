@@ -16,13 +16,9 @@ export function calculateTokenCharactersRange(
     (state.accumulatedContent.length() - 1) -
     state.decisionBuffer.length()
 
-  let endPosition: number = 0
-
-  if (options.keepBuffer) {
-    endPosition = state.sourceCode.index()
-  } else {
-    endPosition = state.sourceCode.index() - state.decisionBuffer.length()
-  }
+  const endPosition = options.keepBuffer
+    ? state.sourceCode.index()
+    : state.sourceCode.index() - state.decisionBuffer.length()
 
   return [startPosition, endPosition + 1]
 }

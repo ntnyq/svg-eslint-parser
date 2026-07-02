@@ -3,13 +3,13 @@ import {
   SELF_CLOSING_ELEMENTS,
   TokenTypes,
 } from '../../constants'
+import { createNodeFrom, updateNodeEnd } from '../../utils'
+import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
   ConstructTreeState,
   ContextualElementNode,
 } from '../../types'
-import { createNodeFrom, updateNodeEnd } from '../../utils'
-import { createTokenDispatcher } from '../handlerFactory'
 
 const ATTRIBUTE_START_TOKENS = new Set([
   TokenTypes.AttributeKey,

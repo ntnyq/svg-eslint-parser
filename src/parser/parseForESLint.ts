@@ -1,13 +1,13 @@
 import { NodeTypes, TokenTypes } from '../constants'
+import { visitorKeys } from '../visitorKeys'
+import { parse } from './parse'
+import { traverse } from './traverse'
 import type {
   ESLintComment,
   Options,
   ParseForESLintResult,
   Program,
 } from '../types'
-import { visitorKeys } from '../visitorKeys'
-import { parse } from './parse'
-import { traverse } from './traverse'
 
 export function parseForESLint(
   source: string,
