@@ -1,3 +1,4 @@
+import { getChildNodes } from './getChildNodes'
 import type { NodeTypes } from '../constants'
 import type { AnyNode } from '../types'
 
@@ -18,18 +19,8 @@ export function findNodeByType<T extends NodeTypes>(
       results.push(currentNode)
     }
 
-    // Traverse children
-    if ('children' in currentNode && Array.isArray(currentNode.children)) {
-      for (const child of currentNode.children) {
-        traverse(child)
-      }
-    }
-
-    // Traverse attributes for Tag nodes
-    if ('attributes' in currentNode && Array.isArray(currentNode.attributes)) {
-      for (const attr of currentNode.attributes) {
-        traverse(attr as AnyNode)
-      }
+    for (const child of getChildNodes(currentNode)) {
+      traverse(child)
     }
   }
 
@@ -52,23 +43,10 @@ export function findFirstNodeByType<T extends NodeTypes>(
       return currentNode
     }
 
-    // Traverse children
-    if ('children' in currentNode && Array.isArray(currentNode.children)) {
-      for (const child of currentNode.children) {
-        const result = traverse(child)
-        if (result) {
-          return result
-        }
-      }
-    }
-
-    // Traverse attributes
-    if ('attributes' in currentNode && Array.isArray(currentNode.attributes)) {
-      for (const attr of currentNode.attributes) {
-        const result = traverse(attr as AnyNode)
-        if (result) {
-          return result
-        }
+    for (const child of getChildNodes(currentNode)) {
+      const result = traverse(child)
+      if (result) {
+        return result
       }
     }
 

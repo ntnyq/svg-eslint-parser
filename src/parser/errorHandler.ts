@@ -4,6 +4,9 @@
 
 import type { ErrorContext, ParseError, ParseErrorType } from '../types/errors'
 
+/**
+ * Collects recoverable parse errors and warnings during parsing.
+ */
 export class ErrorHandler implements ErrorContext {
   errors: ParseError[] = []
   warnings: ParseError[] = []

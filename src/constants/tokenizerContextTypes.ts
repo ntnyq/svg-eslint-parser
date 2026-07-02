@@ -1,3 +1,6 @@
+/**
+ * Tokenizer state machine contexts.
+ */
 export enum TokenizerContextTypes {
   AttributeKey = 'AttributeKey',
 

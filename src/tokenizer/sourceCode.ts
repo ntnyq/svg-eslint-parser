@@ -2,6 +2,9 @@ import { getLineInfo } from '../utils'
 import { Chars } from './chars'
 import type { Range, SourceLocation } from '../types'
 
+/**
+ * Cursor-based view over source text for tokenizer handlers.
+ */
 export class SourceCode {
   private charsList: Chars[]
   private charsIndex = 0
@@ -10,6 +13,9 @@ export class SourceCode {
     this.charsList = this.createCharsList()
   }
 
+  /**
+   * Convert a character range to source locations.
+   */
   public getLocationOf(range: Range): SourceLocation {
     return {
       start: getLineInfo(this.source, range[0]),
@@ -17,22 +23,37 @@ export class SourceCode {
     }
   }
 
+  /**
+   * Get the current character wrapper.
+   */
   public current() {
     return this.charsList[this.charsIndex]
   }
 
+  /**
+   * Advance to the next character.
+   */
   public next() {
     this.charsIndex++
   }
 
+  /**
+   * Move back to the previous character.
+   */
   public prev() {
     this.charsIndex--
   }
 
+  /**
+   * Check whether the cursor has reached the end of source.
+   */
   public isEof() {
     return this.charsIndex >= this.charsList.length
   }
 
+  /**
+   * Get the current zero-based character index.
+   */
   public index() {
     const current = this.current()
     return current.range[1] - 1

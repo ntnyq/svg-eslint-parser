@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { NodeTypes } from '../src/constants'
+import { parseForESLint } from '../src/parser'
 import { ParseError } from '../src/parser/error'
 import { ErrorHandler } from '../src/parser/errorHandler'
 import { traverse } from '../src/parser/traverse'
@@ -111,6 +112,17 @@ describe('error handler', () => {
     expect(handler.getWarnings()).toStrictEqual([])
     expect(handler.hasErrors()).toBeFalsy()
     expect(handler.hasWarnings()).toBeFalsy()
+  })
+})
+
+describe('parser diagnostics', () => {
+  it('reports recovered mismatched and unclosed tags', () => {
+    const result = parseForESLint('<svg><g></svg>')
+
+    expect(result.services.errors.map(error => error.type)).toEqual([
+      ParseErrorType.MismatchedTag,
+      ParseErrorType.UnclosedTag,
+    ])
   })
 })
 

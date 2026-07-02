@@ -110,7 +110,7 @@ traverseAST(document, {
 
 #### `parseForESLint(code: string, options?: ParserOptions)`
 
-Returns an ESLint-compatible result with AST, visitor keys, and services.
+Returns an ESLint-compatible result with AST, visitor keys, and services. Recoverable parser diagnostics are available on `services.errors` and `services.warnings`.
 
 #### `parse(code: string, options?: ParserOptions)`
 

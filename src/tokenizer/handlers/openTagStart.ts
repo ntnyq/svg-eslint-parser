@@ -46,6 +46,9 @@ function parseWhitespace(state: TokenizerState) {
   state.sourceCode.next()
 }
 
+/**
+ * Tokenize the start of an opening tag.
+ */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
 

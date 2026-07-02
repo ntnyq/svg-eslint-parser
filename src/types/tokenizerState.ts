@@ -3,6 +3,9 @@ import type { CharsBuffer } from '../tokenizer/charsBuffer'
 import type { SourceCode } from '../tokenizer/sourceCode'
 import type { AnyToken } from './ast'
 
+/**
+ * Mutable state shared by tokenizer handlers.
+ */
 export type TokenizerState = {
   accumulatedContent: CharsBuffer
   contextParams: ContextParams

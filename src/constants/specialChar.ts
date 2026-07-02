@@ -1,3 +1,6 @@
+/**
+ * Character constants used by tokenizer handlers.
+ */
 export const SPECIAL_CHAR = {
   closingCorner: `>`,
   colon: `:`,

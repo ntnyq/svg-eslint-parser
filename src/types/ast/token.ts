@@ -2,7 +2,7 @@ import type { TokenTypes } from '../../constants'
 import type { Locations } from './common'
 
 /**
- * any token
+ * Union of all tokenizer output token shapes.
  */
 export type AnyToken =
   | Token<TokenTypes.AttributeAssignment>
@@ -31,7 +31,7 @@ export type AnyToken =
   | Token<TokenTypes.XMLDeclarationOpen>
 
 /**
- * token
+ * Source token emitted by the tokenizer.
  */
 export interface Token<T extends TokenTypes> extends Locations {
   /**

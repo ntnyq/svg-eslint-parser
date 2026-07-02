@@ -25,6 +25,9 @@ const dispatch = createTokenDispatcher(
   },
 )
 
+/**
+ * Construct the normalized name for an element node.
+ */
 export function construct(
   token: AnyToken,
   state: ConstructTreeState<ContextualElementNode>,

@@ -1,3 +1,6 @@
+/**
+ * AST node type names emitted by the parser.
+ */
 export enum NodeTypes {
   Attribute = 'Attribute',
   AttributeKey = 'AttributeKey',

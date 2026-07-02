@@ -23,6 +23,9 @@ function parseClosingCornerBrace(state: TokenizerState) {
   state.sourceCode.next()
 }
 
+/**
+ * Tokenize a closing tag.
+ */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
 

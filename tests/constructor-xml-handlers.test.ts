@@ -30,8 +30,7 @@ function createState(overrides: Record<string, unknown> = {}) {
       parentRef: parentContext,
     },
     currentNode: {
-      type: NodeTypes.Element,
-      name: 'xml',
+      type: NodeTypes.XMLDeclaration,
       range: [0, 1] as [number, number],
       loc: {
         start: { line: 1, column: 0 },
@@ -44,13 +43,17 @@ function createState(overrides: Record<string, unknown> = {}) {
 }
 
 describe('constructor xml handlers', () => {
-  it('xmlDeclaration parses name and exits context on open tag start', () => {
+  it('xmlDeclaration enters attributes context on declaration open', () => {
     const state = createState()
 
-    constructXMLDeclaration(createToken(TokenTypes.OpenTagStart, '<SVG'), state)
+    constructXMLDeclaration(
+      createToken(TokenTypes.XMLDeclarationOpen, '<?xml'),
+      state,
+    )
 
-    expect(state.currentNode.name).toBe('svg')
-    expect(state.currentContext.type).toBe(ConstructTreeContextTypes.Tag)
+    expect(state.currentContext.type).toBe(
+      ConstructTreeContextTypes.XMLDeclarationAttributes,
+    )
     expect(state.caretPosition).toBe(1)
   })
 
@@ -69,7 +72,7 @@ describe('constructor xml handlers', () => {
         parentRef: { type: ConstructTreeContextTypes.XMLDeclaration },
       },
       currentNode: {
-        type: NodeTypes.Element,
+        type: NodeTypes.XMLDeclaration,
         range: [0, 1] as [number, number],
         loc: {
           start: { line: 1, column: 0 },
@@ -79,27 +82,33 @@ describe('constructor xml handlers', () => {
     })
 
     constructXMLDeclarationAttributes(
-      createToken(TokenTypes.AttributeKey, 'version'),
+      createToken(TokenTypes.XMLDeclarationAttributeKey, 'version'),
       state,
     )
 
     expect(state.currentNode.attributes).toHaveLength(1)
-    expect(state.currentNode.attributes[0].type).toBe(NodeTypes.Attribute)
+    expect(state.currentNode.attributes[0].type).toBe(
+      NodeTypes.XMLDeclarationAttribute,
+    )
     expect(state.currentContext.type).toBe(
       ConstructTreeContextTypes.XMLDeclarationAttribute,
     )
   })
 
-  it('xmlDeclarationAttributes exits on open tag end', () => {
+  it('xmlDeclarationAttributes exits on declaration close', () => {
     const state = createState({
       currentContext: {
         type: ConstructTreeContextTypes.XMLDeclarationAttributes,
         parentRef: { type: ConstructTreeContextTypes.XMLDeclaration },
       },
+      currentNode: {
+        ...createState().currentNode,
+        parentRef: { type: NodeTypes.Document },
+      },
     })
 
     constructXMLDeclarationAttributes(
-      createToken(TokenTypes.OpenTagEnd, '>'),
+      createToken(TokenTypes.XMLDeclarationClose, '?>'),
       state,
     )
 
@@ -108,9 +117,9 @@ describe('constructor xml handlers', () => {
     )
   })
 
-  it('xmlDeclarationAttribute handles value and wrapper tokens', () => {
+  it('xmlDeclarationAttribute handles key and assignment tokens', () => {
     const attribute: {
-      key: { value: string }
+      key?: { value: string }
       loc: {
         end: { column: number; line: number }
         start: { column: number; line: number }
@@ -120,13 +129,12 @@ describe('constructor xml handlers', () => {
       type: NodeTypes
       value?: { value: string }
     } = {
-      type: NodeTypes.Attribute,
+      type: NodeTypes.XMLDeclarationAttribute,
       range: [0, 1],
       loc: {
         start: { line: 1, column: 0 },
         end: { line: 1, column: 1 },
       },
-      key: { value: 'version' },
     }
     const state = createState({
       currentContext: {
@@ -139,21 +147,19 @@ describe('constructor xml handlers', () => {
     })
 
     constructXMLDeclarationAttribute(
-      createToken(TokenTypes.AttributeValue, '1.0'),
+      createToken(TokenTypes.XMLDeclarationAttributeKey, 'version'),
       state,
     )
     constructXMLDeclarationAttribute(
-      createToken(TokenTypes.AttributeValueWrapperStart, '"'),
-      state,
-    )
-    constructXMLDeclarationAttribute(
-      createToken(TokenTypes.AttributeValueWrapperEnd, '"'),
+      createToken(TokenTypes.XMLDeclarationAttributeAssignment, '='),
       state,
     )
 
-    expect(attribute.value?.value).toBe('1.0')
-    expect(attribute.quoteChar).toBe('"')
-    expect(state.caretPosition).toBe(3)
+    expect(attribute.key?.value).toBe('version')
+    expect(state.currentContext.type).toBe(
+      ConstructTreeContextTypes.XMLDeclarationAttributeValue,
+    )
+    expect(state.caretPosition).toBe(2)
   })
 
   it('xmlDeclarationAttribute exits to parent on end tokens', () => {
@@ -165,7 +171,7 @@ describe('constructor xml handlers', () => {
       currentNode: {
         attributes: [
           {
-            type: NodeTypes.Attribute,
+            type: NodeTypes.XMLDeclarationAttribute,
             range: [0, 1],
             loc: {
               start: { line: 1, column: 0 },
@@ -177,7 +183,7 @@ describe('constructor xml handlers', () => {
     })
 
     constructXMLDeclarationAttribute(
-      createToken(TokenTypes.AttributeKey, 'encoding'),
+      createToken(TokenTypes.XMLDeclarationClose, '?>'),
       state,
     )
 
@@ -198,7 +204,7 @@ describe('constructor xml handlers', () => {
       type: NodeTypes
       value?: { value: string }
     } = {
-      type: NodeTypes.Attribute,
+      type: NodeTypes.XMLDeclarationAttribute,
       range: [0, 1],
       loc: {
         start: { line: 1, column: 0 },
@@ -217,15 +223,15 @@ describe('constructor xml handlers', () => {
     })
 
     constructXMLDeclarationAttributeValue(
-      createToken(TokenTypes.AttributeValueWrapperStart, '"'),
+      createToken(TokenTypes.XMLDeclarationAttributeValueWrapperStart, '"'),
       state,
     )
     constructXMLDeclarationAttributeValue(
-      createToken(TokenTypes.AttributeValue, '1.0'),
+      createToken(TokenTypes.XMLDeclarationAttributeValue, '1.0'),
       state,
     )
     constructXMLDeclarationAttributeValue(
-      createToken(TokenTypes.AttributeValueWrapperEnd, '"'),
+      createToken(TokenTypes.XMLDeclarationAttributeValueWrapperEnd, '"'),
       state,
     )
 
@@ -245,7 +251,7 @@ describe('constructor xml handlers', () => {
       currentNode: {
         attributes: [
           {
-            type: NodeTypes.Attribute,
+            type: NodeTypes.XMLDeclarationAttribute,
             range: [0, 1],
             loc: {
               start: { line: 1, column: 0 },
@@ -258,7 +264,7 @@ describe('constructor xml handlers', () => {
     })
 
     constructXMLDeclarationAttributeValue(
-      createToken(TokenTypes.AttributeValue, 'next'),
+      createToken(TokenTypes.XMLDeclarationAttributeValue, 'next'),
       state,
     )
 

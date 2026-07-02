@@ -35,6 +35,9 @@ function parseClosingCornerBrace(state: TokenizerState) {
   state.currentContext = TokenizerContextTypes.DoctypeClose
 }
 
+/**
+ * Tokenize the opening delimiter of a doctype declaration.
+ */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
 

@@ -10,6 +10,9 @@ import type {
   XMLDeclarationNode,
 } from './ast'
 
+/**
+ * Union of AST nodes while they are still being constructed.
+ */
 export type AnyContextualNode =
   | ContextualAttributeNode
   | ContextualCommentNode
@@ -20,18 +23,33 @@ export type AnyContextualNode =
   | ContextualXMLDeclarationAttributeNode
   | ContextualXMLDeclarationNode
 
+/**
+ * Attribute node with key/value filled as tokens are consumed.
+ */
 export type ContextualAttributeNode = ContextualNode<
   AttributeNode,
   'key' | 'value'
 >
 
-export type ContextualCommentNode = ContextualNode<CommentNode, 'content'>
+/**
+ * Comment node before comment content has been finalized.
+ */
+export type ContextualCommentNode = ContextualNode<
+  CommentNode,
+  'content' | 'value'
+>
 
+/**
+ * Doctype attribute node before value has been finalized.
+ */
 export type ContextualDoctypeAttributeNode = ContextualNode<
   DoctypeAttributeNode,
   'type' | 'value'
 >
 
+/**
+ * Doctype node while its attributes are being collected.
+ */
 export type ContextualDoctypeNode = ContextualNode<
   DoctypeNode,
   'attributes'
@@ -39,6 +57,9 @@ export type ContextualDoctypeNode = ContextualNode<
   attributes: ContextualDoctypeAttributeNode[]
 }
 
+/**
+ * Document root while child nodes are being attached.
+ */
 export type ContextualDocumentNode = Omit<
   ContextualNode<DocumentNode, never>,
   'children'
@@ -52,6 +73,9 @@ export type ContextualDocumentNode = Omit<
   >
 }
 
+/**
+ * Construction-time node with selected fields allowed to be incomplete.
+ */
 export type ContextualNode<T extends AnyNode, K extends keyof T> = PartialBy<
   T,
   K
@@ -59,6 +83,9 @@ export type ContextualNode<T extends AnyNode, K extends keyof T> = PartialBy<
   parentRef?: any
 }
 
+/**
+ * Element node while name, attributes, and children are being collected.
+ */
 export type ContextualElementNode = ContextualNode<
   ElementNode,
   'attributes' | 'children' | 'name' | 'selfClosing'
@@ -71,10 +98,16 @@ export type ContextualElementNode = ContextualNode<
   >
 }
 
+/**
+ * XML declaration attribute node before key/value are finalized.
+ */
 export type ContextualXMLDeclarationAttributeNode = ContextualNode<
   XMLDeclarationAttributeNode,
   'key' | 'value'
 >
+/**
+ * XML declaration node while attributes are being collected.
+ */
 export type ContextualXMLDeclarationNode = ContextualNode<
   XMLDeclarationNode,
   'attributes'
@@ -82,4 +115,7 @@ export type ContextualXMLDeclarationNode = ContextualNode<
   attributes: ContextualXMLDeclarationAttributeNode[]
 }
 
+/**
+ * Make selected keys optional while leaving the rest of a type intact.
+ */
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>

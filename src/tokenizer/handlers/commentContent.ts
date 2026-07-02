@@ -36,6 +36,9 @@ function parseCommentClose(state: TokenizerState) {
   state.sourceCode.next()
 }
 
+/**
+ * Tokenize comment content until the closing delimiter.
+ */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
 

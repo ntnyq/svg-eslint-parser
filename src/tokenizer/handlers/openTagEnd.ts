@@ -25,6 +25,9 @@ function parseClosingCornerBrace(state: TokenizerState) {
   state.contextParams[TokenizerContextTypes.OpenTagEnd] = undefined
 }
 
+/**
+ * Tokenize the end of an opening tag.
+ */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   if (chars.value() === SPECIAL_CHAR.closingCorner) {
     return parseClosingCornerBrace(state)

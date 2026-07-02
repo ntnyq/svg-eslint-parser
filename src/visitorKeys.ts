@@ -32,6 +32,10 @@ const keys: {
 
 let vistorKeysCache: SourceCode.VisitorKeys | null = null
 
+/**
+ * Get ESLint visitor keys extended with parser-specific AST nodes.
+ * @returns Cached visitor key map
+ */
 export function getVisitorKeys(): SourceCode.VisitorKeys {
   if (!vistorKeysCache) {
     const merged = unionWith(keys) as SourceCode.VisitorKeys
@@ -43,4 +47,7 @@ export function getVisitorKeys(): SourceCode.VisitorKeys {
   return vistorKeysCache
 }
 
+/**
+ * Shared visitor key map used by parser traversal and ESLint integration.
+ */
 export const visitorKeys = getVisitorKeys()

@@ -1,5 +1,7 @@
 import { ConstructTreeContextTypes, NodeTypes } from '../constants'
-import { cloneLocation, first, last } from '../utils'
+import { ErrorHandler } from '../parser/errorHandler'
+import { ParseErrorType } from '../types'
+import { cloneLocation, cloneRange, first, last } from '../utils'
 import {
   attribute,
   attributes,
@@ -17,10 +19,10 @@ import {
   xmlDeclarationAttributeValue,
 } from './handlers'
 import type {
-  AnyContextualNode,
   AnyToken,
   ConstructTreeHandler,
   ConstructTreeState,
+  ContextualDocumentNode,
   DocumentNode,
   Range,
   SourceLocation,
@@ -59,9 +61,9 @@ const contextHandlers: Record<ConstructTreeContextTypes, ConstructTreeHandler> =
       xmlDeclarationAttributeValue,
   }
 
-function processTokens<ContextualNode extends AnyContextualNode = any>(
+function processTokens(
   tokens: AnyToken[],
-  state: ConstructTreeState<ContextualNode>,
+  state: ConstructTreeState<any>,
   positionOffset: number,
 ) {
   let tokenIndex = state.caretPosition - positionOffset
@@ -77,14 +79,36 @@ function processTokens<ContextualNode extends AnyContextualNode = any>(
   return state
 }
 
-export function constructTree<ContextualNode extends AnyContextualNode = any>(
-  tokens: AnyToken[],
-) {
-  const rootContext: ConstructTreeState<ContextualNode>['currentContext'] = {
-    type: ConstructTreeContextTypes.TagContent,
-    parentRef: undefined,
-    content: [],
+function reportUnclosedNodes(state: ConstructTreeState<any>) {
+  let node = state.currentNode
+
+  while (node && node !== state.rootNode) {
+    if (node.type === NodeTypes.Element && !node.selfClosing && !node.close) {
+      state.errorHandler.addError({
+        type: ParseErrorType.UnclosedTag,
+        message: `Unclosed tag "${node.name ?? 'unknown'}".`,
+        range: cloneRange(node.range),
+        loc: cloneLocation(node.loc),
+        recovery: 'The parser kept the partial element in the AST.',
+      })
+    }
+
+    node = node.parentRef
   }
+}
+
+/**
+ * Build the document AST from tokenizer output.
+ * @param tokens - Tokens produced from SVG source
+ * @returns Constructed AST, final constructor state, and recoverable diagnostics
+ */
+export function constructTree(tokens: AnyToken[]) {
+  const rootContext: ConstructTreeState<ContextualDocumentNode>['currentContext'] =
+    {
+      type: ConstructTreeContextTypes.TagContent,
+      parentRef: undefined,
+      content: [],
+    }
 
   const lastToken = last(tokens)
   const firstToken = first(tokens)
@@ -105,20 +129,23 @@ export function constructTree<ContextualNode extends AnyContextualNode = any>(
     children: [],
     loc,
   }
-  const state: ConstructTreeState<ContextualNode> = {
+  const state: ConstructTreeState<ContextualDocumentNode> = {
     caretPosition: 0,
     currentContext: rootContext,
-    // @ts-expect-error TODO: fix type
     currentNode: rootNode,
+    errorHandler: new ErrorHandler(),
     rootNode,
   }
 
   const positionOffset = state.caretPosition
 
-  processTokens(tokens, state, positionOffset)
+  const finalState = processTokens(tokens, state, positionOffset)
+  reportUnclosedNodes(finalState)
 
   return {
     state,
     ast: state.rootNode,
+    errors: state.errorHandler.getErrors(),
+    warnings: state.errorHandler.getWarnings(),
   }
 }

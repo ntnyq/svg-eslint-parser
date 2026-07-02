@@ -57,7 +57,7 @@ describe('tokenizer xml declaration handlers', () => {
     expect(state.currentContext).toBe(TokenizerContextTypes.Data)
   })
 
-  it('xmlDeclarationAttributes appends content when not closed', () => {
+  it('xmlDeclarationAttributes starts an attribute key on content', () => {
     const { state, emittedTokens } = createState({
       decisionBuffer: createBuffer('v'),
       accumulatedContent: createBuffer('xml '),
@@ -66,7 +66,10 @@ describe('tokenizer xml declaration handlers', () => {
     parseXMLDeclarationAttributes({ value: () => 'v' } as any, state)
 
     expect(emittedTokens).toHaveLength(0)
-    expect(state.accumulatedContent.value()).toContain('xml v')
+    expect(state.accumulatedContent.value()).toBe('v')
+    expect(state.currentContext).toBe(
+      TokenizerContextTypes.XMLDeclarationAttributeKey,
+    )
   })
 
   it('xmlDeclarationAttributeKey emits key and switches context at key break', () => {
@@ -111,10 +114,10 @@ describe('tokenizer xml declaration handlers', () => {
       wrapped.state,
     )
     expect(wrapped.state.currentContext).toBe(
-      TokenizerContextTypes.AttributeValueWrapped,
+      TokenizerContextTypes.XMLDeclarationAttributeValueWrapped,
     )
     expect(wrapped.emittedTokens[0]?.type).toBe(
-      TokenTypes.AttributeValueWrapperStart,
+      TokenTypes.XMLDeclarationAttributeValueWrapperStart,
     )
 
     const bare = createState({
@@ -125,8 +128,11 @@ describe('tokenizer xml declaration handlers', () => {
     })
 
     parseXMLDeclarationAttributeValue({ value: () => 'u' } as any, bare.state)
+    expect(bare.emittedTokens[0]?.type).toBe(
+      TokenTypes.XMLDeclarationAttributeValue,
+    )
     expect(bare.state.currentContext).toBe(
-      TokenizerContextTypes.AttributeValueBare,
+      TokenizerContextTypes.XMLDeclarationAttributes,
     )
   })
 
@@ -140,7 +146,9 @@ describe('tokenizer xml declaration handlers', () => {
 
     parseXMLDeclarationAttributeValue({ value: () => '>' } as any, state)
 
-    expect(state.currentContext).toBe(TokenizerContextTypes.Attributes)
+    expect(state.currentContext).toBe(
+      TokenizerContextTypes.XMLDeclarationAttributes,
+    )
   })
 
   it('xmlDeclarationAttributeValueWrapped emits value and wrapper end', () => {
@@ -149,7 +157,7 @@ describe('tokenizer xml declaration handlers', () => {
       accumulatedContent: createBuffer('1.0'),
       decisionBuffer: createBuffer('"'),
       contextParams: {
-        [TokenizerContextTypes.AttributeValueWrapped]: {
+        [TokenizerContextTypes.XMLDeclarationAttributeValueWrapped]: {
           wrapper: '"',
         },
       },
@@ -158,12 +166,16 @@ describe('tokenizer xml declaration handlers', () => {
     parseXMLDeclarationAttributeValueWrapped({ value: () => '"' } as any, state)
 
     expect(emittedTokens.map(token => token.type)).toStrictEqual([
-      TokenTypes.AttributeValue,
-      TokenTypes.AttributeValueWrapperEnd,
+      TokenTypes.XMLDeclarationAttributeValue,
+      TokenTypes.XMLDeclarationAttributeValueWrapperEnd,
     ])
-    expect(state.currentContext).toBe(TokenizerContextTypes.Attributes)
+    expect(state.currentContext).toBe(
+      TokenizerContextTypes.XMLDeclarationAttributes,
+    )
     expect(
-      state.contextParams[TokenizerContextTypes.AttributeValueWrapped],
+      state.contextParams[
+        TokenizerContextTypes.XMLDeclarationAttributeValueWrapped
+      ],
     ).toBeUndefined()
   })
 
@@ -173,7 +185,7 @@ describe('tokenizer xml declaration handlers', () => {
       accumulatedContent: createBuffer('1'),
       decisionBuffer: createBuffer('.'),
       contextParams: {
-        [TokenizerContextTypes.AttributeValueWrapped]: {
+        [TokenizerContextTypes.XMLDeclarationAttributeValueWrapped]: {
           wrapper: '"',
         },
       },

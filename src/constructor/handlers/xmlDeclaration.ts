@@ -1,19 +1,20 @@
-import { TokenTypes } from '../../constants'
-import { parseOpenTagName } from '../../utils'
+import { ConstructTreeContextTypes, TokenTypes } from '../../constants'
 import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
   ConstructTreeState,
-  ContextualElementNode,
+  ContextualXMLDeclarationNode,
 } from '../../types'
 
 const dispatch = createTokenDispatcher(
   [
     {
-      tokenType: TokenTypes.OpenTagStart,
-      handler(token, state) {
-        state.currentNode.name = parseOpenTagName(token.value)
-        state.currentContext = state.currentContext.parentRef
+      tokenType: TokenTypes.XMLDeclarationOpen,
+      handler(_, state) {
+        state.currentContext = {
+          parentRef: state.currentContext,
+          type: ConstructTreeContextTypes.XMLDeclarationAttributes,
+        }
         state.caretPosition++
         return state
       },
@@ -25,9 +26,12 @@ const dispatch = createTokenDispatcher(
   },
 )
 
+/**
+ * Construct an XML declaration node after its opening token.
+ */
 export function construct(
   token: AnyToken,
-  state: ConstructTreeState<ContextualElementNode>,
+  state: ConstructTreeState<ContextualXMLDeclarationNode>,
 ) {
   return dispatch(token, state)
 }

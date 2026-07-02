@@ -1,23 +1,15 @@
-import { TokenTypes } from '../../constants'
-import {
-  cloneRange,
-  createNodeFrom,
-  getLastAttribute,
-  updateNodeEnd,
-} from '../../utils'
+import { ConstructTreeContextTypes, TokenTypes } from '../../constants'
+import { createNodeFrom, getLastAttribute } from '../../utils'
 import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
-  AttributeValueNode,
   ConstructTreeState,
-  ContextualElementNode,
+  ContextualXMLDeclarationNode,
+  XMLDeclarationAttributeKeyNode,
+  XMLDeclarationAttributeNode,
 } from '../../types'
 
-const VALUE_END_TOKENS = new Set([
-  TokenTypes.OpenTagEnd,
-  TokenTypes.AttributeKey,
-  TokenTypes.AttributeAssignment,
-])
+const VALUE_END_TOKENS = new Set([TokenTypes.XMLDeclarationClose])
 
 const dispatch = createTokenDispatcher(
   [
@@ -29,32 +21,38 @@ const dispatch = createTokenDispatcher(
       },
     },
     {
-      tokenType: TokenTypes.AttributeValue,
+      tokenType: TokenTypes.XMLDeclarationAttributeKey,
       handler(token, state) {
-        const attribute = getLastAttribute(state)
-        attribute.value = createNodeFrom(token) as AttributeValueNode
-        updateNodeEnd(attribute, token)
-        state.caretPosition++
-        return state
-      },
-    },
-    {
-      tokenType: TokenTypes.AttributeValueWrapperStart,
-      handler(token, state) {
-        const attribute = getLastAttribute(state)
-        attribute.quoteChar = token.value as any
-        if (!attribute.key) {
-          attribute.range = cloneRange(token.range)
+        const attribute = getLastAttribute(
+          state,
+        ) as unknown as XMLDeclarationAttributeNode
+
+        if (attribute.key !== undefined || attribute.value !== undefined) {
+          state.currentContext = state.currentContext.parentRef
+          return state
         }
+
+        attribute.key = createNodeFrom(token) as XMLDeclarationAttributeKeyNode
         state.caretPosition++
         return state
       },
     },
     {
-      tokenType: TokenTypes.AttributeValueWrapperEnd,
-      handler(token, state) {
-        const attribute = getLastAttribute(state)
-        updateNodeEnd(attribute, token)
+      tokenType: TokenTypes.XMLDeclarationAttributeAssignment,
+      handler(_, state) {
+        const attribute = getLastAttribute(
+          state,
+        ) as unknown as XMLDeclarationAttributeNode
+
+        if (attribute.value !== undefined) {
+          state.currentContext = state.currentContext.parentRef
+          return state
+        }
+
+        state.currentContext = {
+          parentRef: state.currentContext,
+          type: ConstructTreeContextTypes.XMLDeclarationAttributeValue,
+        }
         state.caretPosition++
         return state
       },
@@ -66,9 +64,12 @@ const dispatch = createTokenDispatcher(
   },
 )
 
+/**
+ * Construct an XML declaration attribute key and value transition.
+ */
 export function construct(
   token: AnyToken,
-  state: ConstructTreeState<ContextualElementNode>,
+  state: ConstructTreeState<ContextualXMLDeclarationNode>,
 ) {
   return dispatch(token, state)
 }

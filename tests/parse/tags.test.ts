@@ -16,6 +16,26 @@ describe('element parsing', () => {
     expect(element.children).toHaveLength(0)
   })
 
+  it('should treat any empty-element tag as self-closing', () => {
+    const source = '<svg><defs /><custom /><animateMotion /></svg>'
+    const { ast } = parseForESLint(source)
+    const document = ast.document
+    const svg = document.children[0] as ElementNode
+    const elements = svg.children.filter(
+      child => child.type === NodeTypes.Element,
+    ) as ElementNode[]
+
+    expect(elements.map(element => element.name)).toStrictEqual([
+      'defs',
+      'custom',
+      'animatemotion',
+    ])
+    expect(elements.every(element => element.selfClosing)).toBeTruthy()
+    expect(
+      elements.every(element => element.children.length === 0),
+    ).toBeTruthy()
+  })
+
   it('should parse elements with opening and closing elements', () => {
     const source = '<div>Content</div>'
     const { ast } = parseForESLint(source)

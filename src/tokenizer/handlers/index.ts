@@ -22,6 +22,9 @@ export * as xmlDeclarationAttributeKey from './xmlDeclarationAttributeKey'
 export * as xmlDeclarationAttributeValue from './xmlDeclarationAttributeValue'
 export * as xmlDeclarationAttributeValueWrapped from './xmlDeclarationAttributeValueWrapped'
 
+/**
+ * Tokenizer handler for contexts that intentionally consume no content.
+ */
 export const noop: TokenizeHandler = {
   // oxlint-disable-next-line no-empty-function
   parse: () => {},

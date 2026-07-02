@@ -1,3 +1,4 @@
+import { getChildNodes } from './getChildNodes'
 import type { AnyNode } from '../types'
 
 /**
@@ -17,16 +18,8 @@ export function filterNodes(
       results.push(currentNode)
     }
 
-    if ('children' in currentNode && Array.isArray(currentNode.children)) {
-      for (const child of currentNode.children) {
-        traverse(child)
-      }
-    }
-
-    if ('attributes' in currentNode && Array.isArray(currentNode.attributes)) {
-      for (const attr of currentNode.attributes) {
-        traverse(attr as AnyNode)
-      }
+    for (const child of getChildNodes(currentNode)) {
+      traverse(child)
     }
   }
 
@@ -46,16 +39,18 @@ export function mapNodes<T extends AnyNode>(
 ): T {
   const mapped = mapper(node)
 
-  if ('children' in mapped && Array.isArray(mapped.children)) {
-    ;(mapped as any).children = mapped.children.map(child =>
-      mapNodes(child, mapper),
-    )
-  }
+  for (const key of Object.keys(mapped)) {
+    const value = mapped[key as keyof AnyNode]
 
-  if ('attributes' in mapped && Array.isArray(mapped.attributes)) {
-    ;(mapped as any).attributes = mapped.attributes.map(attr =>
-      mapNodes(attr as AnyNode, mapper),
-    )
+    if (Array.isArray(value)) {
+      ;(mapped as any)[key] = value.map(item =>
+        item && typeof item === 'object' && 'type' in item
+          ? mapNodes(item as AnyNode, mapper)
+          : item,
+      )
+    } else if (value && typeof value === 'object' && 'type' in value) {
+      ;(mapped as any)[key] = mapNodes(value as unknown as AnyNode, mapper)
+    }
   }
 
   return mapped as T
@@ -103,16 +98,8 @@ export function getNodeDepth(node: any): number {
 export function countNodes(node: AnyNode): number {
   let count = 1 // Count current node
 
-  if ('children' in node && Array.isArray(node.children)) {
-    for (const child of node.children) {
-      count += countNodes(child)
-    }
-  }
-
-  if ('attributes' in node && Array.isArray(node.attributes)) {
-    for (const attr of node.attributes) {
-      count += countNodes(attr as AnyNode)
-    }
+  for (const child of getChildNodes(node)) {
+    count += countNodes(child)
   }
 
   return count
