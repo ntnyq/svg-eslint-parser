@@ -12,7 +12,7 @@ function parseWrapper(state: TokenizerState) {
   const range: Range = [state.sourceCode.index(), state.sourceCode.index() + 1]
 
   state.tokens.push({
-    type: TokenTypes.AttributeValueWrapperStart,
+    type: TokenTypes.XMLDeclarationAttributeValueWrapperStart,
     value: wrapper,
     range,
     loc: state.sourceCode.getLocationOf(range),
@@ -20,8 +20,11 @@ function parseWrapper(state: TokenizerState) {
 
   state.accumulatedContent.clear()
   state.decisionBuffer.clear()
-  state.currentContext = TokenizerContextTypes.AttributeValueWrapped
-  state.contextParams[TokenizerContextTypes.AttributeValueWrapped] = {
+  state.currentContext =
+    TokenizerContextTypes.XMLDeclarationAttributeValueWrapped
+  state.contextParams[
+    TokenizerContextTypes.XMLDeclarationAttributeValueWrapped
+  ] = {
     wrapper,
   }
   state.sourceCode.next()
@@ -30,16 +33,28 @@ function parseWrapper(state: TokenizerState) {
 function parseTagEnd(state: TokenizerState) {
   state.accumulatedContent.clear()
   state.decisionBuffer.clear()
-  state.currentContext = TokenizerContextTypes.Attributes
+  state.currentContext = TokenizerContextTypes.XMLDeclarationAttributes
 }
 
 function parseBare(state: TokenizerState) {
-  state.accumulatedContent.replace(state.decisionBuffer)
+  const range: Range = [state.sourceCode.index(), state.sourceCode.index() + 1]
+
+  state.tokens.push({
+    type: TokenTypes.XMLDeclarationAttributeValue,
+    value: state.decisionBuffer.value(),
+    range,
+    loc: state.sourceCode.getLocationOf(range),
+  })
+
+  state.accumulatedContent.clear()
   state.decisionBuffer.clear()
-  state.currentContext = TokenizerContextTypes.AttributeValueBare
+  state.currentContext = TokenizerContextTypes.XMLDeclarationAttributes
   state.sourceCode.next()
 }
 
+/**
+ * Tokenize the start of an XML declaration attribute value.
+ */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
 

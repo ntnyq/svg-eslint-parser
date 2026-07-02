@@ -59,6 +59,9 @@ const dispatch = createTokenDispatcher(
   },
 )
 
+/**
+ * Construct an element attribute from attribute tokens.
+ */
 export function construct(
   token: AnyToken,
   state: ConstructTreeState<ContextualElementNode>,

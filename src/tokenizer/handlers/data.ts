@@ -28,6 +28,13 @@ const INCOMPLETE_COMMENT_START_CHARS = new Set([
   '<!-',
 ])
 
+const INCOMPLETE_XML_DECLARATION_START_CHARS = new Set([
+  SPECIAL_CHAR.openingCorner,
+  '<?',
+  '<?x',
+  '<?xm',
+])
+
 function generateTextToken(state: TokenizerState): Token<TokenTypes.Text> {
   const position = calculateTokenPosition(state, { keepBuffer: false })
   return {
@@ -101,17 +108,36 @@ function parseXMLDeclarationOpen(state: TokenizerState) {
     state.tokens.push(generateTextToken(state))
   }
 
+  const range: Range = [
+    state.sourceCode.index() - (XML_DECLARATION_START.length - 1),
+    state.sourceCode.index() + 1,
+  ]
+
+  state.tokens.push({
+    type: TokenTypes.XMLDeclarationOpen,
+    value: state.decisionBuffer.value(),
+    range,
+    loc: state.sourceCode.getLocationOf(range),
+  })
+
   state.accumulatedContent.clear()
   state.decisionBuffer.clear()
   state.currentContext = TokenizerContextTypes.XMLDeclarationAttributes
   state.sourceCode.next()
 }
 
+/**
+ * Tokenize top-level text and dispatch into markup-specific contexts.
+ */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
 
   if (value === XML_DECLARATION_START) {
     return parseXMLDeclarationOpen(state)
+  }
+
+  if (INCOMPLETE_XML_DECLARATION_START_CHARS.has(value)) {
+    return state.sourceCode.next()
   }
 
   if (RE_OPEN_TAG_START.test(value)) {
@@ -143,6 +169,9 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
   state.sourceCode.next()
 }
 
+/**
+ * Flush buffered text when the source ends in data context.
+ */
 export function handleContentEnd(state: TokenizerState) {
   const textContent =
     state.accumulatedContent.value() + state.decisionBuffer.value()

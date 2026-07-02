@@ -4,6 +4,9 @@
 
 import type { Range, SourceLocation } from './ast'
 
+/**
+ * Categories of recoverable parse diagnostics.
+ */
 export enum ParseErrorType {
   InvalidAttribute = 'InvalidAttribute',
   InvalidCharacter = 'InvalidCharacter',
@@ -16,6 +19,9 @@ export enum ParseErrorType {
   UnmatchedQuote = 'UnmatchedQuote',
 }
 
+/**
+ * Recoverable parser diagnostic with source location information.
+ */
 export interface ParseError {
   loc: SourceLocation
   message: string
@@ -24,6 +30,9 @@ export interface ParseError {
   recovery?: string
 }
 
+/**
+ * Collector interface used while building parser diagnostics.
+ */
 export interface ErrorContext {
   errors: ParseError[]
   warnings: ParseError[]

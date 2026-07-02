@@ -1,3 +1,4 @@
+import { getChildNodes } from './getChildNodes'
 import type { AnyNode } from '../types'
 
 /**
@@ -37,18 +38,8 @@ export function traverseAST(
 
   // Traverse children if not skipped
   if (shouldTraverseChildren) {
-    // Traverse child nodes
-    if ('children' in node && Array.isArray(node.children)) {
-      for (const child of node.children) {
-        traverseAST(child, visitor, node)
-      }
-    }
-
-    // Traverse attributes
-    if ('attributes' in node && Array.isArray(node.attributes)) {
-      for (const attr of node.attributes) {
-        traverseAST(attr as AnyNode, visitor, node)
-      }
+    for (const child of getChildNodes(node)) {
+      traverseAST(child, visitor, node)
     }
   }
 

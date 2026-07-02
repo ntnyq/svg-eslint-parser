@@ -50,6 +50,9 @@ const dispatch = createTokenDispatcher(
   },
 )
 
+/**
+ * Construct a doctype node from doctype tokens.
+ */
 export function construct(
   token: AnyToken,
   state: ConstructTreeState<ContextualDoctypeNode>,

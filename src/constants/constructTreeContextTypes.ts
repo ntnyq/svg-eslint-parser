@@ -1,3 +1,6 @@
+/**
+ * AST construction state machine contexts.
+ */
 export enum ConstructTreeContextTypes {
   Attribute = 'Attribute',
   Attributes = 'Attributes',

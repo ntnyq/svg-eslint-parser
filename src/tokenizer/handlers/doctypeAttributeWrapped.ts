@@ -31,6 +31,9 @@ function parseWrapper(state: TokenizerState) {
   state.contextParams[TokenizerContextTypes.DoctypeAttributeWrapped] = undefined
 }
 
+/**
+ * Tokenize a quoted doctype attribute value.
+ */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
   const wrapperChar =

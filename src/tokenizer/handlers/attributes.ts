@@ -40,6 +40,9 @@ function parseNoneWhitespace(chars: CharsBuffer, state: TokenizerState) {
   state.sourceCode.next()
 }
 
+/**
+ * Tokenize whitespace, assignments, and attribute starts inside an open tag.
+ */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
 

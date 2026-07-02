@@ -8,7 +8,7 @@ function parseWrapper(state: TokenizerState) {
   const endWrapperPosition = position.range[1]
 
   state.tokens.push({
-    type: TokenTypes.AttributeValue,
+    type: TokenTypes.XMLDeclarationAttributeValue,
     value: state.accumulatedContent.value(),
     range: position.range,
     loc: position.loc,
@@ -17,7 +17,7 @@ function parseWrapper(state: TokenizerState) {
   const range: Range = [endWrapperPosition, endWrapperPosition + 1]
 
   state.tokens.push({
-    type: TokenTypes.AttributeValueWrapperEnd,
+    type: TokenTypes.XMLDeclarationAttributeValueWrapperEnd,
     value: state.decisionBuffer.value(),
     range,
     loc: state.sourceCode.getLocationOf(range),
@@ -25,15 +25,22 @@ function parseWrapper(state: TokenizerState) {
 
   state.accumulatedContent.clear()
   state.decisionBuffer.clear()
-  state.currentContext = TokenizerContextTypes.Attributes
+  state.currentContext = TokenizerContextTypes.XMLDeclarationAttributes
   state.sourceCode.next()
 
-  state.contextParams[TokenizerContextTypes.AttributeValueWrapped] = undefined
+  state.contextParams[
+    TokenizerContextTypes.XMLDeclarationAttributeValueWrapped
+  ] = undefined
 }
 
+/**
+ * Tokenize a quoted XML declaration attribute value.
+ */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const wrapperChar =
-    state.contextParams[TokenizerContextTypes.AttributeValueWrapped]?.wrapper
+    state.contextParams[
+      TokenizerContextTypes.XMLDeclarationAttributeValueWrapped
+    ]?.wrapper
 
   if (chars.value() === wrapperChar) {
     return parseWrapper(state)

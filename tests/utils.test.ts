@@ -42,6 +42,18 @@ describe('ast utility functions', () => {
       expect(Array.isArray(textNodes)).toBeTruthy()
     })
 
+    it('should find attribute key and value leaf nodes', () => {
+      const keys = findNodeByType(ast, NodeTypes.AttributeKey)
+      const values = findNodeByType(ast, NodeTypes.AttributeValue)
+
+      expect(keys.map(node => ('value' in node ? node.value : ''))).toContain(
+        'width',
+      )
+      expect(values.map(node => ('value' in node ? node.value : ''))).toContain(
+        '100',
+      )
+    })
+
     it('should return empty array for non-existent types', () => {
       const comments = findNodeByType(ast, NodeTypes.Comment)
       expect(comments).toStrictEqual([])
@@ -89,6 +101,8 @@ describe('ast utility functions', () => {
 
       expect(visited.length).toBeGreaterThan(0)
       expect(visited[0]).toBe(NodeTypes.Document)
+      expect(visited).toContain(NodeTypes.AttributeKey)
+      expect(visited).toContain(NodeTypes.AttributeValue)
     })
 
     it('should call leave hook', () => {
@@ -187,12 +201,29 @@ describe('ast utility functions', () => {
 
       expect(filtered).toHaveLength(1)
     })
+
+    it('should filter attribute value leaf nodes', () => {
+      const filtered = filterNodes(
+        ast,
+        node => node.type === NodeTypes.AttributeValue,
+      )
+
+      expect(filtered.length).toBeGreaterThan(0)
+    })
   })
 
   describe('countNodes', () => {
     it('should count all nodes in AST', () => {
       const count = countNodes(ast)
-      expect(count).toBeGreaterThan(0)
+      const visited: string[] = []
+
+      traverseAST(ast, {
+        enter: node => {
+          visited.push(node.type)
+        },
+      })
+
+      expect(count).toBe(visited.length)
     })
 
     it('should count single node', () => {

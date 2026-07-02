@@ -77,6 +77,11 @@ function tokenizeChars(state: TokenizerState) {
   }
 }
 
+/**
+ * Tokenize SVG source into parser tokens.
+ * @param source - SVG source code
+ * @returns Tokenizer state and emitted tokens
+ */
 export function tokenize(source: string): {
   state: TokenizerState
   tokens: AnyToken[]

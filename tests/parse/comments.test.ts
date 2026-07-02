@@ -13,6 +13,7 @@ describe('comment parsing', () => {
 
     expect(comment.type).toBe(NodeTypes.Comment)
     expect(comment.content).toBe(' This is a comment ')
+    expect(comment.value).toBe(comment.content)
   })
 
   it('should parse empty comments', () => {

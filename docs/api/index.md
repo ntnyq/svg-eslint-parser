@@ -15,7 +15,11 @@ function parseForESLint(
 ): {
   ast: Program
   visitorKeys: VisitorKeys
-  services: { isSVG: true }
+  services: {
+    errors: ParseError[]
+    isSVG: true
+    warnings: ParseError[]
+  }
   scopeManager: null
 }
 ```
@@ -27,6 +31,7 @@ import { parseForESLint } from 'svg-eslint-parser'
 
 const result = parseForESLint('<svg><circle /></svg>')
 console.log(result.ast) // Program node with `document`
+console.log(result.services.errors) // Recoverable parser diagnostics
 ```
 
 ### parse()

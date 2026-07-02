@@ -1,8 +1,4 @@
-import {
-  ConstructTreeContextTypes,
-  SELF_CLOSING_ELEMENTS,
-  TokenTypes,
-} from '../../constants'
+import { ConstructTreeContextTypes, TokenTypes } from '../../constants'
 import { createNodeFrom, updateNodeEnd } from '../../utils'
 import { createTokenDispatcher } from '../handlerFactory'
 import type {
@@ -46,11 +42,7 @@ const dispatch = createTokenDispatcher(
         state.currentNode.openEnd = createNodeFrom(token)
         updateNodeEnd(state.currentNode, token)
 
-        if (
-          tagName &&
-          SELF_CLOSING_ELEMENTS.has(tagName) &&
-          state.currentNode.openEnd.value === '/>'
-        ) {
+        if (tagName && state.currentNode.openEnd.value === '/>') {
           state.currentNode.selfClosing = true
           state.currentNode = state.currentNode.parentRef
           state.currentContext = state.currentContext.parentRef
@@ -85,6 +77,9 @@ const dispatch = createTokenDispatcher(
   },
 )
 
+/**
+ * Construct an element node after its opening tag has started.
+ */
 export function construct(
   token: AnyToken,
   state: ConstructTreeState<ContextualElementNode>,

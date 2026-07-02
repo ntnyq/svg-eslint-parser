@@ -2,29 +2,47 @@ import type { NodeTypes } from '../../constants'
 import type { Locations } from './common'
 import type { AnyToken } from './token'
 
+/**
+ * Base shape shared by all AST nodes.
+ */
 export interface BaseNode extends Locations {
   type: NodeTypes
 }
 
+/**
+ * Leaf AST node that stores a string value.
+ */
 export interface SimpleNode<T extends NodeTypes> extends BaseNode {
   type: T
   value: string
 }
 
+/**
+ * Text content between SVG/XML nodes.
+ */
 export type TextNode = SimpleNode<NodeTypes.Text>
 
-// ESLint expects comments to be plain objects with loc/range
+/**
+ * ESLint-compatible comment object.
+ */
 export interface ESLintComment extends Locations {
   type: 'Block' | 'Line'
   value: string
 }
 
 /**
- * attribute nodes
- * @pg
+ * Attribute key node.
  */
 export type AttributeKeyNode = SimpleNode<NodeTypes.AttributeKey>
+
+/**
+ * Attribute value node.
+ */
 export type AttributeValueNode = SimpleNode<NodeTypes.AttributeValue>
+
+/**
+ * Element attribute node.
+ */
 export interface AttributeNode extends BaseNode {
   key: AttributeKeyNode
   type: NodeTypes.Attribute
@@ -33,33 +51,38 @@ export interface AttributeNode extends BaseNode {
 }
 
 /**
- * comment nodes
- * @pg
+ * SVG/XML comment node.
  */
 export interface CommentNode extends BaseNode {
   content: string
   type: NodeTypes.Comment
+  value: string
 }
 
 /**
- * doctype nodes
- * @pg
+ * Doctype attribute value node.
  */
 export type DoctypeAttributeValueNode =
   SimpleNode<NodeTypes.DoctypeAttributeValue>
+
+/**
+ * Doctype attribute node.
+ */
 export interface DoctypeAttributeNode extends BaseNode {
   type: NodeTypes.DoctypeAttribute
   quoteChar?: '"' | "'" | undefined
   value?: DoctypeAttributeValueNode
 }
+/**
+ * Doctype declaration node.
+ */
 export interface DoctypeNode extends BaseNode {
   attributes: DoctypeAttributeNode[]
   type: NodeTypes.Doctype
 }
 
 /**
- * element nodes
- * @pg
+ * SVG/XML element node.
  */
 export interface ElementNode extends BaseNode {
   attributes: AttributeNode[]
@@ -70,26 +93,36 @@ export interface ElementNode extends BaseNode {
 }
 
 /**
- * XML declaration nodes
+ * XML declaration attribute key node.
  */
 export type XMLDeclarationAttributeKeyNode =
   SimpleNode<NodeTypes.XMLDeclarationAttributeKey>
+
+/**
+ * XML declaration attribute value node.
+ */
 export type XMLDeclarationAttributeValueNode =
   SimpleNode<NodeTypes.XMLDeclarationAttributeValue>
+
+/**
+ * XML declaration attribute node.
+ */
 export interface XMLDeclarationAttributeNode extends BaseNode {
   key: XMLDeclarationAttributeKeyNode
   type: NodeTypes.XMLDeclarationAttribute
   quoteChar?: '"' | "'" | undefined
   value?: XMLDeclarationAttributeValueNode
 }
+/**
+ * XML declaration node.
+ */
 export interface XMLDeclarationNode extends BaseNode {
   attributes: XMLDeclarationAttributeNode[]
   type: NodeTypes.XMLDeclaration
 }
 
 /**
- * error nodes
- * @pg
+ * Parser recovery error node.
  */
 export interface ErrorNode extends BaseNode {
   code: string
@@ -99,8 +132,7 @@ export interface ErrorNode extends BaseNode {
 }
 
 /**
- * child node
- * @pg
+ * Node types allowed as direct document children.
  */
 export type DocumentChildNode =
   | CommentNode
@@ -109,11 +141,13 @@ export type DocumentChildNode =
   | TextNode
   | XMLDeclarationNode
 
+/**
+ * Node types allowed as element children.
+ */
 export type ElementChildNode = CommentNode | ElementNode | TextNode
 
 /**
- * program
- * @pg
+ * ESLint program wrapper around the SVG document.
  */
 export interface Program extends BaseNode {
   body: []
@@ -123,14 +157,16 @@ export interface Program extends BaseNode {
   type: NodeTypes.Program
 }
 
+/**
+ * Root SVG document node.
+ */
 export interface DocumentNode extends BaseNode {
   children: DocumentChildNode[]
   type: NodeTypes.Document
 }
 
 /**
- * any node
- * @pg
+ * Union of every parser AST node.
  */
 export type AnyNode =
   | AttributeKeyNode

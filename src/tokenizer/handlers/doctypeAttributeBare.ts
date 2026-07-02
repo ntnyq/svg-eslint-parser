@@ -22,6 +22,9 @@ function parseAttributeEnd(state: TokenizerState) {
   state.currentContext = TokenizerContextTypes.DoctypeAttributes
 }
 
+/**
+ * Tokenize an unquoted doctype attribute value.
+ */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
 

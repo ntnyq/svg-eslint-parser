@@ -32,6 +32,9 @@ function parseKeyEnd(state: TokenizerState) {
   state.currentContext = TokenizerContextTypes.XMLDeclarationAttributes
 }
 
+/**
+ * Tokenize an XML declaration attribute key.
+ */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   if (isKeyBreak(chars)) {
     return parseKeyEnd(state)

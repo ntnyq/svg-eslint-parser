@@ -9,11 +9,17 @@ import type {
   Program,
 } from '../types'
 
+/**
+ * Parse SVG source into an ESLint-compatible parser result.
+ * @param source - SVG source code
+ * @param options - Parser options forwarded to the base parser
+ * @returns ESLint parser result with visitor keys, services, tokens, and comments
+ */
 export function parseForESLint(
   source: string,
   options: Options = {},
 ): ParseForESLintResult {
-  const { ast, tokens } = parse(source, options)
+  const { ast, errors, tokens, warnings } = parse(source, options)
   const programNode: Program = {
     type: NodeTypes.Program,
     body: [],
@@ -49,7 +55,9 @@ export function parseForESLint(
     visitorKeys,
     scopeManager: null,
     services: {
+      errors,
       isSVG: true,
+      warnings,
     },
   }
 }

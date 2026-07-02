@@ -19,6 +19,7 @@ const dispatch = createTokenDispatcher([
     tokenType: TokenTypes.CommentContent,
     handler(token, state) {
       state.currentNode.content = token.value
+      state.currentNode.value = token.value
       state.caretPosition++
       return state
     },
@@ -35,6 +36,9 @@ const dispatch = createTokenDispatcher([
   },
 ])
 
+/**
+ * Construct a comment node from comment tokens.
+ */
 export function construct(
   token: AnyToken,
   state: ConstructTreeState<ContextualCommentNode>,

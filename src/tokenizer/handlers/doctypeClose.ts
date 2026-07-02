@@ -3,6 +3,9 @@ import { calculateTokenPosition } from '../../utils'
 import type { TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
+/**
+ * Tokenize the closing delimiter of a doctype declaration.
+ */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const position = calculateTokenPosition(state, { keepBuffer: true })
 

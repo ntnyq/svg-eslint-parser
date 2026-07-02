@@ -1,6 +1,10 @@
 import type { SourceCode } from 'eslint'
 import type { AnyToken, DocumentNode, Program } from './ast'
+import type { ParseError } from './errors'
 
+/**
+ * Parser options accepted by direct and ESLint parse entry points.
+ */
 export interface Options {
   comment?: boolean
   /**
@@ -25,11 +29,20 @@ export interface Options {
 export interface ParseForESLintResult {
   ast: Program
   scopeManager: any
-  services: { isSVG: boolean }
   visitorKeys: SourceCode.VisitorKeys
+  services: {
+    errors: ParseError[]
+    isSVG: boolean
+    warnings: ParseError[]
+  }
 }
 
+/**
+ * Result returned by the direct parser entry point.
+ */
 export interface ParseResult {
   ast: DocumentNode
+  errors: ParseError[]
   tokens: AnyToken[]
+  warnings: ParseError[]
 }

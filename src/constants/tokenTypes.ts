@@ -1,3 +1,6 @@
+/**
+ * Token type names emitted by tokenizer contexts.
+ */
 export enum TokenTypes {
   /**
    * @pg Content tokens

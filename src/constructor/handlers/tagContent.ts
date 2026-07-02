@@ -3,6 +3,7 @@ import {
   NodeTypes,
   TokenTypes,
 } from '../../constants'
+import { ParseErrorType } from '../../types'
 import {
   cloneLocation,
   cloneRange,
@@ -17,11 +18,49 @@ import type {
   ContextualCommentNode,
   ContextualDoctypeNode,
   ContextualElementNode,
+  ContextualXMLDeclarationNode,
   TextNode,
 } from '../../types'
 
+function addUnclosedTagError(
+  state: ConstructTreeState<any>,
+  node: ContextualElementNode,
+) {
+  state.errorHandler.addError({
+    type: ParseErrorType.UnclosedTag,
+    message: `Unclosed tag "${node.name ?? 'unknown'}".`,
+    range: cloneRange(node.range),
+    loc: cloneLocation(node.loc),
+    recovery: 'The parser kept the partial element in the AST.',
+  })
+}
+
 const dispatch = createTokenDispatcher(
   [
+    {
+      tokenType: TokenTypes.XMLDeclarationOpen,
+      handler(token, state) {
+        if (state.currentNode.type !== NodeTypes.Document) {
+          state.caretPosition++
+          return state
+        }
+        initChildrenIfNone(state.currentNode)
+        const declarationNode: ContextualXMLDeclarationNode = {
+          type: NodeTypes.XMLDeclaration,
+          parentRef: state.currentNode,
+          range: cloneRange(token.range),
+          loc: cloneLocation(token.loc),
+          attributes: [],
+        }
+        state.currentNode.children.push(declarationNode)
+        state.currentNode = declarationNode as any
+        state.currentContext = {
+          parentRef: state.currentContext,
+          type: ConstructTreeContextTypes.XMLDeclaration,
+        }
+        return state
+      },
+    },
     {
       tokenType: TokenTypes.OpenTagStart,
       handler(token, state) {
@@ -82,6 +121,35 @@ const dispatch = createTokenDispatcher(
       handler(token, state) {
         const closeTagName = parseCloseTagName(token.value)
         if (closeTagName !== state.currentNode.name) {
+          state.errorHandler.addError({
+            type: ParseErrorType.MismatchedTag,
+            message: `Expected closing tag for "${state.currentNode.name ?? 'unknown'}" but found "${closeTagName}".`,
+            range: cloneRange(token.range),
+            loc: cloneLocation(token.loc),
+            recovery: 'The mismatched closing tag was skipped.',
+          })
+
+          let ancestor = state.currentNode.parentRef
+          let context = state.currentContext.parentRef?.parentRef
+
+          while (ancestor && ancestor.type !== NodeTypes.Document) {
+            if (ancestor.name === closeTagName) {
+              let unclosedNode = state.currentNode
+
+              while (unclosedNode && unclosedNode !== ancestor) {
+                addUnclosedTagError(state, unclosedNode)
+                unclosedNode = unclosedNode.parentRef
+              }
+
+              state.currentNode = ancestor
+              state.currentContext = context
+              return state
+            }
+
+            ancestor = ancestor.parentRef
+            context = context?.parentRef?.parentRef
+          }
+
           state.caretPosition++
           return state
         }
@@ -115,6 +183,9 @@ const dispatch = createTokenDispatcher(
   },
 )
 
+/**
+ * Construct document or element children from content tokens.
+ */
 export function construct(
   token: AnyToken,
   state: ConstructTreeState<ContextualElementNode>,

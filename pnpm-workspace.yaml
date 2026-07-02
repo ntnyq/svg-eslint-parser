@@ -3,6 +3,7 @@ packages:
 
 overrides:
   esbuild: ^0.28.1
+  eslint-plugin-oxfmt: ^0.12.1
 
 allowBuilds:
   esbuild: true

@@ -43,6 +43,9 @@ function parseBare(state: TokenizerState) {
   state.sourceCode.next()
 }
 
+/**
+ * Tokenize doctype attributes and the doctype close transition.
+ */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
 
