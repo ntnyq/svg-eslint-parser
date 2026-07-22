@@ -35,6 +35,11 @@ describe('ast utility functions', () => {
       expect(
         elements.every(node => node.type === NodeTypes.Element),
       ).toBeTruthy()
+      expect(elements.map(element => element.name)).toStrictEqual([
+        'svg',
+        'circle',
+        'rect',
+      ])
     })
 
     it('should find text nodes', () => {
@@ -65,6 +70,7 @@ describe('ast utility functions', () => {
       const firstTag = findFirstNodeByType(ast, NodeTypes.Element)
       expect(firstTag).toBeDefined()
       expect(firstTag?.type).toBe(NodeTypes.Element)
+      expect(firstTag?.name).toBe('svg')
     })
 
     it('should return undefined for non-existent types', () => {

@@ -2,6 +2,8 @@ import { getChildNodes } from './getChildNodes'
 import type { NodeTypes } from '../constants'
 import type { AnyNode } from '../types'
 
+type NodeOfType<Type extends NodeTypes> = Extract<AnyNode, { type: Type }>
+
 /**
  * Find all nodes of a specific type in the AST
  * @param node - Root node to search from
@@ -11,8 +13,8 @@ import type { AnyNode } from '../types'
 export function findNodeByType<T extends NodeTypes>(
   node: AnyNode,
   type: T,
-): AnyNode[] {
-  const results: AnyNode[] = []
+): NodeOfType<T>[] {
+  const results: NodeOfType<T>[] = []
   const stack = [node]
 
   while (stack.length > 0) {
@@ -23,7 +25,7 @@ export function findNodeByType<T extends NodeTypes>(
     }
 
     if (currentNode.type === type) {
-      results.push(currentNode)
+      results.push(currentNode as NodeOfType<T>)
     }
 
     const children = getChildNodes(currentNode)
@@ -45,7 +47,7 @@ export function findNodeByType<T extends NodeTypes>(
 export function findFirstNodeByType<T extends NodeTypes>(
   node: AnyNode,
   type: T,
-): AnyNode | undefined {
+): NodeOfType<T> | undefined {
   const stack = [node]
 
   while (stack.length > 0) {
@@ -56,7 +58,7 @@ export function findFirstNodeByType<T extends NodeTypes>(
     }
 
     if (currentNode.type === type) {
-      return currentNode
+      return currentNode as NodeOfType<T>
     }
 
     const children = getChildNodes(currentNode)
