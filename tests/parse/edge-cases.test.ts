@@ -25,7 +25,7 @@ describe('edge cases', () => {
 
   it('should handle unclosed elements gracefully', () => {
     const source = '<div><span>Text'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
 
     expect(document.type).toBe(NodeTypes.Document)
@@ -35,7 +35,7 @@ describe('edge cases', () => {
 
   it('should handle mismatched elements', () => {
     const source = '<div></span>'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
 
     expect(document.type).toBe(NodeTypes.Document)
@@ -44,7 +44,7 @@ describe('edge cases', () => {
 
   it('should handle elements with no closing bracket', () => {
     const source = '<div'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
 
     expect(document.type).toBe(NodeTypes.Document)
@@ -117,7 +117,7 @@ describe('edge cases', () => {
 
   it('should handle attributes with no value and no equals', () => {
     const source = '<input checked>'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
     const element = document.children[0] as ElementNode
 

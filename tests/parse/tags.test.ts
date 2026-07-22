@@ -117,7 +117,7 @@ describe('element parsing', () => {
 
   it('should report closing tags with mismatched case', () => {
     const source = '<linearGradient></lineargradient>'
-    const { services } = parseForESLint(source)
+    const { services } = parseForESLint(source, { errorRecovery: true })
 
     expect(services.errors).toEqual(
       expect.arrayContaining([

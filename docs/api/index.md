@@ -24,6 +24,10 @@ function parseForESLint(
 }
 ```
 
+Parsing is strict by default. Invalid SVG throws a positioned `ParseError`, so
+ESLint reports it as a parsing error. Pass `{ errorRecovery: true }` to receive
+the recovered AST and inspect `services.errors` instead.
+
 **Example:**
 
 ```typescript

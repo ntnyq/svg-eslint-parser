@@ -8,6 +8,12 @@ import type { ParseError } from './errors'
 export interface Options {
   comment?: boolean
   /**
+   * Return a recovered AST and diagnostics instead of throwing the first
+   * parser error.
+   * @default false
+   */
+  errorRecovery?: boolean
+  /**
    * eslint features
    */
   eslintScopeManager?: boolean

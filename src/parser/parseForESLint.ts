@@ -1,5 +1,6 @@
 import { NodeTypes, TokenTypes } from '../constants'
 import { visitorKeys } from '../visitorKeys'
+import { ParseError } from './error'
 import { parse } from './parse'
 import { traverse } from './traverse'
 import type {
@@ -20,6 +21,19 @@ export function parseForESLint(
   options: Options = {},
 ): ParseForESLintResult {
   const { ast, errors, tokens, warnings } = parse(source, options)
+
+  if (!options.errorRecovery && errors.length > 0) {
+    const [error] = errors
+
+    throw new ParseError(error.message, {
+      cause: error,
+      code: error.type,
+      offset: error.range[0],
+      line: error.loc.start.line,
+      column: error.loc.start.column + 1,
+    })
+  }
+
   const programNode: Program = {
     type: NodeTypes.Program,
     body: [],

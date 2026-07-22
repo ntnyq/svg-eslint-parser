@@ -117,7 +117,7 @@ describe('error handler', () => {
 
 describe('parser diagnostics', () => {
   it('reports recovered mismatched and unclosed tags', () => {
-    const result = parseForESLint('<svg><g></svg>')
+    const result = parseForESLint('<svg><g></svg>', { errorRecovery: true })
 
     expect(result.services.errors.map(error => error.type)).toEqual([
       ParseErrorType.MismatchedTag,

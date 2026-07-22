@@ -112,6 +112,9 @@ traverseAST(document, {
 
 Returns an ESLint-compatible result with AST, visitor keys, and services. Recoverable parser diagnostics are available on `services.errors` and `services.warnings`.
 
+Parsing is strict by default and throws `ParseError` for invalid SVG. Pass
+`{ errorRecovery: true }` to return a recovered AST with diagnostics instead.
+
 #### `parse(code: string, options?: ParserOptions)`
 
 Returns a Document node directly.
