@@ -43,7 +43,7 @@ export interface SVGParserServices {
  */
 export interface ParseForESLintResult {
   ast: Program
-  scopeManager: any
+  scopeManager: null
   services: SVGParserServices
   visitorKeys: SourceCode.VisitorKeys
 }

@@ -37,6 +37,13 @@ describe('parser api', () => {
       expect(result.services.isSVG).toBeTruthy()
     })
 
+    it('should return no scope manager', () => {
+      const result = parseForESLint('<svg />')
+
+      expect(result.scopeManager).toBeNull()
+      expectTypeOf(result.scopeManager).toEqualTypeOf<null>()
+    })
+
     it('should include tokens array', () => {
       const source = '<div>Test</div>'
       const result = parseForESLint(source)
