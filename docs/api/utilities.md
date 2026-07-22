@@ -18,8 +18,7 @@ function findNodeByType<T extends NodeTypes>(
 **Example:**
 
 ```typescript
-import { parseForESLint } from 'svg-eslint-parser'
-import { findNodeByType, NodeTypes } from 'svg-eslint-parser'
+import { findNodeByType, NodeTypes, parseForESLint } from 'svg-eslint-parser'
 
 const { ast } = parseForESLint('<svg><circle /></svg>')
 const tags = findNodeByType(ast.document, NodeTypes.Element)
@@ -50,11 +49,15 @@ Traverse the AST using the visitor pattern with enter and leave hooks.
 
 ```typescript
 interface ASTVisitor {
-  enter?: (node: AnyNode, parent?: AnyNode) => void | boolean
-  leave?: (node: AnyNode, parent?: AnyNode) => void
+  enter?: (node: AnyNode, parent: AnyNode | null) => void | boolean
+  leave?: (node: AnyNode, parent: AnyNode | null) => void
 }
 
-function traverseAST(node: AnyNode, visitor: ASTVisitor, parent?: AnyNode): void
+function traverseAST(
+  node: AnyNode,
+  visitor: ASTVisitor,
+  parent?: AnyNode | null,
+): void
 ```
 
 The `enter` hook can return `false` to skip visiting children of the current node.
@@ -84,7 +87,10 @@ remain safe for deeply nested SVG documents.
 Simple AST traversal with a callback function.
 
 ```typescript
-function walkAST(node: AnyNode, callback: (node: AnyNode) => void): void
+function walkAST(
+  node: AnyNode,
+  callback: (node: AnyNode, parent: AnyNode | null) => void,
+): void
 ```
 
 **Example:**
@@ -136,7 +142,7 @@ function isNodeType<T extends NodeTypes>(
 import { isNodeType, NodeTypes } from 'svg-eslint-parser'
 
 if (isNodeType(node, NodeTypes.Element)) {
-  // TypeScript knows node is a ElementNode here
+  // TypeScript knows node is an ElementNode here
   console.log('Element name:', node.name)
 }
 ```
@@ -157,6 +163,7 @@ function cloneNode<T extends AnyNode>(node: T): T
 import { cloneNode } from 'svg-eslint-parser'
 
 const original = findFirstNodeByType(ast.document, NodeTypes.Element)
+if (!original) throw new Error('Expected an SVG root element')
 const cloned = cloneNode(original)
 // cloned is a deep copy without parent references
 ```
@@ -205,19 +212,27 @@ const tagsWithWidth = filterNodes(ast.document, node => {
 
 ### mapNodes()
 
-Transform all nodes in the AST using a mapper function.
+Transform a node tree with a mapper. The mapper must return an AST node, and the
+function returns the transformed root with the same static root type.
 
 ```typescript
-function mapNodes<T>(node: AnyNode, mapper: (node: AnyNode) => T): T[]
+function mapNodes<T extends AnyNode>(
+  node: T,
+  mapper: (node: AnyNode) => AnyNode,
+): T
 ```
 
 **Example:**
 
 ```typescript
-import { mapNodes } from 'svg-eslint-parser'
+import { cloneNode, mapNodes, NodeTypes } from 'svg-eslint-parser'
 
-// Extract all node types
-const types = mapNodes(ast.document, node => node.type)
+const renamed = mapNodes(cloneNode(ast.document), node => {
+  if (node.type === NodeTypes.Element && node.name === 'circle') {
+    return { ...node, name: 'ellipse' }
+  }
+  return node
+})
 ```
 
 ## Analysis
@@ -255,7 +270,7 @@ function getNodeDepth(node: AnyNode): number
 import { getNodeDepth, cloneNodeWithParent } from 'svg-eslint-parser'
 
 const astWithParents = cloneNodeWithParent(ast.document)
-const depth = getNodeDepth(someNode)
+const depth = getNodeDepth(astWithParents.children[0]!)
 // Returns 0 for root, 1 for direct children, etc.
 ```
 
@@ -275,7 +290,7 @@ function getParentChain(node: AnyNode): AnyNode[]
 import { getParentChain, cloneNodeWithParent } from 'svg-eslint-parser'
 
 const astWithParents = cloneNodeWithParent(ast.document)
-const ancestors = getParentChain(someNode)
+const ancestors = getParentChain(astWithParents.children[0]!)
 // Returns [parent, grandparent, ..., root]
 ```
 

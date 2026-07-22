@@ -13,20 +13,21 @@ The parser defines **18 node types** organized into the following categories:
 The root node returned by `parseForESLint()`. Wraps the Document node with ESLint-specific metadata.
 
 ```typescript
-interface ProgramNode {
+interface Program {
   type: 'Program'
   body: []
   document: DocumentNode
   range: [number, number]
   loc: SourceLocation
-  tokens: Token[]
+  tokens: AnyToken[]
   comments: ESLintComment[]
 }
 ```
 
 #### Document
 
-The root node of the SVG document. Contains all top-level elements, text, and comments.
+The XML document node. Its `children` preserve prolog nodes, the root element,
+comments, processing instructions, and surrounding whitespace in source order.
 
 ```typescript
 interface DocumentNode {
@@ -76,6 +77,7 @@ interface AttributeNode {
   type: 'Attribute'
   key: AttributeKeyNode
   value?: AttributeValueNode
+  quoteChar?: '"' | "'"
   range: [number, number]
   loc: SourceLocation
 }
@@ -96,7 +98,8 @@ interface AttributeKeyNode {
 
 #### AttributeValue
 
-The attribute value with its wrapper quotes.
+The attribute value without its wrapper quotes. The wrapper is recorded on the
+parent `AttributeNode.quoteChar`.
 
 ```typescript
 interface AttributeValueNode {
@@ -187,7 +190,8 @@ An attribute in the XML declaration.
 interface XMLDeclarationAttributeNode {
   type: 'XMLDeclarationAttribute'
   key: XMLDeclarationAttributeKeyNode
-  value: XMLDeclarationAttributeValueNode
+  value?: XMLDeclarationAttributeValueNode
+  quoteChar?: '"' | "'"
   range: [number, number]
   loc: SourceLocation
 }
@@ -243,7 +247,8 @@ An attribute in the DOCTYPE declaration.
 ```typescript
 interface DoctypeAttributeNode {
   type: 'DoctypeAttribute'
-  value: DoctypeAttributeValueNode
+  value?: DoctypeAttributeValueNode
+  quoteChar?: '"' | "'"
   range: [number, number]
   loc: SourceLocation
 }
@@ -271,7 +276,9 @@ Represents a parse error node.
 ```typescript
 interface ErrorNode {
   type: 'Error'
+  code: string
   message: string
+  recoveredNode?: AnyNode
   range: [number, number]
   loc: SourceLocation
 }
@@ -283,7 +290,7 @@ All nodes share these common properties:
 
 ### range
 
-Tuple of start and end character positions in the source code (0-based).
+Tuple of start and end-exclusive character offsets in the source code (0-based).
 
 ```typescript
 range: [number, number]
@@ -291,7 +298,7 @@ range: [number, number]
 
 ### loc
 
-Source location information with line and column numbers (1-based).
+Source location information with 1-based lines and 0-based columns.
 
 ```typescript
 interface SourceLocation {
@@ -311,56 +318,51 @@ For the SVG:
 
 ```xml
 <svg width="100" height="100">
-  <circle cx="50" cy="50" r="40" />
+  <circle />
 </svg>
 ```
 
-The parser generates:
+The abbreviated shape is:
 
-```json
+```jsonc
 {
   "type": "Program",
-  "body": [
-    {
-      "type": "Document",
-      "children": [
-        {
-          "type": "Element",
-          "name": "svg",
-          "attributes": [
-            {
-              "type": "Attribute",
-              "key": {
-                "type": "AttributeKey",
-                "value": "width"
-              },
-              "value": {
-                "type": "AttributeValue",
-                "value": "100"
-              }
-            }
-            // ... more attributes
-          ],
-          "children": [
-            {
-              "type": "Text",
-              "value": "\n  "
-            },
-            {
-              "type": "Element",
-              "name": "circle",
-              "selfClosing": true,
-              "attributes": [/* ... */],
-              "children": []
-            }
-            // ... more children
-          ]
-        }
-      ]
-    }
-  ]
+  "body": [],
+  "document": {
+    "type": "Document",
+    "children": [
+      {
+        "type": "Element",
+        "name": "svg",
+        "selfClosing": false,
+        "attributes": [
+          {
+            "type": "Attribute",
+            "key": { "type": "AttributeKey", "value": "width" },
+            "value": { "type": "AttributeValue", "value": "100" },
+            "quoteChar": "\"",
+          },
+          // height attribute omitted
+        ],
+        "children": [
+          { "type": "Text", "value": "\n  " },
+          {
+            "type": "Element",
+            "name": "circle",
+            "selfClosing": true,
+            "attributes": [],
+            "children": [],
+          },
+          { "type": "Text", "value": "\n" },
+        ],
+      },
+    ],
+  },
 }
 ```
+
+Every node also includes `range` and `loc`; the `Program` additionally includes
+ESLint `tokens` and `comments` arrays.
 
 ## Traversing the AST
 

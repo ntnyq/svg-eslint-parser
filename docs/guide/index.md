@@ -2,6 +2,8 @@
 
 ## Install
 
+Requires Node.js 18.18 or newer and ESLint 9 or newer.
+
 ::: code-group
 
 ```shell [npm]

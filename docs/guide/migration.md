@@ -284,7 +284,7 @@ const totalNodes = countNodes(ast.document)
 console.log(`Total nodes: ${totalNodes}`)
 
 const astWithParents = cloneNodeWithParent(ast.document)
-const depth = getNodeDepth(someNode)
+const depth = getNodeDepth(astWithParents.children[0]!)
 console.log(`Node depth: ${depth}`)
 ```
 
@@ -378,7 +378,9 @@ if (isNodeType(node, NodeTypes.Element)) {
 
 ### Issue: "Parent references are undefined"
 
-**Solution:** Parent references are removed by default for performance. Use `cloneNodeWithParent()` if you need them:
+**Solution:** Direct parse results omit parent references to keep the AST acyclic.
+ESLint supplies parent links while rules run. For direct AST work, use
+`cloneNodeWithParent()` when you need stable parent references:
 
 ```typescript
 import { cloneNodeWithParent } from 'svg-eslint-parser'
@@ -413,6 +415,6 @@ export default [
 ## Future Plans
 
 - More utility functions based on community feedback
-- Performance optimizations for large SVG files
-- Enhanced error recovery and reporting
+- Incremental parsing for editor integrations
+- Optional DTD and entity analysis
 - Source map support for transformations

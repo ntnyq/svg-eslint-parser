@@ -18,10 +18,12 @@
 - 🎯 **Type Safe**: Full TypeScript support with comprehensive type definitions
 - 🔍 **Rich Utilities**: Built-in functions for searching, traversing, and manipulating AST
 - 📊 **Detailed AST**: 18 node types covering core SVG/XML constructs
-- 🚀 **Zero Dependencies**: Minimal runtime dependencies for fast installation
+- 🚀 **Zero Runtime Dependencies**: No runtime package dependencies or framework coupling
 - 🎪 **Interactive Playground**: Try it online at [svg-eslint-parser.ntnyq.com](https://svg-eslint-parser.ntnyq.com/play)
 
 ## Install
+
+Requires Node.js 18.18 or newer and ESLint 9 or newer.
 
 ```shell
 npm install svg-eslint-parser -D
@@ -108,7 +110,7 @@ traverseAST(document, {
 
 ### Parser Functions
 
-#### `parseForESLint(code: string, options?: ParserOptions)`
+#### `parseForESLint(code: string, options?: Options)`
 
 Returns an ESLint-compatible result with AST, visitor keys, and services. Recoverable parser diagnostics are available on `services.errors` and `services.warnings`.
 
@@ -118,7 +120,7 @@ Strict parsing also enforces XML well-formedness: one root element, legal
 prolog placement, matching DOCTYPE roots, valid names and comments, and unique
 quoted attributes with values.
 
-#### `parse(code: string, options?: ParserOptions)`
+#### `parse(code: string, options?: Options)`
 
 Returns a Document node directly.
 
@@ -163,7 +165,7 @@ export default defineSVGRule({
 - `cloneNode<T>(node)` - Deep clone without parent references
 - `cloneNodeWithParent<T>(node, parent?)` - Clone preserving parent refs
 - `filterNodes(node, predicate)` - Filter nodes by predicate
-- `mapNodes<T>(node, mapper)` - Map over all nodes
+- `mapNodes<T>(node, mapper)` - Transform a node tree
 
 #### Analysis
 

@@ -31,6 +31,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": false,
   "scripts": {
     "build": "tsdown",
@@ -50,6 +53,9 @@
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsgo --noEmit"
   },
+  "peerDependencies": {
+    "eslint": ">=9.0.0"
+  },
   "devDependencies": {
     "@ntnyq/eslint-config": "^7.0.0-beta.13",
     "@types/node": "^26.1.1",
@@ -64,6 +70,9 @@
     "tsdown": "^0.22.13",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10"
+  },
+  "engines": {
+    "node": ">=18.18.0"
   },
   "nano-staged": {
     "*.{js,ts,mjs,tsx,vue,md,yml,yaml,json,toml}": "eslint --fix",

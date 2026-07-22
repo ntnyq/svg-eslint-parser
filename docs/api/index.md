@@ -11,7 +11,7 @@ The primary entry point for ESLint integration. Returns an object with the AST, 
 ```typescript
 function parseForESLint(
   code: string,
-  options?: ParserOptions,
+  options?: Options,
 ): {
   ast: Program
   visitorKeys: VisitorKeys
@@ -51,7 +51,7 @@ possible and reported through `services.errors` with source ranges.
 Simple parsing function that returns the Document node directly (without ESLint wrapping).
 
 ```typescript
-function parse(code: string, options?: ParserOptions): DocumentNode
+function parse(code: string, options?: Options): DocumentNode
 ```
 
 **Example:**
@@ -79,7 +79,7 @@ All TypeScript types are exported from the main entry point:
 import type {
   // Node types
   AnyNode,
-  ProgramNode,
+  Program,
   DocumentNode,
   ElementNode,
   AttributeNode,
