@@ -20,6 +20,7 @@ const dispatch = createTokenDispatcher([
     handler(token, state) {
       state.currentNode.content = token.value
       state.currentNode.value = token.value
+      updateNodeEnd(state.currentNode, token)
       state.caretPosition++
       return state
     },

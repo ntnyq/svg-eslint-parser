@@ -34,6 +34,9 @@ console.log(result.ast) // Program node with `document`
 console.log(result.services.errors) // Recoverable parser diagnostics
 ```
 
+Incomplete tags, comments, declarations, and quoted values are preserved when
+possible and reported through `services.errors` with source ranges.
+
 ### parse()
 
 Simple parsing function that returns the Document node directly (without ESLint wrapping).

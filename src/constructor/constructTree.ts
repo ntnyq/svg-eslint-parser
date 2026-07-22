@@ -1,7 +1,7 @@
 import { ConstructTreeContextTypes, NodeTypes } from '../constants'
 import { ErrorHandler } from '../parser/errorHandler'
 import { ParseErrorType } from '../types'
-import { cloneLocation, cloneRange, first, last } from '../utils'
+import { cloneLocation, cloneRange, getLineInfo } from '../utils'
 import {
   attribute,
   attributes,
@@ -102,7 +102,7 @@ function reportUnclosedNodes(state: ConstructTreeState<any>) {
  * @param tokens - Tokens produced from SVG source
  * @returns Constructed AST, final constructor state, and recoverable diagnostics
  */
-export function constructTree(tokens: AnyToken[]) {
+export function constructTree(tokens: AnyToken[], source: string) {
   const rootContext: ConstructTreeState<ContextualDocumentNode>['currentContext'] =
     {
       type: ConstructTreeContextTypes.TagContent,
@@ -110,18 +110,14 @@ export function constructTree(tokens: AnyToken[]) {
       content: [],
     }
 
-  const lastToken = last(tokens)
-  const firstToken = first(tokens)
-  const range: Range = lastToken ? [0, lastToken.range[1]] : EMPTY_RANGE
-  const loc =
-    lastToken && firstToken
+  const range: Range = source.length > 0 ? [0, source.length] : EMPTY_RANGE
+  const loc: SourceLocation =
+    source.length > 0
       ? {
-          start: cloneLocation(firstToken.loc).start,
-          end: cloneLocation(lastToken.loc).end,
+          start: EMPTY_LOC.start,
+          end: getLineInfo(source, source.length),
         }
       : EMPTY_LOC
-
-  loc.start.line = 1
 
   const rootNode: DocumentNode = {
     type: NodeTypes.Document,

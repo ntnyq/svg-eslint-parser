@@ -2,6 +2,7 @@ import type { TokenizerContextTypes } from '../constants'
 import type { CharsBuffer } from '../tokenizer/charsBuffer'
 import type { SourceCode } from '../tokenizer/sourceCode'
 import type { AnyToken } from './ast'
+import type { ParseError } from './errors'
 
 /**
  * Mutable state shared by tokenizer handlers.
@@ -11,6 +12,7 @@ export type TokenizerState = {
   contextParams: ContextParams
   currentContext: TokenizerContextTypes
   decisionBuffer: CharsBuffer
+  errors: ParseError[]
   sourceCode: SourceCode
   tokens: {
     push(token: AnyToken): void

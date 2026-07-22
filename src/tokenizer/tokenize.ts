@@ -1,5 +1,6 @@
 import { TokenizerContextTypes } from '../constants'
 import { CharsBuffer } from './charsBuffer'
+import { finalizeTokenizer } from './finalize'
 import {
   attributeKey,
   attributes,
@@ -75,6 +76,8 @@ function tokenizeChars(state: TokenizerState) {
   if (handler.handleContentEnd !== undefined) {
     handler.handleContentEnd(state)
   }
+
+  finalizeTokenizer(state)
 }
 
 /**
@@ -83,6 +86,7 @@ function tokenizeChars(state: TokenizerState) {
  * @returns Tokenizer state and emitted tokens
  */
 export function tokenize(source: string): {
+  errors: TokenizerState['errors']
   state: TokenizerState
   tokens: AnyToken[]
 } {
@@ -90,6 +94,7 @@ export function tokenize(source: string): {
   const state: TokenizerState = {
     contextParams: {},
     currentContext: TokenizerContextTypes.Data,
+    errors: [],
     sourceCode: new SourceCode(source),
     decisionBuffer: new CharsBuffer(),
     accumulatedContent: new CharsBuffer(),
@@ -103,6 +108,7 @@ export function tokenize(source: string): {
   tokenizeChars(state)
 
   return {
+    errors: state.errors,
     state,
     tokens,
   }

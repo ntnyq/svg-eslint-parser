@@ -10,8 +10,13 @@ import type { Options, ParseResult } from '../types'
  * @returns Direct parser result with document AST, tokens, and diagnostics
  */
 export function parse(source: string, _options: Options = {}): ParseResult {
-  const { tokens } = tokenize(source)
-  const { ast, errors, warnings } = constructTree(tokens)
+  const { errors: tokenizerErrors, tokens } = tokenize(source)
+  const {
+    ast,
+    errors: constructorErrors,
+    warnings,
+  } = constructTree(tokens, source)
+  const errors = [...tokenizerErrors, ...constructorErrors]
 
   return {
     ast: clearParent(ast),
