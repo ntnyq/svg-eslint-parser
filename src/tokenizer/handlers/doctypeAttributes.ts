@@ -36,6 +36,14 @@ function parseClosingCornerBrace(state: TokenizerState) {
   state.currentContext = TokenizerContextTypes.DoctypeClose
 }
 
+function parseInternalSubset(state: TokenizerState): void {
+  state.accumulatedContent.replace(state.decisionBuffer)
+  state.decisionBuffer.clear()
+  state.currentContext = TokenizerContextTypes.DoctypeInternalSubset
+  state.contextParams[TokenizerContextTypes.DoctypeInternalSubset] = {}
+  state.sourceCode.next()
+}
+
 function parseBare(state: TokenizerState) {
   state.accumulatedContent.replace(state.decisionBuffer)
   state.decisionBuffer.clear()
@@ -58,6 +66,10 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
 
   if (value === SPECIAL_CHAR.closingCorner) {
     return parseClosingCornerBrace(state)
+  }
+
+  if (value === '[') {
+    return parseInternalSubset(state)
   }
 
   if (!isWhitespace(value)) {

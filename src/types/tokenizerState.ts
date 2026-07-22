@@ -29,6 +29,9 @@ type ContextParams = {
   [TokenizerContextTypes.DoctypeAttributeWrapped]?: {
     wrapper: string
   }
+  [TokenizerContextTypes.DoctypeInternalSubset]?: {
+    quote?: '"' | "'"
+  }
   [TokenizerContextTypes.OpenTagEnd]?: {
     tagName: string
   }

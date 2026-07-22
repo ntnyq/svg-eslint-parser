@@ -222,6 +222,24 @@ export function finalizeTokenizer(state: TokenizerState): void {
       finalizeAttributeValue(state, TokenTypes.DoctypeAttributeValue)
       return
 
+    case TokenizerContextTypes.DoctypeInternalSubset: {
+      const range = getTrailingRange(state, value)
+      state.tokens.push({
+        type: TokenTypes.DoctypeInternalSubset,
+        value: value.startsWith('[') ? value.slice(1) : value,
+        range,
+        loc: state.sourceCode.getLocationOf(range),
+      })
+      reportError(
+        state,
+        ParseErrorType.InvalidDoctype,
+        'Unterminated doctype internal subset.',
+        range,
+        'The parser kept the partial internal subset in the AST.',
+      )
+      return
+    }
+
     case TokenizerContextTypes.DoctypeOpen:
       pushTrailingToken(state, TokenTypes.DoctypeOpen, value)
       reportUnexpectedConstructEnd(state, 'Unterminated doctype declaration.')

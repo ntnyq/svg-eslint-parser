@@ -15,6 +15,7 @@ import {
   doctypeAttributes,
   doctypeAttributeWrapped,
   doctypeClose,
+  doctypeInternalSubset,
   doctypeOpen,
   noop,
   openTagEnd,
@@ -57,6 +58,7 @@ const contextHandlers: Record<TokenizerContextTypes, TokenizeHandler> = {
 
   [TokenizerContextTypes.DoctypeOpen]: doctypeOpen,
   [TokenizerContextTypes.DoctypeClose]: doctypeClose,
+  [TokenizerContextTypes.DoctypeInternalSubset]: doctypeInternalSubset,
   [TokenizerContextTypes.DoctypeAttributes]: doctypeAttributes,
   [TokenizerContextTypes.DoctypeAttributeBare]: doctypeAttributeBare,
   [TokenizerContextTypes.DoctypeAttributeWrapped]: doctypeAttributeWrapped,

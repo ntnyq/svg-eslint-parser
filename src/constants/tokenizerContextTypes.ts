@@ -20,6 +20,7 @@ export enum TokenizerContextTypes {
   DoctypeAttributes = 'DoctypeAttributes',
   DoctypeAttributeWrapped = 'DoctypeAttributeWrapped',
   DoctypeClose = 'DoctypeClose',
+  DoctypeInternalSubset = 'DoctypeInternalSubset',
   DoctypeOpen = 'DoctypeOpen',
 
   OpenTagEnd = 'OpenTagEnd',

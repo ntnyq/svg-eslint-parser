@@ -19,6 +19,13 @@ const ATTRIBUTE_START_TOKENS = new Set([
 const dispatch = createTokenDispatcher(
   [
     {
+      tokenType: TokenTypes.DoctypeInternalSubset,
+      handler(_, state) {
+        state.currentContext = state.currentContext.parentRef
+        return state
+      },
+    },
+    {
       tokenType: TokenTypes.DoctypeClose,
       handler(_, state) {
         state.currentContext = state.currentContext.parentRef

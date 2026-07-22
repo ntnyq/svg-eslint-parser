@@ -84,6 +84,7 @@ export interface DoctypeAttributeNode extends BaseNode {
 export interface DoctypeNode extends BaseNode {
   attributes: DoctypeAttributeNode[]
   type: NodeTypes.Doctype
+  internalSubset?: string
 }
 
 /**

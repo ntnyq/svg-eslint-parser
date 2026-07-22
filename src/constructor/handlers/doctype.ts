@@ -23,6 +23,15 @@ const dispatch = createTokenDispatcher(
       },
     },
     {
+      tokenType: TokenTypes.DoctypeInternalSubset,
+      handler(token, state) {
+        state.currentNode.internalSubset = token.value
+        updateNodeEnd(state.currentNode, token)
+        state.caretPosition++
+        return state
+      },
+    },
+    {
       tokenType: TokenTypes.DoctypeClose,
       handler(token, state) {
         state.currentNode.close = createNodeFrom(token)

@@ -12,10 +12,15 @@ import type {
   ContextualDoctypeNode,
 } from '../../types'
 
+const ATTRIBUTE_END_TOKENS = new Set([
+  TokenTypes.DoctypeClose,
+  TokenTypes.DoctypeInternalSubset,
+])
+
 const dispatch = createTokenDispatcher(
   [
     {
-      tokenType: TokenTypes.DoctypeClose,
+      tokenType: ATTRIBUTE_END_TOKENS,
       handler(_, state) {
         state.currentContext = state.currentContext.parentRef
         return state

@@ -223,12 +223,14 @@ interface XMLDeclarationAttributeValueNode {
 
 #### Doctype
 
-DOCTYPE declaration (e.g., `<!DOCTYPE svg PUBLIC ...>`).
+DOCTYPE declaration (e.g., `<!DOCTYPE svg PUBLIC ...>`). When present,
+`internalSubset` contains the text between `[` and `]` without the delimiters.
 
 ```typescript
 interface DoctypeNode {
   type: 'Doctype'
   attributes: DoctypeAttributeNode[]
+  internalSubset?: string
   range: [number, number]
   loc: SourceLocation
 }

@@ -30,6 +30,7 @@ export enum TokenTypes {
   DoctypeAttributeWrapperEnd = 'DoctypeAttributeWrapperEnd',
   DoctypeAttributeWrapperStart = 'DoctypeAttributeWrapperStart',
   DoctypeClose = 'DoctypeClose',
+  DoctypeInternalSubset = 'DoctypeInternalSubset',
   DoctypeOpen = 'DoctypeOpen',
 
   /**

@@ -10,6 +10,7 @@ import type { Range, SourceLocation } from './ast'
 export enum ParseErrorType {
   InvalidAttribute = 'InvalidAttribute',
   InvalidCharacter = 'InvalidCharacter',
+  InvalidDoctype = 'InvalidDoctype',
   InvalidDoctypeAttribute = 'InvalidDoctypeAttribute',
   InvalidProcessingInstruction = 'InvalidProcessingInstruction',
   InvalidXMLDeclaration = 'InvalidXMLDeclaration',
