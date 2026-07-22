@@ -76,6 +76,9 @@ traverseAST(ast.document, {
 })
 ```
 
+Traversal, search, filtering, and counting use explicit stacks, so these helpers
+remain safe for deeply nested SVG documents.
+
 ### walkAST()
 
 Simple AST traversal with a callback function.

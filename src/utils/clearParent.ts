@@ -1,18 +1,26 @@
 import type { DocumentNode } from '../types'
 
 /**
- * Recursively remove parent references from an AST
+ * Remove parent references from an AST without recursive calls.
  * @param ast - The AST node to clean
  * @returns The cleaned AST with parentRef properties removed
  */
 export function clearParent(ast: any): DocumentNode {
-  const cleanAst = ast
+  const stack = [ast]
 
-  delete cleanAst.parentRef
+  while (stack.length > 0) {
+    const node = stack.pop()
 
-  if (Array.isArray(ast.children)) {
-    cleanAst.children = ast.children.map((node: any) => clearParent(node))
+    if (!node) {
+      continue
+    }
+
+    delete node.parentRef
+
+    if (Array.isArray(node.children)) {
+      stack.push(...node.children)
+    }
   }
 
-  return cleanAst as DocumentNode
+  return ast as DocumentNode
 }

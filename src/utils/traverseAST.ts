@@ -16,6 +16,12 @@ export type ASTVisitor = {
   leave?: (node: AnyNode, parent: AnyNode | null) => void
 }
 
+interface TraversalFrame {
+  node: AnyNode
+  parent: AnyNode | null
+  leaving: boolean
+}
+
 /**
  * Traverse the AST with a visitor pattern
  * @param node - Root node to traverse from
@@ -27,25 +33,38 @@ export function traverseAST(
   visitor: ASTVisitor,
   parent: AnyNode | null = null,
 ): void {
-  // Enter node
-  let shouldTraverseChildren = true
-  if (visitor.enter) {
-    const result = visitor.enter(node, parent)
-    if (result === false) {
-      shouldTraverseChildren = false
-    }
-  }
+  const stack: TraversalFrame[] = [{ node, parent, leaving: false }]
 
-  // Traverse children if not skipped
-  if (shouldTraverseChildren) {
-    for (const child of getChildNodes(node)) {
-      traverseAST(child, visitor, node)
-    }
-  }
+  while (stack.length > 0) {
+    const frame = stack.pop()
 
-  // Leave node
-  if (visitor.leave) {
-    visitor.leave(node, parent)
+    if (!frame) {
+      continue
+    }
+
+    if (frame.leaving) {
+      visitor.leave?.(frame.node, frame.parent)
+      continue
+    }
+
+    const shouldTraverseChildren =
+      visitor.enter?.(frame.node, frame.parent) !== false
+
+    if (visitor.leave) {
+      stack.push({ ...frame, leaving: true })
+    }
+
+    if (shouldTraverseChildren) {
+      const children = getChildNodes(frame.node)
+
+      for (let index = children.length - 1; index >= 0; index--) {
+        stack.push({
+          node: children[index],
+          parent: frame.node,
+          leaving: false,
+        })
+      }
+    }
   }
 }
 

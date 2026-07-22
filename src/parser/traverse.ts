@@ -1,4 +1,4 @@
-import { visitorKeys } from '../visitorKeys'
+import { getChildNodes } from '../utils/getChildNodes'
 import type { AnyNode } from '../types'
 
 type Visitor = (node: AnyNode) => void
@@ -12,25 +12,22 @@ export function traverse(node: AnyNode, visitor: Visitor) {
   if (!node) {
     return
   }
-  visitor(node)
 
-  const type = node.type
-  const keys = visitorKeys[type]
+  const stack = [node]
 
-  if (!keys || keys.length <= 0) {
-    return
-  }
+  while (stack.length > 0) {
+    const currentNode = stack.pop()
 
-  keys.forEach(key => {
-    // @ts-expect-error refine
-    const value = node[key]
-
-    if (value) {
-      if (Array.isArray(value)) {
-        value.forEach(v => traverse(v, visitor))
-      } else {
-        traverse(value, visitor)
-      }
+    if (!currentNode) {
+      continue
     }
-  })
+
+    visitor(currentNode)
+
+    const children = getChildNodes(currentNode)
+
+    for (let index = children.length - 1; index >= 0; index--) {
+      stack.push(children[index])
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import { getChildNodes } from './getChildNodes'
+import { traverseAST } from './traverseAST'
 import type { AnyNode } from '../types'
 
 /**
@@ -13,17 +13,13 @@ export function filterNodes(
 ): AnyNode[] {
   const results: AnyNode[] = []
 
-  function traverse(currentNode: AnyNode) {
-    if (predicate(currentNode)) {
-      results.push(currentNode)
-    }
-
-    for (const child of getChildNodes(currentNode)) {
-      traverse(child)
-    }
-  }
-
-  traverse(node)
+  traverseAST(node, {
+    enter(currentNode) {
+      if (predicate(currentNode)) {
+        results.push(currentNode)
+      }
+    },
+  })
   return results
 }
 
@@ -96,11 +92,13 @@ export function getNodeDepth(node: any): number {
  * @returns Total node count
  */
 export function countNodes(node: AnyNode): number {
-  let count = 1 // Count current node
+  let count = 0
 
-  for (const child of getChildNodes(node)) {
-    count += countNodes(child)
-  }
+  traverseAST(node, {
+    enter() {
+      count++
+    },
+  })
 
   return count
 }

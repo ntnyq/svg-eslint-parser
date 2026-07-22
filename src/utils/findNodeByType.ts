@@ -13,18 +13,26 @@ export function findNodeByType<T extends NodeTypes>(
   type: T,
 ): AnyNode[] {
   const results: AnyNode[] = []
+  const stack = [node]
 
-  function traverse(currentNode: AnyNode) {
+  while (stack.length > 0) {
+    const currentNode = stack.pop()
+
+    if (!currentNode) {
+      continue
+    }
+
     if (currentNode.type === type) {
       results.push(currentNode)
     }
 
-    for (const child of getChildNodes(currentNode)) {
-      traverse(child)
+    const children = getChildNodes(currentNode)
+
+    for (let index = children.length - 1; index >= 0; index--) {
+      stack.push(children[index])
     }
   }
 
-  traverse(node)
   return results
 }
 
@@ -38,20 +46,25 @@ export function findFirstNodeByType<T extends NodeTypes>(
   node: AnyNode,
   type: T,
 ): AnyNode | undefined {
-  function traverse(currentNode: AnyNode): AnyNode | undefined {
+  const stack = [node]
+
+  while (stack.length > 0) {
+    const currentNode = stack.pop()
+
+    if (!currentNode) {
+      continue
+    }
+
     if (currentNode.type === type) {
       return currentNode
     }
 
-    for (const child of getChildNodes(currentNode)) {
-      const result = traverse(child)
-      if (result) {
-        return result
-      }
-    }
+    const children = getChildNodes(currentNode)
 
-    return undefined
+    for (let index = children.length - 1; index >= 0; index--) {
+      stack.push(children[index])
+    }
   }
 
-  return traverse(node)
+  return undefined
 }
