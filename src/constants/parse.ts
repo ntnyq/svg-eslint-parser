@@ -9,6 +9,16 @@ export const COMMENT_START = '<!--'
 export const COMMENT_END = '-->'
 
 /**
+ * CDATA section start
+ */
+export const CDATA_START = '<![CDATA['
+
+/**
+ * CDATA section end
+ */
+export const CDATA_END = ']]>'
+
+/**
  * xml declaration start
  */
 export const XML_DECLARATION_START = '<?xml'

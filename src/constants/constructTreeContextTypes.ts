@@ -6,6 +6,7 @@ export enum ConstructTreeContextTypes {
   Attributes = 'Attributes',
   AttributeValue = 'AttributeValue',
 
+  CDATA = 'CDATA',
   Comment = 'Comment',
   Doctype = 'Doctype',
   DoctypeAttribute = 'DoctypeAttribute',

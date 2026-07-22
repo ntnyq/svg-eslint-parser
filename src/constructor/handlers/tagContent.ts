@@ -15,6 +15,7 @@ import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
   ConstructTreeState,
+  ContextualCDATANode,
   ContextualCommentNode,
   ContextualDoctypeNode,
   ContextualElementNode,
@@ -37,6 +38,25 @@ function addUnclosedTagError(
 
 const dispatch = createTokenDispatcher(
   [
+    {
+      tokenType: TokenTypes.CDATAOpen,
+      handler(token, state) {
+        initChildrenIfNone(state.currentNode)
+        const cdataNode: ContextualCDATANode = {
+          type: NodeTypes.CDATA,
+          parentRef: state.currentNode,
+          range: cloneRange(token.range),
+          loc: cloneLocation(token.loc),
+        }
+        state.currentNode.children.push(cdataNode)
+        state.currentNode = cdataNode as any
+        state.currentContext = {
+          parentRef: state.currentContext,
+          type: ConstructTreeContextTypes.CDATA,
+        }
+        return state
+      },
+    },
     {
       tokenType: TokenTypes.XMLDeclarationOpen,
       handler(token, state) {

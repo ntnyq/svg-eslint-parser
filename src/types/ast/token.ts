@@ -4,31 +4,7 @@ import type { Locations } from './common'
 /**
  * Union of all tokenizer output token shapes.
  */
-export type AnyToken =
-  | Token<TokenTypes.AttributeAssignment>
-  | Token<TokenTypes.AttributeKey>
-  | Token<TokenTypes.AttributeValue>
-  | Token<TokenTypes.AttributeValueWrapperEnd>
-  | Token<TokenTypes.AttributeValueWrapperStart>
-  | Token<TokenTypes.CloseTag>
-  | Token<TokenTypes.CommentClose>
-  | Token<TokenTypes.CommentContent>
-  | Token<TokenTypes.CommentOpen>
-  | Token<TokenTypes.DoctypeAttributeValue>
-  | Token<TokenTypes.DoctypeAttributeWrapperEnd>
-  | Token<TokenTypes.DoctypeAttributeWrapperStart>
-  | Token<TokenTypes.DoctypeClose>
-  | Token<TokenTypes.DoctypeOpen>
-  | Token<TokenTypes.OpenTagEnd>
-  | Token<TokenTypes.OpenTagStart>
-  | Token<TokenTypes.Text>
-  | Token<TokenTypes.XMLDeclarationAttributeAssignment>
-  | Token<TokenTypes.XMLDeclarationAttributeKey>
-  | Token<TokenTypes.XMLDeclarationAttributeValue>
-  | Token<TokenTypes.XMLDeclarationAttributeValueWrapperEnd>
-  | Token<TokenTypes.XMLDeclarationAttributeValueWrapperStart>
-  | Token<TokenTypes.XMLDeclarationClose>
-  | Token<TokenTypes.XMLDeclarationOpen>
+export type AnyToken = Token<TokenTypes>
 
 /**
  * Source token emitted by the tokenizer.

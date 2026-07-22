@@ -1,4 +1,5 @@
 import {
+  CDATA_START,
   COMMENT_START,
   RE_OPEN_TAG_START,
   SPECIAL_CHAR,
@@ -20,6 +21,15 @@ const INCOMPLETE_DOCTYPE_CHARS = new Set([
   '<!DOCTY',
   // cSpell: enable
   '<!DOCTYP',
+])
+
+const INCOMPLETE_CDATA_START_CHARS = new Set([
+  '<![',
+  '<![C',
+  '<![CD',
+  '<![CDA',
+  '<![CDAT',
+  '<![CDATA',
 ])
 
 const INCOMPLETE_COMMENT_START_CHARS = new Set([
@@ -92,6 +102,29 @@ function parseCommentOpen(state: TokenizerState) {
   state.sourceCode.next()
 }
 
+function parseCDATAOpen(state: TokenizerState): void {
+  if (state.accumulatedContent.length() !== 0) {
+    state.tokens.push(generateTextToken(state))
+  }
+
+  const range: Range = [
+    state.sourceCode.index() - (CDATA_START.length - 1),
+    state.sourceCode.index() + 1,
+  ]
+
+  state.tokens.push({
+    type: TokenTypes.CDATAOpen,
+    value: state.decisionBuffer.value(),
+    range,
+    loc: state.sourceCode.getLocationOf(range),
+  })
+
+  state.accumulatedContent.clear()
+  state.decisionBuffer.clear()
+  state.currentContext = TokenizerContextTypes.CDATAContent
+  state.sourceCode.next()
+}
+
 function parseDoctypeOpen(state: TokenizerState) {
   if (state.accumulatedContent.length() !== 0) {
     state.tokens.push(generateTextToken(state))
@@ -134,6 +167,14 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
 
   if (value === XML_DECLARATION_START) {
     return parseXMLDeclarationOpen(state)
+  }
+
+  if (value === CDATA_START) {
+    return parseCDATAOpen(state)
+  }
+
+  if (INCOMPLETE_CDATA_START_CHARS.has(value)) {
+    return state.sourceCode.next()
   }
 
   if (INCOMPLETE_XML_DECLARATION_START_CHARS.has(value)) {

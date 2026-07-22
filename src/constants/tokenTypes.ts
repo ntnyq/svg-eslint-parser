@@ -3,6 +3,13 @@
  */
 export enum TokenTypes {
   /**
+   * @pg CDATA tokens
+   */
+  CDATAClose = 'CDATAClose',
+  CDATAContent = 'CDATAContent',
+  CDATAOpen = 'CDATAOpen',
+
+  /**
    * @pg Content tokens
    */
   Text = 'Text',

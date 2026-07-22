@@ -1,4 +1,5 @@
 import {
+  CDATA_START,
   COMMENT_START,
   TokenizerContextTypes,
   TokenTypes,
@@ -159,6 +160,17 @@ export function finalizeTokenizer(state: TokenizerState): void {
         'Unterminated comment.',
         getConstructRange(state, COMMENT_START),
         'The parser kept the comment content without a closing delimiter.',
+      )
+      return
+
+    case TokenizerContextTypes.CDATAContent:
+      pushTrailingToken(state, TokenTypes.CDATAContent, value)
+      reportError(
+        state,
+        ParseErrorType.MalformedCDATA,
+        'Unterminated CDATA section.',
+        getConstructRange(state, CDATA_START),
+        'The parser kept the CDATA content without a closing delimiter.',
       )
       return
 

@@ -23,6 +23,7 @@ const keys: {
 
   Element: ['attributes', 'children'],
 
+  CDATA: [],
   Comment: [],
 
   Text: [],

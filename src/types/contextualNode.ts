@@ -1,6 +1,7 @@
 import type {
   AnyNode,
   AttributeNode,
+  CDATANode,
   CommentNode,
   DoctypeAttributeNode,
   DoctypeNode,
@@ -15,6 +16,7 @@ import type {
  */
 export type AnyContextualNode =
   | ContextualAttributeNode
+  | ContextualCDATANode
   | ContextualCommentNode
   | ContextualDoctypeAttributeNode
   | ContextualDoctypeNode
@@ -30,6 +32,11 @@ export type ContextualAttributeNode = ContextualNode<
   AttributeNode,
   'key' | 'value'
 >
+
+/**
+ * CDATA node before its content and closing delimiter are finalized.
+ */
+export type ContextualCDATANode = ContextualNode<CDATANode, 'value'>
 
 /**
  * Comment node before comment content has been finalized.
@@ -65,6 +72,7 @@ export type ContextualDocumentNode = Omit<
   'children'
 > & {
   children: Array<
+    | ContextualCDATANode
     | ContextualCommentNode
     | ContextualDoctypeNode
     | ContextualElementNode
@@ -92,6 +100,7 @@ export type ContextualElementNode = ContextualNode<
 > & {
   attributes: ContextualAttributeNode[]
   children: Array<
+    | ContextualCDATANode
     | ContextualCommentNode
     | ContextualElementNode
     | ElementNode['children'][number]

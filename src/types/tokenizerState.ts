@@ -15,7 +15,7 @@ export type TokenizerState = {
   errors: ParseError[]
   sourceCode: SourceCode
   tokens: {
-    push(token: AnyToken): void
+    push(...tokens: AnyToken[]): void
   }
 }
 

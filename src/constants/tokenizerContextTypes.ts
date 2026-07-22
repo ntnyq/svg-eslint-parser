@@ -9,6 +9,7 @@ export enum TokenizerContextTypes {
   AttributeValueBare = 'AttributeValueBare',
 
   AttributeValueWrapped = 'AttributeValueWrapped',
+  CDATAContent = 'CDATAContent',
   CloseTag = 'CloseTag',
   CommentClose = 'CommentClose',
   CommentContent = 'CommentContent',

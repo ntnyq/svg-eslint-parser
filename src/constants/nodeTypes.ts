@@ -5,6 +5,7 @@ export enum NodeTypes {
   Attribute = 'Attribute',
   AttributeKey = 'AttributeKey',
   AttributeValue = 'AttributeValue',
+  CDATA = 'CDATA',
   Comment = 'Comment',
   Doctype = 'Doctype',
   DoctypeAttribute = 'DoctypeAttribute',

@@ -7,6 +7,7 @@ import {
   attributeValue,
   attributeValueBare,
   attributeValueWrapped,
+  cdataContent,
   closeTag,
   commentContent,
   data,
@@ -30,6 +31,7 @@ import type { AnyToken, TokenizeHandler, TokenizerState } from '../types'
 
 const contextHandlers: Record<TokenizerContextTypes, TokenizeHandler> = {
   [TokenizerContextTypes.Data]: data,
+  [TokenizerContextTypes.CDATAContent]: cdataContent,
 
   [TokenizerContextTypes.XMLDeclarationOpen]: xmlDeclarationOpen,
   [TokenizerContextTypes.XMLDeclarationClose]: xmlDeclarationClose,
@@ -99,8 +101,8 @@ export function tokenize(source: string): {
     decisionBuffer: new CharsBuffer(),
     accumulatedContent: new CharsBuffer(),
     tokens: {
-      push(token: AnyToken) {
-        tokens.push(token)
+      push(...newTokens: AnyToken[]) {
+        tokens.push(...newTokens)
       },
     },
   }

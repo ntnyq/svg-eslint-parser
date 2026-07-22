@@ -1,4 +1,5 @@
 export * as tag from './tag'
+export * as cdata from './cdata'
 export * as comment from './comment'
 export * as doctype from './doctype'
 export * as tagName from './tagName'

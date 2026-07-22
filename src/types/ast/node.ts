@@ -23,6 +23,11 @@ export interface SimpleNode<T extends NodeTypes> extends BaseNode {
 export type TextNode = SimpleNode<NodeTypes.Text>
 
 /**
+ * Raw character data from a CDATA section.
+ */
+export type CDATANode = SimpleNode<NodeTypes.CDATA>
+
+/**
  * ESLint-compatible comment object.
  */
 export interface ESLintComment extends Locations {
@@ -135,6 +140,7 @@ export interface ErrorNode extends BaseNode {
  * Node types allowed as direct document children.
  */
 export type DocumentChildNode =
+  | CDATANode
   | CommentNode
   | DoctypeNode
   | ElementNode
@@ -144,7 +150,7 @@ export type DocumentChildNode =
 /**
  * Node types allowed as element children.
  */
-export type ElementChildNode = CommentNode | ElementNode | TextNode
+export type ElementChildNode = CDATANode | CommentNode | ElementNode | TextNode
 
 /**
  * ESLint program wrapper around the SVG document.
@@ -172,6 +178,7 @@ export type AnyNode =
   | AttributeKeyNode
   | AttributeNode
   | AttributeValueNode
+  | CDATANode
   | CommentNode
   | DoctypeAttributeNode
   | DoctypeAttributeValueNode
