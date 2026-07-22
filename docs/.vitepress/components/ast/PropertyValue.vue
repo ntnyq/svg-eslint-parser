@@ -1,6 +1,6 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import {
-  getObjectType,
+  getObjectTag,
   isBigInt,
   isBoolean,
   isError,
@@ -79,7 +79,7 @@ const model = computed<ValueModel>(() => {
 
   return {
     className: 'ast-prop-class',
-    value: isIterable(props.value) ? 'Iterable' : getObjectType(props.value),
+    value: isIterable(props.value) ? 'Iterable' : getObjectTag(props.value),
   }
 })
 
