@@ -4,7 +4,7 @@ The SVG ESLint Parser generates an Abstract Syntax Tree (AST) that is compatible
 
 ## Node Types
 
-The parser defines **17 node types** organized into the following categories:
+The parser defines **18 node types** organized into the following categories:
 
 ### Document Structure
 
@@ -37,6 +37,7 @@ interface DocumentNode {
     | CDATANode
     | CommentNode
     | DoctypeNode
+    | ProcessingInstructionNode
     | XMLDeclarationNode
   )[]
   range: [number, number]
@@ -55,7 +56,9 @@ interface ElementNode {
   type: 'Element'
   name: string // Source spelling is preserved; XML names are case-sensitive
   attributes: AttributeNode[]
-  children: (ElementNode | TextNode | CDATANode | CommentNode)[]
+  children: (
+    ElementNode | TextNode | CDATANode | CommentNode | ProcessingInstructionNode
+  )[]
   selfClosing: boolean
   range: [number, number]
   loc: SourceLocation
@@ -148,6 +151,20 @@ interface CommentNode {
 ```
 
 ### XML Declaration
+
+#### ProcessingInstruction
+
+A generic XML processing instruction such as `<?xml-stylesheet ...?>`.
+
+```typescript
+interface ProcessingInstructionNode {
+  type: 'ProcessingInstruction'
+  target: string
+  value: string
+  range: [number, number]
+  loc: SourceLocation
+}
+```
 
 #### XMLDeclaration
 

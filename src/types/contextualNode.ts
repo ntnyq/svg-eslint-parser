@@ -7,6 +7,7 @@ import type {
   DoctypeNode,
   DocumentNode,
   ElementNode,
+  ProcessingInstructionNode,
   XMLDeclarationAttributeNode,
   XMLDeclarationNode,
 } from './ast'
@@ -78,6 +79,7 @@ export type ContextualDocumentNode = Omit<
     | ContextualElementNode
     | ContextualXMLDeclarationNode
     | DocumentNode['children'][number]
+    | ProcessingInstructionNode
   >
 }
 
@@ -104,6 +106,7 @@ export type ContextualElementNode = ContextualNode<
     | ContextualCommentNode
     | ContextualElementNode
     | ElementNode['children'][number]
+    | ProcessingInstructionNode
   >
 }
 

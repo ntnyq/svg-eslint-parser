@@ -11,6 +11,7 @@ export enum ParseErrorType {
   InvalidAttribute = 'InvalidAttribute',
   InvalidCharacter = 'InvalidCharacter',
   InvalidDoctypeAttribute = 'InvalidDoctypeAttribute',
+  InvalidProcessingInstruction = 'InvalidProcessingInstruction',
   InvalidXMLDeclaration = 'InvalidXMLDeclaration',
   MalformedCDATA = 'MalformedCDATA',
   MalformedComment = 'MalformedComment',

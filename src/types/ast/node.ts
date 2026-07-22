@@ -98,6 +98,15 @@ export interface ElementNode extends BaseNode {
 }
 
 /**
+ * XML processing instruction.
+ */
+export interface ProcessingInstructionNode extends BaseNode {
+  target: string
+  type: NodeTypes.ProcessingInstruction
+  value: string
+}
+
+/**
  * XML declaration attribute key node.
  */
 export type XMLDeclarationAttributeKeyNode =
@@ -144,13 +153,19 @@ export type DocumentChildNode =
   | CommentNode
   | DoctypeNode
   | ElementNode
+  | ProcessingInstructionNode
   | TextNode
   | XMLDeclarationNode
 
 /**
  * Node types allowed as element children.
  */
-export type ElementChildNode = CDATANode | CommentNode | ElementNode | TextNode
+export type ElementChildNode =
+  | CDATANode
+  | CommentNode
+  | ElementNode
+  | ProcessingInstructionNode
+  | TextNode
 
 /**
  * ESLint program wrapper around the SVG document.
@@ -186,6 +201,7 @@ export type AnyNode =
   | DocumentNode
   | ElementNode
   | ErrorNode
+  | ProcessingInstructionNode
   | Program
   | TextNode
   | XMLDeclarationAttributeKeyNode

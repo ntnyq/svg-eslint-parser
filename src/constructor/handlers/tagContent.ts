@@ -10,6 +10,7 @@ import {
   createNodeFrom,
   initChildrenIfNone,
   parseCloseTagName,
+  parseProcessingInstruction,
 } from '../../utils'
 import { createTokenDispatcher } from '../handlerFactory'
 import type {
@@ -20,6 +21,7 @@ import type {
   ContextualDoctypeNode,
   ContextualElementNode,
   ContextualXMLDeclarationNode,
+  ProcessingInstructionNode,
   TextNode,
 } from '../../types'
 
@@ -38,6 +40,23 @@ function addUnclosedTagError(
 
 const dispatch = createTokenDispatcher(
   [
+    {
+      tokenType: TokenTypes.ProcessingInstruction,
+      handler(token, state) {
+        initChildrenIfNone(state.currentNode)
+        const { target, value } = parseProcessingInstruction(token.value)
+        const instructionNode: ProcessingInstructionNode = {
+          type: NodeTypes.ProcessingInstruction,
+          target,
+          value,
+          range: cloneRange(token.range),
+          loc: cloneLocation(token.loc),
+        }
+        state.currentNode.children.push(instructionNode)
+        state.caretPosition++
+        return state
+      },
+    },
     {
       tokenType: TokenTypes.CDATAOpen,
       handler(token, state) {

@@ -29,6 +29,7 @@ const keys: {
   Text: [],
 
   Error: [],
+  ProcessingInstruction: [],
 }
 
 let vistorKeysCache: SourceCode.VisitorKeys | null = null

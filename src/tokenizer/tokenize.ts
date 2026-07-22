@@ -19,6 +19,7 @@ import {
   noop,
   openTagEnd,
   openTagStart,
+  processingInstruction,
   xmlDeclarationAttributeKey,
   xmlDeclarationAttributes,
   xmlDeclarationAttributeValue,
@@ -51,6 +52,7 @@ const contextHandlers: Record<TokenizerContextTypes, TokenizeHandler> = {
 
   [TokenizerContextTypes.OpenTagStart]: openTagStart,
   [TokenizerContextTypes.OpenTagEnd]: openTagEnd,
+  [TokenizerContextTypes.ProcessingInstruction]: processingInstruction,
   [TokenizerContextTypes.CloseTag]: closeTag,
 
   [TokenizerContextTypes.DoctypeOpen]: doctypeOpen,

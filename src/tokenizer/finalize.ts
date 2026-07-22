@@ -124,6 +124,17 @@ export function finalizeTokenizer(state: TokenizerState): void {
       reportUnexpectedConstructEnd(state, 'Unterminated closing tag.')
       return
 
+    case TokenizerContextTypes.ProcessingInstruction:
+      pushTrailingToken(state, TokenTypes.ProcessingInstruction, value)
+      reportError(
+        state,
+        ParseErrorType.InvalidProcessingInstruction,
+        'Unterminated processing instruction.',
+        getConstructRange(state, '<?'),
+        'The parser kept the partial processing instruction in the AST.',
+      )
+      return
+
     case TokenizerContextTypes.Attributes:
       reportUnexpectedConstructEnd(state, 'Unterminated opening tag.')
       return

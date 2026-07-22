@@ -29,6 +29,11 @@ export const XML_DECLARATION_START = '<?xml'
 export const XML_DECLARATION_END = '?>'
 
 /**
+ * processing instruction end
+ */
+export const PROCESSING_INSTRUCTION_END = '?>'
+
+/**
  * regexp for open tag start
  * @regex101 https://regex101.com/?regex=%5E%3C%5Cw&flags=u&flavor=javascript
  */

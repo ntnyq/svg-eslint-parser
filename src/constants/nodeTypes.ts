@@ -13,6 +13,7 @@ export enum NodeTypes {
   Document = 'Document',
   Element = 'Element',
   Error = 'Error',
+  ProcessingInstruction = 'ProcessingInstruction',
   Program = 'Program',
   Text = 'Text',
   XMLDeclaration = 'XMLDeclaration',

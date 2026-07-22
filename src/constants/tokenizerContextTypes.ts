@@ -24,6 +24,7 @@ export enum TokenizerContextTypes {
 
   OpenTagEnd = 'OpenTagEnd',
   OpenTagStart = 'OpenTagStart',
+  ProcessingInstruction = 'ProcessingInstruction',
   XMLDeclarationAttributeKey = 'XMLDeclarationAttributeKey',
 
   XMLDeclarationAttributes = 'XMLDeclarationAttributes',

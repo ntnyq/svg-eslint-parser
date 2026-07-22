@@ -7,7 +7,7 @@ import {
   TokenTypes,
   XML_DECLARATION_START,
 } from '../../constants'
-import { calculateTokenPosition } from '../../utils'
+import { calculateTokenPosition, isWhitespace } from '../../utils'
 import type { Range, Token, TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
@@ -43,6 +43,7 @@ const INCOMPLETE_XML_DECLARATION_START_CHARS = new Set([
   '<?',
   '<?x',
   '<?xm',
+  '<?xml',
 ])
 
 function generateTextToken(state: TokenizerState): Token<TokenTypes.Text> {
@@ -142,13 +143,13 @@ function parseXMLDeclarationOpen(state: TokenizerState) {
   }
 
   const range: Range = [
-    state.sourceCode.index() - (XML_DECLARATION_START.length - 1),
-    state.sourceCode.index() + 1,
+    state.sourceCode.index() - XML_DECLARATION_START.length,
+    state.sourceCode.index(),
   ]
 
   state.tokens.push({
     type: TokenTypes.XMLDeclarationOpen,
-    value: state.decisionBuffer.value(),
+    value: XML_DECLARATION_START,
     range,
     loc: state.sourceCode.getLocationOf(range),
   })
@@ -156,6 +157,16 @@ function parseXMLDeclarationOpen(state: TokenizerState) {
   state.accumulatedContent.clear()
   state.decisionBuffer.clear()
   state.currentContext = TokenizerContextTypes.XMLDeclarationAttributes
+}
+
+function parseProcessingInstructionOpen(state: TokenizerState): void {
+  if (state.accumulatedContent.length() !== 0) {
+    state.tokens.push(generateTextToken(state))
+  }
+
+  state.accumulatedContent.replace(state.decisionBuffer)
+  state.decisionBuffer.clear()
+  state.currentContext = TokenizerContextTypes.ProcessingInstruction
   state.sourceCode.next()
 }
 
@@ -164,10 +175,6 @@ function parseXMLDeclarationOpen(state: TokenizerState) {
  */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
-
-  if (value === XML_DECLARATION_START) {
-    return parseXMLDeclarationOpen(state)
-  }
 
   if (value === CDATA_START) {
     return parseCDATAOpen(state)
@@ -179,6 +186,23 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
 
   if (INCOMPLETE_XML_DECLARATION_START_CHARS.has(value)) {
     return state.sourceCode.next()
+  }
+
+  if (value.startsWith(XML_DECLARATION_START)) {
+    const boundary = value.slice(XML_DECLARATION_START.length)
+
+    if (
+      boundary.length === 1 &&
+      (isWhitespace(boundary) || boundary === SPECIAL_CHAR.question)
+    ) {
+      return parseXMLDeclarationOpen(state)
+    }
+
+    return parseProcessingInstructionOpen(state)
+  }
+
+  if (value.startsWith('<?')) {
+    return parseProcessingInstructionOpen(state)
   }
 
   if (RE_OPEN_TAG_START.test(value)) {

@@ -17,7 +17,7 @@
 - ✅ **ESLint Compatible**: Produces AST compatible with ESLint's parser interface
 - 🎯 **Type Safe**: Full TypeScript support with comprehensive type definitions
 - 🔍 **Rich Utilities**: Built-in functions for searching, traversing, and manipulating AST
-- 📊 **Detailed AST**: 17 node types covering core SVG/XML constructs
+- 📊 **Detailed AST**: 18 node types covering core SVG/XML constructs
 - 🚀 **Zero Dependencies**: Minimal runtime dependencies for fast installation
 - 🎪 **Interactive Playground**: Try it online at [svg-eslint-parser.ntnyq.com](https://svg-eslint-parser.ntnyq.com/play)
 
@@ -148,13 +148,13 @@ Returns a Document node directly.
 
 ### Node Types
 
-The parser currently exposes 17 AST node types:
+The parser currently exposes 18 AST node types:
 
 **Program & Document**: `Program`, `Document`
 
 **Element Tree**: `Element`, `Attribute`, `AttributeKey`, `AttributeValue`, `Text`, `CDATA`, `Comment`
 
-**Declarations**: `Doctype`, `DoctypeAttribute`, `DoctypeAttributeValue`, `XMLDeclaration`, `XMLDeclarationAttribute`, `XMLDeclarationAttributeKey`, `XMLDeclarationAttributeValue`
+**Declarations**: `Doctype`, `DoctypeAttribute`, `DoctypeAttributeValue`, `ProcessingInstruction`, `XMLDeclaration`, `XMLDeclarationAttribute`, `XMLDeclarationAttributeKey`, `XMLDeclarationAttributeValue`
 
 **Error Handling**: `Error`
 

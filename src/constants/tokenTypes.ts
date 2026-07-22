@@ -40,6 +40,11 @@ export enum TokenTypes {
   OpenTagStart = 'OpenTagStart',
 
   /**
+   * @pg Processing instruction tokens
+   */
+  ProcessingInstruction = 'ProcessingInstruction',
+
+  /**
    * @pg Comment tokens
    */
   CommentClose = 'CommentClose',
