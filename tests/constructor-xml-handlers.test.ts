@@ -69,7 +69,10 @@ describe('constructor xml handlers', () => {
     const state = createState({
       currentContext: {
         type: ConstructTreeContextTypes.XMLDeclarationAttributes,
-        parentRef: { type: ConstructTreeContextTypes.XMLDeclaration },
+        parentRef: {
+          type: ConstructTreeContextTypes.XMLDeclaration,
+          parentRef: { type: ConstructTreeContextTypes.TagContent },
+        },
       },
       currentNode: {
         type: NodeTypes.XMLDeclaration,
@@ -99,7 +102,10 @@ describe('constructor xml handlers', () => {
     const state = createState({
       currentContext: {
         type: ConstructTreeContextTypes.XMLDeclarationAttributes,
-        parentRef: { type: ConstructTreeContextTypes.XMLDeclaration },
+        parentRef: {
+          type: ConstructTreeContextTypes.XMLDeclaration,
+          parentRef: { type: ConstructTreeContextTypes.TagContent },
+        },
       },
       currentNode: {
         ...createState().currentNode,
@@ -112,9 +118,7 @@ describe('constructor xml handlers', () => {
       state,
     )
 
-    expect(state.currentContext.type).toBe(
-      ConstructTreeContextTypes.XMLDeclaration,
-    )
+    expect(state.currentContext.type).toBe(ConstructTreeContextTypes.TagContent)
   })
 
   it('xmlDeclarationAttribute handles key and assignment tokens', () => {

@@ -114,6 +114,9 @@ Returns an ESLint-compatible result with AST, visitor keys, and services. Recove
 
 Parsing is strict by default and throws `ParseError` for invalid SVG. Pass
 `{ errorRecovery: true }` to return a recovered AST with diagnostics instead.
+Strict parsing also enforces XML well-formedness: one root element, legal
+prolog placement, matching DOCTYPE roots, valid names and comments, and unique
+quoted attributes with values.
 
 #### `parse(code: string, options?: ParserOptions)`
 

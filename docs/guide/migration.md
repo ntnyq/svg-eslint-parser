@@ -193,9 +193,20 @@ traverseAST(ast.document, {
 
 ## Breaking Changes
 
-### None Yet
+### Strict XML well-formedness
 
-As of v0.0.5, there are no breaking changes to the public API. All previous functionality remains intact, and new utilities are additions to the API.
+The parser now treats XML well-formedness violations as parsing errors. This
+includes empty or multi-root documents, top-level character data, misplaced XML
+or DOCTYPE declarations, invalid names or comments, and valueless, unquoted, or
+duplicate attributes.
+
+Use recovery mode when parsing incomplete editor content or intentional XML
+fragments:
+
+```typescript
+const result = parseForESLint(fragment, { errorRecovery: true })
+console.log(result.services.errors)
+```
 
 ## New Features
 

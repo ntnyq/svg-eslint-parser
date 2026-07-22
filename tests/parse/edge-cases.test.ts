@@ -7,7 +7,7 @@ import type { ElementNode, TextNode } from '../../src/types'
 describe('edge cases', () => {
   it('should handle empty input', () => {
     const source = ''
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
 
     expect(document.type).toBe(NodeTypes.Document)
@@ -16,7 +16,7 @@ describe('edge cases', () => {
 
   it('should handle whitespace-only input', () => {
     const source = '   \n\t  '
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
 
     expect(document.children).toHaveLength(1)
@@ -52,7 +52,7 @@ describe('edge cases', () => {
 
   it('should handle multiple root elements', () => {
     const source = '<div></div><span></span><p></p>'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
 
     expect(document.children).toHaveLength(3)
@@ -72,7 +72,7 @@ describe('edge cases', () => {
     }
     source += '</a>'
 
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     expect(ast.document.type).toBe(NodeTypes.Document)
   })
 
@@ -145,7 +145,7 @@ describe('edge cases', () => {
       source += `<div>Text ${i}</div>`
     }
 
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
 
     expect(document.children).toHaveLength(100)
@@ -153,7 +153,7 @@ describe('edge cases', () => {
 
   it('should handle comments with unusual content', () => {
     const source = '<!-- <!-- nested? --> -->'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
 
     expect(document.children.length).toBeGreaterThan(0)

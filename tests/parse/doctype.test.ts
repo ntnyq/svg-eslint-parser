@@ -5,6 +5,7 @@ import { NodeTypes } from '../../src/constants'
 
 const SVG_SOURCE = $`
   <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN">
+  <svg />
 `
 
 describe('doctype parsing', () => {

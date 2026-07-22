@@ -28,6 +28,11 @@ Parsing is strict by default. Invalid SVG throws a positioned `ParseError`, so
 ESLint reports it as a parsing error. Pass `{ errorRecovery: true }` to receive
 the recovered AST and inspect `services.errors` instead.
 
+Well-formedness validation covers the document root, top-level content, XML
+declaration and DOCTYPE placement, XML names, comments, processing instructions,
+and element attributes. Recovery mode preserves invalid constructs in the AST
+where possible and reports each issue with its source range.
+
 **Example:**
 
 ```typescript

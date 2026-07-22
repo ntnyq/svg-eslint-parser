@@ -8,10 +8,12 @@ import type { Range, SourceLocation } from './ast'
  * Categories of recoverable parse diagnostics.
  */
 export enum ParseErrorType {
+  DuplicateAttribute = 'DuplicateAttribute',
   InvalidAttribute = 'InvalidAttribute',
   InvalidCharacter = 'InvalidCharacter',
   InvalidDoctype = 'InvalidDoctype',
   InvalidDoctypeAttribute = 'InvalidDoctypeAttribute',
+  InvalidDocument = 'InvalidDocument',
   InvalidProcessingInstruction = 'InvalidProcessingInstruction',
   InvalidXMLDeclaration = 'InvalidXMLDeclaration',
   MalformedCDATA = 'MalformedCDATA',

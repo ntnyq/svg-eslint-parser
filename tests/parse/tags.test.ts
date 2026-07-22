@@ -96,7 +96,7 @@ describe('element parsing', () => {
 
   it('should parse multiple sibling elements', () => {
     const source = '<div></div><span></span><p></p>'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
 
     expect(document.children).toHaveLength(3)
@@ -130,7 +130,7 @@ describe('element parsing', () => {
 
   it('should parse elements with numbers in names', () => {
     const source = '<h1>Heading</h1><h2>Subheading</h2>'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
 
     expect((document.children[0] as ElementNode).name).toBe('h1')

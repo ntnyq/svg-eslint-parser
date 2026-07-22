@@ -1,6 +1,7 @@
 import { constructTree } from '../constructor'
 import { tokenize } from '../tokenizer'
 import { clearParent } from '../utils'
+import { validateDocument } from './validateDocument'
 import type { Options, ParseResult } from '../types'
 
 /**
@@ -16,7 +17,8 @@ export function parse(source: string, _options: Options = {}): ParseResult {
     errors: constructorErrors,
     warnings,
   } = constructTree(tokens, source)
-  const errors = [...tokenizerErrors, ...constructorErrors]
+  const validationErrors = validateDocument(ast, tokens)
+  const errors = [...tokenizerErrors, ...constructorErrors, ...validationErrors]
 
   return {
     ast: clearParent(ast),

@@ -37,11 +37,13 @@ describe('doctype internal subset parsing', () => {
 
     expect(doctype.internalSubset).toBe('<!ELEMENT svg ANY>')
     expect(doctype.range).toStrictEqual([0, source.length])
-    expect(result.services.errors).toEqual([
-      expect.objectContaining({
-        type: ParseErrorType.InvalidDoctype,
-        range: [14, source.length],
-      }),
-    ])
+    expect(result.services.errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: ParseErrorType.InvalidDoctype,
+          range: [14, source.length],
+        }),
+      ]),
+    )
   })
 })

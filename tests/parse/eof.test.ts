@@ -39,9 +39,11 @@ describe('unexpected end of input', () => {
       value: source,
       range: [0, source.length],
     })
-    expect(result.errors).toEqual([
-      expect.objectContaining({ type: ParseErrorType.UnexpectedToken }),
-    ])
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ type: ParseErrorType.UnexpectedToken }),
+      ]),
+    )
   })
 
   it('keeps unterminated comment content and reports it', () => {
@@ -55,12 +57,14 @@ describe('unexpected end of input', () => {
       value: ' unterminated',
       range: [0, source.length],
     })
-    expect(result.errors).toEqual([
-      expect.objectContaining({
-        type: ParseErrorType.MalformedComment,
-        range: [0, source.length],
-      }),
-    ])
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: ParseErrorType.MalformedComment,
+          range: [0, source.length],
+        }),
+      ]),
+    )
   })
 
   it('keeps an unterminated attribute value and reports its quote', () => {
@@ -104,12 +108,14 @@ describe('unexpected end of input', () => {
 
     expect(declaration.attributes[0].value?.value).toBe('1.0')
     expect(result.ast.range).toStrictEqual([0, source.length])
-    expect(result.errors).toEqual([
-      expect.objectContaining({
-        type: ParseErrorType.InvalidXMLDeclaration,
-        range: [0, source.length],
-      }),
-    ])
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: ParseErrorType.InvalidXMLDeclaration,
+          range: [0, source.length],
+        }),
+      ]),
+    )
   })
 
   it('keeps an unterminated doctype value and reports its quote', () => {
@@ -118,11 +124,13 @@ describe('unexpected end of input', () => {
     const doctype = result.ast.children[0] as DoctypeNode
 
     expect(doctype.attributes.at(-1)?.value?.value).toBe('unterminated')
-    expect(result.errors).toEqual([
-      expect.objectContaining({
-        type: ParseErrorType.UnmatchedQuote,
-        range: [21, source.length],
-      }),
-    ])
+    expect(result.errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: ParseErrorType.UnmatchedQuote,
+          range: [21, source.length],
+        }),
+      ]),
+    )
   })
 })

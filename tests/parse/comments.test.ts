@@ -7,7 +7,7 @@ import type { CommentNode, ElementNode } from '../../src/types'
 describe('comment parsing', () => {
   it('should parse simple comments', () => {
     const source = '<!-- This is a comment -->'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
     const comment = document.children[0] as CommentNode
 
@@ -18,7 +18,7 @@ describe('comment parsing', () => {
 
   it('should parse empty comments', () => {
     const source = '<!---->'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
     const comment = document.children[0] as CommentNode
 
@@ -28,7 +28,7 @@ describe('comment parsing', () => {
 
   it('should parse comments with special characters', () => {
     const source = '<!-- Test & Demo < > " \' -->'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
     const comment = document.children[0] as CommentNode
 
@@ -43,7 +43,7 @@ describe('comment parsing', () => {
         Line 3
       -->
     `
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
     const comment = document.children[0] as CommentNode
 
@@ -55,7 +55,7 @@ describe('comment parsing', () => {
 
   it('should parse multiple comments', () => {
     const source = '<!-- Comment 1 --><!-- Comment 2 --><!-- Comment 3 -->'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
 
     const comments = document.children.filter(
@@ -79,7 +79,7 @@ describe('comment parsing', () => {
 
   it('should parse comments with hyphens', () => {
     const source = '<!-- This-is-a-test -->'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
     const comment = document.children[0] as CommentNode
 
@@ -88,7 +88,7 @@ describe('comment parsing', () => {
 
   it('should parse comments with numbers', () => {
     const source = '<!-- Version 1.0.0 -->'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
     const comment = document.children[0] as CommentNode
 
@@ -126,7 +126,7 @@ describe('comment parsing', () => {
 
   it('should parse comments with URLs', () => {
     const source = '<!-- https://example.com/path?query=value -->'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
     const comment = document.children[0] as CommentNode
 
@@ -135,7 +135,7 @@ describe('comment parsing', () => {
 
   it('should parse comments with code examples', () => {
     const source = '<!-- <div class="test"></div> -->'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
     const comment = document.children[0] as CommentNode
 

@@ -30,7 +30,7 @@ describe('attribute parsing', () => {
 
   it('should parse attributes without values', () => {
     const source = '<input checked disabled />'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
     const element = document.children[0] as ElementNode
 

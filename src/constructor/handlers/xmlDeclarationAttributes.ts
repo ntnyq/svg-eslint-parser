@@ -28,7 +28,7 @@ const dispatch = createTokenDispatcher(
       handler(token, state) {
         updateNodeEnd(state.currentNode, token)
         state.currentNode = state.currentNode.parentRef
-        state.currentContext = state.currentContext.parentRef
+        state.currentContext = state.currentContext.parentRef?.parentRef
         state.caretPosition++
         return state
       },
