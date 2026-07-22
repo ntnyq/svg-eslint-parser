@@ -99,11 +99,10 @@ describe('edge cases', () => {
     const { ast } = parseForESLint(source)
     const document = ast.document
 
-    // Parser converts to lowercase
-    expect((document.children[0] as ElementNode).name).toBe('div')
+    expect((document.children[0] as ElementNode).name).toBe('DiV')
     expect(
       ((document.children[0] as ElementNode).children[0] as ElementNode).name,
-    ).toBe('span')
+    ).toBe('SpAn')
   })
 
   it('should handle self-closing elements without space before slash', () => {

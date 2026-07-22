@@ -28,7 +28,7 @@ describe('element parsing', () => {
     expect(elements.map(element => element.name)).toStrictEqual([
       'defs',
       'custom',
-      'animatemotion',
+      'animateMotion',
     ])
     expect(elements.every(element => element.selfClosing)).toBeTruthy()
     expect(
@@ -105,15 +105,27 @@ describe('element parsing', () => {
     expect((document.children[2] as ElementNode).name).toBe('p')
   })
 
-  it('should parse elements with uppercase names', () => {
+  it('should preserve the case of element names', () => {
     const source = '<DIV><SPAN>Text</SPAN></DIV>'
     const { ast } = parseForESLint(source)
     const document = ast.document
     const element = document.children[0] as ElementNode
 
-    // Parser converts elements to lowercase
-    expect(element.name).toBe('div')
-    expect((element.children[0] as ElementNode).name).toBe('span')
+    expect(element.name).toBe('DIV')
+    expect((element.children[0] as ElementNode).name).toBe('SPAN')
+  })
+
+  it('should report closing tags with mismatched case', () => {
+    const source = '<linearGradient></lineargradient>'
+    const { services } = parseForESLint(source)
+
+    expect(services.errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: 'MismatchedTag',
+        }),
+      ]),
+    )
   })
 
   it('should parse elements with numbers in names', () => {

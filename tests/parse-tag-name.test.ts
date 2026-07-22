@@ -3,8 +3,10 @@ import { parseCloseTagName, parseOpenTagName } from '../src/utils'
 
 describe('parse tag name utilities', () => {
   describe('parseOpenTagName', () => {
-    it('parses and normalizes an uppercase open tag', () => {
-      expect(parseOpenTagName('<SVG width="100">')).toBe('svg')
+    it('preserves the case of an open tag', () => {
+      expect(parseOpenTagName('<linearGradient id="gradient">')).toBe(
+        'linearGradient',
+      )
     })
 
     it('parses custom open tag names', () => {
@@ -21,8 +23,8 @@ describe('parse tag name utilities', () => {
   })
 
   describe('parseCloseTagName', () => {
-    it('parses and normalizes an uppercase close tag', () => {
-      expect(parseCloseTagName('</SVG>')).toBe('svg')
+    it('preserves the case of a close tag', () => {
+      expect(parseCloseTagName('</linearGradient>')).toBe('linearGradient')
     })
 
     it('trims whitespace around close tag names', () => {

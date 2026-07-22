@@ -186,8 +186,7 @@ describe('svg-specific parsing', () => {
     const document = ast.document
     const clipPath = document.children[0] as ElementNode
 
-    // Parser converts to lowercase
-    expect(clipPath.name).toBe('clippath')
+    expect(clipPath.name).toBe('clipPath')
   })
 
   it('should parse mask element', () => {

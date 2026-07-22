@@ -48,7 +48,7 @@ Represents an SVG element (e.g., `<svg>`, `<circle>`, `<path>`).
 ```typescript
 interface ElementNode {
   type: 'Element'
-  name: string
+  name: string // Source spelling is preserved; XML names are case-sensitive
   attributes: AttributeNode[]
   children: (ElementNode | TextNode | CommentNode)[]
   selfClosing: boolean

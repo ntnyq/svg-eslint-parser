@@ -3,7 +3,7 @@ import { RE_CLOSE_TAG_NAME } from '../constants'
 /**
  * Parse the tag name from a closing tag token content
  * @param closeTagTokenContent - Raw closing tag content (e.g., "</svg>")
- * @returns Extracted and normalized tag name in lowercase
+ * @returns Extracted tag name with source case preserved
  * @throws {Error} if content doesn't match closing tag pattern
  */
 export function parseCloseTagName(closeTagTokenContent: string): string {
@@ -23,5 +23,5 @@ export function parseCloseTagName(closeTagTokenContent: string): string {
     )
   }
 
-  return tagName.trim().toLowerCase()
+  return tagName.trim()
 }

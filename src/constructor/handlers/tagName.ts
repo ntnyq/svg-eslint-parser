@@ -26,7 +26,7 @@ const dispatch = createTokenDispatcher(
 )
 
 /**
- * Construct the normalized name for an element node.
+ * Construct the source-preserving name for an element node.
  */
 export function construct(
   token: AnyToken,
