@@ -43,7 +43,7 @@ function nextLineBreak(code: string, from: number, end = code.length) {
  */
 export function getLineInfo(input: string, offset: number) {
   // oxlint-disable-next-line sort-vars
-  for (let line = 1, cur = 0; ; ) {
+  for (let line = 1, cur = 0; ;) {
     const nextBreak = nextLineBreak(input, cur, offset)
     if (nextBreak < 0) {
       return { line, column: offset - cur }

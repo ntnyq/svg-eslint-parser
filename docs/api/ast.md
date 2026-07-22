@@ -32,11 +32,7 @@ The root node of the SVG document. Contains all top-level elements, text, and co
 interface DocumentNode {
   type: 'Document'
   children: (
-    | ElementNode
-    | TextNode
-    | CommentNode
-    | DoctypeNode
-    | XMLDeclarationNode
+    ElementNode | TextNode | CommentNode | DoctypeNode | XMLDeclarationNode
   )[]
   range: [number, number]
   loc: SourceLocation
@@ -316,9 +312,7 @@ The parser generates:
               "type": "Element",
               "name": "circle",
               "selfClosing": true,
-              "attributes": [
-                /* ... */
-              ],
+              "attributes": [/* ... */],
               "children": []
             }
             // ... more children
