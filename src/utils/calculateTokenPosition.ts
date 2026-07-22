@@ -1,5 +1,4 @@
 import { calculateTokenCharactersRange } from './calculateTokenCharactersRange'
-import { calculateTokenLocation } from './calculateTokenLocation'
 import type { TokenizerState } from '../types'
 
 /**
@@ -14,7 +13,7 @@ export function calculateTokenPosition(
   options: { keepBuffer: boolean },
 ) {
   const range = calculateTokenCharactersRange(state, options)
-  const loc = calculateTokenLocation(state.sourceCode.source, range)
+  const loc = state.sourceCode.getLocationOf(range)
 
   return {
     range,
