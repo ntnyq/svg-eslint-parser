@@ -1,7 +1,7 @@
-import { unindent as $ } from '@ntnyq/utils'
 import { describe, expect, it } from 'vitest'
 import { NodeTypes } from '../../src/constants'
 import { parseForESLint } from '../../src/parser'
+import { unindent as $ } from '../helpers/unindent'
 import type { CommentNode, ElementNode } from '../../src/types'
 
 describe('comment parsing', () => {

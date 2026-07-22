@@ -1,4 +1,3 @@
-import { isNumber } from '@ntnyq/utils'
 import type { ParseErrorType } from '../types'
 
 /**
@@ -45,12 +44,19 @@ export class ParseError extends SyntaxError {
     line?: number,
     column?: number,
   ) {
-    super(message, options as ErrorOptions)
+    super(message, typeof options === 'number' ? undefined : options)
 
     this.name = 'ParseError'
-    this.code = isNumber(options) ? undefined : options.code
-    this.index = isNumber(options) ? options : options.offset
-    this.lineNumber = isNumber(options) ? (line ?? 0) : options.line
-    this.column = isNumber(options) ? (column ?? 0) : options.column
+    if (typeof options === 'number') {
+      this.index = options
+      this.lineNumber = line ?? 0
+      this.column = column ?? 0
+      return
+    }
+
+    this.code = options.code
+    this.index = options.offset
+    this.lineNumber = options.line
+    this.column = options.column
   }
 }

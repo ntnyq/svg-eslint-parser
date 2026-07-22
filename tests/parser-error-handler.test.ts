@@ -37,6 +37,14 @@ describe('parser errors', () => {
     expect(error.lineNumber).toBe(3)
     expect(error.column).toBe(5)
   })
+
+  it('supports positional constructor arguments', () => {
+    const error = new ParseError('Unexpected token', 12, 3, 5)
+
+    expect(error.index).toBe(12)
+    expect(error.lineNumber).toBe(3)
+    expect(error.column).toBe(5)
+  })
 })
 
 describe('error handler', () => {

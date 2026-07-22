@@ -1,7 +1,7 @@
-import { unindent as $ } from '@ntnyq/utils'
 import { describe, expect, it } from 'vitest'
 import { parseForESLint } from '../../src'
 import { NodeTypes } from '../../src/constants'
+import { unindent as $ } from '../helpers/unindent'
 import type { XMLDeclarationNode } from '../../src/types'
 
 const SVG_SOURCE = $`

@@ -1,7 +1,7 @@
-import { unindent as $ } from '@ntnyq/utils'
 import { describe, expect, it } from 'vitest'
 import { parseForESLint } from '../../src'
 import { NodeTypes } from '../../src/constants'
+import { unindent as $ } from '../helpers/unindent'
 
 const SVG_SOURCE = $`
   <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN">

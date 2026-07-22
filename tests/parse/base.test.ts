@@ -1,7 +1,7 @@
-import { unindent as $ } from '@ntnyq/utils'
 import { describe, expect, it } from 'vitest'
 import { parseForESLint } from '../../src'
 import { NodeTypes } from '../../src/constants'
+import { unindent as $ } from '../helpers/unindent'
 
 const SVG_SOURCE = $`
   <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
