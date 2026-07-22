@@ -30,17 +30,22 @@ export interface Options {
 }
 
 /**
+ * Parser services exposed to ESLint rules through `context.sourceCode`.
+ */
+export interface SVGParserServices {
+  errors: ParseError[]
+  isSVG: true
+  warnings: ParseError[]
+}
+
+/**
  * @see {@link https://eslint.org/docs/latest/extend/custom-parsers#parseforeslint-return-object}
  */
 export interface ParseForESLintResult {
   ast: Program
   scopeManager: any
+  services: SVGParserServices
   visitorKeys: SourceCode.VisitorKeys
-  services: {
-    errors: ParseError[]
-    isSVG: boolean
-    warnings: ParseError[]
-  }
 }
 
 /**

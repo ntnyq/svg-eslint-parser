@@ -122,6 +122,28 @@ quoted attributes with values.
 
 Returns a Document node directly.
 
+### ESLint Rule Authoring
+
+Use `defineSVGRule()` for typed `Program`, `Element`, declaration, text, comment,
+CDATA, and `:exit` listeners. The rule context also exposes typed SVG parser
+services and SourceCode helpers.
+
+```typescript
+import { defineSVGRule } from 'svg-eslint-parser'
+
+export default defineSVGRule({
+  create(context) {
+    return {
+      Element(node) {
+        if (node.name === 'circle') {
+          context.report({ node, message: 'Found a circle' })
+        }
+      },
+    }
+  },
+})
+```
+
 ### Utility Functions
 
 #### Search & Traversal

@@ -91,5 +91,34 @@ import type {
   ASTVisitor,
   SourceLocation,
   Range,
+
+  // ESLint rule-author types
+  SVGNodeMap,
+  SVGParserServices,
+  SVGRuleContext,
+  SVGRuleListener,
+  SVGRuleModule,
+  SVGRuleNodeMap,
+  SVGSourceCode,
 } from 'svg-eslint-parser'
+```
+
+Use `defineSVGRule()` to contextually type SVG listeners while returning an
+ESLint-compatible rule module:
+
+```typescript
+import { defineSVGRule } from 'svg-eslint-parser'
+
+export default defineSVGRule({
+  create(context) {
+    return {
+      Element(node) {
+        // ElementNode, including the ESLint-added parent link
+        if (node.name === 'circle') {
+          context.report({ node, message: 'Found a circle' })
+        }
+      },
+    }
+  },
+})
 ```

@@ -293,10 +293,9 @@ console.log(`Node depth: ${depth}`)
 ### Building an ESLint Rule
 
 ```typescript
-import type { Rule } from 'eslint'
-import { isNodeType, NodeTypes } from 'svg-eslint-parser'
+import { defineSVGRule } from 'svg-eslint-parser'
 
-export default {
+export default defineSVGRule({
   create(context) {
     return {
       Element(node) {
@@ -313,7 +312,7 @@ export default {
       },
     }
   },
-} satisfies Rule.RuleModule
+})
 ```
 
 ### Analyzing SVG Structure

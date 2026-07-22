@@ -1,6 +1,7 @@
 export * from './ast'
 export * from './parse'
 export * from './errors'
+export * from './eslint'
 export * from './contextualNode'
 export * from './tokenizerState'
 export * from './constructTreeState'

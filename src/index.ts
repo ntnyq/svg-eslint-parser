@@ -25,13 +25,14 @@ export function parse(code: string, options: Options = {}): DocumentNode {
 }
 
 export { meta }
+export * from './types'
+export * from './constants'
 export { ParseError }
 export { parseForESLint }
 
 export type { AST }
 
-export * from './types'
-export * from './constants'
+export { defineSVGRule } from './defineSVGRule'
 
 // Utility functions
 export {
