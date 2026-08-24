@@ -1,6 +1,6 @@
 import type { Position } from '../types'
 
-const LINE_BREAK_CHARACTERS = new Set(['\n', '\u2028', '\u2029'])
+const LINE_BREAK_CHARACTERS = new Set(['\n', '\u{2028}', '\u{2029}'])
 
 /**
  * Precomputed line starts for repeated offset-to-location lookups.
