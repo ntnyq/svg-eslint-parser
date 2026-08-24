@@ -16,7 +16,7 @@ import type {
 } from '../types'
 
 const XML_NAME_PATTERN =
-  /^[:_\p{L}\p{Nl}][.:_\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\u00B7\u203F\u2040-]*$/u
+  /^[:_\p{L}\p{Nl}][.:_\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\u{B7}\u{203F}\u{2040}-]*$/u
 const ENCODING_NAME_PATTERN = /^[A-Za-z][\w.-]*$/u
 const XML_DECLARATION_ATTRIBUTE_ORDER = new Map([
   ['version', 0],
