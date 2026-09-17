@@ -16,7 +16,7 @@ import type {
 } from '../types'
 
 const XML_NAME_PATTERN =
-  /^[:_\p{L}\p{Nl}][.:_\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\u00B7\u203F\u2040-]*$/u
+  /^[:_\p{L}\p{Nl}][.:_\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\u{B7}\u{203F}\u{2040}-]*$/u
 const ENCODING_NAME_PATTERN = /^[A-Za-z][\w.-]*$/u
 const XML_DECLARATION_ATTRIBUTE_ORDER = new Map([
   ['version', 0],
@@ -30,7 +30,7 @@ function addError(
   message: string,
   location: Locations,
   recovery: string,
-): void {
+) {
   errors.push({
     type,
     message,
@@ -48,7 +48,7 @@ function validateAttribute(
   attribute: AttributeNode,
   seenNames: Set<string>,
   errors: ParseError[],
-): void {
+) {
   const name = attribute.key?.value
 
   if (!name) {
@@ -116,7 +116,7 @@ function validateAttribute(
   }
 }
 
-function validateElement(element: ElementNode, errors: ParseError[]): void {
+function validateElement(element: ElementNode, errors: ParseError[]) {
   if (!isValidXMLName(element.name)) {
     addError(
       errors,
@@ -134,7 +134,7 @@ function validateElement(element: ElementNode, errors: ParseError[]): void {
   }
 }
 
-function validateComment(comment: CommentNode, errors: ParseError[]): void {
+function validateComment(comment: CommentNode, errors: ParseError[]) {
   if (comment.content.includes('--') || comment.content.endsWith('-')) {
     addError(
       errors,
@@ -151,7 +151,7 @@ function validateComment(comment: CommentNode, errors: ParseError[]): void {
 function validateProcessingInstruction(
   instruction: ProcessingInstructionNode,
   errors: ParseError[],
-): void {
+) {
   if (isValidXMLName(instruction.target)) {
     if (instruction.target.toLowerCase() !== 'xml') {
       return
@@ -180,7 +180,7 @@ function validateXMLDeclarationAttribute(
   attribute: XMLDeclarationAttributeNode,
   seenNames: Set<string>,
   errors: ParseError[],
-): void {
+) {
   const name = attribute.key?.value
 
   if (!name || !attribute.value || !attribute.quoteChar) {
@@ -253,7 +253,7 @@ function validateXMLDeclarationAttribute(
 function validateXMLDeclaration(
   declaration: XMLDeclarationNode,
   errors: ParseError[],
-): void {
+) {
   const version = declaration.attributes[0]
 
   if (
@@ -299,7 +299,7 @@ function validateDeclarationTokens(
   tokens: AnyToken[],
   root: ElementNode | undefined,
   errors: ParseError[],
-): void {
+) {
   const xmlDeclarations = tokens.filter(
     token => token.type === TokenTypes.XMLDeclarationOpen,
   )
@@ -355,7 +355,7 @@ function validateDoctype(
   doctype: DoctypeNode,
   root: ElementNode,
   errors: ParseError[],
-): void {
+) {
   const declaredRoot = doctype.attributes[0]?.value?.value
 
   if (!declaredRoot) {
@@ -390,7 +390,7 @@ function validateDoctype(
   }
 }
 
-function validateTree(document: DocumentNode, errors: ParseError[]): void {
+function validateTree(document: DocumentNode, errors: ParseError[]) {
   const stack = [...document.children]
 
   while (stack.length > 0) {

@@ -28,6 +28,7 @@ const INCOMPLETE_CDATA_START_CHARS = new Set([
   '<![C',
   '<![CD',
   '<![CDA',
+  // cSpell: disable-next-line
   '<![CDAT',
   '<![CDATA',
 ])
@@ -103,7 +104,7 @@ function parseCommentOpen(state: TokenizerState) {
   state.sourceCode.next()
 }
 
-function parseCDATAOpen(state: TokenizerState): void {
+function parseCDATAOpen(state: TokenizerState) {
   if (state.accumulatedContent.length() !== 0) {
     state.tokens.push(generateTextToken(state))
   }
@@ -159,7 +160,7 @@ function parseXMLDeclarationOpen(state: TokenizerState) {
   state.currentContext = TokenizerContextTypes.XMLDeclarationAttributes
 }
 
-function parseProcessingInstructionOpen(state: TokenizerState): void {
+function parseProcessingInstructionOpen(state: TokenizerState) {
   if (state.accumulatedContent.length() !== 0) {
     state.tokens.push(generateTextToken(state))
   }

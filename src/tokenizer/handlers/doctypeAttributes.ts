@@ -36,7 +36,7 @@ function parseClosingCornerBrace(state: TokenizerState) {
   state.currentContext = TokenizerContextTypes.DoctypeClose
 }
 
-function parseInternalSubset(state: TokenizerState): void {
+function parseInternalSubset(state: TokenizerState) {
   state.accumulatedContent.replace(state.decisionBuffer)
   state.decisionBuffer.clear()
   state.currentContext = TokenizerContextTypes.DoctypeInternalSubset

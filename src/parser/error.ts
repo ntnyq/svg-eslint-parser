@@ -44,16 +44,17 @@ export class ParseError extends SyntaxError {
     line?: number,
     column?: number,
   ) {
-    super(message, typeof options === 'number' ? undefined : options)
-
-    this.name = 'ParseError'
     if (typeof options === 'number') {
-      this.index = options
-      this.lineNumber = line ?? 0
-      this.column = column ?? 0
-      return
+      options = {
+        offset: options,
+        line: line ?? 0,
+        column: column ?? 0,
+      }
     }
 
+    super(message, options)
+
+    this.name = 'ParseError'
     this.code = options.code
     this.index = options.offset
     this.lineNumber = options.line

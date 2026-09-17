@@ -2,13 +2,13 @@ import { TokenizerContextTypes, TokenTypes } from '../../constants'
 import type { Range, TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
-function appendDecisionBuffer(state: TokenizerState): void {
+function appendDecisionBuffer(state: TokenizerState) {
   state.accumulatedContent.concatBuffer(state.decisionBuffer)
   state.decisionBuffer.clear()
   state.sourceCode.next()
 }
 
-function parseSubsetEnd(state: TokenizerState): void {
+function parseSubsetEnd(state: TokenizerState) {
   const rawValue =
     state.accumulatedContent.value() + state.decisionBuffer.value().slice(0, -1)
   const range: Range = [
@@ -32,7 +32,7 @@ function parseSubsetEnd(state: TokenizerState): void {
 /**
  * Tokenize a doctype internal subset while respecting quoted delimiters.
  */
-export function parse(chars: CharsBuffer, state: TokenizerState): void {
+export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
   const params =
     state.contextParams[TokenizerContextTypes.DoctypeInternalSubset]

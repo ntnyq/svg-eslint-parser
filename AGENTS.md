@@ -2,28 +2,36 @@
 
 ## Project Structure & Module Organization
 
-The public package entry is `src/index.ts`. Parsing flows through `src/tokenizer/` (source to tokens), `src/constructor/` (tokens to AST), and `src/parser/` (public and ESLint-facing APIs). Shared AST definitions live in `src/types/`; constants and reusable AST helpers belong in `src/constants/` and `src/utils/`. Tests are in `tests/`, with parser scenarios grouped under `tests/parse/`. The `docs/` pnpm workspace contains the VitePress site and playground; static files belong in `docs/public/`. Do not edit generated `dist/` output or `docs/components.d.ts` manually.
+`svg-eslint-parser` is a TypeScript ESM package that converts SVG/XML into an ESLint-compatible AST.
+
+- `src/tokenizer/` reads source text; `src/constructor/` builds the tree; `src/parser/` validates documents and integrates with ESLint.
+- `src/types/`, `src/constants/`, and `src/utils/` contain shared definitions and AST utilities. Public exports live in `src/index.ts`.
+- `tests/` contains unit and ESLint integration tests; `tests/parse/` covers SVG/XML syntax and recovery behavior.
+- `docs/` contains VitePress documentation, Vue playground components in `.vitepress/`, and static assets in `public/`.
+- `dist/` is generated package output; do not edit it manually.
 
 ## Build, Test, and Development Commands
 
-Use the pinned pnpm version from `package.json`.
+Use the pnpm version pinned in `package.json` and a current Node.js LTS release.
 
-- `pnpm install --frozen-lockfile`: install workspace dependencies exactly as locked.
-- `pnpm dev`: rebuild the library in watch mode.
-- `pnpm build`: create ESM JavaScript and declarations in `dist/` with tsdown.
-- `pnpm test`: run the Vitest suite once.
-- `pnpm test:coverage`: generate text and HTML V8 coverage reports.
-- `pnpm run release:check`: run formatting, lint, type checking, and tests together.
-- `pnpm docs:dev` / `pnpm docs:build`: serve or validate the documentation site.
+- `pnpm install --frozen-lockfile`: install workspace dependencies reproducibly.
+- `pnpm build`: bundle the package and generate declarations with tsdown.
+- `pnpm dev`: rebuild the package when source files change.
+- `pnpm test`: run Vitest once; watch mode is disabled by default.
+- `pnpm test tests/parse/strict-mode.test.ts`: run a focused test file.
+- `pnpm test:coverage`: collect V8 coverage with text and HTML reports.
+- `pnpm lint` and `pnpm typecheck`: check lint rules and TypeScript types.
+- `pnpm format` / `pnpm format:check`: apply or verify Oxfmt formatting.
+- `pnpm docs:dev` / `pnpm docs:build`: serve or build the documentation; build the package first.
 
 ## Coding Style & Naming Conventions
 
-Use strict TypeScript, ESM imports, two-space indentation, LF endings, single quotes, and the repository's semicolon-free style. oxfmt owns formatting (`pnpm format`); ESLint enforces code quality (`pnpm lint`). Use camelCase for functions and implementation files such as `parseForESLint.ts`, PascalCase for exported types, and descriptive plural directory names. Keep the public API explicit in `src/index.ts`; avoid exporting implementation-only helpers.
+Use two-space indentation, LF endings, single quotes, no semicolons, and trailing commas. Oxfmt targets an 80-column width; ESLint uses `@ntnyq/eslint-config`. Keep TypeScript strict and use explicit type-only imports. Follow existing camelCase source filenames and functions, such as `parseForESLint.ts`, and PascalCase type names. Husky runs nano-staged formatting and lint fixes before commits.
 
 ## Testing Guidelines
 
-Write Vitest tests as `*.test.ts`, colocated by feature under `tests/`. Add a focused regression test for every parser bug and cover valid input, malformed input, diagnostics, and source ranges when relevant. Coverage has no configured threshold, but new behavior should not reduce meaningful branch coverage. CI builds and tests on Node 22, 24, and 26 across Linux, Windows, and macOS.
+Name tests `*.test.ts` and use Vitest's `describe`, `it`, and `expect`. Add regression cases for parser changes, including invalid input, recovery behavior, and source locations where relevant. Test ESLint-facing changes in `tests/eslint-integration.test.ts`. Coverage includes `src/**/*.ts`; no numeric threshold is configured.
 
 ## Commit & Pull Request Guidelines
 
-Follow the existing Conventional Commit style: `feat:`, `fix:`, `refactor:`, `test:`, `docs:`, or `chore:`; optional scopes are welcome, and breaking changes use `feat!:`. Keep commits focused and imperative. Pull requests should explain the behavior change, link relevant issues, list verification commands, and update `docs/api/` or `docs/guide/` for public API changes. Include screenshots only for visible docs or playground changes, and ensure CI passes before requesting review.
+Follow the history's Conventional Commit style: `fix(types): narrow AST node search results`, `refactor: remove runtime dependencies`, or `docs: finalize parser release guidance`. Keep commits focused. In PRs, explain the behavior change, link relevant issues, and report validation commands. Update documentation for public API changes; include screenshots for playground UI changes. Before submitting, run formatting checks, lint, typechecking, build, and tests to match CI.

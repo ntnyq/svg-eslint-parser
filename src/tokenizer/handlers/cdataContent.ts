@@ -3,7 +3,7 @@ import { calculateTokenPosition } from '../../utils'
 import type { Range, TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
-function parseCDATAClose(state: TokenizerState): void {
+function parseCDATAClose(state: TokenizerState) {
   const position = calculateTokenPosition(state, { keepBuffer: false })
   const closeRange: Range = [
     position.range[1],
@@ -34,7 +34,7 @@ function parseCDATAClose(state: TokenizerState): void {
 /**
  * Tokenize raw CDATA content until its closing delimiter.
  */
-export function parse(chars: CharsBuffer, state: TokenizerState): void {
+export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
 
   if (value === ']' || value === ']]') {

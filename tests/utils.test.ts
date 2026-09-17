@@ -100,7 +100,7 @@ describe('ast utility functions', () => {
       const visited: string[] = []
 
       traverseAST(ast, {
-        enter: node => {
+        enter(node) {
           visited.push(node.type)
         },
       })
@@ -116,10 +116,10 @@ describe('ast utility functions', () => {
       const left: string[] = []
 
       traverseAST(ast, {
-        enter: node => {
+        enter(node) {
           entered.push(node.type)
         },
-        leave: node => {
+        leave(node) {
           left.push(node.type)
         },
       })
@@ -131,7 +131,7 @@ describe('ast utility functions', () => {
       const visited: string[] = []
 
       traverseAST(ast, {
-        enter: node => {
+        enter(node) {
           visited.push(node.type)
           // Skip children of Tag nodes
           if (node.type === NodeTypes.Element) {
@@ -224,7 +224,7 @@ describe('ast utility functions', () => {
       const visited: string[] = []
 
       traverseAST(ast, {
-        enter: node => {
+        enter(node) {
           visited.push(node.type)
         },
       })

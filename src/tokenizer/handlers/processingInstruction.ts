@@ -7,7 +7,7 @@ import { calculateTokenPosition } from '../../utils'
 import type { TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
-function parseInstructionEnd(state: TokenizerState): void {
+function parseInstructionEnd(state: TokenizerState) {
   const position = calculateTokenPosition(state, { keepBuffer: true })
 
   state.tokens.push({
@@ -26,7 +26,7 @@ function parseInstructionEnd(state: TokenizerState): void {
 /**
  * Tokenize a processing instruction as an opaque XML construct.
  */
-export function parse(chars: CharsBuffer, state: TokenizerState): void {
+export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
 
   if (value === '?') {

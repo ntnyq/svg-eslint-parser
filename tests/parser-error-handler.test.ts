@@ -24,7 +24,10 @@ function createIssue(
 
 describe('parser errors', () => {
   it('creates ParseError with expected metadata', () => {
+    const cause = new SyntaxError('Invalid token')
     const error = new ParseError('Unexpected token', {
+      cause,
+      code: ParseErrorType.UnexpectedToken,
       column: 5,
       line: 3,
       offset: 12,
@@ -33,6 +36,8 @@ describe('parser errors', () => {
     expect(error).toBeInstanceOf(SyntaxError)
     expect(error.name).toBe('ParseError')
     expect(error.message).toBe('Unexpected token')
+    expect(error.cause).toBe(cause)
+    expect(error.code).toBe(ParseErrorType.UnexpectedToken)
     expect(error.index).toBe(12)
     expect(error.lineNumber).toBe(3)
     expect(error.column).toBe(5)

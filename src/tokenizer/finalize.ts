@@ -30,7 +30,7 @@ function pushTrailingToken(
   state: TokenizerState,
   type: TokenTypes,
   value: string,
-): void {
+) {
   if (value.length === 0) {
     return
   }
@@ -51,7 +51,7 @@ function reportError(
   message: string,
   range: Range,
   recovery: string,
-): void {
+) {
   state.errors.push({
     type,
     message,
@@ -65,7 +65,7 @@ function reportUnexpectedConstructEnd(
   state: TokenizerState,
   message: string,
   marker?: string,
-): void {
+) {
   reportError(
     state,
     ParseErrorType.UnexpectedToken,
@@ -81,7 +81,7 @@ function finalizeAttributeValue(
     | TokenTypes.AttributeValue
     | TokenTypes.DoctypeAttributeValue
     | TokenTypes.XMLDeclarationAttributeValue,
-): void {
+) {
   const value = getPendingValue(state)
   pushTrailingToken(state, type, value)
 
@@ -102,7 +102,7 @@ function finalizeAttributeValue(
 /**
  * Flush a tokenizer context that reached the end of source unexpectedly.
  */
-export function finalizeTokenizer(state: TokenizerState): void {
+export function finalizeTokenizer(state: TokenizerState) {
   const value = getPendingValue(state)
 
   switch (state.currentContext) {

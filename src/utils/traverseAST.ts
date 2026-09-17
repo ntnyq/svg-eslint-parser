@@ -32,7 +32,7 @@ export function traverseAST(
   node: AnyNode,
   visitor: ASTVisitor,
   parent: AnyNode | null = null,
-): void {
+) {
   const stack: TraversalFrame[] = [{ node, parent, leaving: false }]
 
   while (stack.length > 0) {
@@ -76,7 +76,7 @@ export function traverseAST(
 export function walkAST(
   node: AnyNode,
   callback: (node: AnyNode, parent: AnyNode | null) => void,
-): void {
+) {
   traverseAST(node, {
     enter: callback,
   })

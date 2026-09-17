@@ -12,7 +12,7 @@ export class Chars {
   /**
    * Append adjacent characters into this range.
    */
-  public append(chars: Chars): void {
+  public append(chars: Chars) {
     this.value += chars.value
     this.range[1] = chars.range[1]
   }

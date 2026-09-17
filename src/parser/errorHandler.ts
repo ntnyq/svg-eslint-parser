@@ -11,13 +11,11 @@ export class ErrorHandler implements ErrorContext {
   errors: ParseError[] = []
   warnings: ParseError[] = []
 
-  addError(error: Omit<ParseError, 'type'> & { type: ParseErrorType }): void {
+  addError(error: Omit<ParseError, 'type'> & { type: ParseErrorType }) {
     this.errors.push(error as ParseError)
   }
 
-  addWarning(
-    warning: Omit<ParseError, 'type'> & { type: ParseErrorType },
-  ): void {
+  addWarning(warning: Omit<ParseError, 'type'> & { type: ParseErrorType }) {
     this.warnings.push(warning as ParseError)
   }
 
@@ -29,7 +27,7 @@ export class ErrorHandler implements ErrorContext {
     return this.warnings.length > 0
   }
 
-  clear(): void {
+  clear() {
     this.errors = []
     this.warnings = []
   }
@@ -45,7 +43,7 @@ export class ErrorHandler implements ErrorContext {
   /**
    * Merge errors from another ErrorHandler
    */
-  mergeErrors(other: ErrorHandler): void {
+  mergeErrors(other: ErrorHandler) {
     this.errors.push(...other.errors)
     this.warnings.push(...other.warnings)
   }

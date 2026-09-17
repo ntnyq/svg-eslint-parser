@@ -6,7 +6,7 @@ import type { ElementNode } from '../src/types'
 
 describe('source locations', () => {
   it('handles every XML line-break form', () => {
-    const source = 'a\r\nbc\rd\ne\u2028f\u2029g'
+    const source = 'a\r\nbc\rd\ne\u{2028}f\u{2029}g'
     const sourceCode = new SourceCode(source)
 
     expect(sourceCode.getLocationOf([3, source.length])).toStrictEqual({

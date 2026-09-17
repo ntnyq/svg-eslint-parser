@@ -13,7 +13,7 @@ const observations = {
   tokenCount: 0,
 }
 
-function resetObservations(): void {
+function resetObservations() {
   observations.exitedElementNames = []
   observations.parentName = ''
   observations.programVisited = false
