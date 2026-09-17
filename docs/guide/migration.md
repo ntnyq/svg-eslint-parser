@@ -94,23 +94,21 @@ const tags = findNodeByType(document, NodeTypes.Element)
 
 ### 4. Update Node Type Checks
 
-Use the new type guard function for better type safety:
+Use the `type` discriminant to narrow an `AnyNode` before reading fields specific
+to that node type. `isNodeType()` returns a boolean and does not narrow types.
 
 **Before:**
 
 ```typescript
-if (node.type === 'Element') {
-  // TypeScript doesn't know node is ElementNode
-  const name = (node as any).name
-}
+const name = (node as any).name
 ```
 
 **After:**
 
 ```typescript
-import { isNodeType, NodeTypes } from 'svg-eslint-parser'
+import { NodeTypes } from 'svg-eslint-parser'
 
-if (isNodeType(node, NodeTypes.Element)) {
+if (node.type === NodeTypes.Element) {
   // TypeScript knows node is ElementNode
   const name = node.name
 }
@@ -193,6 +191,11 @@ traverseAST(ast.document, {
 
 ## Breaking Changes
 
+### Node.js requirements
+
+The current package requires Node.js `^22.13.0 || >=24` and ESLint 9 or newer.
+Node.js 18, 20, and 23 are outside the supported range.
+
 ### Strict XML well-formedness
 
 The parser now treats XML well-formedness violations as parsing errors. This
@@ -204,9 +207,15 @@ Use recovery mode when parsing incomplete editor content or intentional XML
 fragments:
 
 ```typescript
+import { parseForESLint } from 'svg-eslint-parser'
+
+const fragment = '<circle /><rect />'
 const result = parseForESLint(fragment, { errorRecovery: true })
 console.log(result.services.errors)
 ```
+
+The public `parse()` function also defaults to strict parsing and accepts
+`errorRecovery`, but returns only the document without diagnostics.
 
 ## New Features
 
@@ -254,15 +263,15 @@ if (!validateNode(node)) {
 }
 ```
 
-### 4. Type Guards
+### 4. Type Narrowing
 
-Use type guards for better TypeScript support:
+Compare `node.type` directly for TypeScript narrowing:
 
 ```typescript
-import { isNodeType, NodeTypes } from 'svg-eslint-parser'
+import { NodeTypes } from 'svg-eslint-parser'
 
 nodes.forEach(node => {
-  if (isNodeType(node, NodeTypes.Element)) {
+  if (node.type === NodeTypes.Element) {
     // TypeScript knows node.name exists
     console.log(node.name)
   }
@@ -366,12 +375,12 @@ npm install svg-eslint-parser
 
 ### Issue: "Type errors with AST nodes"
 
-**Solution:** Use the type guard functions:
+**Solution:** Narrow the `AnyNode` union using its `type` discriminant:
 
 ```typescript
-import { isNodeType, NodeTypes } from 'svg-eslint-parser'
+import { NodeTypes } from 'svg-eslint-parser'
 
-if (isNodeType(node, NodeTypes.Element)) {
+if (node.type === NodeTypes.Element) {
   // TypeScript now knows the correct type
 }
 ```

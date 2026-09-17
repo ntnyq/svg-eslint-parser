@@ -23,7 +23,7 @@
 
 ## Install
 
-Requires Node.js 18.18 or newer and ESLint 9 or newer.
+Requires Node.js `^22.13.0 || >=24` and ESLint 9 or newer.
 
 ```shell
 npm install svg-eslint-parser -D
@@ -54,6 +54,8 @@ console.log(result.ast.type) // 'Program'
 ```
 
 ### With ESLint
+
+Install `eslint-plugin-svg` as a dev dependency to use the rules in this example.
 
 ```javascript
 import pluginSVG from 'eslint-plugin-svg'
@@ -86,6 +88,7 @@ import {
   traverseAST,
 } from 'svg-eslint-parser'
 
+const svgSource = '<svg><circle cx="50" /></svg>'
 const { ast } = parseForESLint(svgSource)
 const document = ast.document
 
@@ -122,7 +125,9 @@ quoted attributes with values.
 
 #### `parse(code: string, options?: Options)`
 
-Returns a Document node directly.
+Returns a Document node directly, using the same strict parsing and
+`errorRecovery` option as `parseForESLint()`. Use `parseForESLint()` when you also
+need diagnostics, tokens, or ESLint comments.
 
 ### ESLint Rule Authoring
 
@@ -157,13 +162,13 @@ export default defineSVGRule({
 
 #### Validation
 
-- `validateNode(node)` - Validate node structure
-- `isNodeType<T>(node, type)` - Type guard function
+- `validateNode(node)` - Perform shallow node structure checks
+- `isNodeType<T>(node, type)` - Check node type; returns a boolean without TypeScript narrowing
 
 #### Manipulation
 
 - `cloneNode<T>(node)` - Deep clone without parent references
-- `cloneNodeWithParent<T>(node, parent?)` - Clone preserving parent refs
+- `cloneNodeWithParent<T>(node, parent?)` - Clone and rebuild `parentRef` links
 - `filterNodes(node, predicate)` - Filter nodes by predicate
 - `mapNodes<T>(node, mapper)` - Transform a node tree
 
@@ -184,6 +189,9 @@ The parser currently exposes 18 AST node types:
 **Declarations**: `Doctype`, `DoctypeAttribute`, `DoctypeAttributeValue`, `ProcessingInstruction`, `XMLDeclaration`, `XMLDeclarationAttribute`, `XMLDeclarationAttributeKey`, `XMLDeclarationAttributeValue`
 
 **Error Handling**: `Error`
+
+`Error` is defined in the public types but is not currently emitted by the
+parser. Recovery diagnostics are returned in parser services.
 
 ## Documentation
 

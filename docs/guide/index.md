@@ -2,7 +2,7 @@
 
 ## Install
 
-Requires Node.js 18.18 or newer and ESLint 9 or newer.
+Requires Node.js `^22.13.0 || >=24` and ESLint 9 or newer.
 
 ::: code-group
 
@@ -23,6 +23,8 @@ pnpm add svg-eslint-parser -D
 ## Usage
 
 ### ESLint
+
+Install `eslint-plugin-svg` as a dev dependency to use the rules in this example.
 
 ```ts [eslint.config.mjs] twoslash
 // @noErrors

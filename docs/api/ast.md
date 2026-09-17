@@ -12,6 +12,10 @@ The parser defines **18 node types** organized into the following categories:
 
 The root node returned by `parseForESLint()`. Wraps the Document node with ESLint-specific metadata.
 
+SVG nodes live under `document`; `body` is always empty. XML comments remain in
+the document tree and are also exposed as `Block` comments in `comments`.
+Comment delimiter and content tokens are excluded from `tokens`.
+
 ```typescript
 interface Program {
   type: 'Program'
@@ -28,6 +32,9 @@ interface Program {
 
 The XML document node. Its `children` preserve prolog nodes, the root element,
 comments, processing instructions, and surrounding whitespace in source order.
+
+Strict parsing requires exactly one root element. The child union also covers
+recovery output, such as top-level CDATA or multiple root elements.
 
 ```typescript
 interface DocumentNode {
@@ -101,6 +108,8 @@ interface AttributeKeyNode {
 The attribute value without its wrapper quotes. The wrapper is recorded on the
 parent `AttributeNode.quoteChar`.
 
+Entity references remain in source form; for example, `&amp;` is not decoded.
+
 ```typescript
 interface AttributeValueNode {
   type: 'AttributeValue'
@@ -114,7 +123,7 @@ interface AttributeValueNode {
 
 #### Text
 
-Text content between tags.
+Text content between tags, preserving whitespace and entity references as written.
 
 ```typescript
 interface TextNode {
@@ -158,6 +167,9 @@ interface CommentNode {
 #### ProcessingInstruction
 
 A generic XML processing instruction such as `<?xml-stylesheet ...?>`.
+
+`target` is the instruction name. `value` contains its data after the target,
+with leading and trailing whitespace removed and without the `<?` / `?>` delimiters.
 
 ```typescript
 interface ProcessingInstructionNode {
@@ -271,7 +283,9 @@ interface DoctypeAttributeValueNode {
 
 #### Error
 
-Represents a parse error node.
+A node type defined by the public API, but not currently emitted during parsing
+or recovery. Use `parseForESLint()` with `{ errorRecovery: true }` and inspect
+`services.errors` for diagnostics; these diagnostic objects are not AST nodes.
 
 ```typescript
 interface ErrorNode {
@@ -290,7 +304,8 @@ All nodes share these common properties:
 
 ### range
 
-Tuple of start and end-exclusive character offsets in the source code (0-based).
+Tuple of start and end-exclusive offsets in the source string (0-based UTF-16
+code units, matching JavaScript string indexing).
 
 ```typescript
 range: [number, number]
@@ -298,7 +313,8 @@ range: [number, number]
 
 ### loc
 
-Source location information with 1-based lines and 0-based columns.
+Source location information with 1-based lines and 0-based columns measured in
+UTF-16 code units.
 
 ```typescript
 interface SourceLocation {
@@ -311,6 +327,12 @@ interface Position {
   column: number // 0-based
 }
 ```
+
+### Parent references
+
+Direct calls to `parse()` and `parseForESLint()` return nodes without parent
+references. ESLint adds `parent` links while running rules. For direct AST work,
+`cloneNodeWithParent()` creates a clone with `parentRef` links instead.
 
 ## Example AST
 
