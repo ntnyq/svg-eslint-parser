@@ -1,5 +1,5 @@
 import { createSharedComposable, useLocalStorage } from '@vueuse/core'
-import { parseForESLint } from 'svg-eslint-parser'
+import { ParseError, parseForESLint } from 'svg-eslint-parser'
 import { computed, ref, shallowRef, watchEffect } from 'vue'
 import { InputTab, OutputTab } from '../constants'
 import { svgSample } from '../constants/sample'
@@ -8,11 +8,11 @@ import type { ParseForESLintResult } from 'svg-eslint-parser'
 
 export function usePlaygroundState() {
   const code = useLocalStorage(`${packageName}:code`, svgSample)
-  const ast = ref<ParseForESLintResult | undefined>()
+  const ast = shallowRef<ParseForESLintResult | undefined>()
 
   const loading = ref(false)
   const parseCost = ref(0)
-  const parseError = shallowRef<unknown>()
+  const parseError = shallowRef<string>()
 
   const astJson = computed(() => {
     if (!ast.value) {
@@ -31,10 +31,7 @@ export function usePlaygroundState() {
   }
 
   function resetPlayground() {
-    setCode(null)
-    parseCost.value = 0
-    parseError.value = null
-    ast.value = undefined
+    setCode(svgSample)
   }
 
   const activeInputTab = ref<InputTab>(InputTab.Code)
@@ -58,11 +55,16 @@ export function usePlaygroundState() {
       ast.value = parseForESLint(code.value)
 
       parseCost.value = window.performance.now() - startTime
-      parseError.value = null
+      parseError.value = undefined
     } catch (error) {
-      // oxlint-disable-next-line no-console
-      console.error(error)
-      parseError.value = error
+      ast.value = undefined
+      parseCost.value = 0
+      parseError.value =
+        error instanceof ParseError
+          ? `Line ${error.lineNumber}, column ${error.column}: ${error.message}`
+          : error instanceof Error
+            ? error.message
+            : String(error)
     } finally {
       loading.value = false
     }

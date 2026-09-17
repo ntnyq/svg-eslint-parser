@@ -18,7 +18,9 @@ export function clearParent(ast: any): DocumentNode {
     delete node.parentRef
 
     if (Array.isArray(node.children)) {
-      stack.push(...node.children)
+      for (const child of node.children) {
+        stack.push(child)
+      }
     }
   }
 

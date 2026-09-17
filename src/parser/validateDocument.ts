@@ -1,4 +1,4 @@
-import { NodeTypes, TokenTypes } from '../constants'
+import { NodeTypes, RE_XML_NAME, TokenTypes } from '../constants'
 import { ParseErrorType } from '../types'
 import { cloneLocation, cloneRange } from '../utils'
 import type {
@@ -15,8 +15,6 @@ import type {
   XMLDeclarationNode,
 } from '../types'
 
-const XML_NAME_PATTERN =
-  /^[:_\p{L}\p{Nl}][.:_\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\u{B7}\u{203F}\u{2040}-]*$/u
 const ENCODING_NAME_PATTERN = /^[A-Za-z][\w.-]*$/u
 const XML_DECLARATION_ATTRIBUTE_ORDER = new Map([
   ['version', 0],
@@ -41,7 +39,7 @@ function addError(
 }
 
 function isValidXMLName(name: string): boolean {
-  return XML_NAME_PATTERN.test(name)
+  return RE_XML_NAME.test(name)
 }
 
 function validateAttribute(
@@ -406,11 +404,99 @@ function validateTree(document: DocumentNode, errors: ParseError[]) {
         break
       case NodeTypes.Element:
         validateElement(node, errors)
-        stack.push(...node.children)
+        for (const child of node.children) {
+          stack.push(child)
+        }
+        break
+      case NodeTypes.Text:
+        if (node.value.includes('<') || node.value.includes(']]>')) {
+          addError(
+            errors,
+            ParseErrorType.InvalidCharacter,
+            'Character data must not contain unescaped "<" or "]]>".',
+            node,
+            'The parser kept the original text in the AST.',
+          )
+        }
         break
       case NodeTypes.ProcessingInstruction:
         validateProcessingInstruction(node, errors)
         break
+    }
+  }
+}
+
+function validateTokenSyntax(tokens: AnyToken[], errors: ParseError[]) {
+  for (const [index, token] of tokens.entries()) {
+    if (
+      /[^\t\n\r\u{20}-\u{D7FF}\u{E000}-\u{FFFD}\u{10000}-\u{10FFFF}]/u.test(
+        token.value,
+      )
+    ) {
+      addError(
+        errors,
+        ParseErrorType.InvalidCharacter,
+        'XML content contains a forbidden character.',
+        token,
+        'The parser kept the original source content.',
+      )
+    }
+
+    const previous = tokens[index - 1]
+    if (
+      previous &&
+      previous.range[1] === token.range[0] &&
+      ((token.type === TokenTypes.AttributeKey &&
+        previous.type === TokenTypes.AttributeValueWrapperEnd) ||
+        (token.type === TokenTypes.XMLDeclarationAttributeKey &&
+          previous.type === TokenTypes.XMLDeclarationAttributeValueWrapperEnd))
+    ) {
+      addError(
+        errors,
+        token.type === TokenTypes.AttributeKey
+          ? ParseErrorType.InvalidAttribute
+          : ParseErrorType.InvalidXMLDeclaration,
+        'Attributes must be separated by XML whitespace.',
+        token,
+        'The parser kept the attributes in source order.',
+      )
+    }
+
+    if (
+      token.type === TokenTypes.OpenTagEnd &&
+      token.value !== '>' &&
+      token.value !== '/>'
+    ) {
+      addError(
+        errors,
+        ParseErrorType.UnexpectedToken,
+        'An opening tag must end with ">" or "/>".',
+        token,
+        'The parser kept the element in the AST.',
+      )
+    }
+
+    if (
+      token.type === TokenTypes.CloseTag &&
+      !isValidXMLName(token.value.slice(2, -1).replace(/[\t\n\r ]+$/u, ''))
+    ) {
+      addError(
+        errors,
+        ParseErrorType.InvalidCharacter,
+        'A closing tag must contain a name followed only by optional XML whitespace.',
+        token,
+        'The parser kept the recovered closing tag.',
+      )
+    }
+
+    if (token.type === TokenTypes.DoctypeClose && token.value !== '>') {
+      addError(
+        errors,
+        ParseErrorType.InvalidDoctype,
+        'A doctype internal subset must be followed by optional XML whitespace and ">".',
+        token,
+        'The parser kept the doctype in the AST.',
+      )
     }
   }
 }
@@ -483,6 +569,7 @@ export function validateDocument(
   }
 
   validateTree(document, errors)
+  validateTokenSyntax(tokens, errors)
 
   return errors.sort((left, right) => left.range[0] - right.range[0])
 }

@@ -92,6 +92,62 @@ const config: Linter.Config = {
 }
 
 describe('ESLint integration', () => {
+  it('visits Unicode elements and exposes complete XML declaration attributes to fixes', () => {
+    const attributeTexts: string[] = []
+    const names: string[] = []
+    const inspectDeclaration = defineSVGRule<[], 'replaceEncoding'>({
+      meta: {
+        type: 'problem',
+        fixable: 'code',
+        schema: [],
+        messages: { replaceEncoding: 'Replace the encoding attribute.' },
+      },
+      create(context) {
+        return {
+          Element(node) {
+            names.push(node.name)
+          },
+          XMLDeclarationAttribute(node) {
+            const text = context.sourceCode.getText(node)
+            attributeTexts.push(text)
+            expect(context.sourceCode.getLocFromIndex(node.range[0])).toEqual(
+              node.loc.start,
+            )
+            expect(context.sourceCode.getLocFromIndex(node.range[1])).toEqual(
+              node.loc.end,
+            )
+            if (text === 'encoding="UTF-8"') {
+              context.report({
+                node,
+                messageId: 'replaceEncoding',
+                fix: fixer => fixer.replaceText(node, 'encoding="UTF-16"'),
+              })
+            }
+          },
+        }
+      },
+    })
+    const source = '<?xml version="1.0"\nencoding="UTF-8"?><svg><é/></svg>'
+    const linter = new Linter({ configType: 'flat' })
+    const result = linter.verifyAndFix(
+      source,
+      {
+        files: ['**/*.svg'],
+        languageOptions: { parser },
+        plugins: { test: { rules: { declaration: inspectDeclaration } } },
+        rules: { 'test/declaration': 'error' },
+      },
+      'declaration.svg',
+    )
+
+    expect(attributeTexts).toContain('version="1.0"')
+    expect(attributeTexts).toContain('encoding="UTF-8"')
+    expect(names).toContain('é')
+    expect(result.messages).toEqual([])
+    expect(result.fixed).toBe(true)
+    expect(result.output).toBe(source.replace('UTF-8', 'UTF-16'))
+  })
+
   it('runs a typed SVG rule through Linter', () => {
     resetObservations()
     const linter = new Linter({ configType: 'flat' })

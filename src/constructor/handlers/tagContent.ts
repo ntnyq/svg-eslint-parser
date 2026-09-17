@@ -202,6 +202,8 @@ const dispatch = createTokenDispatcher(
         initChildrenIfNone(state.currentNode)
         const commentNode: ContextualCommentNode = {
           type: NodeTypes.Comment,
+          content: '',
+          value: '',
           parentRef: state.currentNode,
           range: cloneRange(token.range),
           loc: cloneLocation(token.loc),

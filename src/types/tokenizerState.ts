@@ -30,6 +30,7 @@ type ContextParams = {
     wrapper: string
   }
   [TokenizerContextTypes.DoctypeInternalSubset]?: {
+    mode?: 'comment' | 'instruction'
     quote?: '"' | "'"
   }
   [TokenizerContextTypes.OpenTagEnd]?: {

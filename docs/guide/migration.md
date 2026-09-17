@@ -201,7 +201,13 @@ Node.js 18, 20, and 23 are outside the supported range.
 The parser now treats XML well-formedness violations as parsing errors. This
 includes empty or multi-root documents, top-level character data, misplaced XML
 or DOCTYPE declarations, invalid names or comments, and valueless, unquoted, or
-duplicate attributes.
+duplicate attributes. Attributes require XML whitespace between them; malformed
+tag endings, forbidden XML characters, and unescaped `<` or `]]>` in text are
+also reported. Recovery mode preserves the affected nodes and exposes these
+diagnostics through `services.errors`.
+
+Element and attribute names support the Unicode ranges defined by XML, including
+supplementary characters. Source ranges remain UTF-16 offsets, matching ESLint.
 
 Use recovery mode when parsing incomplete editor content or intentional XML
 fragments:

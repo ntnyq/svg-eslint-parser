@@ -10,6 +10,22 @@ import {
 } from '../src/utils'
 
 describe('deep AST traversal', () => {
+  it('parses and traverses a wide document without argument stack overflow', () => {
+    const childCount = 130_000
+    const source = `<svg>${'<g/>'.repeat(childCount)}</svg>`
+    const result = parseForESLint(source)
+    expect(result.services.errors).toEqual([])
+    const elements = findNodeByType(result.ast.document, NodeTypes.Element)
+    expect(elements).toHaveLength(childCount + 1)
+    expect(elements[1].range).toEqual([5, 9])
+    expect(elements.at(-1)?.range).toEqual([
+      source.length - 10,
+      source.length - 6,
+    ])
+    expect(elements.every(node => !('parentRef' in node))).toBe(true)
+    expect(countNodes(result.ast.document)).toBe(childCount + 2)
+  })
+
   it('parses and traverses deeply nested SVG without overflowing the stack', () => {
     const depth = 6_000
     const source = `<svg>${'<g>'.repeat(depth)}<!-- deepest -->${'</g>'.repeat(depth)}</svg>`

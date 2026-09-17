@@ -14,7 +14,9 @@ export function getChildNodes(node: AnyNode): AnyNode[] {
     const value = node[key as keyof AnyNode]
 
     if (Array.isArray(value)) {
-      children.push(...(value as unknown as AnyNode[]))
+      for (const child of value as unknown as AnyNode[]) {
+        children.push(child)
+      }
     } else if (value) {
       children.push(value as unknown as AnyNode)
     }

@@ -33,23 +33,41 @@ export const XML_DECLARATION_END = '?>'
  */
 export const PROCESSING_INSTRUCTION_END = '?>'
 
+// XML 1.0 (Fifth Edition), productions [4] and [4a].
+const XML_NAME_START_CHAR =
+  ':A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF' +
+  '\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F' +
+  '\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD' +
+  '\\u{10000}-\\u{EFFFF}'
+
 /**
- * regexp for open tag start
- * @regex101 https://regex101.com/?regex=%5E%3C%5Cw&flags=u&flavor=javascript
+ * Complete XML name, shared by element, attribute, and declaration validation.
  */
-export const RE_OPEN_TAG_START = /^<\w/u
+export const RE_XML_NAME = new RegExp(
+  // Preserve the XML productions, including combining marks and explicit ranges.
+  // eslint-disable-next-line no-misleading-character-class, regexp/no-useless-range, regexp/prefer-w
+  `^[${XML_NAME_START_CHAR}][${XML_NAME_START_CHAR}\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040]*$`,
+  'u',
+)
+
+/**
+ * Opening tag candidate. Include digits to preserve malformed names for recovery.
+ */
+export const RE_OPEN_TAG_START = new RegExp(
+  // eslint-disable-next-line regexp/no-useless-range, regexp/prefer-w
+  `^<[${XML_NAME_START_CHAR}0-9]`,
+  'u',
+)
 
 /**
  * regexp for open tag name
- * @regex101 https://regex101.com/?regex=%5E%3C%28%3F%3CtagName%3E%5CS%2B%29&flags=u&flavor=javascript
  */
-export const RE_OPEN_TAG_NAME = /^<(?<tagName>\S+)/u
+export const RE_OPEN_TAG_NAME = /^<(?<tagName>[^\t\n\r ]+)/u
 
 /**
  * regexp for close tag name
- * @regex101 https://regex101.com/?regex=%5E%3C%5C%2F%28%3F%3CtagName%3E%28%3F%3A.%7C%5Cr%3F%5Cn%29*%29%3E%24&flags=u&flavor=javascript
  */
-export const RE_CLOSE_TAG_NAME = /^<\/(?<tagName>(?:.|\r?\n)*)>$/u
+export const RE_CLOSE_TAG_NAME = /^<\/(?<tagName>.*)>$/su
 
 /**
  * regexp for incomplete closing tag

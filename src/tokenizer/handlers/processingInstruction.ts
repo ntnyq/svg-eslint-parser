@@ -4,6 +4,7 @@ import {
   TokenTypes,
 } from '../../constants'
 import { calculateTokenPosition } from '../../utils'
+import { Chars } from '../chars'
 import type { TokenizerState } from '../../types'
 import type { CharsBuffer } from '../charsBuffer'
 
@@ -28,6 +29,17 @@ function parseInstructionEnd(state: TokenizerState) {
  */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
+
+  if (value === '??') {
+    const start = state.sourceCode.index() - value.length + 1
+    state.accumulatedContent.concat(new Chars('?', [start, start + 1]))
+    state.decisionBuffer.clear()
+    state.decisionBuffer.concat(
+      new Chars(value.slice(1), [start + 1, state.sourceCode.index() + 1]),
+    )
+    state.sourceCode.next()
+    return
+  }
 
   if (value === '?') {
     state.sourceCode.next()

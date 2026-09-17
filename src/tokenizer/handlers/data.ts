@@ -206,6 +206,11 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
     return parseProcessingInstructionOpen(state)
   }
 
+  // The cursor advances by UTF-16 code unit; wait for a complete code point.
+  if (/^<[\uD800-\uDBFF]$/u.test(value)) {
+    return state.sourceCode.next()
+  }
+
   if (RE_OPEN_TAG_START.test(value)) {
     return parseOpeningCornerBraceWithText(state)
   }

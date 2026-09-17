@@ -1,10 +1,5 @@
 import { TokenTypes } from '../../constants'
-import {
-  cloneRange,
-  createNodeFrom,
-  getLastAttribute,
-  updateNodeEnd,
-} from '../../utils'
+import { createNodeFrom, getLastAttribute, updateNodeEnd } from '../../utils'
 import { createTokenDispatcher } from '../handlerFactory'
 import type {
   AnyToken,
@@ -36,9 +31,7 @@ const dispatch = createTokenDispatcher(
         attribute.value = createNodeFrom(
           token,
         ) as XMLDeclarationAttributeValueNode
-        if (!attribute.quoteChar) {
-          attribute.range = cloneRange(token.range)
-        }
+        updateNodeEnd(attribute, token)
         state.caretPosition++
         return state
       },
@@ -54,7 +47,7 @@ const dispatch = createTokenDispatcher(
           return state
         }
         attribute.quoteChar = token.value as any
-        attribute.range = cloneRange(token.range)
+        updateNodeEnd(attribute, token)
         state.caretPosition++
         return state
       },

@@ -10,10 +10,10 @@ function appendDecisionBuffer(state: TokenizerState) {
 
 function parseSubsetEnd(state: TokenizerState) {
   const rawValue =
-    state.accumulatedContent.value() + state.decisionBuffer.value().slice(0, -1)
+    state.accumulatedContent.value() + state.decisionBuffer.value()
   const range: Range = [
-    state.sourceCode.index() - rawValue.length,
-    state.sourceCode.index(),
+    state.sourceCode.index() + 1 - rawValue.length,
+    state.sourceCode.index() + 1,
   ]
 
   state.tokens.push({
@@ -27,16 +27,28 @@ function parseSubsetEnd(state: TokenizerState) {
   state.decisionBuffer.clear()
   state.currentContext = TokenizerContextTypes.DoctypeClose
   state.contextParams[TokenizerContextTypes.DoctypeInternalSubset] = undefined
+  state.sourceCode.next()
 }
 
 /**
- * Tokenize a doctype internal subset while respecting quoted delimiters.
+ * Tokenize an opaque internal subset, respecting quotes, comments, and PIs.
  */
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
   const params =
     state.contextParams[TokenizerContextTypes.DoctypeInternalSubset]
   const quote = params?.quote
+  const { source } = state.sourceCode
+  const index = state.sourceCode.index()
+
+  if (params?.mode) {
+    const delimiter = params.mode === 'comment' ? '-->' : '?>'
+    if (source.slice(index + 1 - delimiter.length, index + 1) === delimiter) {
+      params.mode = undefined
+    }
+    appendDecisionBuffer(state)
+    return
+  }
 
   if (quote) {
     if (value === quote) {
@@ -54,12 +66,16 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
     return
   }
 
-  if (value === ']') {
-    state.sourceCode.next()
+  if (
+    params &&
+    (source.startsWith('<!--', index) || source.startsWith('<?', index))
+  ) {
+    params.mode = source.startsWith('<!--', index) ? 'comment' : 'instruction'
+    appendDecisionBuffer(state)
     return
   }
 
-  if (value === ']>') {
+  if (value === ']') {
     parseSubsetEnd(state)
     return
   }

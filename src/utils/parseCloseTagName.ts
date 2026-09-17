@@ -23,5 +23,5 @@ export function parseCloseTagName(closeTagTokenContent: string): string {
     )
   }
 
-  return tagName.trim()
+  return tagName.replace(/^[\t\n\r ]+|[\t\n\r ]+$/gu, '')
 }

@@ -87,7 +87,7 @@ describe('edge cases', () => {
 
   it('should handle attributes without spaces', () => {
     const source = '<div class="test"id="main"data-value="foo"></div>'
-    const { ast } = parseForESLint(source)
+    const { ast } = parseForESLint(source, { errorRecovery: true })
     const document = ast.document
     const element = document.children[0] as ElementNode
 
