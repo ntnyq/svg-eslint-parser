@@ -1,2 +1,2 @@
-export * from './isIterable'
-export * from './scrollIntoView'
+export * from './isIterable.ts'
+export * from './scrollIntoView.ts'

@@ -1,9 +1,9 @@
-import { version } from '../../../package.json'
-import { packageName } from '../meta'
+import pkg from '../../../package.json' with { type: 'json' }
+import { packageName } from '../meta.ts'
 import type { DefaultTheme } from 'vitepress'
 
 const VERSIONS: DefaultTheme.NavItemWithLink[] = [
-  { text: `v${version} (current)`, link: '/' },
+  { text: `v${pkg.version} (current)`, link: '/' },
   {
     text: 'Release Notes',
     link: `https://github.com/ntnyq/${packageName}/releases`,
@@ -41,7 +41,7 @@ export function getThemeConfig() {
       { text: 'API', link: '/api/' },
       { text: 'Playground', link: '/play/' },
       {
-        text: `v${version}`,
+        text: `v${pkg.version}`,
         items: VERSIONS,
       },
     ],

@@ -1,3 +1,41 @@
+.page-home .VPHero .container {
+  align-items: center;
+  gap: 2rem;
+}
+
+.page-home .VPHero .image {
+  margin: 0;
+}
+
+.page-home .VPHero .image-container {
+  width: 10rem;
+  height: 10rem;
+  transform: none;
+}
+
+.page-home .VPHero .image-src {
+  position: static;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  transform: none;
+}
+
+@media (min-width: 40rem) {
+  .page-home .VPHero .image-container {
+    width: 12rem;
+    height: 12rem;
+  }
+}
+
+@media (min-width: 60rem) {
+  .page-home .VPHero .image-container {
+    width: 16rem;
+    height: 16rem;
+  }
+}
+
 #package_status {
   --at-apply: "relative";
 }
@@ -12,7 +50,8 @@
 }
 
 /* hide search in playground page */
-.page-playground .VPNavBarSearch {
+.page-playground .VPNavBarSearch,
+.page-playground .VPNavBar .content-body > .VPNavBarSearch {
   --at-apply: "hidden";
 }
 
@@ -31,10 +70,60 @@
   --at-apply: "h-full";
 }
 
-/* set height for playground core */
-@media screen and (min-width: 960px) {
-  .page-playground .page-playground-core {
-    --at-apply: "h-[calc(100vh-var(--vp-nav-height))]";
+.page-playground-core {
+  height: calc(100dvh - var(--vp-nav-height));
+  min-height: 540px;
+}
+
+.pg-panel-heading {
+  --at-apply: "h-12 flex flex-none items-center justify-between gap-2 border-b border-$vp-c-divider bg-$vp-c-bg";
+}
+
+.pg-panel-footer {
+  --at-apply: "h-8 flex flex-none items-center justify-between gap-2 border-t border-$vp-c-divider px-3 text-xs text-$vp-c-text-2 bg-$vp-c-bg-soft";
+}
+
+.pg-button {
+  --at-apply: "inline-flex items-center justify-center gap-2 rounded-md px-3 py-1.5 text-xs font-medium hover:bg-$vp-c-default-soft disabled:opacity-40 disabled:cursor-not-allowed";
+}
+
+.page-playground-core :is(button, input):focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: -2px;
+}
+
+.pg-preview {
+  background-color: var(--vp-c-bg);
+  background-image:
+    linear-gradient(45deg, var(--vp-c-bg-soft) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--vp-c-bg-soft) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--vp-c-bg-soft) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--vp-c-bg-soft) 75%);
+  background-size: 20px 20px;
+  background-position:
+    0 0,
+    0 10px,
+    10px -10px,
+    -10px 0;
+}
+
+@media screen and (max-width: 1099px) {
+  .page-playground-core {
+    height: auto;
+    min-height: 0;
+  }
+  .playground-workspace .splitpanes {
+    height: auto;
+  }
+  .playground-workspace .splitpanes__pane {
+    height: 440px !important;
+    border-bottom: 1px solid var(--vp-c-divider);
+  }
+  .playground-workspace .splitpanes__pane:last-child {
+    height: 700px !important;
+  }
+  .playground-workspace .splitpanes__splitter {
+    display: none;
   }
 }
 

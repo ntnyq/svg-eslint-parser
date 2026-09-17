@@ -4,15 +4,39 @@ import { computed, ref, shallowRef, watchEffect } from 'vue'
 import { InputTab, OutputTab } from '../constants'
 import { svgSample } from '../constants/sample'
 import { packageName } from '../meta'
-import type { ParseForESLintResult } from 'svg-eslint-parser'
+import { summarizeDocument } from '../utils/summarizeDocument'
+import type { ParseForESLintResult, Range } from 'svg-eslint-parser'
 
 export function usePlaygroundState() {
   const code = useLocalStorage(`${packageName}:code`, svgSample)
   const ast = shallowRef<ParseForESLintResult | undefined>()
+  const activeInputTab = ref<InputTab>(InputTab.Code)
 
   const loading = ref(false)
   const parseCost = ref(0)
   const parseError = shallowRef<string>()
+  const errorRecovery = shallowRef(false)
+  const errorRange = shallowRef<Range>()
+  const selectedRange = shallowRef<Range>()
+  const summary = computed(() => summarizeDocument(ast.value?.ast))
+  const tokens = computed(() => ast.value?.ast.tokens ?? [])
+  const diagnostics = computed(() => [
+    ...(ast.value?.services.errors ?? []).map(error => ({
+      ...error,
+      severity: 'Error',
+    })),
+    ...(ast.value?.services.warnings ?? []).map(error => ({
+      ...error,
+      severity: 'Warning',
+    })),
+  ])
+  const sourceSize = computed(() => new TextEncoder().encode(code.value).length)
+  const lineCount = computed(() => code.value.split(/\r\n|\r|\n/u).length)
+
+  function selectRange(range: Range) {
+    activeInputTab.value = InputTab.Code
+    selectedRange.value = [...range]
+  }
 
   const astJson = computed(() => {
     if (!ast.value) {
@@ -34,8 +58,6 @@ export function usePlaygroundState() {
     setCode(svgSample)
   }
 
-  const activeInputTab = ref<InputTab>(InputTab.Code)
-
   function setActiveInputTab(tab: InputTab) {
     activeInputTab.value = tab
   }
@@ -47,18 +69,21 @@ export function usePlaygroundState() {
   }
 
   watchEffect(() => {
+    const startTime = window.performance.now()
+    selectedRange.value = undefined
+    errorRange.value = undefined
     try {
       loading.value = true
 
-      const startTime = window.performance.now()
-
-      ast.value = parseForESLint(code.value)
-
-      parseCost.value = window.performance.now() - startTime
+      ast.value = parseForESLint(code.value, {
+        errorRecovery: errorRecovery.value,
+      })
       parseError.value = undefined
     } catch (error) {
       ast.value = undefined
-      parseCost.value = 0
+      if (error instanceof ParseError) {
+        errorRange.value = [error.index, error.index + 1]
+      }
       parseError.value =
         error instanceof ParseError
           ? `Line ${error.lineNumber}, column ${error.column}: ${error.message}`
@@ -66,6 +91,7 @@ export function usePlaygroundState() {
             ? error.message
             : String(error)
     } finally {
+      parseCost.value = window.performance.now() - startTime
       loading.value = false
     }
   })
@@ -73,6 +99,15 @@ export function usePlaygroundState() {
   return {
     code,
     parseError,
+    errorRecovery,
+    errorRange,
+    selectedRange,
+    selectRange,
+    summary,
+    tokens,
+    diagnostics,
+    sourceSize,
+    lineCount,
 
     ast,
     astJson,

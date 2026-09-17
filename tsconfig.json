@@ -4,10 +4,15 @@
     "lib": ["ES2023", "DOM"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "paths": {
+      "svg-eslint-parser": ["./src/index.ts"]
+    },
     "types": ["node"],
+    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "erasableSyntaxOnly": false,
     "libReplacement": false,
+    "noEmit": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
     "esModuleInterop": true,
@@ -18,6 +23,8 @@
     "./src/**/*.ts",
     "./docs/**/*.ts",
     "./docs/**/*.vue",
+    "./docs/.vitepress/**/*.ts",
+    "./docs/.vitepress/**/*.vue",
     "./tests/**/*.ts",
     "./scripts/**/*.ts",
     "./*.config.ts"

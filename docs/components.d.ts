@@ -16,10 +16,12 @@ declare module 'vue' {
     CodeContainer: typeof import('./.vitepress/components/Playground/CodeContainer.vue')['default']
     CopyButton: typeof import('./.vitepress/components/ui/CopyButton.vue')['default']
     DataRender: typeof import('./.vitepress/components/ast/DataRender.vue')['default']
+    DiagnosticsContainer: typeof import('./.vitepress/components/Playground/DiagnosticsContainer.vue')['default']
     DropZone: typeof import('./.vitepress/components/DropZone.vue')['default']
     Editor: typeof import('./.vitepress/components/Editor/index.vue')['default']
     HiddenItem: typeof import('./.vitepress/components/ast/HiddenItem.vue')['default']
     InputContainer: typeof import('./.vitepress/components/Playground/InputContainer.vue')['default']
+    InspectorContainer: typeof import('./.vitepress/components/Playground/InspectorContainer.vue')['default']
     JsonArray: typeof import('./.vitepress/components/ast/JsonArray.vue')['default']
     JsonContainer: typeof import('./.vitepress/components/Playground/JsonContainer.vue')['default']
     JsonIterable: typeof import('./.vitepress/components/ast/JsonIterable.vue')['default']
@@ -35,6 +37,7 @@ declare module 'vue' {
     RenderExpandableObject: typeof import('./.vitepress/components/ast/RenderExpandableObject.vue')['default']
     TabItem: typeof import('./.vitepress/components/ui/TabItem.vue')['default']
     Tabs: typeof import('./.vitepress/components/ui/Tabs.vue')['default']
+    TokensContainer: typeof import('./.vitepress/components/Playground/TokensContainer.vue')['default']
     TreeContainer: typeof import('./.vitepress/components/Playground/TreeContainer.vue')['default']
   }
 }

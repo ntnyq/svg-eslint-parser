@@ -1,12 +1,15 @@
 ---
 layout: home
+pageClass: page-home
 
 hero:
   name: svg-eslint-parser
   tagline: An SVG parser that produces output compatible with ESLint
   image:
-    light: /logo.svg
-    dark: /logo.svg
+    src: /logo.svg
+    alt: svg-eslint-parser logo
+    width: 256
+    height: 256
   actions:
     - theme: brand
       text: Get Started

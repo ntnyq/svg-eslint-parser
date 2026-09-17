@@ -10,13 +10,14 @@ defineProps<{
 <template>
   <button
     :aria-selected="isActive"
+    :tabindex="isActive ? 0 : -1"
     :class="{
-      '!border-$vp-c-brand border-b-4 text-$vp-c-brand': isActive,
+      'bg-$vp-c-brand-soft text-$vp-c-brand-1': isActive,
       'cursor-pointer': !item.disabled,
-      'cursor-not-allow': item.disabled,
+      'cursor-not-allowed': item.disabled,
     }"
     :disabled="item.disabled"
-    class="relative h-44px min-w-80px flex-center border-1 border-gray-200 rounded-sm border-solid px-4 hover:bg-$vp-c-gray-soft focus:outline-none"
+    class="relative h-8 flex-center rounded-md px-3 hover:bg-$vp-c-default-soft"
     type="button"
   >
     <div
@@ -24,7 +25,7 @@ defineProps<{
       :class="item.icon"
       class="mr-2"
     />
-    <span class="text-lg font-semibold">
+    <span class="text-xs font-medium">
       {{ item.title }}
     </span>
   </button>

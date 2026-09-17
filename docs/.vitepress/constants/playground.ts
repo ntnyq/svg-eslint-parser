@@ -5,5 +5,6 @@ export enum InputTab {
 
 export enum OutputTab {
   Json = 'json',
+  Tokens = 'tokens',
   Tree = 'tree',
 }
