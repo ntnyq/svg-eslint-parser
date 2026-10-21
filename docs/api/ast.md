@@ -65,7 +65,11 @@ interface ElementNode {
   name: string // Source spelling is preserved; XML names are case-sensitive
   attributes: AttributeNode[]
   children: (
-    ElementNode | TextNode | CDATANode | CommentNode | ProcessingInstructionNode
+    | ElementNode
+    | TextNode
+    | CDATANode
+    | CommentNode
+    | ProcessingInstructionNode
   )[]
   selfClosing: boolean
   range: [number, number]

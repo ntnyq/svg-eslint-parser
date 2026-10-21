@@ -60,27 +60,19 @@ function validateDoctypeNode(node: AnyNode): boolean {
  * @returns True if node is valid
  */
 export function validateNode(node: AnyNode): boolean {
-  if (!node || typeof node !== 'object') {
-    return false
-  }
-
-  // Check for required properties
-  if (!('type' in node) || !('range' in node) || !('loc' in node)) {
-    return false
-  }
-
-  // Validate range
   if (
+    !node ||
+    typeof node !== 'object' ||
+    // Check for required properties
+    !('type' in node) ||
+    !('range' in node) ||
+    !('loc' in node) ||
+    // Validate range
     !Array.isArray(node.range) ||
     node.range.length !== 2 ||
     typeof node.range[0] !== 'number' ||
-    typeof node.range[1] !== 'number'
-  ) {
-    return false
-  }
-
-  // Validate location
-  if (
+    typeof node.range[1] !== 'number' ||
+    // Validate location
     !node.loc ||
     !node.loc.start ||
     !node.loc.end ||

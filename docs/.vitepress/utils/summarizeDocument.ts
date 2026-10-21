@@ -43,5 +43,12 @@ export function summarizeDocument(program?: Program) {
       value: attribute.value?.value ?? '',
     })) ?? []
 
-  return { nodes, attributes, comments, maxDepth, elements, rootAttributes }
+  return {
+    nodes,
+    attributes,
+    comments,
+    maxDepth,
+    elements,
+    rootAttributes,
+  }
 }

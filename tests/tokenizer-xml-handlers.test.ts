@@ -41,7 +41,10 @@ function createState(overrides: Record<string, unknown> = {}) {
     ...overrides,
   }
 
-  return { state, emittedTokens }
+  return {
+    state,
+    emittedTokens,
+  }
 }
 
 describe('tokenizer xml declaration handlers', () => {

@@ -19,12 +19,8 @@ export function cloneNode<T extends AnyNode>(node: T): T {
   const cloned: any = {}
 
   for (const key in node) {
-    if (!Object.hasOwn(node, key)) {
-      continue
-    }
-
-    // Skip parent references
-    if (key === 'parentRef' || key === 'parent') {
+    // Skip inherited properties and parent references
+    if (!Object.hasOwn(node, key) || key === 'parentRef' || key === 'parent') {
       continue
     }
 
@@ -68,12 +64,8 @@ export function cloneNodeWithParent<T extends AnyNode>(
   const cloned: any = {}
 
   for (const key in node) {
-    if (!Object.hasOwn(node, key)) {
-      continue
-    }
-
-    // Skip old parent references
-    if (key === 'parentRef' || key === 'parent') {
+    // Skip inherited properties and old parent references
+    if (!Object.hasOwn(node, key) || key === 'parentRef' || key === 'parent') {
       continue
     }
 
