@@ -12,9 +12,9 @@ describe('attribute parsing', () => {
 
     expect(element.type).toBe(NodeTypes.Element)
     expect(element.attributes).toHaveLength(2)
-    expect(element.attributes[0].key.value).toBe('width')
+    expect(element.attributes[0].key?.value).toBe('width')
     expect(element.attributes[0].value?.value).toBe('100')
-    expect(element.attributes[1].key.value).toBe('height')
+    expect(element.attributes[1].key?.value).toBe('height')
     expect(element.attributes[1].value?.value).toBe('200')
   })
 
@@ -35,9 +35,9 @@ describe('attribute parsing', () => {
     const element = document.children[0] as ElementNode
 
     expect(element.attributes).toHaveLength(2)
-    expect(element.attributes[0].key.value).toBe('checked')
+    expect(element.attributes[0].key?.value).toBe('checked')
     expect(element.attributes[0].value).toBeUndefined()
-    expect(element.attributes[1].key.value).toBe('disabled')
+    expect(element.attributes[1].key?.value).toBe('disabled')
     expect(element.attributes[1].value).toBeUndefined()
   })
 
@@ -78,7 +78,7 @@ describe('attribute parsing', () => {
     const document = ast.document
     const element = document.children[0] as ElementNode
 
-    expect(element.attributes[0].key.value).toBe('xmlns:xlink')
+    expect(element.attributes[0].key?.value).toBe('xmlns:xlink')
     expect(element.attributes[0].value?.value).toBe(
       'http://www.w3.org/1999/xlink',
     )
@@ -91,9 +91,9 @@ describe('attribute parsing', () => {
     const element = document.children[0] as ElementNode
 
     expect(element.attributes).toHaveLength(3)
-    expect(element.attributes[0].key.value).toBe('class')
-    expect(element.attributes[1].key.value).toBe('id')
-    expect(element.attributes[2].key.value).toBe('data-foo')
+    expect(element.attributes[0].key?.value).toBe('class')
+    expect(element.attributes[1].key?.value).toBe('id')
+    expect(element.attributes[2].key?.value).toBe('data-foo')
   })
 
   it('should parse attributes with numbers', () => {
@@ -113,7 +113,7 @@ describe('attribute parsing', () => {
     const document = ast.document
     const element = document.children[0] as ElementNode
 
-    expect(element.attributes[0].key.value).toBe('data-test-id')
-    expect(element.attributes[1].key.value).toBe('data_value')
+    expect(element.attributes[0].key?.value).toBe('data-test-id')
+    expect(element.attributes[1].key?.value).toBe('data_value')
   })
 })

@@ -89,7 +89,7 @@ describe('unexpected end of input', () => {
     const result = parse(source)
     const element = result.ast.children[0] as ElementNode
 
-    expect(element.attributes[0].key.value).toBe('title')
+    expect(element.attributes[0].key?.value).toBe('title')
     expect(element.attributes[0].value).toBeUndefined()
     expect(result.errors).toEqual(
       expect.arrayContaining([

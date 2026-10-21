@@ -18,7 +18,7 @@ describe('xml declaration parsing', () => {
     expect(ast.document.type).toBe(NodeTypes.Document)
     expect(declaration.type).toBe(NodeTypes.XMLDeclaration)
     expect(
-      declaration.attributes.map(attribute => attribute.key.value),
+      declaration.attributes.map(attribute => attribute.key?.value),
     ).toStrictEqual(['version', 'encoding', 'standalone'])
     expect(declaration.attributes[0].value?.value).toBe('1.0')
   })

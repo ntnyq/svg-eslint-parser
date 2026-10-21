@@ -215,7 +215,7 @@ import { filterNodes } from 'svg-eslint-parser'
 const tagsWithWidth = filterNodes(ast.document, node => {
   return (
     node.type === 'Element' &&
-    node.attributes.some(attr => attr.key.value === 'width')
+    node.attributes.some(attr => attr.key?.value === 'width')
   )
 })
 ```
@@ -322,7 +322,7 @@ const document = ast.document
 
 // Find all tags with 'id' attribute
 const tagsWithId = findNodeByType(document, NodeTypes.Element).filter(tag =>
-  tag.attributes.some(attr => attr.key.value === 'id'),
+  tag.attributes.some(attr => attr.key?.value === 'id'),
 )
 ```
 

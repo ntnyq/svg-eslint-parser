@@ -27,6 +27,13 @@ declaration and DOCTYPE placement, XML names, comments, processing instructions,
 and element attributes. Recovery mode preserves invalid constructs in the AST
 where possible and reports each issue with its source range.
 
+DOCTYPE external IDs require `SYSTEM` followed by one quoted system identifier,
+or `PUBLIC` followed by a quoted public identifier and a quoted system
+identifier. Internal subsets may start immediately after the root name without
+whitespace. Processing-instruction targets must immediately follow `<?`; only
+XML whitespace (space, tab, CR, and LF) separates targets from data or surrounds
+the root element.
+
 This is not SVG schema or DTD validation: the parser accepts XML element names
 beyond SVG, and keeps entity references and DOCTYPE internal subsets as text.
 

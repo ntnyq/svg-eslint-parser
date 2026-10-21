@@ -121,7 +121,7 @@ describe('edge cases', () => {
     const document = ast.document
     const element = document.children[0] as ElementNode
 
-    expect(element.attributes[0].key.value).toBe('checked')
+    expect(element.attributes[0].key?.value).toBe('checked')
     expect(element.attributes[0].value).toBeUndefined()
   })
 

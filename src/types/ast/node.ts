@@ -49,8 +49,11 @@ export type AttributeValueNode = SimpleNode<NodeTypes.AttributeValue>
  * Element attribute node.
  */
 export interface AttributeNode extends BaseNode {
-  key: AttributeKeyNode
   type: NodeTypes.Attribute
+  /**
+   * Attribute name, absent when recovery preserves a nameless assignment.
+   */
+  key?: AttributeKeyNode
   quoteChar?: '"' | "'" | undefined
   value?: AttributeValueNode
 }
@@ -123,8 +126,11 @@ export type XMLDeclarationAttributeValueNode =
  * XML declaration attribute node.
  */
 export interface XMLDeclarationAttributeNode extends BaseNode {
-  key: XMLDeclarationAttributeKeyNode
   type: NodeTypes.XMLDeclarationAttribute
+  /**
+   * Declaration attribute name, absent for a recovered nameless assignment.
+   */
+  key?: XMLDeclarationAttributeKeyNode
   quoteChar?: '"' | "'" | undefined
   value?: XMLDeclarationAttributeValueNode
 }

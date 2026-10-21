@@ -223,6 +223,11 @@ console.log(result.services.errors)
 The public `parse()` function also defaults to strict parsing and accepts
 `errorRecovery`, but returns only the document without diagnostics.
 
+Recovered element and XML declaration attributes can have no name. Their `key`
+field is optional in the public types; use `attribute.key?.value` when inspecting
+recovery output. Unclosed elements span their recovered contents through EOF or
+the start of the closing tag that closes an ancestor.
+
 ## New Features
 
 ### 1. Search Utilities
@@ -317,7 +322,7 @@ export default defineSVGRule({
         // node is automatically typed as ElementNode
         if (
           node.name === 'circle' &&
-          !node.attributes.some(a => a.key.value === 'r')
+          !node.attributes.some(a => a.key?.value === 'r')
         ) {
           context.report({
             node,
@@ -362,7 +367,7 @@ traverseAST(ast.document, {
   enter(node) {
     if (node.type === NodeTypes.Element) {
       node.attributes = node.attributes.filter(
-        attr => attr.key.value !== 'style',
+        attr => attr.key?.value !== 'style',
       )
     }
   },

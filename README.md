@@ -231,9 +231,9 @@ const circles = allElements.filter(element => element.name === 'circle')
 console.log(`Found ${circles.length} circles`)
 
 circles.forEach((circle, i) => {
-  const cx = circle.attributes.find(attr => attr.key.value === 'cx')
-  const cy = circle.attributes.find(attr => attr.key.value === 'cy')
-  const r = circle.attributes.find(attr => attr.key.value === 'r')
+  const cx = circle.attributes.find(attr => attr.key?.value === 'cx')
+  const cy = circle.attributes.find(attr => attr.key?.value === 'cy')
+  const r = circle.attributes.find(attr => attr.key?.value === 'r')
 
   console.log(
     `Circle ${i + 1}: cx=${cx?.value?.value}, cy=${cy?.value?.value}, r=${r?.value?.value}`,

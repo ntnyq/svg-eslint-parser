@@ -39,7 +39,7 @@ export function summarizeDocument(program?: Program) {
   )
   const rootAttributes =
     root?.attributes.map(attribute => ({
-      name: attribute.key.value,
+      name: attribute.key?.value ?? '(missing name)',
       value: attribute.value?.value ?? '',
     })) ?? []
 

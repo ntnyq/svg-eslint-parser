@@ -83,10 +83,13 @@ interface ElementNode {
 
 Represents an attribute of an SVG element.
 
+In recovery mode, `key` can be absent when the source contains a nameless
+assignment such as `<svg ="value"/>`.
+
 ```typescript
 interface AttributeNode {
   type: 'Attribute'
-  key: AttributeKeyNode
+  key?: AttributeKeyNode
   value?: AttributeValueNode
   quoteChar?: '"' | "'"
   range: [number, number]
@@ -173,7 +176,8 @@ interface CommentNode {
 A generic XML processing instruction such as `<?xml-stylesheet ...?>`.
 
 `target` is the instruction name. `value` contains its data after the target,
-with leading and trailing whitespace removed and without the `<?` / `?>` delimiters.
+with leading and trailing XML whitespace removed and without the `<?` / `?>`
+delimiters. Other Unicode whitespace in the target or data is preserved.
 
 ```typescript
 interface ProcessingInstructionNode {
@@ -202,10 +206,12 @@ interface XMLDeclarationNode {
 
 An attribute in the XML declaration.
 
+In recovery mode, `key` can be absent for a nameless assignment.
+
 ```typescript
 interface XMLDeclarationAttributeNode {
   type: 'XMLDeclarationAttribute'
-  key: XMLDeclarationAttributeKeyNode
+  key?: XMLDeclarationAttributeKeyNode
   value?: XMLDeclarationAttributeValueNode
   quoteChar?: '"' | "'"
   range: [number, number]

@@ -23,7 +23,7 @@ describe('svg-specific parsing', () => {
     const svg = document.children[0] as ElementNode
 
     const viewBox = svg.attributes.find(
-      (attr: any) => attr.key.value === 'viewBox',
+      (attr: any) => attr.key?.value === 'viewBox',
     )
     expect(viewBox!.value?.value).toBe('0 0 100 100')
   })
@@ -34,7 +34,7 @@ describe('svg-specific parsing', () => {
     const document = ast.document
     const svg = document.children[0] as ElementNode
 
-    const xmlns = svg.attributes.find(attr => attr.key.value === 'xmlns')
+    const xmlns = svg.attributes.find(attr => attr.key?.value === 'xmlns')
     expect(xmlns!.value?.value).toBe('http://www.w3.org/2000/svg')
   })
 
@@ -66,7 +66,7 @@ describe('svg-specific parsing', () => {
     const path = document.children[0] as ElementNode
 
     expect(path.name).toBe('path')
-    const d = path.attributes.find(attr => attr.key.value === 'd')
+    const d = path.attributes.find(attr => attr.key?.value === 'd')
     expect(d!.value?.value).toBe('M 10 10 L 50 50 L 10 50 Z')
   })
 
@@ -87,7 +87,7 @@ describe('svg-specific parsing', () => {
     const polygon = document.children[0] as ElementNode
 
     expect(polygon.name).toBe('polygon')
-    const points = polygon.attributes.find(attr => attr.key.value === 'points')
+    const points = polygon.attributes.find(attr => attr.key?.value === 'points')
     expect(points!.value?.value).toBe('50,0 100,100 0,100')
   })
 
@@ -159,7 +159,7 @@ describe('svg-specific parsing', () => {
     const use = document.children[0] as ElementNode
 
     expect(use.name).toBe('use')
-    const href = use.attributes.find(attr => attr.key.value === 'xlink:href')
+    const href = use.attributes.find(attr => attr.key?.value === 'xlink:href')
     expect(href!.value?.value).toBe('#icon')
   })
 
@@ -248,7 +248,7 @@ describe('svg-specific parsing', () => {
     const rect = document.children[0] as ElementNode
 
     const transform = rect.attributes.find(
-      attr => attr.key.value === 'transform',
+      attr => attr.key?.value === 'transform',
     )
     expect(transform!.value?.value).toBe('rotate(45 50 50)')
   })
@@ -260,7 +260,7 @@ describe('svg-specific parsing', () => {
     const document = ast.document
     const circle = document.children[0] as ElementNode
 
-    const style = circle.attributes.find(attr => attr.key.value === 'style')
+    const style = circle.attributes.find(attr => attr.key?.value === 'style')
     expect(style!.value?.value).toContain('fill: red')
   })
 
@@ -271,7 +271,9 @@ describe('svg-specific parsing', () => {
     const document = ast.document
     const circle = document.children[0] as ElementNode
 
-    const className = circle.attributes.find(attr => attr.key.value === 'class')
+    const className = circle.attributes.find(
+      attr => attr.key?.value === 'class',
+    )
     expect(className!.value?.value).toBe('primary-color large')
   })
 })

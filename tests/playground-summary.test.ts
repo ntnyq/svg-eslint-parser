@@ -59,4 +59,19 @@ describe('playground document summary', () => {
     expect(summary.elements).toHaveLength(2002)
     expect(summary.maxDepth).toBe(2002)
   })
+
+  it('keeps nameless recovered attributes inspectable', () => {
+    const result = parseForESLint('<svg ="x" width="2"/>', {
+      errorRecovery: true,
+    })
+
+    expect(result.services.errors.length).toBeGreaterThan(0)
+    expect(summarizeDocument(result.ast)).toMatchObject({
+      attributes: 2,
+      rootAttributes: [
+        { name: '(missing name)', value: 'x' },
+        { name: 'width', value: '2' },
+      ],
+    })
+  })
 })
