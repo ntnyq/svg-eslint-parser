@@ -86,6 +86,8 @@ function reportUnclosedNodes(state: ConstructTreeState<any>) {
 
   while (node && node !== state.rootNode) {
     if (node.type === NodeTypes.Element && !node.selfClosing && !node.close) {
+      node.range[1] = state.rootNode.range[1]
+      node.loc.end = { ...state.rootNode.loc.end }
       state.errorHandler.addError({
         type: ParseErrorType.UnclosedTag,
         message: `Unclosed tag "${node.name ?? 'unknown'}".`,

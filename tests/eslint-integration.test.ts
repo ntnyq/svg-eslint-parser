@@ -60,7 +60,7 @@ const requireCircleRadius = defineSVGRule<[], 'missingRadius'>({
         observations.sourceText = context.sourceCode.getText(node)
         observations.tokenCount = context.sourceCode.getTokens(node).length
 
-        if (!node.attributes.some(attribute => attribute.key.value === 'r')) {
+        if (!node.attributes.some(attribute => attribute.key?.value === 'r')) {
           context.report({
             node,
             messageId: 'missingRadius',
@@ -92,6 +92,53 @@ const config: Linter.Config = {
 }
 
 describe('ESLint integration', () => {
+  it.each([
+    [
+      '<svg>\n  <g><path/>\n</svg>',
+      '<g><path/>\n',
+      ['<g', '>', '<path', '/>', '\n'],
+    ],
+    ['<svg>\n  <g><path/>', '<g><path/>', ['<g', '>', '<path', '/>']],
+  ])(
+    'exposes complete recovered element spans to rules: %s',
+    (source, expectedText, expectedTokens) => {
+      const elementTexts: string[] = []
+      const tokenValues: string[][] = []
+      const inspectRecovery = defineSVGRule({
+        meta: { schema: [] },
+        create(context) {
+          return {
+            Element(node) {
+              expect(context.sourceCode.getLocFromIndex(node.range[1])).toEqual(
+                node.loc.end,
+              )
+              if (node.name === 'g') {
+                elementTexts.push(context.sourceCode.getText(node))
+                tokenValues.push(
+                  context.sourceCode.getTokens(node).map(token => token.value),
+                )
+              }
+            },
+          }
+        },
+      })
+      const messages = new Linter().verify(
+        source,
+        {
+          files: ['**/*.svg'],
+          languageOptions: { parser, parserOptions: { errorRecovery: true } },
+          plugins: { test: { rules: { recovery: inspectRecovery } } },
+          rules: { 'test/recovery': 'error' },
+        },
+        'recovered.svg',
+      )
+
+      expect(messages).toEqual([])
+      expect(elementTexts).toEqual([expectedText])
+      expect(tokenValues).toEqual([expectedTokens])
+    },
+  )
+
   it('visits Unicode elements and exposes complete XML declaration attributes to fixes', () => {
     const attributeTexts: string[] = []
     const names: string[] = []

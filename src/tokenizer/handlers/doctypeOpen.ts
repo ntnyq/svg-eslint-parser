@@ -49,6 +49,7 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
     return parseClosingCornerBrace(state)
   }
 
+  state.accumulatedContent.concatBuffer(state.decisionBuffer)
   state.decisionBuffer.clear()
   state.sourceCode.next()
 }

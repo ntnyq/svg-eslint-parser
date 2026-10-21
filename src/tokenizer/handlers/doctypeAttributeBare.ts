@@ -28,7 +28,11 @@ function parseAttributeEnd(state: TokenizerState) {
 export function parse(chars: CharsBuffer, state: TokenizerState) {
   const value = chars.value()
 
-  if (isWhitespace(value) || value === SPECIAL_CHAR.closingCorner) {
+  if (
+    isWhitespace(value) ||
+    value === SPECIAL_CHAR.closingCorner ||
+    value === '['
+  ) {
     return parseAttributeEnd(state)
   }
 

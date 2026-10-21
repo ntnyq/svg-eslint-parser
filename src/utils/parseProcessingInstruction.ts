@@ -10,8 +10,8 @@ export function parseProcessingInstruction(source: string): {
   const endOffset = source.endsWith(PROCESSING_INSTRUCTION_END)
     ? -PROCESSING_INSTRUCTION_END.length
     : undefined
-  const body = source.slice(2, endOffset).trim()
-  const whitespaceIndex = body.search(/\s/u)
+  const body = source.slice(2, endOffset)
+  const whitespaceIndex = body.search(/[\t\n\r ]/u)
 
   if (whitespaceIndex < 0) {
     return {
@@ -22,6 +22,6 @@ export function parseProcessingInstruction(source: string): {
 
   return {
     target: body.slice(0, whitespaceIndex),
-    value: body.slice(whitespaceIndex).trim(),
+    value: body.slice(whitespaceIndex).replace(/^[\t\n\r ]+|[\t\n\r ]+$/gu, ''),
   }
 }

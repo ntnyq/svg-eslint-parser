@@ -28,7 +28,10 @@ import type {
 function addUnclosedTagError(
   state: ConstructTreeState<any>,
   node: ContextualElementNode,
+  closeToken: AnyToken,
 ) {
+  node.range[1] = closeToken.range[0]
+  node.loc.end = { ...closeToken.loc.start }
   state.errorHandler.addError({
     type: ParseErrorType.UnclosedTag,
     message: `Unclosed tag "${node.name ?? 'unknown'}".`,
@@ -176,7 +179,7 @@ const dispatch = createTokenDispatcher(
               let unclosedNode = state.currentNode
 
               while (unclosedNode && unclosedNode !== ancestor) {
-                addUnclosedTagError(state, unclosedNode)
+                addUnclosedTagError(state, unclosedNode, token)
                 unclosedNode = unclosedNode.parentRef
               }
 

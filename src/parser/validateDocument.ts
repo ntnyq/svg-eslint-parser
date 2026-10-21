@@ -16,6 +16,7 @@ import type {
 } from '../types'
 
 const ENCODING_NAME_PATTERN = /^[A-Za-z][\w.-]*$/u
+const PUBLIC_ID_PATTERN = /^[\r\n \w'()+,./:=?;!*#@$%-]*$/u
 const XML_DECLARATION_ATTRIBUTE_ORDER = new Map([
   ['version', 0],
   ['encoding', 1],
@@ -65,7 +66,7 @@ function validateAttribute(
       errors,
       ParseErrorType.InvalidAttribute,
       `Invalid attribute name "${name}".`,
-      attribute.key,
+      attribute.key ?? attribute,
       'The parser kept the attribute in the AST.',
     )
   }
@@ -351,10 +352,11 @@ function validateDeclarationTokens(
 
 function validateDoctype(
   doctype: DoctypeNode,
-  root: ElementNode,
+  root: ElementNode | undefined,
   errors: ParseError[],
 ) {
-  const declaredRoot = doctype.attributes[0]?.value?.value
+  const [rootAttribute, externalID, ...identifiers] = doctype.attributes
+  const declaredRoot = rootAttribute?.value?.value
 
   if (!declaredRoot) {
     addError(
@@ -377,13 +379,77 @@ function validateDoctype(
     )
   }
 
-  if (declaredRoot !== root.name) {
+  if (rootAttribute.quoteChar) {
+    addError(
+      errors,
+      ParseErrorType.InvalidDoctype,
+      'The doctype root name must not be quoted.',
+      rootAttribute,
+      'The parser kept the quoted root name in the AST.',
+    )
+  }
+
+  if (root && declaredRoot !== root.name) {
     addError(
       errors,
       ParseErrorType.InvalidDoctype,
       `Doctype root "${declaredRoot}" does not match document root "${root.name}".`,
       doctype.attributes[0],
       'The parser kept the doctype and document root unchanged.',
+    )
+  }
+
+  if (!externalID) {
+    return
+  }
+
+  const keyword = externalID.value?.value
+  const expectedIdentifiers =
+    keyword === 'SYSTEM' ? 1 : keyword === 'PUBLIC' ? 2 : 0
+
+  if (
+    externalID.quoteChar ||
+    expectedIdentifiers === 0 ||
+    identifiers.length !== expectedIdentifiers ||
+    identifiers.some(identifier => !identifier.quoteChar || !identifier.value)
+  ) {
+    addError(
+      errors,
+      ParseErrorType.InvalidDoctype,
+      'A doctype external ID must be SYSTEM with one quoted identifier or PUBLIC with two quoted identifiers.',
+      externalID,
+      'The parser kept the malformed external ID in the AST.',
+    )
+  }
+
+  for (let index = 1; index < doctype.attributes.length; index++) {
+    const previous = doctype.attributes[index - 1]
+    const attribute = doctype.attributes[index]
+
+    if (previous.range[1] === attribute.range[0]) {
+      addError(
+        errors,
+        ParseErrorType.InvalidDoctype,
+        'Doctype names and identifiers must be separated by XML whitespace.',
+        attribute,
+        'The parser kept the adjacent doctype fields in the AST.',
+      )
+    }
+  }
+
+  const publicID = identifiers[0]
+
+  if (
+    keyword === 'PUBLIC' &&
+    publicID?.value &&
+    !PUBLIC_ID_PATTERN.test(publicID.value.value)
+  ) {
+    addError(
+      errors,
+      ParseErrorType.InvalidDoctype,
+      'The doctype public identifier contains a forbidden character.',
+      publicID,
+      'The parser kept the original public identifier in the AST.',
     )
   }
 }
@@ -443,6 +509,15 @@ function validateTokenSyntax(tokens: AnyToken[], errors: ParseError[]) {
     }
 
     const previous = tokens[index - 1]
+    if (token.type === TokenTypes.DoctypeOpen && token.value !== '<!DOCTYPE') {
+      addError(
+        errors,
+        ParseErrorType.InvalidDoctype,
+        'A doctype declaration must start with "<!DOCTYPE" followed by XML whitespace.',
+        token,
+        'The parser kept the malformed doctype opening token.',
+      )
+    }
     if (
       previous &&
       previous.range[1] === token.range[0] &&
@@ -535,7 +610,7 @@ export function validateDocument(
   }
 
   for (const node of document.children) {
-    if (node.type === NodeTypes.Text && node.value.trim().length > 0) {
+    if (node.type === NodeTypes.Text && /[^\t\n\r ]/u.test(node.value)) {
       addError(
         errors,
         ParseErrorType.InvalidDocument,
@@ -558,13 +633,9 @@ export function validateDocument(
 
   validateDeclarationTokens(tokens, root, errors)
 
-  if (root) {
-    const doctype = document.children.find(
-      node => node.type === NodeTypes.Doctype,
-    )
-
-    if (doctype) {
-      validateDoctype(doctype, root, errors)
+  for (const node of document.children) {
+    if (node.type === NodeTypes.Doctype) {
+      validateDoctype(node, root, errors)
     }
   }
 
