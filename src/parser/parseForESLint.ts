@@ -41,9 +41,11 @@ export function parseForESLint(
     document: ast,
     tokens: tokens.filter(
       token =>
-        token.type !== TokenTypes.CommentOpen &&
-        token.type !== TokenTypes.CommentClose &&
-        token.type !== TokenTypes.CommentContent,
+        ![
+          TokenTypes.CommentOpen,
+          TokenTypes.CommentClose,
+          TokenTypes.CommentContent,
+        ].includes(token.type),
     ),
     range: ast.range,
     loc: ast.loc,

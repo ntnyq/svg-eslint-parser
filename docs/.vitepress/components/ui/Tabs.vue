@@ -14,7 +14,7 @@ const emit = defineEmits<{
   change: [name: string, item: ITabItem]
 }>()
 
-const activeItem = defineModel<string>({ default: '' })
+const activeItem = defineModel<string>()
 
 function handleItemClick(item: ITabItem) {
   activeItem.value = item.name
@@ -24,7 +24,9 @@ function handleItemClick(item: ITabItem) {
 function handleKeydown(event: KeyboardEvent) {
   const items = props.options.filter(item => !item.disabled)
   const index = items.findIndex(item => item.name === activeItem.value)
+
   let nextIndex: number
+
   switch (event.key) {
     case 'ArrowRight':
       nextIndex = (index + 1) % items.length
