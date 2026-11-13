@@ -41,6 +41,7 @@
     "dev": "tsdown --watch",
     "docs:build": "pnpm -C docs run build",
     "docs:dev": "pnpm -C docs run dev",
+    "docs:typecheck": "pnpm -C docs run typecheck",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "lint": "eslint",
@@ -51,7 +52,8 @@
     "release:version": "bumpp",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
-    "typecheck": "tsgo --noEmit"
+    "typecheck": "run-s typecheck:ts docs:typecheck",
+    "typecheck:ts": "tsgo --noEmit"
   },
   "peerDependencies": {
     "eslint": ">=9.0.0"

@@ -14,7 +14,7 @@ const {
   summary,
 } = useSharedPlaygroundState()
 const { copy, copied } = useClipboard({ legacy: true })
-const outputTabOptions: ITabItem[] = [
+const outputTabOptions: ITabItem<OutputTab>[] = [
   { name: OutputTab.Tree, title: 'Tree' },
   { name: OutputTab.Json, title: 'JSON' },
   { name: OutputTab.Tokens, title: 'Tokens' },
@@ -30,7 +30,7 @@ const outputTabOptions: ITabItem[] = [
       <Tabs
         v-model="activeOutputTab"
         :options="outputTabOptions"
-        aria-label="Output view"
+        label="Output view"
       />
       <button
         @click="copy(astJson)"

@@ -20,9 +20,10 @@ Use the pnpm version pinned in `package.json` and a current Node.js LTS release.
 - `pnpm test`: run Vitest once; watch mode is disabled by default.
 - `pnpm test tests/parse/strict-mode.test.ts`: run a focused test file.
 - `pnpm test:coverage`: collect V8 coverage with text and HTML reports.
-- `pnpm lint` and `pnpm typecheck`: check lint rules and TypeScript types.
+- `pnpm lint`: check lint rules.
+- `pnpm typecheck`: run both the package/tooling TypeScript check (`pnpm typecheck:ts`) and the docs/Playground Vue check (`pnpm docs:typecheck`). The Vue check includes SFC scripts, templates, and component type contracts in `docs/.vitepress/typeTests/`.
 - `pnpm format` / `pnpm format:check`: apply or verify Oxfmt formatting.
-- `pnpm docs:dev` / `pnpm docs:build`: serve or build the documentation; build the package first.
+- `pnpm docs:dev` / `pnpm docs:build`: serve or build the documentation; build the package first. Vue typechecking uses the package source and does not require generated `dist/` files. CI runs both type checkers and builds the documentation.
 
 ## Coding Style & Naming Conventions
 

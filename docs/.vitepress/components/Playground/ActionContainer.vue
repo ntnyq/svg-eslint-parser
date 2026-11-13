@@ -71,7 +71,7 @@ handleFileDialogChange(files => {
         Reset
       </button>
       <button
-        @click="openFileDialog"
+        @click="openFileDialog()"
         type="button"
         class="pg-button bg-$vp-c-brand-soft text-$vp-c-brand-1"
       >

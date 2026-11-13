@@ -6,7 +6,7 @@ import type { ITabItem } from '../ui/tabs'
 
 const { activeInputTab, lineCount, sourceSize } = useSharedPlaygroundState()
 const wrap = shallowRef(true)
-const inputTabOptions: ITabItem[] = [
+const inputTabOptions: ITabItem<InputTab>[] = [
   { name: InputTab.Code, title: 'Source' },
   { name: InputTab.Preview, title: 'Preview' },
 ]
@@ -21,7 +21,7 @@ const inputTabOptions: ITabItem[] = [
       <Tabs
         v-model="activeInputTab"
         :options="inputTabOptions"
-        aria-label="Input view"
+        label="Input view"
       />
       <button
         @click="wrap = !wrap"

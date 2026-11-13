@@ -21,10 +21,6 @@
   },
   "include": [
     "./src/**/*.ts",
-    "./docs/**/*.ts",
-    "./docs/**/*.vue",
-    "./docs/.vitepress/**/*.ts",
-    "./docs/.vitepress/**/*.vue",
     "./tests/**/*.ts",
     "./scripts/**/*.ts",
     "./*.config.ts"

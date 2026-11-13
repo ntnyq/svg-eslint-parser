@@ -5,10 +5,14 @@ defineProps<{
   item: ITabItem
   isActive?: boolean
 }>()
+const emit = defineEmits<{
+  click: [event: MouseEvent]
+}>()
 </script>
 
 <template>
   <button
+    @click="emit('click', $event)"
     :aria-selected="isActive"
     :tabindex="isActive ? 0 : -1"
     :class="{
@@ -19,6 +23,7 @@ defineProps<{
     :disabled="item.disabled"
     class="relative h-8 flex-center rounded-md px-3 hover:bg-$vp-c-default-soft"
     type="button"
+    role="tab"
   >
     <div
       v-if="item.icon"

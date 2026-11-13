@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "vitepress build .",
-    "dev": "vitepress dev ."
+    "dev": "vitepress dev .",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json"
   },
   "devDependencies": {
     "@codemirror/lang-json": "^6.0.2",
@@ -32,6 +33,7 @@
     "vitepress": "^2.0.0-alpha.21",
     "vitepress-plugin-group-icons": "^1.8.1",
     "vue": "^3.5.45",
-    "vue-codemirror": "^6.1.1"
+    "vue-codemirror": "^6.1.1",
+    "vue-tsc": "^3.3.14"
   }
 }

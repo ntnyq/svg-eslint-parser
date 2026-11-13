@@ -1,22 +1,23 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="Name extends string">
 import { onMounted } from 'vue'
 import type { ITabItem } from './tabs'
 
 const props = withDefaults(
   defineProps<{
-    options?: ITabItem[]
+    options?: ITabItem<Name>[]
+    label?: string
   }>(),
   {
     options: () => [],
   },
 )
 const emit = defineEmits<{
-  change: [name: string, item: ITabItem]
+  change: [name: Name, item: ITabItem<Name>]
 }>()
 
-const activeItem = defineModel<string>()
+const activeItem = defineModel<Name>({ required: true })
 
-function handleItemClick(item: ITabItem) {
+function handleItemClick(item: ITabItem<Name>) {
   activeItem.value = item.name
   emit('change', item.name, item)
 }
@@ -70,6 +71,7 @@ onMounted(() => {
 <template>
   <div
     @keydown="handleKeydown"
+    :aria-label="label"
     class="relative h-full min-w-0 flex items-center gap-1 px-2"
     role="tablist"
   >
@@ -79,7 +81,6 @@ onMounted(() => {
       :key="item.name"
       :item
       :is-active="activeItem === item.name"
-      role="tab"
     />
   </div>
 </template>
