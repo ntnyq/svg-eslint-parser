@@ -86,11 +86,17 @@ export type ContextualDocumentNode = Omit<
 /**
  * Construction-time node with selected fields allowed to be incomplete.
  */
-export type ContextualNode<T extends AnyNode, K extends keyof T> = PartialBy<
-  T,
-  K
-> & {
-  parentRef?: any
+export type ContextualNode<
+  T extends AnyNode,
+  K extends keyof T,
+> = ContextualParent & PartialBy<T, K>
+
+/**
+ * Keep recursive parent links behind an interface so TypeScript can defer
+ * resolving the contextual document and element aliases.
+ */
+interface ContextualParent {
+  parentRef?: ContextualDocumentNode | ContextualElementNode
 }
 
 /**
