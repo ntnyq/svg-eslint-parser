@@ -1,15 +1,40 @@
 import { describe, expect, it } from 'vitest'
 import { NodeTypes, parseForESLint } from '../src'
+import { cloneNode, cloneNodeWithParent } from '../src/ast/cloneNode'
+import { findFirstNodeByType, findNodeByType } from '../src/ast/findNodesByType'
 import {
   countNodes,
   filterNodes,
-  findFirstNodeByType,
-  findNodeByType,
-  traverseAST,
-  walkAST,
-} from '../src/ast'
+  getNodeDepth,
+  mapNodes,
+} from '../src/ast/nodeHelpers'
+import { traverseAST, walkAST } from '../src/ast/traverseAST'
 
 describe('deep AST traversal', () => {
+  it.each([
+    ['cloneNode', cloneNode],
+    ['cloneNodeWithParent', cloneNodeWithParent],
+    [
+      'mapNodes',
+      (node: Parameters<typeof mapNodes>[0]) =>
+        mapNodes(node, current => current),
+    ],
+  ] as const)('handles 6000 nested elements with %s', (_name, transform) => {
+    const depth = 6_000
+    const document = parseForESLint(
+      `<svg>${'<g>'.repeat(depth)}<path/>${'</g>'.repeat(depth)}</svg>`,
+    ).ast.document
+    const transformed = transform(document)
+    const elements = findNodeByType(transformed, NodeTypes.Element)
+    expect(elements).toHaveLength(depth + 2)
+    const deepest = elements.at(-1)
+    expect.assert(deepest)
+    expect(deepest.name).toBe('path')
+    expect(getNodeDepth(deepest)).toBe(
+      _name === 'cloneNodeWithParent' ? depth + 2 : 0,
+    )
+  })
+
   it('parses and traverses a wide document without argument stack overflow', () => {
     const childCount = 130_000
     const source = `<svg>${'<g/>'.repeat(childCount)}</svg>`

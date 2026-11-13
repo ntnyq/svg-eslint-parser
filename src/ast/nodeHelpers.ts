@@ -1,4 +1,5 @@
 import { traverseAST } from './traverseAST'
+import { visitorKeys } from './visitorKeys'
 import type { AnyNode } from './types'
 
 /**
@@ -24,32 +25,63 @@ export function filterNodes(
 }
 
 /**
- * Map over all nodes in the AST
+ * Map AST nodes in preorder, updating child slots on the returned objects.
+ * Tokens, comments metadata, and parent links are not traversed or rebuilt.
  * @param node - Root node to map from
  * @param mapper - Mapping function
  * @returns Transformed node
  */
-export function mapNodes<T extends AnyNode>(
-  node: T,
+export function mapNodes(
+  node: AnyNode,
   mapper: (node: AnyNode) => AnyNode,
-): T {
-  const mapped = mapper(node)
+): AnyNode {
+  let root = node
+  const stack: {
+    node: AnyNode
+    replace: (mapped: AnyNode) => void
+  }[] = [
+    {
+      node,
+      replace(mapped) {
+        root = mapped
+      },
+    },
+  ]
 
-  for (const key of Object.keys(mapped)) {
-    const value = mapped[key as keyof AnyNode]
+  while (stack.length > 0) {
+    const frame = stack.pop()
+    if (!frame) {
+      continue
+    }
+    const mapped = mapper(frame.node)
+    frame.replace(mapped)
+    const keys = visitorKeys[mapped.type] ?? []
 
-    if (Array.isArray(value)) {
-      ;(mapped as any)[key] = value.map(item =>
-        item && typeof item === 'object' && 'type' in item
-          ? mapNodes(item as AnyNode, mapper)
-          : item,
-      )
-    } else if (value && typeof value === 'object' && 'type' in value) {
-      ;(mapped as any)[key] = mapNodes(value as unknown as AnyNode, mapper)
+    for (let keyIndex = keys.length - 1; keyIndex >= 0; keyIndex--) {
+      const key = keys[keyIndex]
+      // Visitor keys identify only AST child slots on the discriminated union.
+      const value = Reflect.get(mapped, key) as AnyNode | AnyNode[] | undefined
+      if (Array.isArray(value)) {
+        for (let index = value.length - 1; index >= 0; index--) {
+          stack.push({
+            node: value[index],
+            replace(child) {
+              value[index] = child
+            },
+          })
+        }
+      } else if (value) {
+        stack.push({
+          node: value,
+          replace(child) {
+            Reflect.set(mapped, key, child)
+          },
+        })
+      }
     }
   }
 
-  return mapped as T
+  return root
 }
 
 /**

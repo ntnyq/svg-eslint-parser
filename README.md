@@ -170,7 +170,7 @@ export default defineSVGRule({
 - `cloneNode<T>(node)` - Deep clone without parent references
 - `cloneNodeWithParent<T>(node, parent?)` - Clone and rebuild `parentRef` links
 - `filterNodes(node, predicate)` - Filter nodes by predicate
-- `mapNodes<T>(node, mapper)` - Transform a node tree
+- `mapNodes(node, mapper)` - Transform AST nodes and return the replacement root
 
 #### Analysis
 

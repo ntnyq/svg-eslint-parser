@@ -1,3 +1,4 @@
+import { walkAST } from './traverseAST'
 import type { Range, SourceLocation } from '../source/types'
 import type { AnyNode } from './types'
 
@@ -11,31 +12,41 @@ export function cloneNode<T extends AnyNode>(node: T): T {
     return node
   }
 
-  // Clone arrays
-  if (Array.isArray(node)) {
-    return node.map(item => cloneNode(item)) as any
-  }
+  const cloned: object = Array.isArray(node) ? [] : {}
+  const copies = new WeakMap<object, object>([[node, cloned]])
+  const stack: { source: object; target: object }[] = [
+    { source: node, target: cloned },
+  ]
 
-  // Create new object
-  const cloned: any = {}
-
-  for (const key in node) {
-    // Skip inherited properties and parent references
-    if (!Object.hasOwn(node, key) || key === 'parentRef' || key === 'parent') {
+  while (stack.length > 0) {
+    const frame = stack.pop()
+    if (!frame) {
       continue
     }
 
-    const value = node[key]
-
-    // Clone objects recursively
-    if (value && typeof value === 'object') {
-      if (Array.isArray(value)) {
-        cloned[key] = value.map(item => cloneNode(item))
-      } else {
-        cloned[key] = cloneNode(value as any)
+    const properties: [string, unknown][] = Object.entries(frame.source)
+    for (const [key, value] of properties) {
+      if (key === 'parentRef' || key === 'parent') {
+        continue
       }
-    } else {
-      cloned[key] = value
+      let copy: unknown = value
+
+      if (value && typeof value === 'object') {
+        copy = copies.get(value)
+        if (!copy) {
+          const target: object = Array.isArray(value) ? [] : {}
+          copies.set(value, target)
+          stack.push({ source: value, target })
+          copy = target
+        }
+      }
+
+      Object.defineProperty(frame.target, key, {
+        value: copy,
+        enumerable: true,
+        configurable: true,
+        writable: true,
+      })
     }
   }
 
@@ -43,7 +54,7 @@ export function cloneNode<T extends AnyNode>(node: T): T {
 }
 
 /**
- * Deep clone a node, preserving parent references
+ * Deep clone a node and rebuild parentRef links only between AST nodes.
  * @param node - Node to clone
  * @param parent - Parent node for the cloned node
  * @returns Cloned node with parent references
@@ -52,44 +63,15 @@ export function cloneNodeWithParent<T extends AnyNode>(
   node: T,
   parent?: AnyNode,
 ): T {
-  if (!node || typeof node !== 'object') {
-    return node
-  }
-
-  // Clone arrays
-  if (Array.isArray(node)) {
-    return node.map(item => cloneNodeWithParent(item)) as any
-  }
-
-  // Create new object
-  const cloned: any = {}
-
-  for (const key in node) {
-    // Skip inherited properties and old parent references
-    if (!Object.hasOwn(node, key) || key === 'parentRef' || key === 'parent') {
-      continue
+  const cloned = cloneNode(node)
+  walkAST(cloned, (current, ancestor) => {
+    const parentNode = ancestor ?? parent
+    if (parentNode) {
+      Reflect.set(current, 'parentRef', parentNode)
     }
+  })
 
-    const value = node[key]
-
-    // Clone objects recursively
-    if (value && typeof value === 'object') {
-      if (Array.isArray(value)) {
-        cloned[key] = value.map(item => cloneNodeWithParent(item, cloned))
-      } else {
-        cloned[key] = cloneNodeWithParent(value as any, cloned)
-      }
-    } else {
-      cloned[key] = value
-    }
-  }
-
-  // Set new parent reference
-  if (parent) {
-    cloned.parentRef = parent
-  }
-
-  return cloned as T
+  return cloned
 }
 
 /**

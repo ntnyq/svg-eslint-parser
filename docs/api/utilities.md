@@ -158,6 +158,7 @@ if (node.type === NodeTypes.Element) {
 ### cloneNode()
 
 Deep clone a node, removing all parent references.
+Cloning uses an explicit stack and supports deeply nested documents.
 
 ```typescript
 function cloneNode<T extends AnyNode>(node: T): T
@@ -180,6 +181,8 @@ Deep clone a node, removing existing `parent` and `parentRef` links and creating
 new `parentRef` links within the clone. The cloned root has no parent unless the
 optional `parent` argument is supplied; in that case, its `parentRef` points to
 that argument. This does not recreate ESLint's `parent` property.
+Parent links are added only to AST nodes identified by the visitor keys, leaving
+locations, ranges, tokens, and ESLint comment metadata as plain data.
 
 ```typescript
 function cloneNodeWithParent<T extends AnyNode>(node: T, parent?: AnyNode): T
@@ -222,21 +225,21 @@ const tagsWithWidth = filterNodes(ast.document, node => {
 
 ### mapNodes()
 
-Transform a node tree with a mapper. The mapper must return an AST node, and the
-function returns the transformed root with the same static root type.
+Transform a node tree with a mapper. The mapper must return an AST node. The
+result is `AnyNode` because the mapper can replace the root with another type;
+check its `type` before accessing fields specific to a node type.
 
 ```typescript
-function mapNodes<T extends AnyNode>(
-  node: T,
-  mapper: (node: AnyNode) => AnyNode,
-): T
+function mapNodes(node: AnyNode, mapper: (node: AnyNode) => AnyNode): AnyNode
 ```
 
-The mapper runs before descendants, and the function updates properties on the
-objects it returns. Use `cloneNode()` first to preserve the original and remove
-parent cycles. Map `ast.document` when transforming SVG nodes: mapping a
-`Program` also visits token and ESLint comment objects because they have a
-`type` property.
+The mapper runs before descendants in visitor-key order, including descendants
+of replacement nodes. The function updates child properties on the objects the
+mapper returns. It uses an explicit stack and visits only AST children; tokens,
+ESLint comment metadata, and parent links are skipped, including on a `Program`.
+Use `cloneNode()` first to preserve the original. Existing parent links are not
+rebuilt after replacements; use `cloneNodeWithParent()` on the transformed tree
+when new parent links are needed.
 
 **Example:**
 
