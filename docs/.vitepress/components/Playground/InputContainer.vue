@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { shallowRef } from 'vue'
-import { useSharedPlaygroundState } from '../../composables/playground'
+import { useSharedPlaygroundState } from '../../composables/usePlaygroundState'
 import { InputTab } from '../../constants'
-import type { ITabItem } from '../ui/tabs'
+import type { TabOption } from '../ui/tabOption'
 
-const { activeInputTab, lineCount, sourceSize } = useSharedPlaygroundState()
+const { activeInputTab, lineCount, sourceSizeBytes } =
+  useSharedPlaygroundState()
 const wrap = shallowRef(true)
-const inputTabOptions: ITabItem<InputTab>[] = [
+const inputTabOptions: TabOption<InputTab>[] = [
   { name: InputTab.Code, title: 'Source' },
   { name: InputTab.Preview, title: 'Preview' },
 ]
@@ -49,7 +50,7 @@ const inputTabOptions: ITabItem<InputTab>[] = [
     <footer class="pg-panel-footer">
       <span
         >{{ lineCount }} lines <span class="mx-2 text-$vp-c-divider">/</span>
-        {{ sourceSize.toLocaleString() }} bytes</span
+        {{ sourceSizeBytes.toLocaleString() }} bytes</span
       >
       <span>UTF-8</span>
     </footer>

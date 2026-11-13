@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useFileDialog } from '@vueuse/core'
 import { shallowRef } from 'vue'
-import { useSharedPlaygroundState } from '../../composables/playground'
+import { useSharedPlaygroundState } from '../../composables/usePlaygroundState'
 
 const {
   open: openFileDialog,

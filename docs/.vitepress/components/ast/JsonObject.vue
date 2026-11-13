@@ -15,7 +15,7 @@ const props = defineProps<{
   value: any
 }>()
 
-const v = computed(() => {
+const objectModel = computed(() => {
   const nodeType = getNodeType(props.value)
   return {
     nodeType,
@@ -30,9 +30,9 @@ const v = computed(() => {
 <template>
   <RenderExpandableObject
     v-bind="props"
-    :data="v.value"
-    :node-type="v.nodeType"
-    :type-name="v.typeName"
+    :data="objectModel.value"
+    :node-type="objectModel.nodeType"
+    :type-name="objectModel.typeName"
     close-bracket="}"
     open-bracket="{"
   />

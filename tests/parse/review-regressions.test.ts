@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
-  findNodeByType,
+  findNodesByType,
   NodeTypes,
   ParseError,
   ParseErrorType,
@@ -124,7 +124,7 @@ describe('XML boundary regressions', () => {
       expect(child[0]).toBeGreaterThanOrEqual(parent[0])
       expect(child[1]).toBeLessThanOrEqual(parent[1])
     }
-    const elements = findNodeByType(
+    const elements = findNodesByType(
       result.ast.document,
       NodeTypes.Element,
     ).filter(node => !node.selfClosing)

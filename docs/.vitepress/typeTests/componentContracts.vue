@@ -5,15 +5,15 @@ import Editor from '../components/Editor/index.vue'
 import TabItem from '../components/ui/TabItem.vue'
 import Tabs from '../components/ui/Tabs.vue'
 import { InputTab, OutputTab } from '../constants'
-import type { ITabItem } from '../components/ui/tabs'
+import type { TabOption } from '../components/ui/tabOption'
 
 const activeTab = shallowRef(InputTab.Code)
 const invalidTab = shallowRef(123)
-const options: ITabItem<InputTab>[] = [
+const options: TabOption<InputTab>[] = [
   { name: InputTab.Code, title: 'Source' },
   { name: InputTab.Preview, title: 'Preview' },
 ]
-const outputOptions: ITabItem<OutputTab>[] = [
+const outputOptions: TabOption<OutputTab>[] = [
   { name: OutputTab.Json, title: 'JSON' },
 ]
 

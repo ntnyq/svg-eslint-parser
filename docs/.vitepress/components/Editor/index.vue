@@ -54,7 +54,7 @@ function handleReady({ view }: { view: EditorView }) {
 watch(() => props.selection, selectSource, { flush: 'post' })
 
 const resolvedExtensions = computed(() => {
-  const extentions: Extension[] = [
+  const extensions: Extension[] = [
     // External extension
     ...props.extensions,
     // Theme extension
@@ -64,10 +64,10 @@ const resolvedExtensions = computed(() => {
 
   // Language extension
   if (props.language && matchedLanguage) {
-    extentions.push(matchedLanguage.extension())
+    extensions.push(matchedLanguage.extension())
   }
 
-  return extentions
+  return extensions
 })
 </script>
 

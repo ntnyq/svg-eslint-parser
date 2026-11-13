@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { EditorView } from '@codemirror/view'
 import { computed } from 'vue'
-import { useSharedPlaygroundState } from '../../composables/playground'
+import { useSharedPlaygroundState } from '../../composables/usePlaygroundState'
 
 const props = defineProps<{ wrap: boolean }>()
 const { code, selectedRange } = useSharedPlaygroundState()

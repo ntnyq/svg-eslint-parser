@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useSharedPlaygroundState } from '../../composables/playground'
+import { useSharedPlaygroundState } from '../../composables/usePlaygroundState'
 
 const { parseError, errorRange, diagnostics, errorRecovery, selectRange } =
   useSharedPlaygroundState()

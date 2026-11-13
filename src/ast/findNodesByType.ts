@@ -10,11 +10,11 @@ type NodeOfType<Type extends NodeTypes> = Extract<AnyNode, { type: Type }>
  * @param type - Node type to search for
  * @returns Array of matching nodes
  */
-export function findNodeByType<T extends NodeTypes>(
+export function findNodesByType<Type extends NodeTypes>(
   node: AnyNode,
-  type: T,
-): NodeOfType<T>[] {
-  const results: NodeOfType<T>[] = []
+  type: Type,
+): NodeOfType<Type>[] {
+  const results: NodeOfType<Type>[] = []
   const stack = [node]
 
   while (stack.length > 0) {
@@ -25,7 +25,7 @@ export function findNodeByType<T extends NodeTypes>(
     }
 
     if (currentNode.type === type) {
-      results.push(currentNode as NodeOfType<T>)
+      results.push(currentNode as NodeOfType<Type>)
     }
 
     const children = getChildNodes(currentNode)
@@ -39,15 +39,20 @@ export function findNodeByType<T extends NodeTypes>(
 }
 
 /**
+ * Compatibility alias for the plural node query.
+ */
+export { findNodesByType as findNodeByType }
+
+/**
  * Find the first node of a specific type in the AST
  * @param node - Root node to search from
  * @param type - Node type to search for
  * @returns First matching node or undefined
  */
-export function findFirstNodeByType<T extends NodeTypes>(
+export function findFirstNodeByType<Type extends NodeTypes>(
   node: AnyNode,
-  type: T,
-): NodeOfType<T> | undefined {
+  type: Type,
+): NodeOfType<Type> | undefined {
   const stack = [node]
 
   while (stack.length > 0) {
@@ -58,7 +63,7 @@ export function findFirstNodeByType<T extends NodeTypes>(
     }
 
     if (currentNode.type === type) {
-      return currentNode as NodeOfType<T>
+      return currentNode as NodeOfType<Type>
     }
 
     const children = getChildNodes(currentNode)

@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { cloneNode, cloneNodeWithParent } from '../src/ast/cloneNode'
-import { findFirstNodeByType, findNodeByType } from '../src/ast/findNodesByType'
+import {
+  findFirstNodeByType,
+  findNodesByType,
+} from '../src/ast/findNodesByType'
 import {
   countNodes,
   filterNodes,
@@ -24,9 +27,9 @@ describe('ast utility functions', () => {
   const parsed = parseForESLint(svgSource)
   const ast = parsed.ast.document // Get the first document node
 
-  describe('findNodeByType', () => {
+  describe('findNodesByType', () => {
     it('should find all nodes of a specific type', () => {
-      const elements = findNodeByType(ast, NodeTypes.Element)
+      const elements = findNodesByType(ast, NodeTypes.Element)
       expect(elements.length).toBeGreaterThan(0)
       expect(
         elements.every(node => node.type === NodeTypes.Element),
@@ -39,13 +42,13 @@ describe('ast utility functions', () => {
     })
 
     it('should find text nodes', () => {
-      const textNodes = findNodeByType(ast, NodeTypes.Text)
+      const textNodes = findNodesByType(ast, NodeTypes.Text)
       expect(Array.isArray(textNodes)).toBeTruthy()
     })
 
     it('should find attribute key and value leaf nodes', () => {
-      const keys = findNodeByType(ast, NodeTypes.AttributeKey)
-      const values = findNodeByType(ast, NodeTypes.AttributeValue)
+      const keys = findNodesByType(ast, NodeTypes.AttributeKey)
+      const values = findNodesByType(ast, NodeTypes.AttributeValue)
 
       expect(keys.map(node => ('value' in node ? node.value : ''))).toContain(
         'width',
@@ -56,7 +59,7 @@ describe('ast utility functions', () => {
     })
 
     it('should return empty array for non-existent types', () => {
-      const comments = findNodeByType(ast, NodeTypes.Comment)
+      const comments = findNodesByType(ast, NodeTypes.Comment)
       expect(comments).toStrictEqual([])
     })
   })
@@ -77,7 +80,7 @@ describe('ast utility functions', () => {
 
   describe('validateNode', () => {
     it('should validate correct nodes', () => {
-      const elements = findNodeByType(ast, NodeTypes.Element)
+      const elements = findNodesByType(ast, NodeTypes.Element)
       expect(validateNode(elements[0])).toBeTruthy()
     })
 
@@ -155,7 +158,7 @@ describe('ast utility functions', () => {
 
   describe('cloneNode', () => {
     it('should deep clone a node', () => {
-      const elements = findNodeByType(ast, NodeTypes.Element)
+      const elements = findNodesByType(ast, NodeTypes.Element)
       const original = elements[0]
       const cloned = cloneNode(original)
 
@@ -166,7 +169,7 @@ describe('ast utility functions', () => {
     })
 
     it('should remove parent references', () => {
-      const elements = findNodeByType(ast, NodeTypes.Element)
+      const elements = findNodesByType(ast, NodeTypes.Element)
       const cloned = cloneNode(elements[0])
 
       expect('parentRef' in cloned).toBeFalsy()
@@ -176,7 +179,7 @@ describe('ast utility functions', () => {
 
   describe('isNodeType', () => {
     it('should check node type correctly', () => {
-      const elements = findNodeByType(ast, NodeTypes.Element)
+      const elements = findNodesByType(ast, NodeTypes.Element)
       expect(isNodeType(elements[0], NodeTypes.Element)).toBeTruthy()
       expect(isNodeType(elements[0], NodeTypes.Text)).toBeFalsy()
     })
@@ -229,7 +232,7 @@ describe('ast utility functions', () => {
     })
 
     it('should count single node', () => {
-      const textNodes = findNodeByType(ast, NodeTypes.Text)
+      const textNodes = findNodesByType(ast, NodeTypes.Text)
       expect(textNodes.length).toBeGreaterThan(0)
       const count = countNodes(textNodes[0])
       expect(count).toBe(1)
@@ -244,7 +247,7 @@ describe('ast utility functions', () => {
     it('should calculate depth for nested nodes', () => {
       // Clone with parent references first
       const astWithParents = cloneNodeWithParent(ast)
-      const elements = findNodeByType(astWithParents, NodeTypes.Element)
+      const elements = findNodesByType(astWithParents, NodeTypes.Element)
       const depths = elements.map(element => getNodeDepth(element))
       expect(depths.some(d => d > 0)).toBeTruthy()
     })
@@ -257,7 +260,7 @@ describe('ast utility functions', () => {
     })
 
     it('should return parent chain for nested nodes', () => {
-      const elements = findNodeByType(ast, NodeTypes.Element)
+      const elements = findNodesByType(ast, NodeTypes.Element)
       const chain = getParentChain(elements[0])
       expect(chain.length).toBeGreaterThanOrEqual(0)
     })

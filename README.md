@@ -83,7 +83,7 @@ export default [
 ```typescript
 import {
   parseForESLint,
-  findNodeByType,
+  findNodesByType,
   NodeTypes,
   traverseAST,
 } from 'svg-eslint-parser'
@@ -93,7 +93,7 @@ const { ast } = parseForESLint(svgSource)
 const document = ast.document
 
 // Find all element nodes
-const elements = findNodeByType(document, NodeTypes.Element)
+const elements = findNodesByType(document, NodeTypes.Element)
 console.log(`Found ${elements.length} elements`)
 
 // Traverse with visitor pattern
@@ -119,6 +119,10 @@ Returns an ESLint-compatible result with AST, visitor keys, and services. Recove
 
 Parsing is strict by default and throws `ParseError` for invalid SVG. Pass
 `{ errorRecovery: true }` to return a recovered AST with diagnostics instead.
+
+Diagnostics are ordered by source start offset, preserving reporting order on
+ties. Strict mode throws the first error in that order.
+
 Strict parsing also enforces XML well-formedness: one root element, legal
 prolog placement, matching DOCTYPE roots, valid names and comments, and unique
 quoted attributes with values.
@@ -155,7 +159,8 @@ export default defineSVGRule({
 
 #### Search & Traversal
 
-- `findNodeByType<T>(node, type)` - Find all nodes of a specific type
+- `findNodesByType<T>(node, type)` - Find all nodes of a specific type
+- `findNodeByType<T>(node, type)` - Compatibility alias of `findNodesByType()`
 - `findFirstNodeByType<T>(node, type)` - Find first node of a specific type
 - `traverseAST(node, visitor)` - Visitor pattern traversal with enter/leave hooks
 - `walkAST(node, callback)` - Simple traversal with callback
@@ -211,7 +216,7 @@ Feel free to open an issue if you have any suggestions or find any bugs.
 ## Example: Finding All Circles
 
 ```typescript
-import { parseForESLint, findNodeByType, NodeTypes } from 'svg-eslint-parser'
+import { parseForESLint, findNodesByType, NodeTypes } from 'svg-eslint-parser'
 
 const svgCode = `
 <svg width="200" height="200">
@@ -225,7 +230,7 @@ const { ast } = parseForESLint(svgCode)
 const document = ast.document
 
 // Find all elements and filter for circles
-const allElements = findNodeByType(document, NodeTypes.Element)
+const allElements = findNodesByType(document, NodeTypes.Element)
 const circles = allElements.filter(element => element.name === 'circle')
 
 console.log(`Found ${circles.length} circles`)
@@ -248,6 +253,23 @@ Found 2 circles
 Circle 1: cx=50, cy=50, r=40
 Circle 2: cx=150, cy=150, r=30
 ```
+
+## Development
+
+```sh
+pnpm install --frozen-lockfile
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm docs:build
+```
+
+`pnpm typecheck` runs `typecheck:ts` for the parser, tests, and tooling, then
+`docs:typecheck` for the documentation and Playground. The Vue check uses
+`vue-tsc` with strict template checking, including component props, events,
+`v-model` bindings, and the type contracts in `docs/.vitepress/typeTests/`.
+It reads the parser source directly, so typechecking works before a package
+build. CI runs both type checks and builds the documentation after the package.
 
 ## Links
 

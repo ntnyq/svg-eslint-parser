@@ -7,7 +7,7 @@ const { isDark } = useData()
 
 const DefaultThemeLayout = DefaultTheme.Layout
 
-function supportViewTransition() {
+function supportsViewTransition() {
   return (
     Boolean(document.startViewTransition) &&
     window.matchMedia('(prefers-reduced-motion: no-preference)').matches
@@ -15,7 +15,7 @@ function supportViewTransition() {
 }
 
 provide('toggle-appearance', async ({ clientX: x, clientY: y }: MouseEvent) => {
-  if (!supportViewTransition()) {
+  if (!supportsViewTransition()) {
     isDark.value = !isDark.value
     return
   }

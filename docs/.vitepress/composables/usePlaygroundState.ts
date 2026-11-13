@@ -9,28 +9,30 @@ import type { ParseForESLintResult, Range } from 'svg-eslint-parser'
 
 export function usePlaygroundState() {
   const code = useLocalStorage(`${packageName}:code`, svgSample)
-  const ast = shallowRef<ParseForESLintResult | undefined>()
+  const parseResult = shallowRef<ParseForESLintResult | undefined>()
   const activeInputTab = ref<InputTab>(InputTab.Code)
 
-  const loading = ref(false)
-  const parseCost = ref(0)
+  const isParsing = ref(false)
+  const parseDurationMs = ref(0)
   const parseError = shallowRef<string>()
   const errorRecovery = shallowRef(false)
   const errorRange = shallowRef<Range>()
   const selectedRange = shallowRef<Range>()
-  const summary = computed(() => summarizeDocument(ast.value?.ast))
-  const tokens = computed(() => ast.value?.ast.tokens ?? [])
+  const summary = computed(() => summarizeDocument(parseResult.value?.ast))
+  const tokens = computed(() => parseResult.value?.ast.tokens ?? [])
   const diagnostics = computed(() => [
-    ...(ast.value?.services.errors ?? []).map(error => ({
+    ...(parseResult.value?.services.errors ?? []).map(error => ({
       ...error,
       severity: 'Error',
     })),
-    ...(ast.value?.services.warnings ?? []).map(error => ({
+    ...(parseResult.value?.services.warnings ?? []).map(error => ({
       ...error,
       severity: 'Warning',
     })),
   ])
-  const sourceSize = computed(() => new TextEncoder().encode(code.value).length)
+  const sourceSizeBytes = computed(
+    () => new TextEncoder().encode(code.value).length,
+  )
   const lineCount = computed(() => code.value.split(/\r\n|\r|\n/u).length)
 
   function selectRange(range: Range) {
@@ -38,17 +40,17 @@ export function usePlaygroundState() {
     selectedRange.value = [...range]
   }
 
-  const astJson = computed(() => {
-    if (!ast.value) {
+  const parseResultJson = computed(() => {
+    if (!parseResult.value) {
       return ''
     }
     try {
-      return JSON.stringify(ast.value, null, 2)
+      return JSON.stringify(parseResult.value, null, 2)
     } catch {
       return ''
     }
   })
-  const astTree = computed(() => ast.value?.ast)
+  const program = computed(() => parseResult.value?.ast)
 
   function setCode(newCode: string | null) {
     code.value = newCode
@@ -73,14 +75,14 @@ export function usePlaygroundState() {
     selectedRange.value = undefined
     errorRange.value = undefined
     try {
-      loading.value = true
+      isParsing.value = true
 
-      ast.value = parseForESLint(code.value, {
+      parseResult.value = parseForESLint(code.value, {
         errorRecovery: errorRecovery.value,
       })
       parseError.value = undefined
     } catch (error) {
-      ast.value = undefined
+      parseResult.value = undefined
       if (error instanceof ParseError) {
         errorRange.value = [error.index, error.index + 1]
       }
@@ -91,8 +93,8 @@ export function usePlaygroundState() {
             ? error.message
             : String(error)
     } finally {
-      parseCost.value = window.performance.now() - startTime
-      loading.value = false
+      parseDurationMs.value = window.performance.now() - startTime
+      isParsing.value = false
     }
   })
 
@@ -106,15 +108,15 @@ export function usePlaygroundState() {
     summary,
     tokens,
     diagnostics,
-    sourceSize,
+    sourceSizeBytes,
     lineCount,
 
-    ast,
-    astJson,
-    astTree,
+    parseResult,
+    parseResultJson,
+    program,
 
-    loading,
-    parseCost,
+    isParsing,
+    parseDurationMs,
 
     activeInputTab,
     setActiveInputTab,

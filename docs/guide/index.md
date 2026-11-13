@@ -73,7 +73,7 @@ console.log(result.ast.document.type) // 'Document'
 ```typescript
 import {
   parseForESLint,
-  findNodeByType,
+  findNodesByType,
   NodeTypes,
   traverseAST,
 } from 'svg-eslint-parser'
@@ -83,7 +83,7 @@ const { ast } = parseForESLint(svgSource)
 const document = ast.document
 
 // Find all tag nodes
-const tags = findNodeByType(document, NodeTypes.Element)
+const tags = findNodesByType(document, NodeTypes.Element)
 console.log(`Found ${tags.length} tags`)
 
 // Traverse the AST

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { ITabItem } from './tabs'
+import type { TabOption } from './tabOption'
 
 defineProps<{
-  item: ITabItem
+  item: TabOption
   isActive?: boolean
 }>()
 const emit = defineEmits<{

@@ -1,7 +1,11 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, expectTypeOf, it } from 'vitest'
 import * as api from '../src'
 import { cloneNode, cloneNodeWithParent } from '../src/ast/cloneNode'
-import { findFirstNodeByType, findNodeByType } from '../src/ast/findNodesByType'
+import {
+  findFirstNodeByType,
+  findNodeByType,
+  findNodesByType,
+} from '../src/ast/findNodesByType'
 import {
   countNodes,
   filterNodes,
@@ -42,6 +46,7 @@ import { SPECIAL_CHAR } from '../src/tokenizer/specialChar'
 import { TokenizerContextTypes } from '../src/tokenizer/tokenizerContextTypes'
 import { TokenTypes } from '../src/tokenizer/tokenTypes'
 import { ConstructTreeContextTypes } from '../src/treeBuilder/constructTreeContextTypes'
+import type { AttributeKeyNode, ElementNode } from '../src'
 
 const ownedExports = {
   meta,
@@ -55,6 +60,7 @@ const ownedExports = {
   filterNodes,
   findFirstNodeByType,
   findNodeByType,
+  findNodesByType,
   getNodeDepth,
   getParentChain,
   isNodeType,
@@ -120,6 +126,7 @@ describe('public runtime exports', () => {
       'filterNodes',
       'findFirstNodeByType',
       'findNodeByType',
+      'findNodesByType',
       'getNodeDepth',
       'getParentChain',
       'isNodeType',
@@ -138,5 +145,25 @@ describe('public runtime exports', () => {
     for (const [name, value] of Object.entries(ownedExports)) {
       expect(Reflect.get(api, name)).toBe(value)
     }
+  })
+
+  it('keeps the singular node query as an identical alias of the plural query', () => {
+    expect(api.findNodeByType).toBe(api.findNodesByType)
+    expectTypeOf(api.findNodeByType).toEqualTypeOf(api.findNodesByType)
+    const { ast } = api.parseForESLint('<svg id="root"><g><path /></g></svg>')
+    const elements = api.findNodesByType(ast, NodeTypes.Element)
+    const legacyElements = api.findNodeByType(ast, NodeTypes.Element)
+    expectTypeOf(elements).toEqualTypeOf<ElementNode[]>()
+    expectTypeOf(legacyElements).toEqualTypeOf<ElementNode[]>()
+    expect(elements.map(node => node.name)).toEqual(['svg', 'g', 'path'])
+    expect(legacyElements).toEqual(elements)
+    expect(
+      legacyElements.every((node, index) => node === elements[index]),
+    ).toBe(true)
+    const keys = api.findNodesByType(ast, NodeTypes.AttributeKey)
+    expectTypeOf(keys).toEqualTypeOf<AttributeKeyNode[]>()
+    expect(keys.map(node => node.value)).toEqual(['id'])
+    expect(api.findNodeByType(ast, NodeTypes.Comment)).toEqual([])
+    expect(api.findNodesByType(ast, NodeTypes.Comment)).toEqual([])
   })
 })

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useEventListener } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
-import { useSharedPlaygroundState } from '../composables/playground'
+import { useSharedPlaygroundState } from '../composables/usePlaygroundState'
 
 const { setCode } = useSharedPlaygroundState()
 

@@ -34,6 +34,7 @@ export {
   countNodes,
   filterNodes,
   findFirstNodeByType,
+  findNodesByType,
   getNodeDepth,
   getParentChain,
   isNodeType,

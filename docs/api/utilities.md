@@ -4,26 +4,34 @@ The parser provides a comprehensive set of utility functions for working with th
 
 ## Search & Traversal
 
-### findNodeByType()
+### findNodesByType()
 
-Find all nodes of a specific type in the AST.
+Find all nodes of a specific type in the AST, including the supplied root when
+it matches. Results follow visitor-key order, with parents before descendants.
 
 ```typescript
-function findNodeByType<T extends NodeTypes>(
+function findNodesByType<Type extends NodeTypes>(
   node: AnyNode,
-  type: T,
-): Array<Extract<AnyNode, { type: T }>>
+  type: Type,
+): Array<Extract<AnyNode, { type: Type }>>
 ```
 
 **Example:**
 
 ```typescript
-import { findNodeByType, NodeTypes, parseForESLint } from 'svg-eslint-parser'
+import { findNodesByType, NodeTypes, parseForESLint } from 'svg-eslint-parser'
 
 const { ast } = parseForESLint('<svg><circle /></svg>')
-const tags = findNodeByType(ast.document, NodeTypes.Element)
+const tags = findNodesByType(ast.document, NodeTypes.Element)
 // Returns all Element nodes in the AST
 ```
+
+### findNodeByType()
+
+Compatibility alias of `findNodesByType()`. Both exports refer to the same
+function and return arrays with the same inferred node types. Existing imports
+continue to work; new code can use the plural name to make the return shape clear.
+Use `findFirstNodeByType()` when you need a single node or `undefined`.
 
 ### findFirstNodeByType()
 
@@ -318,13 +326,13 @@ const ancestors = getParentChain(astWithParents.children[0]!)
 ### Finding All Elements with a Specific Attribute
 
 ```typescript
-import { parseForESLint, findNodeByType, NodeTypes } from 'svg-eslint-parser'
+import { parseForESLint, findNodesByType, NodeTypes } from 'svg-eslint-parser'
 
 const { ast } = parseForESLint(svgSource)
 const document = ast.document
 
 // Find all tags with 'id' attribute
-const tagsWithId = findNodeByType(document, NodeTypes.Element).filter(tag =>
+const tagsWithId = findNodesByType(document, NodeTypes.Element).filter(tag =>
   tag.attributes.some(attr => attr.key?.value === 'id'),
 )
 ```
@@ -332,12 +340,12 @@ const tagsWithId = findNodeByType(document, NodeTypes.Element).filter(tag =>
 ### Collecting All Text Content
 
 ```typescript
-import { parseForESLint, findNodeByType, NodeTypes } from 'svg-eslint-parser'
+import { parseForESLint, findNodesByType, NodeTypes } from 'svg-eslint-parser'
 
 const { ast } = parseForESLint(svgSource)
 const document = ast.document
 
-const textNodes = findNodeByType(document, NodeTypes.Text)
+const textNodes = findNodesByType(document, NodeTypes.Text)
 const allText = textNodes.map(node => node.value).join('')
 ```
 

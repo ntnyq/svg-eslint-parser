@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import { useSharedPlaygroundState } from '../../composables/playground'
+import { useSharedPlaygroundState } from '../../composables/usePlaygroundState'
 
-const { astJson } = useSharedPlaygroundState()
+const { parseResultJson } = useSharedPlaygroundState()
 </script>
 
 <template>
   <div class="relative h-full w-full">
     <Editor
-      :model-value="astJson"
+      :model-value="parseResultJson"
       language="json"
       disabled
     />

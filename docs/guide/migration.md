@@ -18,7 +18,7 @@ The AST structure has been refined for better consistency and ease of use:
 
 Added comprehensive utility functions for AST manipulation:
 
-- **Search**: `findNodeByType()`, `findFirstNodeByType()`
+- **Search**: `findNodesByType()`, `findFirstNodeByType()`
 - **Traversal**: `traverseAST()`, `walkAST()`
 - **Validation**: `validateNode()`, `isNodeType()`
 - **Manipulation**: `cloneNode()`, `cloneNodeWithParent()`, `filterNodes()`, `mapNodes()`
@@ -51,7 +51,7 @@ import { tokenize } from 'svg-eslint-parser/dist/tokenizer'
 
 ```typescript
 // Use public API utilities
-import { parseForESLint, findNodeByType, NodeTypes } from 'svg-eslint-parser'
+import { parseForESLint, findNodesByType, NodeTypes } from 'svg-eslint-parser'
 ```
 
 ### 3. Update AST Traversal
@@ -87,9 +87,9 @@ function findTags(node: any): any[] {
 **After:**
 
 ```typescript
-import { findNodeByType, NodeTypes } from 'svg-eslint-parser'
+import { findNodesByType, NodeTypes } from 'svg-eslint-parser'
 
-const tags = findNodeByType(document, NodeTypes.Element)
+const tags = findNodesByType(document, NodeTypes.Element)
 ```
 
 ### 4. Update Node Type Checks
@@ -235,10 +235,10 @@ the start of the closing tag that closes an ancestor.
 Easily find nodes by type:
 
 ```typescript
-import { parseForESLint, findNodeByType, NodeTypes } from 'svg-eslint-parser'
+import { parseForESLint, findNodesByType, NodeTypes } from 'svg-eslint-parser'
 
 const { ast } = parseForESLint(svgSource)
-const circles = findNodeByType(ast.document, NodeTypes.Element).filter(
+const circles = findNodesByType(ast.document, NodeTypes.Element).filter(
   tag => tag.name === 'circle',
 )
 ```
@@ -338,14 +338,14 @@ export default defineSVGRule({
 ### Analyzing SVG Structure
 
 ```typescript
-import { parseForESLint, findNodeByType, NodeTypes } from 'svg-eslint-parser'
+import { parseForESLint, findNodesByType, NodeTypes } from 'svg-eslint-parser'
 
 const { ast } = parseForESLint(svgSource)
 const document = ast.document
 
 // Get statistics
-const tags = findNodeByType(document, NodeTypes.Element)
-const comments = findNodeByType(document, NodeTypes.Comment)
+const tags = findNodesByType(document, NodeTypes.Element)
+const comments = findNodesByType(document, NodeTypes.Comment)
 
 console.log(`Tags: ${tags.length}`)
 console.log(`Comments: ${comments.length}`)

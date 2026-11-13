@@ -201,3 +201,15 @@ is the zero-based index of the next **token**, not a source character offset.
 Tokenizer source offsets and AST `range` entries count UTF-16 code units.
 Existing `TokenizerContextTypes` members, including `AttributeValueWrapped`
 and `AttributeValueBare`, also retain their names and string values.
+
+### Result and query names
+
+`parseForESLint()` returns a `ParseForESLintResult`; its `ast` field is the ESLint
+`Program`, and `ast.document` is the SVG/XML `Document`. The playground uses
+`parseResult`, `program`, and `parseResultJson` for these distinct values, and
+names measurements `parseDurationMs` and `sourceSizeBytes` to state their units.
+The public result fields keep their existing names.
+
+The preferred plural query, [`findNodesByType()`](./utilities#findnodesbytype),
+returns all matching nodes. `findNodeByType()` remains an identical compatibility
+alias; `findFirstNodeByType()` returns a single match or `undefined`.

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { useSharedPlaygroundState } from '../../composables/playground'
+import { useSharedPlaygroundState } from '../../composables/usePlaygroundState'
 
-const { astTree } = useSharedPlaygroundState()
+const { program } = useSharedPlaygroundState()
 </script>
 
 <template>
   <div class="relative h-full w-full of-auto">
-    <AstViewer :value="astTree" />
+    <AstViewer :value="program" />
   </div>
 </template>

@@ -1,20 +1,20 @@
 <script lang="ts" setup>
 import { useClipboard } from '@vueuse/core'
-import { useSharedPlaygroundState } from '../../composables/playground'
+import { useSharedPlaygroundState } from '../../composables/usePlaygroundState'
 import { OutputTab } from '../../constants'
-import type { ITabItem } from '../ui/tabs'
+import type { TabOption } from '../ui/tabOption'
 
 const {
   activeOutputTab,
   parseError,
-  astJson,
-  ast,
-  parseCost,
+  parseResultJson,
+  parseResult,
+  parseDurationMs,
   errorRecovery,
   summary,
 } = useSharedPlaygroundState()
 const { copy, copied } = useClipboard({ legacy: true })
-const outputTabOptions: ITabItem<OutputTab>[] = [
+const outputTabOptions: TabOption<OutputTab>[] = [
   { name: OutputTab.Tree, title: 'Tree' },
   { name: OutputTab.Json, title: 'JSON' },
   { name: OutputTab.Tokens, title: 'Tokens' },
@@ -33,8 +33,8 @@ const outputTabOptions: ITabItem<OutputTab>[] = [
         label="Output view"
       />
       <button
-        @click="copy(astJson)"
-        :disabled="!ast"
+        @click="copy(parseResultJson)"
+        :disabled="!parseResult"
         :aria-label="copied ? 'Copied JSON' : 'Copy parser result as JSON'"
         :title="copied ? 'Copied JSON' : 'Copy parser result as JSON'"
         type="button"
@@ -75,9 +75,9 @@ const outputTabOptions: ITabItem<OutputTab>[] = [
     </div>
     <footer class="pg-panel-footer">
       <span>{{
-        ast ? `${summary.nodes} document nodes` : 'No AST available'
+        parseResult ? `${summary.nodes} document nodes` : 'No AST available'
       }}</span>
-      <span>{{ parseCost.toFixed(2) }} ms</span>
+      <span>{{ parseDurationMs.toFixed(2) }} ms</span>
     </footer>
   </section>
 </template>

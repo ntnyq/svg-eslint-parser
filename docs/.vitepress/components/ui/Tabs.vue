@@ -1,10 +1,10 @@
 <script lang="ts" setup generic="Name extends string">
 import { onMounted } from 'vue'
-import type { ITabItem } from './tabs'
+import type { TabOption } from './tabOption'
 
 const props = withDefaults(
   defineProps<{
-    options?: ITabItem<Name>[]
+    options?: TabOption<Name>[]
     label?: string
   }>(),
   {
@@ -12,12 +12,12 @@ const props = withDefaults(
   },
 )
 const emit = defineEmits<{
-  change: [name: Name, item: ITabItem<Name>]
+  change: [name: Name, item: TabOption<Name>]
 }>()
 
 const activeItem = defineModel<Name>({ required: true })
 
-function handleItemClick(item: ITabItem<Name>) {
+function handleItemClick(item: TabOption<Name>) {
   activeItem.value = item.name
   emit('change', item.name, item)
 }

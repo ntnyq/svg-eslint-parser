@@ -1,4 +1,4 @@
-export interface ITabItem<Name extends string = string> {
+export interface TabOption<Name extends string = string> {
   name: Name
   title?: string
   icon?: string

@@ -1,4 +1,4 @@
-import { mkdtemp, readdir, rm } from 'node:fs/promises'
+import { mkdtemp, readdir, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { build } from 'tsdown'
@@ -52,10 +52,51 @@ describe('package build', () => {
   })
 
   it('loads the emitted JavaScript entry and its bundled helpers', async () => {
-    const { parse } = await import(pathToFileURL(join(outDir, 'index.js')).href)
+    const { parse, findNodeByType, findNodesByType } = await import(
+      pathToFileURL(join(outDir, 'index.js')).href
+    )
+    expect(findNodeByType).toBe(findNodesByType)
     expect(parse('<svg/>')).toMatchObject({
       type: 'Document',
       children: [{ type: 'Element', name: 'svg' }],
     })
+  })
+
+  it('preserves typed legacy imports alongside the plural query in emitted declarations', async () => {
+    const consumerFile = join(outDir, 'consumer.mts')
+    await writeFile(
+      consumerFile,
+      `
+      import {
+        findNodeByType, findNodesByType, NodeTypes, parseForESLint,
+      } from './index.js'
+      import type {
+        AST, AttributeKeyNode, ConstructTreeState, ElementNode,
+      } from './index.js'
+
+      const { ast } = parseForESLint('<svg id="root"><path /></svg>')
+      const legacy: ElementNode[] = findNodeByType(ast, NodeTypes.Element)
+      const preferred: ElementNode[] = findNodesByType(ast, NodeTypes.Element)
+      const keys: AttributeKeyNode[] = findNodesByType(ast, NodeTypes.AttributeKey)
+      const namespaceKeys: AST.AttributeKeyNode[] = keys
+      const compatibleQuery: typeof findNodeByType = findNodesByType
+      const cursor: Pick<ConstructTreeState, 'caretPosition'> = { caretPosition: 0 }
+      void [legacy, preferred, namespaceKeys, compatibleQuery, cursor]
+    `,
+    )
+    const program = ts.createProgram([consumerFile], {
+      module: ts.ModuleKind.NodeNext,
+      target: ts.ScriptTarget.ESNext,
+      noEmit: true,
+      strict: true,
+      skipLibCheck: false,
+      types: [],
+    })
+    const diagnostics = ts
+      .getPreEmitDiagnostics(program)
+      .map(diagnostic =>
+        ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n'),
+      )
+    expect(diagnostics).toEqual([])
   })
 })

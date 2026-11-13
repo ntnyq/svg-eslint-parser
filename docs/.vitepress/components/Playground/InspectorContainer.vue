@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useSharedPlaygroundState } from '../../composables/playground'
+import { useSharedPlaygroundState } from '../../composables/usePlaygroundState'
 
-const { ast, summary, tokens, selectRange } = useSharedPlaygroundState()
+const { parseResult, summary, tokens, selectRange } = useSharedPlaygroundState()
 const metrics = computed(() => [
   { label: 'Elements', value: summary.value.elements.length },
   { label: 'Attributes', value: summary.value.attributes },
@@ -39,7 +39,7 @@ const visibleElements = computed(() => summary.value.elements.slice(0, 100))
             :key="metric.label"
           >
             <dd class="text-lg font-semibold leading-tight tabular-nums">
-              {{ ast ? metric.value.toLocaleString() : '—' }}
+              {{ parseResult ? metric.value.toLocaleString() : '—' }}
             </dd>
             <dt class="mt-1 text-xs text-$vp-c-text-2">{{ metric.label }}</dt>
           </div>
@@ -66,7 +66,7 @@ const visibleElements = computed(() => summary.value.elements.slice(0, 100))
           class="text-xs text-$vp-c-text-3"
         >
           {{
-            ast
+            parseResult
               ? 'The root has no attributes.'
               : 'Parse the source to inspect attributes.'
           }}

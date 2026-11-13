@@ -3,7 +3,7 @@ export { visitorKeys } from './visitorKeys'
 export { traverseAST, walkAST } from './traverseAST'
 export { isNodeType, validateNode } from './validateNode'
 export { cloneNode, cloneNodeWithParent } from './cloneNode'
-export { findFirstNodeByType, findNodeByType } from './findNodesByType'
+export { findFirstNodeByType, findNodesByType } from './findNodesByType'
 export {
   countNodes,
   filterNodes,

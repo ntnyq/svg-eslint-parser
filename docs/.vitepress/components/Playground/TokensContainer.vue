@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, shallowRef, watch } from 'vue'
-import { useSharedPlaygroundState } from '../../composables/playground'
+import { useSharedPlaygroundState } from '../../composables/usePlaygroundState'
 
 const { tokens, selectRange } = useSharedPlaygroundState()
 const query = shallowRef('')

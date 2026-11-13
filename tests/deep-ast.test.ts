@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { NodeTypes, parseForESLint } from '../src'
 import { cloneNode, cloneNodeWithParent } from '../src/ast/cloneNode'
-import { findFirstNodeByType, findNodeByType } from '../src/ast/findNodesByType'
+import {
+  findFirstNodeByType,
+  findNodesByType,
+} from '../src/ast/findNodesByType'
 import {
   countNodes,
   filterNodes,
@@ -25,7 +28,7 @@ describe('deep AST traversal', () => {
       `<svg>${'<g>'.repeat(depth)}<path/>${'</g>'.repeat(depth)}</svg>`,
     ).ast.document
     const transformed = transform(document)
-    const elements = findNodeByType(transformed, NodeTypes.Element)
+    const elements = findNodesByType(transformed, NodeTypes.Element)
     expect(elements).toHaveLength(depth + 2)
     const deepest = elements.at(-1)
     expect.assert(deepest)
@@ -40,7 +43,7 @@ describe('deep AST traversal', () => {
     const source = `<svg>${'<g/>'.repeat(childCount)}</svg>`
     const result = parseForESLint(source)
     expect(result.services.errors).toEqual([])
-    const elements = findNodeByType(result.ast.document, NodeTypes.Element)
+    const elements = findNodesByType(result.ast.document, NodeTypes.Element)
     expect(elements).toHaveLength(childCount + 1)
     expect(elements[1].range).toEqual([5, 9])
     expect(elements.at(-1)?.range).toEqual([
@@ -76,7 +79,7 @@ describe('deep AST traversal', () => {
     expect(entered).toBe(left)
     expect(walked).toBe(entered)
     expect(countNodes(document)).toBe(entered)
-    expect(findNodeByType(document, NodeTypes.Element)).toHaveLength(depth + 1)
+    expect(findNodesByType(document, NodeTypes.Element)).toHaveLength(depth + 1)
     expect(findFirstNodeByType(document, NodeTypes.Comment)).toMatchObject({
       type: NodeTypes.Comment,
       content: ' deepest ',
