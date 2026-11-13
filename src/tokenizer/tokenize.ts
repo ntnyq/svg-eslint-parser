@@ -70,18 +70,53 @@ const contextHandlers: Record<TokenizerContextTypes, TokenizeHandler> = {
   [TokenizerContextTypes.CommentClose]: noop,
 }
 
-function tokenizeChars(state: TokenizerState) {
+/**
+ * Run tokenizer contexts, rejecting stalls, cursor jumps, and cycles while
+ * reprocessing the same source character.
+ */
+export function tokenizeChars(
+  state: TokenizerState,
+  handlers: Partial<
+    Record<TokenizerContextTypes, TokenizeHandler>
+  > = contextHandlers,
+) {
+  const visitedContexts = new Set<TokenizerContextTypes>()
   while (!state.sourceCode.isEof()) {
-    const handler = contextHandlers[state.currentContext]
+    const sourceOffset = state.sourceCode.index()
+    const context = state.currentContext
+    if (visitedContexts.has(context)) {
+      throw new Error(
+        `Tokenizer context cycle at offset ${sourceOffset} (${context}).`,
+      )
+    }
+    visitedContexts.add(context)
+    const handler = handlers[context]
+    if (!handler) {
+      throw new Error(`Missing tokenizer handler for ${context}.`)
+    }
     state.decisionBuffer.concat(state.sourceCode.current())
     handler.parse(state.decisionBuffer, state)
+    const offsetAdvance = state.sourceCode.index() - sourceOffset
+    if (offsetAdvance !== 0 && offsetAdvance !== 1) {
+      throw new Error(
+        `Tokenizer must consume exactly one character or reprocess it (${context}).`,
+      )
+    }
+    if (offsetAdvance === 0 && state.currentContext === context) {
+      throw new Error(
+        `Tokenizer made no progress at offset ${sourceOffset} (${context}).`,
+      )
+    }
+    if (offsetAdvance === 1) {
+      visitedContexts.clear()
+    }
   }
 
-  const handler = contextHandlers[state.currentContext]
+  const handler = handlers[state.currentContext]
 
   state.sourceCode.prev()
 
-  if (handler.handleContentEnd !== undefined) {
+  if (handler?.handleContentEnd !== undefined) {
     handler.handleContentEnd(state)
   }
 
