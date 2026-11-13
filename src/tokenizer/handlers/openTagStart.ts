@@ -1,15 +1,11 @@
-import {
-  SPECIAL_CHAR,
-  TokenizerContextTypes,
-  TokenTypes,
-} from '../../constants'
-import {
-  calculateTokenPosition,
-  isWhitespace,
-  parseOpenTagName,
-} from '../../utils'
-import type { TokenizerState } from '../../types'
+import { parseOpenTagName } from '../../syntax/parseOpenTagName'
+import { calculateTokenPosition } from '../calculateTokenPosition'
+import { isWhitespace } from '../isWhitespace'
+import { SPECIAL_CHAR } from '../specialChar'
+import { TokenizerContextTypes } from '../tokenizerContextTypes'
+import { TokenTypes } from '../tokenTypes'
 import type { CharsBuffer } from '../charsBuffer'
+import type { TokenizerState } from '../tokenizerState'
 
 function parseTagEnd(state: TokenizerState) {
   const tagName = parseOpenTagName(state.accumulatedContent.value())

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { NodeTypes } from '../../src/constants'
-import { parseForESLint } from '../../src/parser'
+import { NodeTypes } from '../../src/ast/nodeTypes'
+import { parseForESLint } from '../../src/parser/parseForESLint'
 import { unindent as $ } from '../helpers/unindent'
-import type { ElementNode, TextNode } from '../../src/types'
+import type { ElementNode, TextNode } from '../../src/ast/types'
 
 describe('svg-specific parsing', () => {
   it('should parse basic SVG element', () => {

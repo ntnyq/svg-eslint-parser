@@ -1,12 +1,12 @@
-import {
-  SPECIAL_CHAR,
-  TokenizerContextTypes,
-  TokenTypes,
-  XML_DECLARATION_END,
-} from '../../constants'
-import { calculateTokenPosition, isWhitespace } from '../../utils'
-import type { Range, TokenizerState } from '../../types'
+import { XML_DECLARATION_END } from '../../syntax/constants'
+import { calculateTokenPosition } from '../calculateTokenPosition'
+import { isWhitespace } from '../isWhitespace'
+import { SPECIAL_CHAR } from '../specialChar'
+import { TokenizerContextTypes } from '../tokenizerContextTypes'
+import { TokenTypes } from '../tokenTypes'
+import type { Range } from '../../source/types'
 import type { CharsBuffer } from '../charsBuffer'
+import type { TokenizerState } from '../tokenizerState'
 
 function parseXMLDeclarationClose(state: TokenizerState) {
   const position = calculateTokenPosition(state, { keepBuffer: false })
@@ -44,7 +44,7 @@ function parseEqual(state: TokenizerState) {
   state.sourceCode.next()
 }
 
-function parseNoneWhitespace(state: TokenizerState) {
+function startAttributeName(state: TokenizerState) {
   state.accumulatedContent.replace(state.decisionBuffer)
   state.currentContext = TokenizerContextTypes.XMLDeclarationAttributeKey
   state.decisionBuffer.clear()
@@ -70,7 +70,7 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
   }
 
   if (!isWhitespace(value)) {
-    return parseNoneWhitespace(state)
+    return startAttributeName(state)
   }
 
   state.decisionBuffer.clear()

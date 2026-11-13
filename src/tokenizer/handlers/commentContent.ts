@@ -1,12 +1,11 @@
-import {
-  COMMENT_END,
-  SPECIAL_CHAR,
-  TokenizerContextTypes,
-  TokenTypes,
-} from '../../constants'
-import { calculateTokenPosition } from '../../utils'
-import type { Range, TokenizerState } from '../../types'
+import { COMMENT_END } from '../../syntax/constants'
+import { calculateTokenPosition } from '../calculateTokenPosition'
+import { SPECIAL_CHAR } from '../specialChar'
+import { TokenizerContextTypes } from '../tokenizerContextTypes'
+import { TokenTypes } from '../tokenTypes'
+import type { Range } from '../../source/types'
 import type { CharsBuffer } from '../charsBuffer'
+import type { TokenizerState } from '../tokenizerState'
 
 function parseCommentClose(state: TokenizerState) {
   const position = calculateTokenPosition(state, { keepBuffer: false })

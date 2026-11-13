@@ -106,3 +106,26 @@ See the [Migration Guide](/guide/migration) for upgrading from previous versions
 - [API Documentation](/api/)
 - [AST Structure](/api/ast)
 - [Utilities](/api/utilities)
+
+## Source organization
+
+The implementation groups definitions and tools with the phase that owns them:
+
+| Directory          | Responsibility                                                                     |
+| ------------------ | ---------------------------------------------------------------------------------- |
+| `src/tokenizer/`   | Character scanning, tokens, tokenizer contexts and state, token positions          |
+| `src/treeBuilder/` | AST construction, context frames and state, node-building tools                    |
+| `src/ast/`         | AST definitions, visitor keys, traversal, search, cloning, transformation          |
+| `src/parser/`      | Parsing orchestration, document validation, error policy, ESLint output adaptation |
+| `src/diagnostics/` | Diagnostics, collection, source-order sorting, parse exceptions                    |
+| `src/eslint/`      | Typed rule definitions and ESLint-facing types                                     |
+| `src/source/`      | Shared source locations and line indexing                                          |
+| `src/syntax/`      | Shared XML syntax markers, name patterns, and syntax readers                       |
+
+`src/index.ts` explicitly lists the public API. Existing implementation exports
+are retained through `src/compat.ts`, and `src/types/index.ts` preserves the
+existing `AST` type namespace. New implementation code imports from the owning
+module, keeping compatibility facades separate from internal dependencies.
+
+Consumers continue using the same package-root imports; these directories do
+not introduce additional package entry points.

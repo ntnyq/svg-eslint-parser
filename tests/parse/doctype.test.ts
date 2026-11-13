@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { parseForESLint } from '../../src'
-import { NodeTypes } from '../../src/constants'
+import { NodeTypes } from '../../src/ast/nodeTypes'
 import { unindent as $ } from '../helpers/unindent'
 
 const SVG_SOURCE = $`

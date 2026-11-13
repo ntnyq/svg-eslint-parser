@@ -1,16 +1,17 @@
 import { describe, expect, it } from 'vitest'
-import { TokenizerContextTypes, TokenTypes } from '../src/constants'
 import { Chars } from '../src/tokenizer/chars'
 import { CharsBuffer } from '../src/tokenizer/charsBuffer'
-import { parse as parseAttributeValueBare } from '../src/tokenizer/handlers/attributeValueBare'
 import { parse as parseDoctypeOpen } from '../src/tokenizer/handlers/doctypeOpen'
+import { parse as parseXMLDeclarationAttributeValueWrapped } from '../src/tokenizer/handlers/quotedXMLDeclarationAttributeValue'
+import { parse as parseAttributeValueBare } from '../src/tokenizer/handlers/unquotedAttributeValue'
 import { parse as parseXMLDeclarationAttributeKey } from '../src/tokenizer/handlers/xmlDeclarationAttributeKey'
 import { parse as parseXMLDeclarationAttributes } from '../src/tokenizer/handlers/xmlDeclarationAttributes'
 import { parse as parseXMLDeclarationAttributeValue } from '../src/tokenizer/handlers/xmlDeclarationAttributeValue'
-import { parse as parseXMLDeclarationAttributeValueWrapped } from '../src/tokenizer/handlers/xmlDeclarationAttributeValueWrapped'
 import { parse as parseXMLDeclarationClose } from '../src/tokenizer/handlers/xmlDeclarationClose'
 import { parse as parseXMLDeclarationOpen } from '../src/tokenizer/handlers/xmlDeclarationOpen'
 import { SourceCode } from '../src/tokenizer/sourceCode'
+import { TokenizerContextTypes } from '../src/tokenizer/tokenizerContextTypes'
+import { TokenTypes } from '../src/tokenizer/tokenTypes'
 
 function createBuffer(value = ''): CharsBuffer {
   const buffer = new CharsBuffer()
@@ -154,7 +155,7 @@ describe('tokenizer xml declaration handlers', () => {
     )
   })
 
-  it('xmlDeclarationAttributeValueWrapped emits value and wrapper end', () => {
+  it('quotedXMLDeclarationAttributeValue emits value and wrapper end', () => {
     const { state, emittedTokens } = createState({
       currentContext: TokenizerContextTypes.XMLDeclarationAttributeValueWrapped,
       accumulatedContent: createBuffer('1.0'),
@@ -182,7 +183,7 @@ describe('tokenizer xml declaration handlers', () => {
     ).toBeUndefined()
   })
 
-  it('xmlDeclarationAttributeValueWrapped keeps consuming when wrapper is not reached', () => {
+  it('quotedXMLDeclarationAttributeValue keeps consuming when wrapper is not reached', () => {
     const { state, emittedTokens } = createState({
       currentContext: TokenizerContextTypes.XMLDeclarationAttributeValueWrapped,
       accumulatedContent: createBuffer('1'),
@@ -248,7 +249,7 @@ describe('tokenizer xml declaration handlers', () => {
     expect(state.currentContext).toBe(TokenizerContextTypes.Data)
   })
 
-  it('attributeValueBare emits attribute value when value ends', () => {
+  it('unquotedAttributeValue emits attribute value when value ends', () => {
     const { state, emittedTokens } = createState({
       currentContext: TokenizerContextTypes.AttributeValueBare,
       accumulatedContent: createBuffer('value'),
@@ -262,7 +263,7 @@ describe('tokenizer xml declaration handlers', () => {
     expect(state.currentContext).toBe(TokenizerContextTypes.Attributes)
   })
 
-  it('attributeValueBare keeps consuming bare values', () => {
+  it('unquotedAttributeValue keeps consuming bare values', () => {
     const { state, emittedTokens } = createState({
       currentContext: TokenizerContextTypes.AttributeValueBare,
       accumulatedContent: createBuffer('va'),

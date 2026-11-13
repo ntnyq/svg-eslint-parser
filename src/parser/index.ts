@@ -1,4 +1,3 @@
-export * from './error'
-export * from './parse'
-export * from './traverse'
-export * from './parseForESLint'
+export { parse } from './parse'
+export { parseSource } from './parseSource'
+export { parseForESLint } from './parseForESLint'

@@ -92,6 +92,54 @@ const config: Linter.Config = {
 }
 
 describe('ESLint integration', () => {
+  it('exposes diagnostics in source order to rules in recovery mode', () => {
+    const source = '<svg a="1" a="2"><g><!-- unfinished'
+    let errors: SVGParserServices['errors'] = []
+    const inspectDiagnostics = defineSVGRule({
+      meta: { schema: [] },
+      create(context) {
+        return {
+          Program() {
+            errors = context.sourceCode.parserServices.errors
+          },
+        }
+      },
+    })
+    const messages = new Linter().verify(
+      source,
+      {
+        files: ['**/*.svg'],
+        languageOptions: { parser, parserOptions: { errorRecovery: true } },
+        plugins: { test: { rules: { diagnostics: inspectDiagnostics } } },
+        rules: { 'test/diagnostics': 'error' },
+      },
+      'diagnostics.svg',
+    )
+    expect(messages).toEqual([])
+    expect(errors.map(error => [error.type, error.range[0]])).toEqual([
+      ['UnclosedTag', 0],
+      ['DuplicateAttribute', source.lastIndexOf('a=')],
+      ['UnclosedTag', source.indexOf('<g>')],
+      ['MalformedComment', source.indexOf('<!--')],
+    ])
+  })
+
+  it('reports the first ordered diagnostic with ESLint line and column conventions', () => {
+    const messages = new Linter().verify(
+      '<svg>\n  <g></svg>',
+      config,
+      'broken.svg',
+    )
+    expect(messages).toEqual([
+      expect.objectContaining({
+        fatal: true,
+        message: expect.stringContaining('Unclosed tag "g"'),
+        line: 2,
+        column: 3,
+      }),
+    ])
+  })
+
   it.each([
     [
       '<svg>\n  <g><path/>\n</svg>',
@@ -229,9 +277,9 @@ describe('ESLint integration', () => {
       expect.objectContaining({
         ruleId: null,
         fatal: true,
-        message: expect.stringContaining('Expected closing tag for "g"'),
+        message: expect.stringContaining('Unclosed tag "g"'),
         line: 1,
-        column: 9,
+        column: 6,
       }),
     ])
   })

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { NodeTypes, ParseErrorType, parseForESLint } from '../../src'
-import type { DoctypeNode, ElementNode } from '../../src/types'
+import type { DoctypeNode, ElementNode } from '../../src/ast/types'
 
 describe('doctype internal subset parsing', () => {
   it('keeps element and entity declarations inside the doctype', () => {

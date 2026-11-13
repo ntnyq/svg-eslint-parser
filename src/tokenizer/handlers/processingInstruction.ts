@@ -1,12 +1,10 @@
-import {
-  PROCESSING_INSTRUCTION_END,
-  TokenizerContextTypes,
-  TokenTypes,
-} from '../../constants'
-import { calculateTokenPosition } from '../../utils'
+import { PROCESSING_INSTRUCTION_END } from '../../syntax/constants'
+import { calculateTokenPosition } from '../calculateTokenPosition'
 import { Chars } from '../chars'
-import type { TokenizerState } from '../../types'
+import { TokenizerContextTypes } from '../tokenizerContextTypes'
+import { TokenTypes } from '../tokenTypes'
 import type { CharsBuffer } from '../charsBuffer'
+import type { TokenizerState } from '../tokenizerState'
 
 function parseInstructionEnd(state: TokenizerState) {
   const position = calculateTokenPosition(state, { keepBuffer: true })

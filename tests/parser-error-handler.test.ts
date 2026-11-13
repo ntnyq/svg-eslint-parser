@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { NodeTypes } from '../src/constants'
-import { parseForESLint } from '../src/parser'
-import { ParseError } from '../src/parser/error'
-import { ErrorHandler } from '../src/parser/errorHandler'
-import { traverse } from '../src/parser/traverse'
-import { ParseErrorType } from '../src/types/errors'
+import { NodeTypes } from '../src/ast/nodeTypes'
+import { traverse } from '../src/ast/traverse'
+import { ErrorHandler } from '../src/diagnostics/errorHandler'
+import { ParseError } from '../src/diagnostics/parseError'
+import { ParseErrorType } from '../src/diagnostics/types'
+import { parseForESLint } from '../src/parser/parseForESLint'
 
 function createIssue(
   type: ParseErrorType,
@@ -133,8 +133,8 @@ describe('parser diagnostics', () => {
     const result = parseForESLint('<svg><g></svg>', { errorRecovery: true })
 
     expect(result.services.errors.map(error => error.type)).toEqual([
-      ParseErrorType.MismatchedTag,
       ParseErrorType.UnclosedTag,
+      ParseErrorType.MismatchedTag,
     ])
   })
 })

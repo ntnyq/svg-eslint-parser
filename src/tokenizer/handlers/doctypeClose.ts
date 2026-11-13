@@ -1,7 +1,9 @@
-import { TokenizerContextTypes, TokenTypes } from '../../constants'
-import { calculateTokenPosition, isWhitespace } from '../../utils'
-import type { TokenizerState } from '../../types'
+import { calculateTokenPosition } from '../calculateTokenPosition'
+import { isWhitespace } from '../isWhitespace'
+import { TokenizerContextTypes } from '../tokenizerContextTypes'
+import { TokenTypes } from '../tokenTypes'
 import type { CharsBuffer } from '../charsBuffer'
+import type { TokenizerState } from '../tokenizerState'
 
 /**
  * Tokenize the closing delimiter of a doctype declaration.

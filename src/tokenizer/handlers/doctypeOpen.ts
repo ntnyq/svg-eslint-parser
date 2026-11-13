@@ -1,11 +1,11 @@
-import {
-  SPECIAL_CHAR,
-  TokenizerContextTypes,
-  TokenTypes,
-} from '../../constants'
-import { calculateTokenPosition, isWhitespace } from '../../utils'
-import type { AnyToken, TokenizerState } from '../../types'
+import { calculateTokenPosition } from '../calculateTokenPosition'
+import { isWhitespace } from '../isWhitespace'
+import { SPECIAL_CHAR } from '../specialChar'
+import { TokenizerContextTypes } from '../tokenizerContextTypes'
+import { TokenTypes } from '../tokenTypes'
 import type { CharsBuffer } from '../charsBuffer'
+import type { AnyToken } from '../token'
+import type { TokenizerState } from '../tokenizerState'
 
 function generateDoctypeOpenToken(state: TokenizerState): AnyToken {
   const position = calculateTokenPosition(state, { keepBuffer: false })

@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { NodeTypes, ParseErrorType, parseForESLint } from '../../src'
-import type { ElementNode, ProcessingInstructionNode } from '../../src/types'
+import type {
+  ElementNode,
+  ProcessingInstructionNode,
+} from '../../src/ast/types'
 
 describe('processing instruction parsing', () => {
   it('parses an xml-stylesheet instruction before the root element', () => {

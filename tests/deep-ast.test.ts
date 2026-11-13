@@ -7,7 +7,7 @@ import {
   findNodeByType,
   traverseAST,
   walkAST,
-} from '../src/utils'
+} from '../src/ast'
 
 describe('deep AST traversal', () => {
   it('parses and traverses a wide document without argument stack overflow', () => {

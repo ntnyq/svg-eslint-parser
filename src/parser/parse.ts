@@ -1,29 +1,16 @@
-import { constructTree } from '../constructor'
-import { tokenize } from '../tokenizer'
-import { clearParent } from '../utils'
-import { validateDocument } from './validateDocument'
-import type { Options, ParseResult } from '../types'
+import { throwIfParseError } from './errorPolicy'
+import { parseSource } from './parseSource'
+import type { DocumentNode } from '../ast/types'
+import type { Options } from './types'
 
 /**
- * Parse SVG source into a document AST and token list.
+ * Parse SVG source and return its document without creating an ESLint Program.
  * @param source - SVG source code
- * @param _options - Parser options reserved for API compatibility
- * @returns Direct parser result with document AST, tokens, and diagnostics
+ * @param options - Parser options, including error recovery
+ * @returns Parsed SVG document node
  */
-export function parse(source: string, _options: Options = {}): ParseResult {
-  const { errors: tokenizerErrors, tokens } = tokenize(source)
-  const {
-    ast,
-    errors: constructorErrors,
-    warnings,
-  } = constructTree(tokens, source)
-  const validationErrors = validateDocument(ast, tokens)
-  const errors = [...tokenizerErrors, ...constructorErrors, ...validationErrors]
-
-  return {
-    ast: clearParent(ast),
-    errors,
-    tokens,
-    warnings,
-  }
+export function parse(source: string, options: Options = {}): DocumentNode {
+  const { ast, errors } = parseSource(source)
+  throwIfParseError(errors, options)
+  return ast
 }

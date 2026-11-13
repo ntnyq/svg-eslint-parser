@@ -1,8 +1,11 @@
-import { CDATA_END, TokenizerContextTypes, TokenTypes } from '../../constants'
-import { calculateTokenPosition } from '../../utils'
+import { CDATA_END } from '../../syntax/constants'
+import { calculateTokenPosition } from '../calculateTokenPosition'
 import { Chars } from '../chars'
-import type { Range, TokenizerState } from '../../types'
+import { TokenizerContextTypes } from '../tokenizerContextTypes'
+import { TokenTypes } from '../tokenTypes'
+import type { Range } from '../../source/types'
 import type { CharsBuffer } from '../charsBuffer'
+import type { TokenizerState } from '../tokenizerState'
 
 function parseCDATAClose(state: TokenizerState) {
   const position = calculateTokenPosition(state, { keepBuffer: false })

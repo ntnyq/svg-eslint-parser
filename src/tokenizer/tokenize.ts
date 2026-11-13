@@ -1,19 +1,14 @@
-import { TokenizerContextTypes } from '../constants'
 import { CharsBuffer } from './charsBuffer'
 import { finalizeTokenizer } from './finalize'
 import {
   attributeKey,
   attributes,
   attributeValue,
-  attributeValueBare,
-  attributeValueWrapped,
   cdataContent,
   closeTag,
   commentContent,
   data,
-  doctypeAttributeBare,
   doctypeAttributes,
-  doctypeAttributeWrapped,
   doctypeClose,
   doctypeInternalSubset,
   doctypeOpen,
@@ -21,15 +16,22 @@ import {
   openTagEnd,
   openTagStart,
   processingInstruction,
+  quotedAttributeValue,
+  quotedDoctypeAttribute,
+  quotedXMLDeclarationAttributeValue,
+  unquotedAttributeValue,
+  unquotedDoctypeAttribute,
   xmlDeclarationAttributeKey,
   xmlDeclarationAttributes,
   xmlDeclarationAttributeValue,
-  xmlDeclarationAttributeValueWrapped,
   xmlDeclarationClose,
   xmlDeclarationOpen,
 } from './handlers'
 import { SourceCode } from './sourceCode'
-import type { AnyToken, TokenizeHandler, TokenizerState } from '../types'
+import { TokenizerContextTypes } from './tokenizerContextTypes'
+import type { AnyToken } from './token'
+import type { TokenizeHandler } from './tokenizerContextHandler'
+import type { TokenizerState } from './tokenizerState'
 
 const contextHandlers: Record<TokenizerContextTypes, TokenizeHandler> = {
   [TokenizerContextTypes.Data]: data,
@@ -43,13 +45,13 @@ const contextHandlers: Record<TokenizerContextTypes, TokenizeHandler> = {
   [TokenizerContextTypes.XMLDeclarationAttributeValue]:
     xmlDeclarationAttributeValue,
   [TokenizerContextTypes.XMLDeclarationAttributeValueWrapped]:
-    xmlDeclarationAttributeValueWrapped,
+    quotedXMLDeclarationAttributeValue,
 
   [TokenizerContextTypes.Attributes]: attributes,
   [TokenizerContextTypes.AttributeKey]: attributeKey,
   [TokenizerContextTypes.AttributeValue]: attributeValue,
-  [TokenizerContextTypes.AttributeValueBare]: attributeValueBare,
-  [TokenizerContextTypes.AttributeValueWrapped]: attributeValueWrapped,
+  [TokenizerContextTypes.AttributeValueBare]: unquotedAttributeValue,
+  [TokenizerContextTypes.AttributeValueWrapped]: quotedAttributeValue,
 
   [TokenizerContextTypes.OpenTagStart]: openTagStart,
   [TokenizerContextTypes.OpenTagEnd]: openTagEnd,
@@ -60,8 +62,8 @@ const contextHandlers: Record<TokenizerContextTypes, TokenizeHandler> = {
   [TokenizerContextTypes.DoctypeClose]: doctypeClose,
   [TokenizerContextTypes.DoctypeInternalSubset]: doctypeInternalSubset,
   [TokenizerContextTypes.DoctypeAttributes]: doctypeAttributes,
-  [TokenizerContextTypes.DoctypeAttributeBare]: doctypeAttributeBare,
-  [TokenizerContextTypes.DoctypeAttributeWrapped]: doctypeAttributeWrapped,
+  [TokenizerContextTypes.DoctypeAttributeBare]: unquotedDoctypeAttribute,
+  [TokenizerContextTypes.DoctypeAttributeWrapped]: quotedDoctypeAttribute,
 
   [TokenizerContextTypes.CommentContent]: commentContent,
   [TokenizerContextTypes.CommentOpen]: noop,

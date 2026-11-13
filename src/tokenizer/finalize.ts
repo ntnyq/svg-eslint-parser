@@ -1,12 +1,14 @@
+import { ParseErrorType } from '../diagnostics/types'
 import {
   CDATA_START,
   COMMENT_START,
-  TokenizerContextTypes,
-  TokenTypes,
   XML_DECLARATION_START,
-} from '../constants'
-import { ParseErrorType } from '../types'
-import type { AnyToken, Range, TokenizerState } from '../types'
+} from '../syntax/constants'
+import { TokenizerContextTypes } from './tokenizerContextTypes'
+import { TokenTypes } from './tokenTypes'
+import type { Range } from '../source/types'
+import type { AnyToken } from './token'
+import type { TokenizerState } from './tokenizerState'
 
 function getPendingValue(state: TokenizerState): string {
   return state.accumulatedContent.value() + state.decisionBuffer.value()

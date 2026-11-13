@@ -4,8 +4,10 @@
 
 `svg-eslint-parser` is a TypeScript ESM package that converts SVG/XML into an ESLint-compatible AST.
 
-- `src/tokenizer/` reads source text; `src/constructor/` builds the tree; `src/parser/` validates documents and integrates with ESLint.
-- `src/types/`, `src/constants/`, and `src/utils/` contain shared definitions and AST utilities. Public exports live in `src/index.ts`.
+- `src/tokenizer/` owns tokenization handlers, state, token kinds, and position calculation; `src/treeBuilder/` owns construction handlers, context frames, state, and node-building tools.
+- `src/ast/` owns AST definitions, visitor keys, traversal, queries, cloning, and transformations. `src/source/` contains shared source-location tools; `src/syntax/` contains shared XML syntax definitions and readers.
+- `src/parser/` orchestrates parsing, validation, error policy, and ESLint result adaptation. `src/diagnostics/` owns diagnostic types, collection, sorting, and exceptions; `src/eslint/` owns rule-author types and helpers.
+- Public exports are listed explicitly in `src/index.ts`. `src/compat.ts` retains existing implementation exports, and `src/types/index.ts` preserves the public `AST` namespace. Internal modules import definitions from their owners rather than these compatibility facades. Preserve existing exports when reorganizing files.
 - `tests/` contains unit and ESLint integration tests; `tests/parse/` covers SVG/XML syntax and recovery behavior.
 - `docs/` contains VitePress documentation, Vue playground components in `.vitepress/`, and static assets in `public/`.
 - `dist/` is generated package output; do not edit it manually.

@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { NodeTypes, parseForESLint } from '../src'
+import { getLineInfo } from '../src/source/lineIndex'
+import { calculateTokenLocation } from '../src/tokenizer/calculateTokenLocation'
 import { SourceCode } from '../src/tokenizer/sourceCode'
-import { calculateTokenLocation, getLineInfo } from '../src/utils'
-import type { ElementNode } from '../src/types'
+import type { ElementNode } from '../src/ast/types'
 
 describe('source locations', () => {
   it('handles every XML line-break form', () => {

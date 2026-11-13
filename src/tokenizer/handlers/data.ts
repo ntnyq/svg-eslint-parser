@@ -2,14 +2,17 @@ import {
   CDATA_START,
   COMMENT_START,
   RE_OPEN_TAG_START,
-  SPECIAL_CHAR,
-  TokenizerContextTypes,
-  TokenTypes,
   XML_DECLARATION_START,
-} from '../../constants'
-import { calculateTokenPosition, isWhitespace } from '../../utils'
-import type { Range, Token, TokenizerState } from '../../types'
+} from '../../syntax/constants'
+import { calculateTokenPosition } from '../calculateTokenPosition'
+import { isWhitespace } from '../isWhitespace'
+import { SPECIAL_CHAR } from '../specialChar'
+import { TokenizerContextTypes } from '../tokenizerContextTypes'
+import { TokenTypes } from '../tokenTypes'
+import type { Range } from '../../source/types'
 import type { CharsBuffer } from '../charsBuffer'
+import type { Token } from '../token'
+import type { TokenizerState } from '../tokenizerState'
 
 const INCOMPLETE_DOCTYPE_CHARS = new Set([
   '<!',

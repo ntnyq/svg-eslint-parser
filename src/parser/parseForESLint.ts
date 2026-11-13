@@ -1,38 +1,25 @@
-import { NodeTypes, TokenTypes } from '../constants'
-import { visitorKeys } from '../visitorKeys'
-import { ParseError } from './error'
-import { parse } from './parse'
-import { traverse } from './traverse'
-import type {
-  ESLintComment,
-  Options,
-  ParseForESLintResult,
-  Program,
-} from '../types'
+import { NodeTypes } from '../ast/nodeTypes'
+import { traverse } from '../ast/traverse'
+import { visitorKeys } from '../ast/visitorKeys'
+import { TokenTypes } from '../tokenizer/tokenTypes'
+import { throwIfParseError } from './errorPolicy'
+import { parseSource } from './parseSource'
+import type { ESLintComment, Program } from '../ast/types'
+import type { ParseForESLintResult } from '../eslint/types'
+import type { Options } from './types'
 
 /**
  * Parse SVG source into an ESLint-compatible parser result.
  * @param source - SVG source code
- * @param options - Parser options forwarded to the base parser
+ * @param options - Parser options, including error recovery
  * @returns ESLint parser result with visitor keys, services, tokens, and comments
  */
 export function parseForESLint(
   source: string,
   options: Options = {},
 ): ParseForESLintResult {
-  const { ast, errors, tokens, warnings } = parse(source, options)
-
-  if (!options.errorRecovery && errors.length > 0) {
-    const [error] = errors
-
-    throw new ParseError(error.message, {
-      cause: error,
-      code: error.type,
-      offset: error.range[0],
-      line: error.loc.start.line,
-      column: error.loc.start.column + 1,
-    })
-  }
+  const { ast, errors, tokens, warnings } = parseSource(source)
+  throwIfParseError(errors, options)
 
   const programNode: Program = {
     type: NodeTypes.Program,
@@ -53,7 +40,7 @@ export function parseForESLint(
 
   const comments: ESLintComment[] = []
 
-  traverse(programNode, node => {
+  traverse(ast, node => {
     if (node.type === NodeTypes.Comment) {
       comments.push({
         type: 'Block',

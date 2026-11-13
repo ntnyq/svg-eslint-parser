@@ -1,7 +1,8 @@
 import { describe, expect, expectTypeOf, it } from 'vitest'
-import { NodeTypes } from '../../src/constants'
-import { parse, parseForESLint } from '../../src/parser'
-import type { CommentNode, ElementNode, TextNode } from '../../src/types'
+import { NodeTypes } from '../../src/ast/nodeTypes'
+import { parseForESLint } from '../../src/parser/parseForESLint'
+import { parseSource } from '../../src/parser/parseSource'
+import type { CommentNode, ElementNode, TextNode } from '../../src/ast/types'
 
 describe('parser api', () => {
   describe('parseForESLint', () => {
@@ -94,17 +95,17 @@ describe('parser api', () => {
     })
   })
 
-  describe('parse', () => {
-    it('should return Document node directly', () => {
+  describe('parseSource', () => {
+    it('should return a parser result containing a Document node', () => {
       const source = '<div>Test</div>'
-      const result = parse(source)
+      const result = parseSource(source)
 
       expect(result.ast.type).toBe(NodeTypes.Document)
     })
 
     it('should include children', () => {
       const source = '<div>Test</div>'
-      const result = parse(source)
+      const result = parseSource(source)
 
       expect(Array.isArray(result.ast.children)).toBeTruthy()
       expect(result.ast.children.length).toBeGreaterThan(0)
@@ -112,7 +113,7 @@ describe('parser api', () => {
 
     it('should include range information', () => {
       const source = '<div>Test</div>'
-      const result = parse(source)
+      const result = parseSource(source)
 
       expect(result.ast.range).toBeDefined()
       expect(Array.isArray(result.ast.range)).toBeTruthy()
@@ -120,7 +121,7 @@ describe('parser api', () => {
 
     it('should include location information', () => {
       const source = '<div>Test</div>'
-      const result = parse(source)
+      const result = parseSource(source)
 
       expect(result.ast.loc).toBeDefined()
       expect(result.ast.loc.start.line).toBe(1)
@@ -129,7 +130,7 @@ describe('parser api', () => {
 
     it('should parse empty source', () => {
       const source = ''
-      const result = parse(source)
+      const result = parseSource(source)
 
       expect(result.ast.type).toBe(NodeTypes.Document)
       expect(result.ast.children).toHaveLength(0)
@@ -137,7 +138,7 @@ describe('parser api', () => {
 
     it('should parse multiple root elements', () => {
       const source = '<div></div><span></span>'
-      const result = parse(source)
+      const result = parseSource(source)
 
       expect(result.ast.children).toHaveLength(2)
     })
@@ -146,7 +147,7 @@ describe('parser api', () => {
   describe('range and Location accuracy', () => {
     it('should have correct start position', () => {
       const source = '<div>Test</div>'
-      const result = parse(source)
+      const result = parseSource(source)
 
       expect(result.ast.range[0]).toBe(0)
       expect(result.ast.loc.start.line).toBe(1)
@@ -155,7 +156,7 @@ describe('parser api', () => {
 
     it('should have correct end position', () => {
       const source = '<div>Test</div>'
-      const result = parse(source)
+      const result = parseSource(source)
 
       expect(result.ast.range[1]).toBe(source.length)
       expect(result.ast.loc.end.column).toBe(source.length)
@@ -163,7 +164,7 @@ describe('parser api', () => {
 
     it('should track positions correctly in multi-line', () => {
       const source = '<div>\n  <span>Test</span>\n</div>'
-      const result = parse(source)
+      const result = parseSource(source)
       const div = result.ast.children[0]
 
       expect(div.loc.start.line).toBe(1)
@@ -172,7 +173,7 @@ describe('parser api', () => {
 
     it('should track column positions correctly', () => {
       const source = '  <div>Test</div>'
-      const result = parse(source)
+      const result = parseSource(source)
       const text = result.ast.children[0] // First child is whitespace text
 
       // The div element starts at column 2
@@ -184,7 +185,7 @@ describe('parser api', () => {
   describe('node structure validation', () => {
     it('should have valid Tag node structure', () => {
       const source = '<div id="test">Content</div>'
-      const result = parse(source)
+      const result = parseSource(source)
       const div = result.ast.children[0] as ElementNode
 
       expect(div.type).toBe(NodeTypes.Element)
@@ -196,7 +197,7 @@ describe('parser api', () => {
 
     it('should have valid Attribute node structure', () => {
       const source = '<div id="test"></div>'
-      const result = parse(source)
+      const result = parseSource(source)
       const div = result.ast.children[0] as ElementNode
       const attr = div.attributes[0]
 
@@ -209,7 +210,7 @@ describe('parser api', () => {
 
     it('should have valid Comment node structure', () => {
       const source = '<!-- Comment -->'
-      const result = parse(source)
+      const result = parseSource(source)
       const comment = result.ast.children[0] as CommentNode
 
       expect(comment.type).toBe(NodeTypes.Comment)
@@ -218,7 +219,7 @@ describe('parser api', () => {
 
     it('should have valid Text node structure', () => {
       const source = '<div>Text content</div>'
-      const result = parse(source)
+      const result = parseSource(source)
       const div = result.ast.children[0] as ElementNode
       const text = div.children[0] as TextNode
 
@@ -254,13 +255,13 @@ describe('parser api', () => {
 
   describe('error handling', () => {
     it('should not throw on malformed input', () => {
-      expect(() => parse('<div')).not.toThrow()
-      expect(() => parse('<div></span>')).not.toThrow()
-      expect(() => parse('<<div>>')).not.toThrow()
+      expect(() => parseSource('<div')).not.toThrow()
+      expect(() => parseSource('<div></span>')).not.toThrow()
+      expect(() => parseSource('<<div>>')).not.toThrow()
     })
 
     it('should produce valid AST even with errors', () => {
-      const result = parse('<div')
+      const result = parseSource('<div')
       expect(result.ast.type).toBe(NodeTypes.Document)
       expect(result.ast.children).toBeDefined()
     })

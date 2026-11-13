@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { parseForESLint } from '../../src'
-import { NodeTypes } from '../../src/constants'
+import { NodeTypes } from '../../src/ast/nodeTypes'
 import { unindent as $ } from '../helpers/unindent'
-import type { XMLDeclarationNode } from '../../src/types'
+import type { XMLDeclarationNode } from '../../src/ast/types'
 
 const SVG_SOURCE = $`
   <?xml version="1.0" encoding="UTF-8" standalone="no"?>

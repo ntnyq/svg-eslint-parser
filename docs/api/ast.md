@@ -344,6 +344,15 @@ Direct calls to `parse()` and `parseForESLint()` return nodes without parent
 references. ESLint adds `parent` links while running rules. For direct AST work,
 `cloneNodeWithParent()` creates a clone with `parentRef` links instead.
 
+### Source token metadata
+
+Elements retain optional `openStart`, `openEnd`, and `close` tokens for their
+opening name, opening delimiter end, and closing tag. DOCTYPE nodes similarly
+retain optional `open` and `close` tokens. Recovery may leave these fields absent.
+Their types are `Token` specialized with the corresponding `TokenTypes` member.
+These fields describe source syntax and are not AST children: traversal and
+mapping follow visitor keys and skip them.
+
 ## Example AST
 
 For the SVG:

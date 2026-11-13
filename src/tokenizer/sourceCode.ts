@@ -1,12 +1,12 @@
-import { LineIndex } from '../utils/getLineInfo'
+import { LineIndex } from '../source/lineIndex'
 import { Chars } from './chars'
-import type { Range, SourceLocation } from '../types'
+import type { Range, SourceLocation } from '../source/types'
 
 /**
  * Cursor-based view over source text for tokenizer handlers.
  */
 export class SourceCode {
-  private charsIndex = 0
+  private offset = 0
   private readonly lineIndex: LineIndex
 
   public constructor(public readonly source: string) {
@@ -27,37 +27,34 @@ export class SourceCode {
    * Get the current character wrapper.
    */
   public current(): Chars {
-    return new Chars(this.source[this.charsIndex], [
-      this.charsIndex,
-      this.charsIndex + 1,
-    ])
+    return new Chars(this.source[this.offset], [this.offset, this.offset + 1])
   }
 
   /**
    * Advance to the next character.
    */
   public next() {
-    this.charsIndex++
+    this.offset++
   }
 
   /**
    * Move back to the previous character.
    */
   public prev() {
-    this.charsIndex--
+    this.offset--
   }
 
   /**
    * Check whether the cursor has reached the end of source.
    */
   public isEof() {
-    return this.charsIndex >= this.source.length
+    return this.offset >= this.source.length
   }
 
   /**
    * Get the current zero-based character index.
    */
   public index() {
-    return this.charsIndex
+    return this.offset
   }
 }

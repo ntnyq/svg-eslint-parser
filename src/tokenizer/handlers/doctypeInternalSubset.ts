@@ -1,6 +1,8 @@
-import { TokenizerContextTypes, TokenTypes } from '../../constants'
-import type { Range, TokenizerState } from '../../types'
+import { TokenizerContextTypes } from '../tokenizerContextTypes'
+import { TokenTypes } from '../tokenTypes'
+import type { Range } from '../../source/types'
 import type { CharsBuffer } from '../charsBuffer'
+import type { TokenizerState } from '../tokenizerState'
 
 function appendDecisionBuffer(state: TokenizerState) {
   state.accumulatedContent.concatBuffer(state.decisionBuffer)

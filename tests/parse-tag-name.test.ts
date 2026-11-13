@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { parseCloseTagName, parseOpenTagName } from '../src/utils'
+import { parseCloseTagName } from '../src/syntax/parseCloseTagName'
+import { parseOpenTagName } from '../src/syntax/parseOpenTagName'
 
 describe('parse tag name utilities', () => {
   describe('parseOpenTagName', () => {

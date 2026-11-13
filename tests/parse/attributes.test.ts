@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { NodeTypes } from '../../src/constants'
-import { parseForESLint } from '../../src/parser'
-import type { ElementNode } from '../../src/types'
+import { NodeTypes } from '../../src/ast/nodeTypes'
+import { parseForESLint } from '../../src/parser/parseForESLint'
+import type { ElementNode } from '../../src/ast/types'
 
 describe('attribute parsing', () => {
   it('should parse attributes with double quotes', () => {

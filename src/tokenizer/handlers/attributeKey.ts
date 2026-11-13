@@ -1,11 +1,10 @@
-import {
-  SPECIAL_CHAR,
-  TokenizerContextTypes,
-  TokenTypes,
-} from '../../constants'
-import { calculateTokenPosition, isWhitespace } from '../../utils'
-import type { TokenizerState } from '../../types'
+import { calculateTokenPosition } from '../calculateTokenPosition'
+import { isWhitespace } from '../isWhitespace'
+import { SPECIAL_CHAR } from '../specialChar'
+import { TokenizerContextTypes } from '../tokenizerContextTypes'
+import { TokenTypes } from '../tokenTypes'
 import type { CharsBuffer } from '../charsBuffer'
+import type { TokenizerState } from '../tokenizerState'
 
 function isKeyBreak(chars: CharsBuffer): boolean {
   const value = chars.value()

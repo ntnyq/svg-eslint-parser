@@ -1,19 +1,23 @@
-import { NodeTypes, RE_XML_NAME, TokenTypes } from '../constants'
-import { ParseErrorType } from '../types'
-import { cloneLocation, cloneRange } from '../utils'
+import { NodeTypes } from '../ast/nodeTypes'
+import { sortDiagnostics } from '../diagnostics/sortDiagnostics'
+import { ParseErrorType } from '../diagnostics/types'
+import { cloneLocation } from '../source/cloneLocation'
+import { cloneRange } from '../source/cloneRange'
+import { RE_XML_NAME } from '../syntax/constants'
+import { TokenTypes } from '../tokenizer/tokenTypes'
 import type {
-  AnyToken,
   AttributeNode,
   CommentNode,
   DoctypeNode,
   DocumentNode,
   ElementNode,
-  Locations,
-  ParseError,
   ProcessingInstructionNode,
   XMLDeclarationAttributeNode,
   XMLDeclarationNode,
-} from '../types'
+} from '../ast/types'
+import type { ParseDiagnostic } from '../diagnostics/types'
+import type { Locations } from '../source/types'
+import type { AnyToken } from '../tokenizer/token'
 
 const ENCODING_NAME_PATTERN = /^[A-Za-z][\w.-]*$/u
 const PUBLIC_ID_PATTERN = /^[\r\n \w'()+,./:=?;!*#@$%-]*$/u
@@ -24,7 +28,7 @@ const XML_DECLARATION_ATTRIBUTE_ORDER = new Map([
 ])
 
 function addError(
-  errors: ParseError[],
+  errors: ParseDiagnostic[],
   type: ParseErrorType,
   message: string,
   location: Locations,
@@ -46,7 +50,7 @@ function isValidXMLName(name: string): boolean {
 function validateAttribute(
   attribute: AttributeNode,
   seenNames: Set<string>,
-  errors: ParseError[],
+  errors: ParseDiagnostic[],
 ) {
   const name = attribute.key?.value
 
@@ -115,7 +119,7 @@ function validateAttribute(
   }
 }
 
-function validateElement(element: ElementNode, errors: ParseError[]) {
+function validateElement(element: ElementNode, errors: ParseDiagnostic[]) {
   if (!isValidXMLName(element.name)) {
     addError(
       errors,
@@ -133,7 +137,7 @@ function validateElement(element: ElementNode, errors: ParseError[]) {
   }
 }
 
-function validateComment(comment: CommentNode, errors: ParseError[]) {
+function validateComment(comment: CommentNode, errors: ParseDiagnostic[]) {
   if (comment.content.includes('--') || comment.content.endsWith('-')) {
     addError(
       errors,
@@ -149,7 +153,7 @@ function validateComment(comment: CommentNode, errors: ParseError[]) {
 
 function validateProcessingInstruction(
   instruction: ProcessingInstructionNode,
-  errors: ParseError[],
+  errors: ParseDiagnostic[],
 ) {
   if (isValidXMLName(instruction.target)) {
     if (instruction.target.toLowerCase() !== 'xml') {
@@ -178,7 +182,7 @@ function validateProcessingInstruction(
 function validateXMLDeclarationAttribute(
   attribute: XMLDeclarationAttributeNode,
   seenNames: Set<string>,
-  errors: ParseError[],
+  errors: ParseDiagnostic[],
 ) {
   const name = attribute.key?.value
 
@@ -251,7 +255,7 @@ function validateXMLDeclarationAttribute(
 
 function validateXMLDeclaration(
   declaration: XMLDeclarationNode,
-  errors: ParseError[],
+  errors: ParseDiagnostic[],
 ) {
   const version = declaration.attributes[0]
 
@@ -297,7 +301,7 @@ function validateXMLDeclaration(
 function validateDeclarationTokens(
   tokens: AnyToken[],
   root: ElementNode | undefined,
-  errors: ParseError[],
+  errors: ParseDiagnostic[],
 ) {
   const xmlDeclarations = tokens.filter(
     token => token.type === TokenTypes.XMLDeclarationOpen,
@@ -353,7 +357,7 @@ function validateDeclarationTokens(
 function validateDoctype(
   doctype: DoctypeNode,
   root: ElementNode | undefined,
-  errors: ParseError[],
+  errors: ParseDiagnostic[],
 ) {
   const [rootAttribute, externalID, ...identifiers] = doctype.attributes
   const declaredRoot = rootAttribute?.value?.value
@@ -454,7 +458,7 @@ function validateDoctype(
   }
 }
 
-function validateTree(document: DocumentNode, errors: ParseError[]) {
+function validateTree(document: DocumentNode, errors: ParseDiagnostic[]) {
   const stack = [...document.children]
 
   while (stack.length > 0) {
@@ -492,7 +496,7 @@ function validateTree(document: DocumentNode, errors: ParseError[]) {
   }
 }
 
-function validateTokenSyntax(tokens: AnyToken[], errors: ParseError[]) {
+function validateTokenSyntax(tokens: AnyToken[], errors: ParseDiagnostic[]) {
   for (const [index, token] of tokens.entries()) {
     if (
       /[^\t\n\r\u{20}-\u{D7FF}\u{E000}-\u{FFFD}\u{10000}-\u{10FFFF}]/u.test(
@@ -582,8 +586,8 @@ function validateTokenSyntax(tokens: AnyToken[], errors: ParseError[]) {
 export function validateDocument(
   document: DocumentNode,
   tokens: AnyToken[],
-): ParseError[] {
-  const errors: ParseError[] = []
+): ParseDiagnostic[] {
+  const errors: ParseDiagnostic[] = []
   const roots = document.children.filter(
     node => node.type === NodeTypes.Element,
   )
@@ -642,5 +646,5 @@ export function validateDocument(
   validateTree(document, errors)
   validateTokenSyntax(tokens, errors)
 
-  return errors.sort((left, right) => left.range[0] - right.range[0])
+  return sortDiagnostics(errors)
 }

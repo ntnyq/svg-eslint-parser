@@ -1,0 +1,20 @@
+import { cloneLocation } from '../source/cloneLocation'
+import { cloneRange } from '../source/cloneRange'
+import type { AnyToken } from '../tokenizer/token'
+
+/**
+ * Create a node object from a token, copying essential properties
+ * @param token - Token to convert to a node
+ * @returns Object with type, value, location, and range from the token
+ */
+export function createNodeFrom<T extends AnyToken>(token: T) {
+  const loc = cloneLocation(token.loc)
+  const range = cloneRange(token.range)
+  const result = {
+    type: token.type,
+    value: token.value,
+    loc,
+    range,
+  }
+  return result
+}

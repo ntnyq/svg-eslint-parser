@@ -1,0 +1,27 @@
+import { RE_OPEN_TAG_NAME } from './constants'
+
+/**
+ * Parse the tag name from an opening tag token content
+ * @param openTagStartTokenContent - Raw opening tag content (e.g., "<svg ")
+ * @returns Extracted tag name with source case preserved
+ * @throws {Error} if content doesn't match opening tag pattern
+ */
+export function parseOpenTagName(openTagStartTokenContent: string): string {
+  const match = openTagStartTokenContent.match(RE_OPEN_TAG_NAME)
+
+  if (match === null) {
+    throw new Error(
+      `Unable to parse open tag name.\n${openTagStartTokenContent} does not match pattern of opening tag.`,
+    )
+  }
+
+  const tagName = match.groups?.tagName
+
+  if (tagName === undefined) {
+    throw new Error(
+      `Unable to parse open tag name. Named capture group "tagName" is missing.`,
+    )
+  }
+
+  return tagName
+}

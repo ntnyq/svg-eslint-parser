@@ -1,4 +1,4 @@
-import { first, last } from '../utils'
+import { first, last } from './firstLast'
 import type { Chars } from './chars'
 
 /**
@@ -11,10 +11,10 @@ export class CharsBuffer {
    * Append a character wrapper to the buffer.
    */
   public concat(chars: Chars) {
-    const theLast = this.last()
+    const lastChunk = this.last()
 
-    if (theLast) {
-      theLast.append(chars)
+    if (lastChunk) {
+      lastChunk.append(chars)
     } else {
       this.charsBuffer.push(chars)
     }

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { NodeTypes } from '../../src/constants'
-import { parseForESLint } from '../../src/parser'
+import { NodeTypes } from '../../src/ast/nodeTypes'
+import { parseForESLint } from '../../src/parser/parseForESLint'
 import { unindent as $ } from '../helpers/unindent'
-import type { ElementNode } from '../../src/types'
+import type { ElementNode } from '../../src/ast/types'
 
 describe('element parsing', () => {
   it('should parse self-closing elements with />', () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { NodeTypes, ParseErrorType, parseForESLint } from '../../src'
-import type { CDATANode, ElementNode } from '../../src/types'
+import type { CDATANode, ElementNode } from '../../src/ast/types'
 
 describe('CDATA parsing', () => {
   it('keeps markup-looking content in a CDATA node', () => {

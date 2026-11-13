@@ -1,13 +1,12 @@
-import {
-  SPECIAL_CHAR,
-  TokenizerContextTypes,
-  TokenTypes,
-} from '../../constants'
-import { isWhitespace } from '../../utils'
-import type { Range, TokenizerState } from '../../types'
+import { isWhitespace } from '../isWhitespace'
+import { SPECIAL_CHAR } from '../specialChar'
+import { TokenizerContextTypes } from '../tokenizerContextTypes'
+import { TokenTypes } from '../tokenTypes'
+import type { Range } from '../../source/types'
 import type { CharsBuffer } from '../charsBuffer'
+import type { TokenizerState } from '../tokenizerState'
 
-function parseWrapper(state: TokenizerState) {
+function startQuotedValue(state: TokenizerState) {
   const wrapper = state.decisionBuffer.value()
   const range: Range = [state.sourceCode.index(), state.sourceCode.index() + 1]
 
@@ -33,7 +32,7 @@ function parseTagEnd(state: TokenizerState) {
   state.currentContext = TokenizerContextTypes.Attributes
 }
 
-function parseBare(state: TokenizerState) {
+function startUnquotedValue(state: TokenizerState) {
   state.accumulatedContent.replace(state.decisionBuffer)
   state.decisionBuffer.clear()
   state.currentContext = TokenizerContextTypes.AttributeValueBare
@@ -50,7 +49,7 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
     value === SPECIAL_CHAR.doubleQuote ||
     value === SPECIAL_CHAR.singleQuote
   ) {
-    return parseWrapper(state)
+    return startQuotedValue(state)
   }
 
   if (value === SPECIAL_CHAR.closingCorner || value === SPECIAL_CHAR.slash) {
@@ -58,7 +57,7 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
   }
 
   if (!isWhitespace(value)) {
-    return parseBare(state)
+    return startUnquotedValue(state)
   }
 
   state.decisionBuffer.clear()

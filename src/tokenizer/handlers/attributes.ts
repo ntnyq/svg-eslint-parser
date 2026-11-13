@@ -1,11 +1,10 @@
-import {
-  SPECIAL_CHAR,
-  TokenizerContextTypes,
-  TokenTypes,
-} from '../../constants'
-import { calculateTokenPosition, isWhitespace } from '../../utils'
-import type { TokenizerState } from '../../types'
+import { calculateTokenPosition } from '../calculateTokenPosition'
+import { isWhitespace } from '../isWhitespace'
+import { SPECIAL_CHAR } from '../specialChar'
+import { TokenizerContextTypes } from '../tokenizerContextTypes'
+import { TokenTypes } from '../tokenTypes'
 import type { CharsBuffer } from '../charsBuffer'
+import type { TokenizerState } from '../tokenizerState'
 
 function parseTagEnd(state: TokenizerState) {
   const tagName = state.contextParams[TokenizerContextTypes.Attributes]?.tagName
@@ -33,7 +32,7 @@ function parseEqual(state: TokenizerState) {
   state.sourceCode.next()
 }
 
-function parseNoneWhitespace(chars: CharsBuffer, state: TokenizerState) {
+function startAttributeName(chars: CharsBuffer, state: TokenizerState) {
   state.accumulatedContent.replace(state.decisionBuffer)
   state.currentContext = TokenizerContextTypes.AttributeKey
   state.decisionBuffer.clear()
@@ -55,7 +54,7 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
   }
 
   if (!isWhitespace(value)) {
-    return parseNoneWhitespace(chars, state)
+    return startAttributeName(chars, state)
   }
 
   state.decisionBuffer.clear()

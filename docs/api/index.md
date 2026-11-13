@@ -55,19 +55,25 @@ preserved when possible and reported through `services.errors` with source range
 
 `services.isSVG` is always `true`. `services.errors` and `services.warnings`
 contain diagnostic objects, not instances of the thrown `ParseError` class.
-The diagnostic type can be obtained from the public services type:
+Each array is sorted by its start offset in the source. Diagnostics at the same
+offset retain reporting order; across phases, tokenizer diagnostics precede
+tree-construction diagnostics, then document-validation diagnostics. Strict mode
+throws the first error in this ordered list, so its location may precede a later
+malformed delimiter that led to recovery.
+
+Import `ParseDiagnostic` directly to type these objects:
 
 ```typescript
-import type { SVGParserServices } from 'svg-eslint-parser'
+import type { ParseDiagnostic } from 'svg-eslint-parser'
 
-type ParseDiagnostic = SVGParserServices['errors'][number]
-// { type: ParseErrorType, message: string, range: Range,
-//   loc: SourceLocation, recovery?: string }
+// ParseDiagnostic contains type, message, range, loc, and optional recovery.
 ```
 
 The thrown `ParseError` extends `SyntaxError` and includes `code`, `index`,
 `lineNumber`, `column`, and the original diagnostic in `cause`. Its line and
 column are 1-based; diagnostic `loc` uses 1-based lines and 0-based columns.
+The legacy diagnostic name `AST.ParseError` remains as a deprecated alias for
+`ParseDiagnostic`; the package-level `ParseError` is the exception class.
 
 ### parse()
 
@@ -75,6 +81,9 @@ Simple parsing function that returns the Document node directly (without ESLint 
 
 It uses the same strict behavior and `errorRecovery` option as `parseForESLint()`.
 It returns only the document; use `parseForESLint()` to inspect diagnostics.
+Both entry points share the document parsing pipeline and strict-mode policy.
+`parse()` returns that document directly; only `parseForESLint()` creates the
+ESLint `Program`, filters comment tokens, and collects ESLint comment metadata.
 
 ```typescript
 function parse(code: string, options?: Options): DocumentNode
@@ -126,6 +135,7 @@ import type {
 
   // Utility types
   ASTVisitor,
+  ParseDiagnostic,
   SourceLocation,
   Range,
 
@@ -159,3 +169,35 @@ export default defineSVGRule({
   },
 })
 ```
+
+### Construction state types
+
+Existing state-machine types, context enums, syntax constants, and the `AST`
+namespace remain available from `svg-eslint-parser` for compatibility. Their
+definitions now live with the modules that own them, while the package entry
+lists its exports explicitly. Moving or adding an internal helper does not
+automatically expose it from the package.
+
+Supported package entry points remain `svg-eslint-parser` and
+`svg-eslint-parser/package.json`; source-directory paths are implementation
+details. Continue importing existing names from the package root.
+
+The exported construction types describe parser internals. `ConstructTreeState`
+now takes a `ConstructTreeContextTypes` member as its generic parameter, and the
+current node is available at `state.currentContext.node`. Context frames bind
+that node to their `type` and retain ancestor frames through `parentRef`; there
+is no separate `currentNode` field or context `content` buffer.
+
+For example, `ConstructTreeState<ConstructTreeContextTypes.Comment>` exposes a
+`ContextualCommentNode` at `currentContext.node`. Frame references and token
+indices are read-only. Construction handlers return a new state when consuming
+one token or reprocessing it in another context. Nodes and diagnostics remain
+mutable. This replaces the previous node-based generic and directly mutable
+state fields; the public `parse()` and `parseForESLint()` entry points keep their
+existing signatures.
+
+`state.caretPosition` retains its existing name and shape for compatibility. It
+is the zero-based index of the next **token**, not a source character offset.
+Tokenizer source offsets and AST `range` entries count UTF-16 code units.
+Existing `TokenizerContextTypes` members, including `AttributeValueWrapped`
+and `AttributeValueBare`, also retain their names and string values.

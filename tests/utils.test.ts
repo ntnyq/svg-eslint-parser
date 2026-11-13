@@ -1,20 +1,16 @@
 import { describe, expect, it } from 'vitest'
-import { NodeTypes } from '../src/constants'
-import { parseForESLint } from '../src/parser'
+import { cloneNode, cloneNodeWithParent } from '../src/ast/cloneNode'
+import { findFirstNodeByType, findNodeByType } from '../src/ast/findNodesByType'
 import {
-  cloneNode,
-  cloneNodeWithParent,
   countNodes,
   filterNodes,
-  findFirstNodeByType,
-  findNodeByType,
   getNodeDepth,
   getParentChain,
-  isNodeType,
-  traverseAST,
-  validateNode,
-  walkAST,
-} from '../src/utils'
+} from '../src/ast/nodeHelpers'
+import { NodeTypes } from '../src/ast/nodeTypes'
+import { traverseAST, walkAST } from '../src/ast/traverseAST'
+import { isNodeType, validateNode } from '../src/ast/validateNode'
+import { parseForESLint } from '../src/parser/parseForESLint'
 import { unindent } from './helpers/unindent'
 
 describe('ast utility functions', () => {

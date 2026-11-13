@@ -1,4 +1,4 @@
-import type { Range } from '../types'
+import type { Range } from '../source/types'
 
 /**
  * Buffered source characters with their source range.
