@@ -18,6 +18,7 @@ const tooltip = computed(() => {
   if (props.field && props.nodeType) {
     return ''
   }
+
   return undefined
 })
 </script>

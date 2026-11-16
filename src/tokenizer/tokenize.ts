@@ -71,6 +71,7 @@ const contextHandlers: Record<TokenizerContextTypes, TokenizeHandler> = {
 function tokenizeChars(state: TokenizerState) {
   while (!state.sourceCode.isEof()) {
     const handler = contextHandlers[state.currentContext]
+
     state.decisionBuffer.concat(state.sourceCode.current())
     handler.parse(state.decisionBuffer, state)
   }

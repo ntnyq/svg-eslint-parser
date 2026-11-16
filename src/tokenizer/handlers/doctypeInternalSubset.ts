@@ -43,10 +43,13 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
 
   if (params?.mode) {
     const delimiter = params.mode === 'comment' ? '-->' : '?>'
+
     if (source.slice(index + 1 - delimiter.length, index + 1) === delimiter) {
       params.mode = undefined
     }
+
     appendDecisionBuffer(state)
+
     return
   }
 
@@ -54,7 +57,9 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
     if (value === quote) {
       params.quote = undefined
     }
+
     appendDecisionBuffer(state)
+
     return
   }
 
@@ -62,7 +67,9 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
     if (params) {
       params.quote = value
     }
+
     appendDecisionBuffer(state)
+
     return
   }
 
@@ -72,11 +79,13 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
   ) {
     params.mode = source.startsWith('<!--', index) ? 'comment' : 'instruction'
     appendDecisionBuffer(state)
+
     return
   }
 
   if (value === ']') {
     parseSubsetEnd(state)
+
     return
   }
 

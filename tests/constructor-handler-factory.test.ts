@@ -20,6 +20,7 @@ describe('constructor handler factory', () => {
         tokenType: TokenTypes.OpenTagStart,
         handler(_token, nextState) {
           nextState.caretPosition += 2
+
           return nextState
         },
       },
@@ -40,6 +41,7 @@ describe('constructor handler factory', () => {
         ]),
         handler(_token, nextState) {
           nextState.caretPosition += 3
+
           return nextState
         },
       },
@@ -58,12 +60,14 @@ describe('constructor handler factory', () => {
           tokenType: TokenTypes.AttributeKey,
           handler(_token, nextState) {
             nextState.caretPosition += 10
+
             return nextState
           },
         },
       ],
       (_token, nextState) => {
         nextState.caretPosition += 1
+
         return nextState
       },
     )
@@ -80,6 +84,7 @@ describe('constructor handler factory', () => {
         tokenType: TokenTypes.AttributeKey,
         handler(_token, nextState) {
           nextState.caretPosition += 10
+
           return nextState
         },
       },

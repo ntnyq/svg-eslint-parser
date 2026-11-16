@@ -64,6 +64,7 @@ export function createSkipHandler<
 >(): HandlerFunction<ContextualNode> {
   return (_token: AnyToken, state: ConstructTreeState<ContextualNode>) => {
     state.caretPosition++
+
     return state
   }
 }
@@ -79,6 +80,7 @@ export function createIncrementingHandler<
   return (token: AnyToken, state: ConstructTreeState<ContextualNode>) => {
     fn(token, state)
     state.caretPosition++
+
     return state
   }
 }

@@ -70,11 +70,13 @@ describe('error handler', () => {
 
   it('returns defensive copies for issue lists', () => {
     const handler = new ErrorHandler()
+
     handler.addError(
       createIssue(ParseErrorType.MalformedComment, 2, 'bad comment'),
     )
 
     const errors = handler.getErrors()
+
     errors.push(
       createIssue(ParseErrorType.UnexpectedToken, 8, 'mutated copy') as any,
     )
@@ -94,11 +96,13 @@ describe('error handler', () => {
     left.mergeErrors(right)
 
     const all = left.getAllIssues()
+
     expect(all.map(issue => issue.range[0])).toStrictEqual([5, 30])
   })
 
   it('formats output for empty and non-empty issue lists', () => {
     const handler = new ErrorHandler()
+
     expect(handler.format()).toBe('No errors or warnings')
 
     handler.addError(
@@ -112,6 +116,7 @@ describe('error handler', () => {
 
   it('clears all issues', () => {
     const handler = new ErrorHandler()
+
     handler.addError(
       createIssue(ParseErrorType.InvalidAttribute, 1, 'bad attr'),
     )
@@ -142,6 +147,7 @@ describe('parser diagnostics', () => {
 describe('parser traverse', () => {
   it('returns early for falsy node', () => {
     const visited: string[] = []
+
     traverse(undefined as any, node => {
       visited.push(node.type)
     })

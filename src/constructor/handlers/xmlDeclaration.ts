@@ -16,12 +16,14 @@ const dispatch = createTokenDispatcher(
           type: ConstructTreeContextTypes.XMLDeclarationAttributes,
         }
         state.caretPosition++
+
         return state
       },
     },
   ],
   (_, state) => {
     state.caretPosition++
+
     return state
   },
 )

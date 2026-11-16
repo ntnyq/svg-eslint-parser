@@ -25,6 +25,7 @@ describe('svg-specific parsing', () => {
     const viewBox = svg.attributes.find(
       (attr: any) => attr.key?.value === 'viewBox',
     )
+
     expect(viewBox!.value?.value).toBe('0 0 100 100')
   })
 
@@ -35,6 +36,7 @@ describe('svg-specific parsing', () => {
     const svg = document.children[0] as ElementNode
 
     const xmlns = svg.attributes.find(attr => attr.key?.value === 'xmlns')
+
     expect(xmlns!.value?.value).toBe('http://www.w3.org/2000/svg')
   })
 
@@ -67,6 +69,7 @@ describe('svg-specific parsing', () => {
 
     expect(path.name).toBe('path')
     const d = path.attributes.find(attr => attr.key?.value === 'd')
+
     expect(d!.value?.value).toBe('M 10 10 L 50 50 L 10 50 Z')
   })
 
@@ -88,6 +91,7 @@ describe('svg-specific parsing', () => {
 
     expect(polygon.name).toBe('polygon')
     const points = polygon.attributes.find(attr => attr.key?.value === 'points')
+
     expect(points!.value?.value).toBe('50,0 100,100 0,100')
   })
 
@@ -133,6 +137,7 @@ describe('svg-specific parsing', () => {
 
     expect(g.name).toBe('g')
     const shapes = g.children.filter(child => child.type === NodeTypes.Element)
+
     expect(shapes.length).toBeGreaterThan(0)
   })
 
@@ -160,6 +165,7 @@ describe('svg-specific parsing', () => {
 
     expect(use.name).toBe('use')
     const href = use.attributes.find(attr => attr.key?.value === 'xlink:href')
+
     expect(href!.value?.value).toBe('#icon')
   })
 
@@ -237,6 +243,7 @@ describe('svg-specific parsing', () => {
     const elements = svg.children.filter(
       child => child.type === NodeTypes.Element,
     )
+
     expect(elements.length).toBeGreaterThan(0)
   })
 
@@ -250,6 +257,7 @@ describe('svg-specific parsing', () => {
     const transform = rect.attributes.find(
       attr => attr.key?.value === 'transform',
     )
+
     expect(transform!.value?.value).toBe('rotate(45 50 50)')
   })
 
@@ -261,6 +269,7 @@ describe('svg-specific parsing', () => {
     const circle = document.children[0] as ElementNode
 
     const style = circle.attributes.find(attr => attr.key?.value === 'style')
+
     expect(style!.value?.value).toContain('fill: red')
   })
 
@@ -274,6 +283,7 @@ describe('svg-specific parsing', () => {
     const className = circle.attributes.find(
       attr => attr.key?.value === 'class',
     )
+
     expect(className!.value?.value).toBe('primary-color large')
   })
 })

@@ -14,14 +14,17 @@ import { SourceCode } from '../src/tokenizer/sourceCode'
 
 function createBuffer(value = ''): CharsBuffer {
   const buffer = new CharsBuffer()
+
   if (value.length > 0) {
     buffer.charsBuffer.push(new Chars(value, [0, value.length]))
   }
+
   return buffer
 }
 
 function createState(overrides: Record<string, unknown> = {}) {
   const sourceCode = new SourceCode('abcdef')
+
   sourceCode.next()
   sourceCode.next()
   sourceCode.next()

@@ -32,10 +32,13 @@ const editorView = shallowRef<EditorView>()
 
 function selectSource() {
   const view = editorView.value
+
   if (!view || !props.selection) {
     return
   }
+
   const [start, end] = props.selection
+
   view.dispatch({
     selection: {
       anchor: Math.max(0, Math.min(start, view.state.doc.length)),

@@ -9,6 +9,7 @@ import type { CharsBuffer } from '../charsBuffer'
 
 function isKeyBreak(chars: CharsBuffer): boolean {
   const value = chars.value()
+
   return (
     value === SPECIAL_CHAR.equal ||
     value === SPECIAL_CHAR.slash ||

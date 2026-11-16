@@ -16,6 +16,7 @@ const dispatch = createTokenDispatcher(
       tokenType: OPEN_TAG_END_TOKENS,
       handler(_, state) {
         state.currentContext = state.currentContext.parentRef
+
         return state
       },
     },
@@ -26,11 +27,13 @@ const dispatch = createTokenDispatcher(
 
         if (attribute.key !== undefined || attribute.value !== undefined) {
           state.currentContext = state.currentContext.parentRef
+
           return state
         }
 
         attribute.key = createNodeFrom(token) as AttributeKeyNode
         state.caretPosition++
+
         return state
       },
     },
@@ -41,6 +44,7 @@ const dispatch = createTokenDispatcher(
 
         if (attribute.value !== undefined) {
           state.currentContext = state.currentContext.parentRef
+
           return state
         }
 
@@ -49,12 +53,14 @@ const dispatch = createTokenDispatcher(
           type: ConstructTreeContextTypes.AttributeValue,
         }
         state.caretPosition++
+
         return state
       },
     },
   ],
   (_, state) => {
     state.caretPosition++
+
     return state
   },
 )

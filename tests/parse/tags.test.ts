@@ -152,6 +152,7 @@ describe('element parsing', () => {
     const document = ast.document
 
     let current = document.children[0] as ElementNode
+
     expect(current.name).toBe('a')
 
     current = current.children[0] as ElementNode

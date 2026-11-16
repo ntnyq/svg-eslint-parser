@@ -8,6 +8,7 @@ const hasPreviewError = shallowRef(false)
 const previewSource = useObjectUrl(
   computed(() => new Blob([code.value], { type: 'image/svg+xml' })),
 )
+
 watch(previewSource, () => {
   hasPreviewError.value = false
 })

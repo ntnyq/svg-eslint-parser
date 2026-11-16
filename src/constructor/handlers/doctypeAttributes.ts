@@ -22,6 +22,7 @@ const dispatch = createTokenDispatcher(
       tokenType: TokenTypes.DoctypeInternalSubset,
       handler(_, state) {
         state.currentContext = state.currentContext.parentRef
+
         return state
       },
     },
@@ -29,6 +30,7 @@ const dispatch = createTokenDispatcher(
       tokenType: TokenTypes.DoctypeClose,
       handler(_, state) {
         state.currentContext = state.currentContext.parentRef
+
         return state
       },
     },
@@ -46,12 +48,14 @@ const dispatch = createTokenDispatcher(
           type: ConstructTreeContextTypes.DoctypeAttribute,
           parentRef: state.currentContext,
         }
+
         return state
       },
     },
   ],
   (_, state) => {
     state.caretPosition++
+
     return state
   },
 )

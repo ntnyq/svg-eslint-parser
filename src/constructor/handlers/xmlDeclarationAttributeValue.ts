@@ -15,6 +15,7 @@ const dispatch = createTokenDispatcher(
       tokenType: TokenTypes.XMLDeclarationClose,
       handler(_, state) {
         state.currentContext = state.currentContext.parentRef
+
         return state
       },
     },
@@ -24,15 +25,19 @@ const dispatch = createTokenDispatcher(
         const attribute = getLastAttribute(
           state,
         ) as unknown as XMLDeclarationAttributeNode
+
         if (attribute.value !== undefined) {
           state.currentContext = state.currentContext.parentRef
+
           return state
         }
+
         attribute.value = createNodeFrom(
           token,
         ) as XMLDeclarationAttributeValueNode
         updateNodeEnd(attribute, token)
         state.caretPosition++
+
         return state
       },
     },
@@ -42,13 +47,17 @@ const dispatch = createTokenDispatcher(
         const attribute = getLastAttribute(
           state,
         ) as unknown as XMLDeclarationAttributeNode
+
         if (attribute.value !== undefined) {
           state.currentContext = state.currentContext.parentRef
+
           return state
         }
+
         attribute.quoteChar = token.value as any
         updateNodeEnd(attribute, token)
         state.caretPosition++
+
         return state
       },
     },
@@ -58,15 +67,18 @@ const dispatch = createTokenDispatcher(
         const attribute = getLastAttribute(
           state,
         ) as unknown as XMLDeclarationAttributeNode
+
         updateNodeEnd(attribute, token)
         state.currentContext = state.currentContext.parentRef
         state.caretPosition++
+
         return state
       },
     },
   ],
   (_, state) => {
     state.caretPosition++
+
     return state
   },
 )

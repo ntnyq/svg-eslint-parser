@@ -57,6 +57,7 @@ const requireCircleRadius = defineSVGRule<[], 'missingRadius'>({
         if (parent.type === NodeTypes.Element) {
           observations.parentName = parent.name
         }
+
         observations.sourceText = context.sourceCode.getText(node)
         observations.tokenCount = context.sourceCode.getTokens(node).length
 
@@ -112,6 +113,7 @@ describe('ESLint integration', () => {
               expect(context.sourceCode.getLocFromIndex(node.range[1])).toEqual(
                 node.loc.end,
               )
+
               if (node.name === 'g') {
                 elementTexts.push(context.sourceCode.getText(node))
                 tokenValues.push(
@@ -156,6 +158,7 @@ describe('ESLint integration', () => {
           },
           XMLDeclarationAttribute(node) {
             const text = context.sourceCode.getText(node)
+
             attributeTexts.push(text)
             expect(context.sourceCode.getLocFromIndex(node.range[0])).toEqual(
               node.loc.start,
@@ -163,6 +166,7 @@ describe('ESLint integration', () => {
             expect(context.sourceCode.getLocFromIndex(node.range[1])).toEqual(
               node.loc.end,
             )
+
             if (text === 'encoding="UTF-8"') {
               context.report({
                 node,

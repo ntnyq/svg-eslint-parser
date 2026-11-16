@@ -12,6 +12,7 @@ let dragCounter = 0
 function isFileDrag(evt: DragEvent) {
   return evt.dataTransfer?.types && evt.dataTransfer.types.includes('Files')
 }
+
 function onDragEnter(evt: DragEvent) {
   evt.preventDefault()
 
@@ -22,8 +23,10 @@ function onDragEnter(evt: DragEvent) {
   dragCounter++
   isDragging.value = true
 }
+
 function onDragLeave(evt: DragEvent) {
   evt.preventDefault()
+
   if (!isFileDrag(evt)) {
     return
   }
@@ -34,9 +37,11 @@ function onDragLeave(evt: DragEvent) {
     isDragging.value = false
   }
 }
+
 function onDragOver(evt: DragEvent) {
   evt.preventDefault()
 }
+
 async function onImportFile(files?: FileList | null) {
   if (!files) {
     return
@@ -58,6 +63,7 @@ async function onImportFile(files?: FileList | null) {
 
   setCode(fileContent)
 }
+
 async function onDrop(evt: DragEvent) {
   evt.preventDefault()
 

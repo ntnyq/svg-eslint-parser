@@ -28,6 +28,7 @@ const [isExpanded, setIsExpanded] = useToggle(false)
 const model = computed<ValueModel>(() => {
   if (isString(props.value)) {
     const value = JSON.stringify(props.value)
+
     return {
       className: 'ast-prop-string',
       shortValue: value.length > 250 ? value.slice(0, 200) : undefined,

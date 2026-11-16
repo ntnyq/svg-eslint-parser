@@ -10,6 +10,7 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
   if (state.accumulatedContent.length() === 0 && isWhitespace(chars.value())) {
     state.decisionBuffer.clear()
     state.sourceCode.next()
+
     return
   }
 
@@ -17,6 +18,7 @@ export function parse(chars: CharsBuffer, state: TokenizerState) {
     state.accumulatedContent.concatBuffer(state.decisionBuffer)
     state.decisionBuffer.clear()
     state.sourceCode.next()
+
     return
   }
 

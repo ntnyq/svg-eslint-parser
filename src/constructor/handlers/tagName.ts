@@ -15,12 +15,14 @@ const dispatch = createTokenDispatcher(
         state.currentNode.name = parseOpenTagName(token.value)
         state.currentContext = state.currentContext.parentRef
         state.caretPosition++
+
         return state
       },
     },
   ],
   (_, state) => {
     state.caretPosition++
+
     return state
   },
 )

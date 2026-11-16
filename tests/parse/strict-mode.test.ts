@@ -35,6 +35,7 @@ describe('parser error recovery mode', () => {
     expect(() => parse('<svg')).toThrow(ParseError)
 
     const document = parse('<svg', { errorRecovery: true })
+
     expect(document.children[0]).toMatchObject({
       type: NodeTypes.Element,
       name: 'svg',

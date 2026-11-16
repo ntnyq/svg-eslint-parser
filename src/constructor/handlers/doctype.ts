@@ -19,6 +19,7 @@ const dispatch = createTokenDispatcher(
       handler(token, state) {
         state.currentNode.open = createNodeFrom(token)
         state.caretPosition++
+
         return state
       },
     },
@@ -28,6 +29,7 @@ const dispatch = createTokenDispatcher(
         state.currentNode.internalSubset = token.value
         updateNodeEnd(state.currentNode, token)
         state.caretPosition++
+
         return state
       },
     },
@@ -39,6 +41,7 @@ const dispatch = createTokenDispatcher(
         state.currentNode = state.currentNode.parentRef
         state.currentContext = state.currentContext.parentRef
         state.caretPosition++
+
         return state
       },
     },
@@ -49,12 +52,14 @@ const dispatch = createTokenDispatcher(
           parentRef: state.currentContext,
           type: ConstructTreeContextTypes.DoctypeAttributes,
         }
+
         return state
       },
     },
   ],
   (_, state) => {
     state.caretPosition++
+
     return state
   },
 )
