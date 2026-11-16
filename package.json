@@ -57,7 +57,7 @@
     "eslint": ">=9.0.0"
   },
   "devDependencies": {
-    "@ntnyq/eslint-config": "^7.0.0-beta.29",
+    "@ntnyq/eslint-config": "^7.0.0-beta.30",
     "@types/node": "^26.6.6",
     "@typescript/native-preview": "^7.0.0-dev.20260707.2",
     "@vitest/coverage-v8": "^5.1.0",
