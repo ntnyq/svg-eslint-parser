@@ -14,8 +14,10 @@ describe('deep AST traversal', () => {
     const childCount = 130_000
     const source = `<svg>${'<g/>'.repeat(childCount)}</svg>`
     const result = parseForESLint(source)
+
     expect(result.services.errors).toEqual([])
     const elements = findNodeByType(result.ast.document, NodeTypes.Element)
+
     expect(elements).toHaveLength(childCount + 1)
     expect(elements[1].range).toEqual([5, 9])
     expect(elements.at(-1)?.range).toEqual([
@@ -69,6 +71,7 @@ describe('deep AST traversal', () => {
       enter(node) {
         if (node.type === NodeTypes.Element) {
           events.push(`enter:${node.name}`)
+
           return node.name !== 'g'
         }
       },

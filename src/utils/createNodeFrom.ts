@@ -16,5 +16,6 @@ export function createNodeFrom<T extends AnyToken>(token: T): unknown {
     loc,
     range,
   }
+
   return result
 }

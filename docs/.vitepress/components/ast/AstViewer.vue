@@ -19,6 +19,7 @@ const selectedPath = computed(() => {
   if (isNil(props.cursorPosition) || !model.value || !isObject(model.value)) {
     return 'ast'
   }
+
   return 'ast'
 })
 </script>

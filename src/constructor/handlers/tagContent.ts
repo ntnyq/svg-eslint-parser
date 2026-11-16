@@ -55,8 +55,10 @@ const dispatch = createTokenDispatcher(
           range: cloneRange(token.range),
           loc: cloneLocation(token.loc),
         }
+
         state.currentNode.children.push(instructionNode)
         state.caretPosition++
+
         return state
       },
     },
@@ -70,12 +72,14 @@ const dispatch = createTokenDispatcher(
           range: cloneRange(token.range),
           loc: cloneLocation(token.loc),
         }
+
         state.currentNode.children.push(cdataNode)
         state.currentNode = cdataNode as any
         state.currentContext = {
           parentRef: state.currentContext,
           type: ConstructTreeContextTypes.CDATA,
         }
+
         return state
       },
     },
@@ -84,8 +88,10 @@ const dispatch = createTokenDispatcher(
       handler(token, state) {
         if (state.currentNode.type !== NodeTypes.Document) {
           state.caretPosition++
+
           return state
         }
+
         initChildrenIfNone(state.currentNode)
         const declarationNode: ContextualXMLDeclarationNode = {
           type: NodeTypes.XMLDeclaration,
@@ -94,12 +100,14 @@ const dispatch = createTokenDispatcher(
           loc: cloneLocation(token.loc),
           attributes: [],
         }
+
         state.currentNode.children.push(declarationNode)
         state.currentNode = declarationNode as any
         state.currentContext = {
           parentRef: state.currentContext,
           type: ConstructTreeContextTypes.XMLDeclaration,
         }
+
         return state
       },
     },
@@ -115,12 +123,14 @@ const dispatch = createTokenDispatcher(
           attributes: [],
           children: [],
         }
+
         state.currentNode.children.push(elementNode)
         state.currentNode = elementNode
         state.currentContext = {
           parentRef: state.currentContext,
           type: ConstructTreeContextTypes.Tag,
         }
+
         return state
       },
     },
@@ -129,8 +139,10 @@ const dispatch = createTokenDispatcher(
       handler(token, state) {
         if (state.currentNode.type !== NodeTypes.Document) {
           state.caretPosition++
+
           return state
         }
+
         initChildrenIfNone(state.currentNode)
         const doctypeNode: ContextualDoctypeNode = {
           type: NodeTypes.Doctype,
@@ -139,12 +151,14 @@ const dispatch = createTokenDispatcher(
           loc: cloneLocation(token.loc),
           attributes: [],
         }
+
         state.currentNode.children.push(doctypeNode as any)
         state.currentNode = doctypeNode as any
         state.currentContext = {
           parentRef: state.currentContext,
           type: ConstructTreeContextTypes.Doctype,
         }
+
         return state
       },
     },
@@ -153,8 +167,10 @@ const dispatch = createTokenDispatcher(
       handler(token, state) {
         initChildrenIfNone(state.currentNode)
         const textNode = createNodeFrom(token) as TextNode
+
         state.currentNode.children.push(textNode)
         state.caretPosition++
+
         return state
       },
     },
@@ -162,6 +178,7 @@ const dispatch = createTokenDispatcher(
       tokenType: TokenTypes.CloseTag,
       handler(token, state) {
         const closeTagName = parseCloseTagName(token.value)
+
         if (closeTagName !== state.currentNode.name) {
           state.errorHandler.addError({
             type: ParseErrorType.MismatchedTag,
@@ -185,6 +202,7 @@ const dispatch = createTokenDispatcher(
 
               state.currentNode = ancestor
               state.currentContext = context
+
               return state
             }
 
@@ -193,9 +211,12 @@ const dispatch = createTokenDispatcher(
           }
 
           state.caretPosition++
+
           return state
         }
+
         state.currentContext = state.currentContext.parentRef
+
         return state
       },
     },
@@ -211,18 +232,21 @@ const dispatch = createTokenDispatcher(
           range: cloneRange(token.range),
           loc: cloneLocation(token.loc),
         }
+
         state.currentNode.children.push(commentNode)
         state.currentNode = commentNode as any
         state.currentContext = {
           parentRef: state.currentContext,
           type: ConstructTreeContextTypes.Comment,
         }
+
         return state
       },
     },
   ],
   (_, state) => {
     state.caretPosition++
+
     return state
   },
 )

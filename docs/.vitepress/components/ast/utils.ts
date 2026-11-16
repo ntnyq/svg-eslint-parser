@@ -26,6 +26,7 @@ export function getNodeType(value: unknown): ParentNodeType {
   if (isObject(value) && isSVGNode(value)) {
     return 'svgNode'
   }
+
   return undefined
 }
 

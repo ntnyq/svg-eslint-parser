@@ -42,6 +42,7 @@ export function usePlaygroundState() {
     if (!ast.value) {
       return ''
     }
+
     try {
       return JSON.stringify(ast.value, null, 2)
     } catch {
@@ -70,8 +71,10 @@ export function usePlaygroundState() {
 
   watchEffect(() => {
     const startTime = window.performance.now()
+
     selectedRange.value = undefined
     errorRange.value = undefined
+
     try {
       loading.value = true
 
@@ -81,9 +84,11 @@ export function usePlaygroundState() {
       parseError.value = undefined
     } catch (error) {
       ast.value = undefined
+
       if (error instanceof ParseError) {
         errorRange.value = [error.index, error.index + 1]
       }
+
       parseError.value =
         error instanceof ParseError
           ? `Line ${error.lineNumber}, column ${error.column}: ${error.message}`

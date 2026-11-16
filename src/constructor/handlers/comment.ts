@@ -12,6 +12,7 @@ const dispatch = createTokenDispatcher([
     tokenType: TokenTypes.CommentOpen,
     handler(_, state) {
       state.caretPosition++
+
       return state
     },
   },
@@ -22,6 +23,7 @@ const dispatch = createTokenDispatcher([
       state.currentNode.value = token.value
       updateNodeEnd(state.currentNode, token)
       state.caretPosition++
+
       return state
     },
   },
@@ -32,6 +34,7 @@ const dispatch = createTokenDispatcher([
       state.currentNode = state.currentNode.parentRef
       state.currentContext = state.currentContext.parentRef
       state.caretPosition++
+
       return state
     },
   },

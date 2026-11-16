@@ -49,6 +49,7 @@ const INCOMPLETE_XML_DECLARATION_START_CHARS = new Set([
 
 function generateTextToken(state: TokenizerState): Token<TokenTypes.Text> {
   const position = calculateTokenPosition(state, { keepBuffer: false })
+
   return {
     type: TokenTypes.Text,
     value: state.accumulatedContent.value(),
@@ -65,6 +66,7 @@ function parseOpeningCornerBraceWithText(state: TokenizerState) {
   if (state.accumulatedContent.length() !== 0) {
     state.tokens.push(generateTextToken(state))
   }
+
   state.accumulatedContent.replace(state.decisionBuffer)
   state.decisionBuffer.clear()
   state.currentContext = TokenizerContextTypes.OpenTagStart
@@ -75,6 +77,7 @@ function parseOpeningCornerBraceWithSlash(state: TokenizerState) {
   if (state.accumulatedContent.length() !== 0) {
     state.tokens.push(generateTextToken(state))
   }
+
   state.accumulatedContent.replace(state.decisionBuffer)
   state.decisionBuffer.clear()
   state.currentContext = TokenizerContextTypes.CloseTag

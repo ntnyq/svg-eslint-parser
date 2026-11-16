@@ -261,6 +261,7 @@ describe('parser api', () => {
 
     it('should produce valid AST even with errors', () => {
       const result = parse('<div')
+
       expect(result.ast.type).toBe(NodeTypes.Document)
       expect(result.ast.children).toBeDefined()
     })

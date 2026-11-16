@@ -23,6 +23,7 @@ const dispatch = createTokenDispatcher(
       tokenType: ATTRIBUTE_END_TOKENS,
       handler(_, state) {
         state.currentContext = state.currentContext.parentRef
+
         return state
       },
     },
@@ -30,13 +31,17 @@ const dispatch = createTokenDispatcher(
       tokenType: TokenTypes.DoctypeAttributeWrapperStart,
       handler(token, state) {
         const attribute = getLastAttribute(state)
+
         if (attribute.value !== undefined) {
           state.currentContext = state.currentContext.parentRef
+
           return state
         }
+
         attribute.quoteChar = token.value as any
         attribute.range = cloneRange(token.range)
         state.caretPosition++
+
         return state
       },
     },
@@ -44,9 +49,11 @@ const dispatch = createTokenDispatcher(
       tokenType: TokenTypes.DoctypeAttributeWrapperEnd,
       handler(token, state) {
         const attribute = getLastAttribute(state)
+
         updateNodeEnd(attribute, token)
         state.currentContext = state.currentContext.parentRef
         state.caretPosition++
+
         return state
       },
     },
@@ -54,21 +61,28 @@ const dispatch = createTokenDispatcher(
       tokenType: TokenTypes.DoctypeAttributeValue,
       handler(token, state) {
         const attribute = getLastAttribute(state)
+
         if (attribute.value !== undefined) {
           state.currentContext = state.currentContext.parentRef
+
           return state
         }
+
         attribute.value = createNodeFrom(token) as any
+
         if (!attribute.quoteChar) {
           attribute.range = cloneRange(token.range)
         }
+
         state.caretPosition++
+
         return state
       },
     },
   ],
   (_, state) => {
     state.caretPosition++
+
     return state
   },
 )

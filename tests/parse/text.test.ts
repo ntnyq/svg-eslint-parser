@@ -49,6 +49,7 @@ describe('text content parsing', () => {
     const textNodes = div.children.filter(
       (child: any) => child.type === NodeTypes.Text,
     )
+
     expect(textNodes.length).toBeGreaterThan(0)
   })
 
@@ -117,6 +118,7 @@ describe('text content parsing', () => {
     const textNodes = div.children.filter(
       (child: any) => child.type === NodeTypes.Text,
     ) as TextNode[]
+
     expect(textNodes).toHaveLength(3)
     expect(textNodes[0].value).toBe('Text1')
     expect(textNodes[1].value).toBe('Text2')

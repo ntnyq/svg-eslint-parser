@@ -23,6 +23,7 @@ function createToken(type: TokenTypes, value = 'x') {
 
 function createState(overrides: Record<string, unknown> = {}) {
   const parentContext = { type: ConstructTreeContextTypes.Tag }
+
   return {
     caretPosition: 0,
     currentContext: {

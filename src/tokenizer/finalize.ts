@@ -83,6 +83,7 @@ function finalizeAttributeValue(
     | TokenTypes.XMLDeclarationAttributeValue,
 ) {
   const value = getPendingValue(state)
+
   pushTrailingToken(state, type, value)
 
   const range: Range = [
@@ -112,16 +113,19 @@ export function finalizeTokenizer(state: TokenizerState) {
     case TokenizerContextTypes.OpenTagStart:
       pushTrailingToken(state, TokenTypes.OpenTagStart, value)
       reportUnexpectedConstructEnd(state, 'Unterminated opening tag.')
+
       return
 
     case TokenizerContextTypes.OpenTagEnd:
       pushTrailingToken(state, TokenTypes.OpenTagEnd, value)
       reportUnexpectedConstructEnd(state, 'Unterminated opening tag.')
+
       return
 
     case TokenizerContextTypes.CloseTag:
       pushTrailingToken(state, TokenTypes.Text, value)
       reportUnexpectedConstructEnd(state, 'Unterminated closing tag.')
+
       return
 
     case TokenizerContextTypes.ProcessingInstruction:
@@ -133,15 +137,18 @@ export function finalizeTokenizer(state: TokenizerState) {
         getConstructRange(state, '<?'),
         'The parser kept the partial processing instruction in the AST.',
       )
+
       return
 
     case TokenizerContextTypes.Attributes:
       reportUnexpectedConstructEnd(state, 'Unterminated opening tag.')
+
       return
 
     case TokenizerContextTypes.AttributeKey:
       pushTrailingToken(state, TokenTypes.AttributeKey, value)
       reportUnexpectedConstructEnd(state, 'Unterminated opening tag.')
+
       return
 
     case TokenizerContextTypes.AttributeValue:
@@ -152,15 +159,18 @@ export function finalizeTokenizer(state: TokenizerState) {
         [state.sourceCode.source.length, state.sourceCode.source.length],
         'The parser kept the attribute without a value.',
       )
+
       return
 
     case TokenizerContextTypes.AttributeValueBare:
       pushTrailingToken(state, TokenTypes.AttributeValue, value)
       reportUnexpectedConstructEnd(state, 'Unterminated opening tag.')
+
       return
 
     case TokenizerContextTypes.AttributeValueWrapped:
       finalizeAttributeValue(state, TokenTypes.AttributeValue)
+
       return
 
     case TokenizerContextTypes.CommentContent:
@@ -172,6 +182,7 @@ export function finalizeTokenizer(state: TokenizerState) {
         getConstructRange(state, COMMENT_START),
         'The parser kept the comment content without a closing delimiter.',
       )
+
       return
 
     case TokenizerContextTypes.CDATAContent:
@@ -183,6 +194,7 @@ export function finalizeTokenizer(state: TokenizerState) {
         getConstructRange(state, CDATA_START),
         'The parser kept the CDATA content without a closing delimiter.',
       )
+
       return
 
     case TokenizerContextTypes.XMLDeclarationAttributeKey:
@@ -194,10 +206,12 @@ export function finalizeTokenizer(state: TokenizerState) {
         getConstructRange(state, XML_DECLARATION_START),
         'The parser kept the partial declaration in the AST.',
       )
+
       return
 
     case TokenizerContextTypes.XMLDeclarationAttributeValueWrapped:
       finalizeAttributeValue(state, TokenTypes.XMLDeclarationAttributeValue)
+
       return
 
     case TokenizerContextTypes.XMLDeclarationAttributes:
@@ -211,19 +225,23 @@ export function finalizeTokenizer(state: TokenizerState) {
         getConstructRange(state, XML_DECLARATION_START),
         'The parser kept the partial declaration in the AST.',
       )
+
       return
 
     case TokenizerContextTypes.DoctypeAttributeBare:
       pushTrailingToken(state, TokenTypes.DoctypeAttributeValue, value)
       reportUnexpectedConstructEnd(state, 'Unterminated doctype declaration.')
+
       return
 
     case TokenizerContextTypes.DoctypeAttributeWrapped:
       finalizeAttributeValue(state, TokenTypes.DoctypeAttributeValue)
+
       return
 
     case TokenizerContextTypes.DoctypeInternalSubset: {
       const range = getTrailingRange(state, value)
+
       state.tokens.push({
         type: TokenTypes.DoctypeInternalSubset,
         value: value.startsWith('[') ? value.slice(1) : value,
@@ -237,17 +255,20 @@ export function finalizeTokenizer(state: TokenizerState) {
         range,
         'The parser kept the partial internal subset in the AST.',
       )
+
       return
     }
 
     case TokenizerContextTypes.DoctypeOpen:
       pushTrailingToken(state, TokenTypes.DoctypeOpen, value)
       reportUnexpectedConstructEnd(state, 'Unterminated doctype declaration.')
+
       return
 
     case TokenizerContextTypes.DoctypeAttributes:
     case TokenizerContextTypes.DoctypeClose:
       reportUnexpectedConstructEnd(state, 'Unterminated doctype declaration.')
+
       return
 
     case TokenizerContextTypes.CommentClose:

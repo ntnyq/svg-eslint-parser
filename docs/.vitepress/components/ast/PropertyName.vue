@@ -10,16 +10,20 @@ function handleClick(evt: MouseEvent) {
   evt.preventDefault()
   props.onClick?.()
 }
+
 function handleMouseEnter() {
   props.onHover?.(true)
 }
+
 function handleMouseLeave() {
   props.onHover?.(false)
 }
+
 function handleKeyDown(evt: KeyboardEvent) {
   if (evt.code !== 'Space') {
     return
   }
+
   evt.preventDefault?.()
   props.onClick?.()
 }

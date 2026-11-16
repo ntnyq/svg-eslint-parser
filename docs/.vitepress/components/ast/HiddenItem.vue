@@ -11,11 +11,13 @@ const props = defineProps<{
 const model = computed<{ isComplex: boolean; length: number }>(() => {
   if (props.isArray) {
     const filtered = props.value.filter(([key]) => !isNaN(Number(key)))
+
     return {
       isComplex: filtered.some(([_, item]) => isNumber(item)),
       length: filtered.length,
     }
   }
+
   return {
     isComplex: true,
     length: 0,

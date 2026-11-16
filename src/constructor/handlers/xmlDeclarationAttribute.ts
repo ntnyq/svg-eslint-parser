@@ -17,6 +17,7 @@ const dispatch = createTokenDispatcher(
       tokenType: VALUE_END_TOKENS,
       handler(_, state) {
         state.currentContext = state.currentContext.parentRef
+
         return state
       },
     },
@@ -29,11 +30,13 @@ const dispatch = createTokenDispatcher(
 
         if (attribute.key !== undefined || attribute.value !== undefined) {
           state.currentContext = state.currentContext.parentRef
+
           return state
         }
 
         attribute.key = createNodeFrom(token) as XMLDeclarationAttributeKeyNode
         state.caretPosition++
+
         return state
       },
     },
@@ -46,6 +49,7 @@ const dispatch = createTokenDispatcher(
 
         if (attribute.value !== undefined) {
           state.currentContext = state.currentContext.parentRef
+
           return state
         }
 
@@ -54,12 +58,14 @@ const dispatch = createTokenDispatcher(
           type: ConstructTreeContextTypes.XMLDeclarationAttributeValue,
         }
         state.caretPosition++
+
         return state
       },
     },
   ],
   (_, state) => {
     state.caretPosition++
+
     return state
   },
 )

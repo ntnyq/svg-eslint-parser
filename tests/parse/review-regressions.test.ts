@@ -26,6 +26,7 @@ describe('XML boundary regressions', () => {
       range: [0, declaration.length],
     })
     const doctype = result.ast.document.children[0]
+
     expect.assert(doctype.type === NodeTypes.Doctype)
     expect(doctype.attributes[0].value?.value).toBe('svg')
     expect(doctype.internalSubset).toBe(
@@ -49,9 +50,11 @@ describe('XML boundary regressions', () => {
     '<!DOCTYPEsvg svg>',
   ])('rejects malformed outer doctype syntax: %s', declaration => {
     const source = `${declaration}<svg/>`
+
     expect(() => parseForESLint(source)).toThrow(ParseError)
 
     const result = parseForESLint(source, { errorRecovery: true })
+
     expect(result.services.errors).toContainEqual(
       expect.objectContaining({ type: ParseErrorType.InvalidDoctype }),
     )
@@ -62,8 +65,10 @@ describe('XML boundary regressions', () => {
     'rejects invalid processing-instruction boundaries: %s',
     instruction => {
       const source = `<svg>${instruction}</svg>`
+
       expect(() => parseForESLint(source)).toThrow(ParseError)
       const result = parseForESLint(source, { errorRecovery: true })
+
       expect(result.services.errors).toContainEqual(
         expect.objectContaining({
           type: ParseErrorType.InvalidProcessingInstruction,
@@ -77,6 +82,7 @@ describe('XML boundary regressions', () => {
     const result = parseForESLint(
       '<svg><?p\u{1680} \t\u{A0}data\u{A0}\n?></svg>',
     )
+
     expect(result.ast.document.children[0]).toMatchObject({
       children: [{ target: 'p\u{1680}', value: '\u{A0}data\u{A0}' }],
     })
@@ -113,6 +119,7 @@ describe('XML boundary regressions', () => {
       token => token.value === '</svg>',
     )
     const childBounds: { child: number[]; parent: number[] }[] = []
+
     traverseAST(result.ast.document, {
       enter(node, parent) {
         if (parent) {
@@ -120,14 +127,17 @@ describe('XML boundary regressions', () => {
         }
       },
     })
+
     for (const { child, parent } of childBounds) {
       expect(child[0]).toBeGreaterThanOrEqual(parent[0])
       expect(child[1]).toBeLessThanOrEqual(parent[1])
     }
+
     const elements = findNodeByType(
       result.ast.document,
       NodeTypes.Element,
     ).filter(node => !node.selfClosing)
+
     for (const node of elements) {
       expect(node.range[1]).toBe(
         node.name === 'svg'
@@ -178,6 +188,7 @@ describe('XML boundary regressions', () => {
     const source = `<${name} ${name}="ok"><${name}/></${name}\r>`
     const result = parseForESLint(source)
     const root = result.ast.document.children[0]
+
     expect(result.services.errors).toEqual([])
     expect(root).toMatchObject({
       type: NodeTypes.Element,
@@ -200,6 +211,7 @@ describe('XML boundary regressions', () => {
       const source = `<svg><![CDATA[${content}]]></svg>`
       const result = parseForESLint(source)
       const root = result.ast.document.children[0]
+
       expect(root).toMatchObject({
         children: [
           expect.objectContaining({
@@ -210,6 +222,7 @@ describe('XML boundary regressions', () => {
         ],
       })
       const close = result.ast.tokens.find(token => token.type === 'CDATAClose')
+
       expect(close?.range).toEqual([source.length - 9, source.length - 6])
       expect(result.services.errors).toEqual([])
     },
@@ -219,6 +232,7 @@ describe('XML boundary regressions', () => {
     'preserves overlapping PI endings: %j',
     content => {
       const source = `<svg><?p ${content}?></svg>`
+
       expect(parseForESLint(source).ast.document.children[0]).toMatchObject({
         children: [
           expect.objectContaining({
@@ -241,6 +255,7 @@ describe('XML boundary regressions', () => {
   ])('keeps the complete internal subset: %j', (content, whitespace) => {
     const source = `<!DOCTYPE svg [${content}]${whitespace}><svg/>`
     const result = parseForESLint(source)
+
     expect(result.services.errors).toEqual([])
     expect(result.ast.document.children[0]).toMatchObject({
       type: NodeTypes.Doctype,
@@ -250,6 +265,7 @@ describe('XML boundary regressions', () => {
     const subset = result.ast.tokens.find(
       token => token.type === 'DoctypeInternalSubset',
     )
+
     expect(subset?.range).toEqual([14, 16 + content.length])
     expect(source.slice(...subset!.range)).toBe(`[${content}]`)
   })
@@ -258,8 +274,10 @@ describe('XML boundary regressions', () => {
     'accepts closing-tag XML whitespace: %j',
     whitespace => {
       const source = `<svg></svg${whitespace}>`
+
       for (const errorRecovery of [false, true]) {
         const result = parseForESLint(source, { errorRecovery })
+
         expect(result.services.errors).toEqual([])
         expect(result.ast.document.children[0].range).toEqual([
           0,
@@ -289,6 +307,7 @@ describe('XML boundary regressions', () => {
   ])('reports malformed XML in both modes: %j', (source, type) => {
     expect(() => parseForESLint(source)).toThrow(ParseError)
     const result = parseForESLint(source, { errorRecovery: true })
+
     expect(result.services.errors).toContainEqual(
       expect.objectContaining({ type }),
     )
@@ -299,6 +318,7 @@ describe('XML boundary regressions', () => {
     const result = parseForESLint('<svg a="1"b="2">1 < 2\0]]></svg>', {
       errorRecovery: true,
     })
+
     expect(result.ast.document.children[0]).toMatchObject({
       attributes: [
         { key: { value: 'a' }, value: { value: '1' } },

@@ -62,6 +62,7 @@ export class ErrorHandler implements ErrorContext {
    */
   format(): string {
     const issues = this.getAllIssues()
+
     if (issues.length === 0) {
       return 'No errors or warnings'
     }
@@ -69,6 +70,7 @@ export class ErrorHandler implements ErrorContext {
     return issues
       .map(issue => {
         const { loc, message, type } = issue
+
         return `${loc.start.line}:${loc.start.column} [${type}] ${message}`
       })
       .join('\n')

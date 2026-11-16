@@ -61,6 +61,7 @@ describe('comment parsing', () => {
     const comments = document.children.filter(
       (child: any) => child.type === NodeTypes.Comment,
     ) as CommentNode[]
+
     expect(comments).toHaveLength(3)
     expect(comments[0].content).toBe(' Comment 1 ')
     expect(comments[1].content).toBe(' Comment 2 ')
@@ -121,6 +122,7 @@ describe('comment parsing', () => {
     const comments = div.children.filter(
       (child: any) => child.type === NodeTypes.Comment,
     )
+
     expect(comments.length).toBeGreaterThan(0)
   })
 

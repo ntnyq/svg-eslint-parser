@@ -16,6 +16,7 @@ export class LineIndex {
         if (source[index + 1] === '\n') {
           index++
         }
+
         this.lineStarts.push(index + 1)
       } else if (LINE_BREAK_CHARACTERS.has(character)) {
         this.lineStarts.push(index + 1)

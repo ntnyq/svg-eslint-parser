@@ -73,6 +73,7 @@ function processTokens(
   while (tokenIndex < tokens.length) {
     const token = tokens[tokenIndex]
     const handler = contextHandlers[state.currentContext.type].construct
+
     // oxlint-disable-next-line no-param-reassign
     state = handler(token, state)
     tokenIndex = state.caretPosition - positionOffset
@@ -140,6 +141,7 @@ export function constructTree(tokens: AnyToken[], source: string) {
   const positionOffset = state.caretPosition
 
   const finalState = processTokens(tokens, state, positionOffset)
+
   reportUnclosedNodes(finalState)
 
   return {

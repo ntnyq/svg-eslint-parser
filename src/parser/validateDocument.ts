@@ -58,6 +58,7 @@ function validateAttribute(
       attribute,
       'The parser kept the incomplete attribute in the AST.',
     )
+
     return
   }
 
@@ -91,6 +92,7 @@ function validateAttribute(
       attribute,
       'The parser kept the valueless attribute in the AST.',
     )
+
     return
   }
 
@@ -163,6 +165,7 @@ function validateProcessingInstruction(
       instruction,
       'The parser kept the processing instruction in the AST.',
     )
+
     return
   }
 
@@ -190,6 +193,7 @@ function validateXMLDeclarationAttribute(
       attribute,
       'The parser kept the incomplete declaration attribute in the AST.',
     )
+
     return
   }
 
@@ -213,6 +217,7 @@ function validateXMLDeclarationAttribute(
       attribute,
       'The parser kept the unknown declaration attribute in the AST.',
     )
+
     return
   }
 
@@ -366,6 +371,7 @@ function validateDoctype(
       doctype,
       'The parser kept the incomplete doctype in the AST.',
     )
+
     return
   }
 
@@ -470,9 +476,11 @@ function validateTree(document: DocumentNode, errors: ParseError[]) {
         break
       case NodeTypes.Element:
         validateElement(node, errors)
+
         for (const child of node.children) {
           stack.push(child)
         }
+
         break
       case NodeTypes.Text:
         if (node.value.includes('<') || node.value.includes(']]>')) {
@@ -484,6 +492,7 @@ function validateTree(document: DocumentNode, errors: ParseError[]) {
             'The parser kept the original text in the AST.',
           )
         }
+
         break
       case NodeTypes.ProcessingInstruction:
         validateProcessingInstruction(node, errors)
@@ -509,6 +518,7 @@ function validateTokenSyntax(tokens: AnyToken[], errors: ParseError[]) {
     }
 
     const previous = tokens[index - 1]
+
     if (token.type === TokenTypes.DoctypeOpen && token.value !== '<!DOCTYPE') {
       addError(
         errors,
@@ -518,6 +528,7 @@ function validateTokenSyntax(tokens: AnyToken[], errors: ParseError[]) {
         'The parser kept the malformed doctype opening token.',
       )
     }
+
     if (
       previous &&
       previous.range[1] === token.range[0] &&

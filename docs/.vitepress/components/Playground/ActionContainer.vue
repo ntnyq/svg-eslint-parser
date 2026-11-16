@@ -13,6 +13,7 @@ const importError = shallowRef('')
 
 async function tryLoadFile(file: File) {
   importError.value = ''
+
   try {
     setCode(await file.text())
   } catch {

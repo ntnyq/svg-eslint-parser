@@ -31,6 +31,7 @@ describe('ast utility functions', () => {
   describe('findNodeByType', () => {
     it('should find all nodes of a specific type', () => {
       const elements = findNodeByType(ast, NodeTypes.Element)
+
       expect(elements.length).toBeGreaterThan(0)
       expect(
         elements.every(node => node.type === NodeTypes.Element),
@@ -44,6 +45,7 @@ describe('ast utility functions', () => {
 
     it('should find text nodes', () => {
       const textNodes = findNodeByType(ast, NodeTypes.Text)
+
       expect(Array.isArray(textNodes)).toBeTruthy()
     })
 
@@ -61,6 +63,7 @@ describe('ast utility functions', () => {
 
     it('should return empty array for non-existent types', () => {
       const comments = findNodeByType(ast, NodeTypes.Comment)
+
       expect(comments).toStrictEqual([])
     })
   })
@@ -68,6 +71,7 @@ describe('ast utility functions', () => {
   describe('findFirstNodeByType', () => {
     it('should find the first node of a specific type', () => {
       const firstTag = findFirstNodeByType(ast, NodeTypes.Element)
+
       expect(firstTag).toBeDefined()
       expect(firstTag?.type).toBe(NodeTypes.Element)
       expect(firstTag?.name).toBe('svg')
@@ -75,6 +79,7 @@ describe('ast utility functions', () => {
 
     it('should return undefined for non-existent types', () => {
       const comment = findFirstNodeByType(ast, NodeTypes.Comment)
+
       expect(comment).toBeUndefined()
     })
   })
@@ -82,6 +87,7 @@ describe('ast utility functions', () => {
   describe('validateNode', () => {
     it('should validate correct nodes', () => {
       const elements = findNodeByType(ast, NodeTypes.Element)
+
       expect(validateNode(elements[0])).toBeTruthy()
     })
 
@@ -133,6 +139,7 @@ describe('ast utility functions', () => {
       traverseAST(ast, {
         enter(node) {
           visited.push(node.type)
+
           // Skip children of Tag nodes
           if (node.type === NodeTypes.Element) {
             return false
@@ -181,6 +188,7 @@ describe('ast utility functions', () => {
   describe('isNodeType', () => {
     it('should check node type correctly', () => {
       const elements = findNodeByType(ast, NodeTypes.Element)
+
       expect(isNodeType(elements[0], NodeTypes.Element)).toBeTruthy()
       expect(isNodeType(elements[0], NodeTypes.Text)).toBeFalsy()
     })
@@ -234,8 +242,10 @@ describe('ast utility functions', () => {
 
     it('should count single node', () => {
       const textNodes = findNodeByType(ast, NodeTypes.Text)
+
       expect(textNodes.length).toBeGreaterThan(0)
       const count = countNodes(textNodes[0])
+
       expect(count).toBe(1)
     })
   })
@@ -250,6 +260,7 @@ describe('ast utility functions', () => {
       const astWithParents = cloneNodeWithParent(ast)
       const elements = findNodeByType(astWithParents, NodeTypes.Element)
       const depths = elements.map(element => getNodeDepth(element))
+
       expect(depths.some(d => d > 0)).toBeTruthy()
     })
   })
@@ -257,12 +268,14 @@ describe('ast utility functions', () => {
   describe('getParentChain', () => {
     it('should return empty array for root', () => {
       const chain = getParentChain(ast)
+
       expect(chain).toStrictEqual([])
     })
 
     it('should return parent chain for nested nodes', () => {
       const elements = findNodeByType(ast, NodeTypes.Element)
       const chain = getParentChain(elements[0])
+
       expect(chain.length).toBeGreaterThanOrEqual(0)
     })
   })

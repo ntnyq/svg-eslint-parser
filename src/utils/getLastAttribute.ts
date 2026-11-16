@@ -26,5 +26,6 @@ export function getLastAttribute(
 ): XMLDeclarationAttributeNode
 export function getLastAttribute(state: ConstructTreeState<any>) {
   const attributes = state.currentNode.attributes
+
   return last(attributes)
 }

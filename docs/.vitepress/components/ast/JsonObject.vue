@@ -17,6 +17,7 @@ const props = defineProps<{
 
 const v = computed(() => {
   const nodeType = getNodeType(props.value)
+
   return {
     nodeType,
     typeName: getTypeName(props.value, nodeType),

@@ -20,6 +20,7 @@ export function filterNodes(
       }
     },
   })
+
   return results
 }
 

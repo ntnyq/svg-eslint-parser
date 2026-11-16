@@ -43,16 +43,21 @@ function handleKeydown(event: KeyboardEvent) {
     default:
       return
   }
+
   const item = items[nextIndex]
+
   if (!item) {
     return
   }
+
   event.preventDefault()
   handleItemClick(item)
+
   if (event.currentTarget instanceof HTMLElement) {
     const buttons = event.currentTarget.querySelectorAll<HTMLButtonElement>(
       'button:not(:disabled)',
     )
+
     buttons[nextIndex]?.focus()
   }
 }
@@ -61,6 +66,7 @@ onMounted(() => {
   if (activeItem.value) {
     return
   }
+
   if (props.options.length) {
     activeItem.value = props.options[0].name
   }

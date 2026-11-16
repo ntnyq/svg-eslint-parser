@@ -63,16 +63,21 @@ describe('edge cases', () => {
 
   it('should handle very deeply nested structure', () => {
     let source = '<a>'
+
     for (let i = 0; i < 50; i++) {
       source += '<b>'
     }
+
     source += 'Text'
+
     for (let i = 0; i < 50; i++) {
       source += '</b>'
     }
+
     source += '</a>'
 
     const { ast } = parseForESLint(source, { errorRecovery: true })
+
     expect(ast.document.type).toBe(NodeTypes.Document)
   })
 
@@ -127,9 +132,11 @@ describe('edge cases', () => {
 
   it('should handle large number of attributes', () => {
     let source = '<div '
+
     for (let i = 0; i < 100; i++) {
       source += `attr${i}="value${i}" `
     }
+
     source += '></div>'
 
     const { ast } = parseForESLint(source)
@@ -141,6 +148,7 @@ describe('edge cases', () => {
 
   it('should handle large number of sibling elements', () => {
     let source = ''
+
     for (let i = 0; i < 100; i++) {
       source += `<div>Text ${i}</div>`
     }

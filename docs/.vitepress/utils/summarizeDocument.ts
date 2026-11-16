@@ -16,12 +16,14 @@ export function summarizeDocument(program?: Program) {
     traverseAST(program.document, {
       enter(node) {
         nodes++
+
         if (node.type === NodeTypes.Element) {
           elements.push({ node, depth })
           depth++
           maxDepth = Math.max(maxDepth, depth)
           attributes += node.attributes.length
         }
+
         if (node.type === NodeTypes.Comment) {
           comments++
         }

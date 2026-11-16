@@ -8,6 +8,7 @@ const page = shallowRef(0)
 const pageSize = 100
 const filteredTokens = computed(() => {
   const search = query.value.trim().toLowerCase()
+
   return tokens.value.filter(
     token =>
       !search ||
@@ -24,6 +25,7 @@ const visibleTokens = computed(() =>
     (page.value + 1) * pageSize,
   ),
 )
+
 watch([query, tokens], () => {
   page.value = 0
 })

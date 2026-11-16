@@ -30,6 +30,7 @@ const dispatch = createTokenDispatcher(
         state.currentNode = state.currentNode.parentRef
         state.currentContext = state.currentContext.parentRef?.parentRef
         state.caretPosition++
+
         return state
       },
     },
@@ -47,12 +48,14 @@ const dispatch = createTokenDispatcher(
           type: ConstructTreeContextTypes.XMLDeclarationAttribute,
           parentRef: state.currentContext,
         }
+
         return state
       },
     },
   ],
   (_, state) => {
     state.caretPosition++
+
     return state
   },
 )
