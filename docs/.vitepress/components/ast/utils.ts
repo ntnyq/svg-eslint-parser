@@ -45,7 +45,7 @@ export function filterProperties(
   key: string,
   value: unknown,
   type: ParentNodeType,
-  showTokens?: boolean,
+  showTokens = true,
 ): boolean {
   if (isUndefined(value) || isFunction(value) || key.startsWith('_')) {
     return false
@@ -53,7 +53,7 @@ export function filterProperties(
 
   switch (type) {
     case 'svgNode':
-      return key !== 'tokens' || !showTokens
+      return key !== 'tokens' || showTokens
     default:
       return true
   }

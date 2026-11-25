@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { shallowRef } from 'vue'
+import AstViewer from '../components/ast/AstViewer.vue'
 import PropertyLink from '../components/ast/PropertyLink.vue'
 import Editor from '../components/Editor/index.vue'
 import TabItem from '../components/ui/TabItem.vue'
@@ -51,6 +52,22 @@ function handleKeyboard(event: KeyboardEvent) {
   <Editor
     model-value="<svg />"
     language="xml"
+  />
+  <AstViewer
+    :value="{ type: 'Program' }"
+    :show-tokens="false"
+    hide-copy-button
+  />
+
+  <!-- @vue-expect-error Viewer cursor selection is not an implemented contract. -->
+  <AstViewer
+    :value="{}"
+    :cursor-position="0"
+  />
+  <!-- @vue-expect-error Viewer hover callbacks are not an implemented contract. -->
+  <AstViewer
+    :value="{}"
+    :on-hover-node="() => {}"
   />
 
   <!-- @vue-expect-error Tabs require a model so they cannot emit undefined. -->

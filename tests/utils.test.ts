@@ -260,9 +260,29 @@ describe('ast utility functions', () => {
     })
 
     it('should return parent chain for nested nodes', () => {
-      const elements = findNodesByType(ast, NodeTypes.Element)
-      const chain = getParentChain(elements[0])
-      expect(chain.length).toBeGreaterThanOrEqual(0)
+      const document = cloneNodeWithParent(
+        parseForESLint('<svg><g><path /></g></svg>').ast.document,
+      )
+      const [svg, group, path] = findNodesByType(document, NodeTypes.Element)
+      const chain = getParentChain(path)
+      expect(chain).toHaveLength(3)
+      expect(chain[0]).toBe(group)
+      expect(chain[1]).toBe(svg)
+      expect(chain[2]).toBe(document)
+      expect(getNodeDepth(path)).toBe(3)
+    })
+
+    it('follows ESLint parent links through the document to the program', () => {
+      const program = parseForESLint('<svg><g><path /></g></svg>').ast
+      walkAST(program, (node, parent) => Reflect.set(node, 'parent', parent))
+      const [svg, group, path] = findNodesByType(program, NodeTypes.Element)
+      const chain = getParentChain(path)
+      expect(chain).toHaveLength(4)
+      expect(chain[0]).toBe(group)
+      expect(chain[1]).toBe(svg)
+      expect(chain[2]).toBe(program.document)
+      expect(chain[3]).toBe(program)
+      expect(getParentChain(program)).toEqual([])
     })
   })
 })

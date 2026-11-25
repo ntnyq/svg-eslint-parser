@@ -1,4 +1,4 @@
-import { mkdtemp, readdir, rm, writeFile } from 'node:fs/promises'
+import { mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { build } from 'tsdown'
@@ -83,6 +83,32 @@ describe('package build', () => {
       const cursor: Pick<ConstructTreeState, 'caretPosition'> = { caretPosition: 0 }
       void [legacy, preferred, namespaceKeys, compatibleQuery, cursor]
     `,
+    )
+    const program = ts.createProgram([consumerFile], {
+      module: ts.ModuleKind.NodeNext,
+      target: ts.ScriptTarget.ESNext,
+      noEmit: true,
+      strict: true,
+      skipLibCheck: false,
+      types: [],
+    })
+    const diagnostics = ts
+      .getPreEmitDiagnostics(program)
+      .map(diagnostic =>
+        ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n'),
+      )
+    expect(diagnostics).toEqual([])
+  })
+
+  it('accepts published construction calls against the emitted declaration entry', async () => {
+    const fixture = await readFile(
+      new URL('./fixtures/legacy-construction.ts', import.meta.url),
+      'utf8',
+    )
+    const consumerFile = join(outDir, 'legacy-construction.mts')
+    await writeFile(
+      consumerFile,
+      fixture.replaceAll("from 'svg-eslint-parser'", "from './index.js'"),
     )
     const program = ts.createProgram([consumerFile], {
       module: ts.ModuleKind.NodeNext,

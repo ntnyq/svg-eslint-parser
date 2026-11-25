@@ -52,6 +52,36 @@ import type {
   XMLDeclarationAttributeValueNode as OwnedXMLDeclarationAttributeValueNode,
   XMLDeclarationNode as OwnedXMLDeclarationNode,
 } from '../src/ast/types'
+import type {
+  AnyContextualNode as NamespaceAnyContextualNode,
+  ConstructTreeHandler as NamespaceConstructTreeHandler,
+  ConstructTreeState as NamespaceConstructTreeState,
+  ContextualAttributeNode as NamespaceContextualAttributeNode,
+  ContextualCDATANode as NamespaceContextualCDATANode,
+  ContextualCommentNode as NamespaceContextualCommentNode,
+  ContextualDoctypeAttributeNode as NamespaceContextualDoctypeAttributeNode,
+  ContextualDoctypeNode as NamespaceContextualDoctypeNode,
+  ContextualDocumentNode as NamespaceContextualDocumentNode,
+  ContextualElementNode as NamespaceContextualElementNode,
+  ContextualNode as NamespaceContextualNode,
+  ContextualXMLDeclarationAttributeNode as NamespaceContextualXMLDeclarationAttributeNode,
+  ContextualXMLDeclarationNode as NamespaceContextualXMLDeclarationNode,
+  PartialBy as NamespacePartialBy,
+  AnyContextualNode as OwnedAnyContextualNode,
+  ConstructTreeHandler as OwnedConstructTreeHandler,
+  ConstructTreeState as OwnedConstructTreeState,
+  ContextualAttributeNode as OwnedContextualAttributeNode,
+  ContextualCDATANode as OwnedContextualCDATANode,
+  ContextualCommentNode as OwnedContextualCommentNode,
+  ContextualDoctypeAttributeNode as OwnedContextualDoctypeAttributeNode,
+  ContextualDoctypeNode as OwnedContextualDoctypeNode,
+  ContextualDocumentNode as OwnedContextualDocumentNode,
+  ContextualElementNode as OwnedContextualElementNode,
+  ContextualNode as OwnedContextualNode,
+  ContextualXMLDeclarationAttributeNode as OwnedContextualXMLDeclarationAttributeNode,
+  ContextualXMLDeclarationNode as OwnedContextualXMLDeclarationNode,
+  PartialBy as OwnedPartialBy,
+} from '../src/compat/treeBuilderTypes'
 import type { ParseError as OwnedParseError } from '../src/diagnostics/parseError'
 import type {
   ErrorContext as NamespaceErrorContext,
@@ -116,43 +146,11 @@ import type {
 import type { TokenTypes as OwnedTokenTypes } from '../src/tokenizer/tokenTypes'
 import type { ConstructTreeContextTypes as OwnedConstructTreeContextTypes } from '../src/treeBuilder/constructTreeContextTypes'
 import type {
-  ConstructTreeHandler as NamespaceConstructTreeHandler,
-  ConstructTreeHandler as OwnedConstructTreeHandler,
-} from '../src/treeBuilder/constructTreeHandler'
-import type {
   ConstructTreeContext as NamespaceConstructTreeContext,
   ConstructTreeNodeMap as NamespaceConstructTreeNodeMap,
-  ConstructTreeState as NamespaceConstructTreeState,
   ConstructTreeContext as OwnedConstructTreeContext,
   ConstructTreeNodeMap as OwnedConstructTreeNodeMap,
-  ConstructTreeState as OwnedConstructTreeState,
 } from '../src/treeBuilder/constructTreeState'
-import type {
-  AnyContextualNode as NamespaceAnyContextualNode,
-  ContextualAttributeNode as NamespaceContextualAttributeNode,
-  ContextualCDATANode as NamespaceContextualCDATANode,
-  ContextualCommentNode as NamespaceContextualCommentNode,
-  ContextualDoctypeAttributeNode as NamespaceContextualDoctypeAttributeNode,
-  ContextualDoctypeNode as NamespaceContextualDoctypeNode,
-  ContextualDocumentNode as NamespaceContextualDocumentNode,
-  ContextualElementNode as NamespaceContextualElementNode,
-  ContextualNode as NamespaceContextualNode,
-  ContextualXMLDeclarationAttributeNode as NamespaceContextualXMLDeclarationAttributeNode,
-  ContextualXMLDeclarationNode as NamespaceContextualXMLDeclarationNode,
-  PartialBy as NamespacePartialBy,
-  AnyContextualNode as OwnedAnyContextualNode,
-  ContextualAttributeNode as OwnedContextualAttributeNode,
-  ContextualCDATANode as OwnedContextualCDATANode,
-  ContextualCommentNode as OwnedContextualCommentNode,
-  ContextualDoctypeAttributeNode as OwnedContextualDoctypeAttributeNode,
-  ContextualDoctypeNode as OwnedContextualDoctypeNode,
-  ContextualDocumentNode as OwnedContextualDocumentNode,
-  ContextualElementNode as OwnedContextualElementNode,
-  ContextualNode as OwnedContextualNode,
-  ContextualXMLDeclarationAttributeNode as OwnedContextualXMLDeclarationAttributeNode,
-  ContextualXMLDeclarationNode as OwnedContextualXMLDeclarationNode,
-  PartialBy as OwnedPartialBy,
-} from '../src/treeBuilder/contextualNode'
 
 type PublicTypes = {
   ParseError: Public.ParseError

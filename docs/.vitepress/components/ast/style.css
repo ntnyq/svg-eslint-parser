@@ -73,10 +73,6 @@
   --at-apply: "-ml-4 w-4 inline-block";
 }
 
-.ast-node-selected {
-  --at-apply: "bg-$ast-token-background";
-}
-
 .ast-label {
   --at-apply: "";
 }

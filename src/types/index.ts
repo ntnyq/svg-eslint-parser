@@ -8,7 +8,6 @@ export type { AnyToken, Token } from '../tokenizer/token'
 export type { Options, ParseResult } from '../parser/types'
 export type { TokenizerState } from '../tokenizer/tokenizerState'
 export type { TokenizeHandler } from '../tokenizer/tokenizerContextHandler'
-export type { ConstructTreeHandler } from '../treeBuilder/constructTreeHandler'
 export type {
   Locations,
   Position,
@@ -23,7 +22,6 @@ export type {
 export type {
   ConstructTreeContext,
   ConstructTreeNodeMap,
-  ConstructTreeState,
 } from '../treeBuilder/constructTreeState'
 export type {
   ParseForESLintResult,
@@ -38,6 +36,8 @@ export type {
 } from '../eslint/types'
 export type {
   AnyContextualNode,
+  ConstructTreeHandler,
+  ConstructTreeState,
   ContextualAttributeNode,
   ContextualCDATANode,
   ContextualCommentNode,
@@ -49,7 +49,7 @@ export type {
   ContextualXMLDeclarationAttributeNode,
   ContextualXMLDeclarationNode,
   PartialBy,
-} from '../treeBuilder/contextualNode'
+} from '../compat/treeBuilderTypes'
 export type {
   AnyNode,
   AttributeKeyNode,

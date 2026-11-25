@@ -5,11 +5,11 @@ import { createContext } from '../../src/treeBuilder/transitions'
 import type {
   AnyToken,
   ConstructTreeContext,
-  ConstructTreeState,
   DocumentNode,
   Locations,
   TokenTypes,
 } from '../../src'
+import type { ConstructTreeState } from '../../src/treeBuilder/constructTreeState'
 
 export function createLocations(): Locations {
   return {

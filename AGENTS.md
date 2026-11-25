@@ -7,7 +7,7 @@
 - `src/tokenizer/` owns tokenization handlers, state, token kinds, and position calculation; `src/treeBuilder/` owns construction handlers, context frames, state, and node-building tools.
 - `src/ast/` owns AST definitions, visitor keys, traversal, queries, cloning, and transformations. `src/source/` contains shared source-location tools; `src/syntax/` contains shared XML syntax definitions and readers.
 - `src/parser/` orchestrates parsing, validation, error policy, and ESLint result adaptation. `src/diagnostics/` owns diagnostic types, collection, sorting, and exceptions; `src/eslint/` owns rule-author types and helpers.
-- Public exports are listed explicitly in `src/index.ts`. `src/compat.ts` retains existing implementation exports, and `src/types/index.ts` preserves the public `AST` namespace. Internal modules import definitions from their owners rather than these compatibility facades. Preserve existing exports when reorganizing files.
+- Public exports are listed explicitly in `src/index.ts`. `src/compat.ts` retains existing implementation exports, `src/compat/treeBuilderTypes.ts` preserves the published mutable construction types, and `src/types/index.ts` preserves the public `AST` namespace. Internal modules import their stricter definitions from their owners rather than these compatibility facades. Preserve existing exports and their type contracts when reorganizing files.
 - `tests/` contains unit and ESLint integration tests; `tests/parse/` covers SVG/XML syntax and recovery behavior.
 - `docs/` contains VitePress documentation, Vue playground components in `.vitepress/`, and static assets in `public/`.
 - `dist/` is generated package output; do not edit it manually.
@@ -34,6 +34,8 @@ Use two-space indentation, LF endings, single quotes, no semicolons, and trailin
 ## Testing Guidelines
 
 Name tests `*.test.ts` and use Vitest's `describe`, `it`, and `expect`. Add regression cases for parser changes, including invalid input, recovery behavior, and source locations where relevant. Test ESLint-facing changes in `tests/eslint-integration.test.ts`. Coverage includes `src/**/*.ts`; no numeric threshold is configured.
+
+`tests/fixtures/legacy-construction.ts` records existing public construction calls. It is checked against source types and compiled against the emitted package declarations by `tests/build.test.ts`. Internal state-machine tests import the stricter construction types directly from their owning modules.
 
 ## Commit & Pull Request Guidelines
 

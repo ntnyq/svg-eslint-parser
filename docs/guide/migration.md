@@ -18,11 +18,40 @@ The AST structure has been refined for better consistency and ease of use:
 
 Added comprehensive utility functions for AST manipulation:
 
-- **Search**: `findNodesByType()`, `findFirstNodeByType()`
+- **Search**: `findNodeByType()`, `findFirstNodeByType()`
 - **Traversal**: `traverseAST()`, `walkAST()`
 - **Validation**: `validateNode()`, `isNodeType()`
 - **Manipulation**: `cloneNode()`, `cloneNodeWithParent()`, `filterNodes()`, `mapNodes()`
 - **Analysis**: `countNodes()`, `getNodeDepth()`, `getParentChain()`
+
+### Current refactor
+
+`findNodesByType()` is a new, clearer name for the query that returns an array.
+The original `findNodeByType()` remains an identical alias, with the same node
+type inference. Existing imports can stay unchanged; use
+`findFirstNodeByType()` when a single result is needed.
+
+`ParseDiagnostic` now names recoverable diagnostic objects. The thrown
+`ParseError` class keeps its name and constructor signatures, and the old
+`AST.ParseError` diagnostic type remains as a deprecated alias.
+
+Published construction types remain available for compatibility. In particular,
+`ConstructTreeState<ContextualElementNode>` still accepts the node type as its
+generic parameter, exposes `currentNode`, and allows updates to `caretPosition`
+and `currentContext`. `ConstructTreeHandler` still accepts an object with a
+`construct` method. The `Contextual*` types keep their original partial fields,
+and the same contracts remain available through `AST`.
+
+These construction declarations are deprecated. They are isolated from the
+parser's stricter internal state machine, so existing code does not need to
+adopt context-based generics or internal transitions. New consumers should use
+`parse()`, `parseForESLint()`, and completed AST node types.
+
+The documentation's AST Viewer now exposes only its implemented display options:
+`value`, `hideCopyButton`, and `showTokens` (default `true`). Unconnected cursor,
+scrolling, selection, and hover placeholders have been removed from its internal
+component tree. This does not change the npm package API or the inspector's
+element-to-source navigation.
 
 ## Migration Steps
 
@@ -190,6 +219,38 @@ traverseAST(ast.document, {
 ```
 
 ## Breaking Changes
+
+### AST mapping return type
+
+`mapNodes()` now returns `AnyNode`. Its previous generic return type promised
+the input root type even though the mapper could replace that root with a
+different node type. Code that reads root-specific fields must narrow the
+returned node first. Remove explicit `mapNodes<T>()` type arguments and narrow
+the returned node instead:
+
+```typescript
+import { mapNodes, NodeTypes, parse } from 'svg-eslint-parser'
+
+const document = parse('<svg />')
+const mapped = mapNodes(document, node => node)
+if (mapped.type === NodeTypes.Document) {
+  console.log(mapped.children)
+}
+```
+
+Mapping follows AST visitor keys, so tokens, ESLint comment metadata, and parent
+links are not passed to the mapper. The function updates child slots on the
+objects returned by the mapper; use `cloneNode()` first to preserve the input.
+Existing parent links are not rebuilt after replacements. Use
+`cloneNodeWithParent()` on the transformed tree if new parent links are needed.
+
+### Diagnostic ordering
+
+Error and warning arrays are sorted by source start offset. At the same offset,
+reporting order is preserved, with tokenizer errors before construction errors
+and then validation errors. Strict mode throws the first error in this order.
+For malformed input, its `code`, position, and `cause` can therefore differ from
+the previous phase-ordered result. Recovery mode still exposes all diagnostics.
 
 ### Node.js requirements
 

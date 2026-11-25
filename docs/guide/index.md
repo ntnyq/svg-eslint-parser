@@ -124,8 +124,11 @@ The implementation groups definitions and tools with the phase that owns them:
 
 `src/index.ts` explicitly lists the public API. Existing implementation exports
 are retained through `src/compat.ts`, and `src/types/index.ts` preserves the
-existing `AST` type namespace. New implementation code imports from the owning
-module, keeping compatibility facades separate from internal dependencies.
+existing `AST` type namespace. Published construction declarations are preserved
+in `src/compat/treeBuilderTypes.ts`; their mutable, node-based contracts are
+separate from the stricter internal state types. New implementation code imports
+from the owning module, keeping compatibility facades separate from internal
+dependencies.
 
 Consumers continue using the same package-root imports; these directories do
 not introduce additional package entry points.

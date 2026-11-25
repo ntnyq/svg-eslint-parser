@@ -1,15 +1,13 @@
 <script lang="ts" setup>
 import { isArray, isMap, isObject, isSet } from '@ntnyq/utils'
 import { computed } from 'vue'
-import type { OnHoverNodeFn, ParentNodeType } from './types'
+import type { ParentNodeType } from './types'
 
 const props = defineProps<{
   field?: string
   lastElement?: boolean
   level: string
   nodeType?: ParentNodeType
-  onHover?: OnHoverNodeFn
-  selectedPath?: string
   showTokens?: boolean
   typeName?: string
   value: unknown

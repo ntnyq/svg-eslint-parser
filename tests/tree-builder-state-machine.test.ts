@@ -24,10 +24,12 @@ import {
 import type {
   ConstructTreeContext,
   ConstructTreeState,
+} from '../src/treeBuilder/constructTreeState'
+import type {
   ContextualCommentNode,
   ContextualDocumentNode,
   ContextualElementNode,
-} from '../src'
+} from '../src/treeBuilder/contextualNode'
 import type { ConstructTreeHandlers } from '../src/treeBuilder/processTokens'
 
 const rootType = ConstructTreeContextTypes.TagContent

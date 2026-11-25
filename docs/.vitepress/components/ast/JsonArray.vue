@@ -1,13 +1,11 @@
 <script lang="ts" setup>
-import type { OnHoverNodeFn, ParentNodeType } from './types'
+import type { ParentNodeType } from './types'
 
 const props = defineProps<{
   field?: string
   lastElement?: boolean
   level: string
   nodeType?: ParentNodeType
-  onHover?: OnHoverNodeFn
-  selectedPath?: string
   showTokens?: boolean
   typeName?: string
   value: any

@@ -182,19 +182,30 @@ Supported package entry points remain `svg-eslint-parser` and
 `svg-eslint-parser/package.json`; source-directory paths are implementation
 details. Continue importing existing names from the package root.
 
-The exported construction types describe parser internals. `ConstructTreeState`
-now takes a `ConstructTreeContextTypes` member as its generic parameter, and the
-current node is available at `state.currentContext.node`. Context frames bind
-that node to their `type` and retain ancestor frames through `parentRef`; there
-is no separate `currentNode` field or context `content` buffer.
+Published `ConstructTreeState<Node>`, `ConstructTreeHandler`, and `Contextual*`
+types retain their original shapes from both the package root and the `AST`
+namespace. They are deprecated compatibility declarations: the state still has
+a mutable `caretPosition`, `currentNode`, and `currentContext` with optional
+`content` and `parentRef`. The handler still has a `construct(token, state)`
+method. Existing partial-node declarations also remain accepted.
 
-For example, `ConstructTreeState<ConstructTreeContextTypes.Comment>` exposes a
-`ContextualCommentNode` at `currentContext.node`. Frame references and token
-indices are read-only. Construction handlers return a new state when consuming
-one token or reprocessing it in another context. Nodes and diagnostics remain
-mutable. This replaces the previous node-based generic and directly mutable
-state fields; the public `parse()` and `parseForESLint()` entry points keep their
-existing signatures.
+```typescript
+import type {
+  ConstructTreeState,
+  ContextualElementNode,
+} from 'svg-eslint-parser'
+
+function advance(state: ConstructTreeState<ContextualElementNode>) {
+  state.caretPosition++
+  return state.currentNode
+}
+```
+
+Parser internals use separate, stricter types with context-bound nodes and
+read-only frames. Internal transitions consume one token or reprocess it in a
+different context. These internal states are not exposed by `parse()` or
+`parseForESLint()` and are not interchangeable with the legacy declarations.
+New consumers should use the public parsing functions and completed AST types.
 
 `state.caretPosition` retains its existing name and shape for compatibility. It
 is the zero-based index of the next **token**, not a source character offset.

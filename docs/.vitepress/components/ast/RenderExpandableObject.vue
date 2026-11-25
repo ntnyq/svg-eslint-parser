@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-import { isFunction, isNil } from '@ntnyq/utils'
 import { useToggle } from '@vueuse/core'
-import { computed, watchEffect } from 'vue'
-import type { OnHoverNodeFn, ParentNodeType } from './types'
+import type { ParentNodeType } from './types'
 
 // oxlint-disable-next-line vue/max-props
 const props = defineProps<{
@@ -10,8 +8,6 @@ const props = defineProps<{
   lastElement?: boolean
   level: string
   nodeType?: ParentNodeType
-  onHover?: OnHoverNodeFn
-  selectedPath?: string
   showTokens?: boolean
   typeName?: string
   value: object | unknown[]
@@ -20,41 +16,13 @@ const props = defineProps<{
   openBracket: string
 }>()
 
-const lastIndex = props.data.length - 1
-
-const [isExpanded, setIsExpanded] = useToggle(
-  props.level === 'ast' || Boolean(props.selectedPath?.startsWith(props.level)),
-)
-const isActive = computed(
-  () => props.level !== 'ast' && props.selectedPath === props.level,
-)
-
-function handleHoverItem(isHovering: boolean) {
-  if (isNil(props.onHover) || !isFunction(props.onHover)) {
-    return
-  }
-
-  if (isHovering) {
-    props.onHover?.()
-  } else {
-    props.onHover?.()
-  }
-}
-
-watchEffect(() => {
-  const shouldOpen = Boolean(props.selectedPath?.startsWith(props.level))
-
-  if (shouldOpen) {
-    setIsExpanded(isExpanded.value || shouldOpen)
-  }
-})
+const [isExpanded, setIsExpanded] = useToggle(props.level === 'ast')
 </script>
 
 <template>
   <div
     :class="{
       'ast-node-expandable': !isExpanded,
-      'ast-node-selected': isActive,
     }"
     :data-level="level"
     class="ast-node"
@@ -63,7 +31,6 @@ watchEffect(() => {
     <template v-if="field">
       <PropertyName
         @click="setIsExpanded(!isExpanded)"
-        @hover="handleHoverItem"
         :value="field"
         class="ast-prop-name"
       />
@@ -72,7 +39,6 @@ watchEffect(() => {
     <template v-if="typeName">
       <PropertyName
         @click="setIsExpanded(!isExpanded)"
-        @hover="handleHoverItem"
         :value="typeName"
         class="ast-token-name"
       />
@@ -89,11 +55,9 @@ watchEffect(() => {
         v-for="(dataElement, idx) in data"
         :key="dataElement[0]"
         :field="dataElement[0]"
-        :last-element="idx === lastIndex"
+        :last-element="idx === data.length - 1"
         :node-type
         :level="`${level}.${dataElement[0]}`"
-        :on-hover
-        :selected-path
         :show-tokens
         :value="dataElement[1]"
       />
